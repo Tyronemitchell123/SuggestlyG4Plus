@@ -118,6 +118,15 @@ except ImportError:
     print("Warning: real_agents module not found, using fallback")
     REAL_AGENTS = {}
 
+# Import monetization and premium UI components
+try:
+    from monetization_endpoints import monetization, create_subscription_endpoint, process_api_billing_endpoint, revenue_dashboard_endpoint
+    from premium_ui_components import premium_ui
+    print("✅ Monetization and Premium UI modules loaded")
+except ImportError as e:
+    print(f"Warning: Monetization modules not found: {e}")
+    monetization = None
+
 # Enhanced Configuration v2.0
 SECRET_KEY = secrets.token_urlsafe(32)
 ALGORITHM = "HS256"
@@ -947,6 +956,100 @@ async def global_intelligence(current_user: dict = Depends(verify_token)):
         "intelligence_level": "HIGHEST"
     })
 
+# MONETIZATION API ENDPOINTS v2.0
+@app.post("/api/monetization/subscription")
+async def create_subscription(tier: str, payment_method: str, current_user: dict = Depends(verify_token)):
+    """Create new subscription with payment processing"""
+    if not monetization:
+        raise HTTPException(status_code=503, detail="Monetization service unavailable")
+    
+    return await create_subscription_endpoint(None, tier, payment_method, current_user)
+
+@app.post("/api/monetization/billing")
+async def process_api_billing(api_calls: int, current_user: dict = Depends(verify_token)):
+    """Process API usage billing"""
+    if not monetization:
+        raise HTTPException(status_code=503, detail="Monetization service unavailable")
+    
+    return await process_api_billing_endpoint(None, api_calls, current_user)
+
+@app.get("/api/monetization/revenue")
+async def get_revenue_dashboard(current_user: dict = Depends(verify_token)):
+    """Get comprehensive revenue dashboard"""
+    if not monetization:
+        raise HTTPException(status_code=503, detail="Monetization service unavailable")
+    
+    return await revenue_dashboard_endpoint(current_user)
+
+@app.post("/api/monetization/trading-fees")
+async def process_trading_fees(trade_volume: float, performance_gain: float, current_user: dict = Depends(verify_token)):
+    """Process trading performance fees"""
+    if not monetization:
+        raise HTTPException(status_code=503, detail="Monetization service unavailable")
+    
+    try:
+        trading_fee = await monetization.process_trading_fees(
+            current_user["user_id"],
+            trade_volume,
+            performance_gain
+        )
+        return JSONResponse(trading_fee)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/monetization/enterprise-contract")
+async def create_enterprise_contract(company_name: str, contract_value: float, duration_months: int, current_user: dict = Depends(verify_token)):
+    """Create enterprise contract"""
+    if not monetization:
+        raise HTTPException(status_code=503, detail="Monetization service unavailable")
+    
+    # Check if user has permission for enterprise contracts
+    if current_user.get("subscription_tier") not in ["enterprise", "ultra_premium"]:
+        raise HTTPException(status_code=403, detail="Enterprise subscription required")
+    
+    try:
+        contract = await monetization.create_enterprise_contract(
+            company_name,
+            contract_value,
+            duration_months
+        )
+        return JSONResponse(contract)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/monetization/invoice")
+async def generate_invoice(amount: float, description: str, current_user: dict = Depends(verify_token)):
+    """Generate professional invoice"""
+    if not monetization:
+        raise HTTPException(status_code=503, detail="Monetization service unavailable")
+    
+    try:
+        invoice = await monetization.generate_invoice(
+            current_user["user_id"],
+            amount,
+            description
+        )
+        return JSONResponse(invoice)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/monetization/subscription-tiers")
+async def get_subscription_tiers():
+    """Get available subscription tiers and pricing"""
+    if not monetization:
+        raise HTTPException(status_code=503, detail="Monetization service unavailable")
+    
+    return JSONResponse({
+        "subscription_tiers": monetization.subscription_tiers,
+        "features_comparison": {
+            "free": "Basic AI chat with limited requests",
+            "professional": "5 AI agents, 10K tokens, basic analytics",
+            "enterprise": "All 7 agents, 100K tokens, advanced features",
+            "ultra_premium": "Unlimited access, custom AI, concierge services"
+        },
+        "pricing_notes": "Professional tier competitive with GitHub Copilot Business, Enterprise matches ServiceNow AI, Ultra-Premium equivalent to private wealth management fees"
+    })
+
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
     host = request.headers.get("host", "").lower()
@@ -964,6 +1067,10 @@ async def root(request: Request):
         return await support_portal()
     elif host.startswith("api."):
         return await api_portal()
+    
+    # Use ultra-premium animated homepage if available
+    if premium_ui:
+        return HTMLResponse(premium_ui.get_animated_homepage())
     
     # Default main portal with professional design
     return HTMLResponse("""
@@ -1923,6 +2030,17 @@ async def finance_route():
 async def executive_route():
     """Direct route to executive portal"""
     return await executive_portal()
+
+@app.get("/executive/dashboard")
+async def executive_dashboard(current_user: dict = Depends(verify_token)):
+    """Ultra-premium executive dashboard"""
+    if current_user.get("subscription_tier") != "ultra_premium":
+        raise HTTPException(status_code=403, detail="Ultra-Premium subscription required")
+    
+    if premium_ui:
+        return HTMLResponse(premium_ui.get_executive_dashboard())
+    else:
+        return await executive_portal()
 
 @app.get("/analytics")
 async def analytics_route():
