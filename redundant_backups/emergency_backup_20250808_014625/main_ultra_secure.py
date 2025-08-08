@@ -127,24 +127,6 @@ except ImportError as e:
     print(f"Warning: Monetization modules not found: {e}")
     monetization = None
 
-# Import luxury hologram system
-try:
-    from luxury_hologram_ai_system import luxury_hologram, hologram_router
-    print("✅ Luxury Hologram AI System loaded")
-    hologram_available = True
-except ImportError as e:
-    print(f"Warning: Luxury Hologram modules not found: {e}")
-    hologram_available = False
-
-# Import VIP members system
-try:
-    from vip_members_system import vip_system, vip_router
-    print("✅ VIP Members System loaded")
-    vip_available = True
-except ImportError as e:
-    print(f"Warning: VIP Members modules not found: {e}")
-    vip_available = False
-
 # Enhanced Configuration v2.0
 SECRET_KEY = secrets.token_urlsafe(32)
 ALGORITHM = "HS256"
@@ -297,14 +279,6 @@ app.add_middleware(
 )
 
 app.add_middleware(GZipMiddleware, minimum_size=1000)
-
-# Include luxury hologram router if available
-if hologram_available:
-    app.include_router(hologram_router)
-
-# Include VIP members router if available
-if vip_available:
-    app.include_router(vip_router)
 
 # Enhanced Agent System v2.0
 class EnhancedAgent:
@@ -2082,22 +2056,6 @@ async def support_route():
 async def api_route():
     """Direct route to API portal"""
     return await api_portal()
-
-@app.get("/vip-portal")
-async def vip_portal_route():
-    """Direct route to VIP members portal"""
-    if vip_available:
-        return HTMLResponse(vip_system.get_vip_portal_html())
-    else:
-        raise HTTPException(status_code=503, detail="VIP system not available")
-
-@app.get("/vip-button")
-async def vip_button_route():
-    """Get VIP members button HTML"""
-    if vip_available:
-        return HTMLResponse(vip_system.get_vip_button_html())
-    else:
-        raise HTTPException(status_code=503, detail="VIP system not available")
 
 if __name__ == "__main__":
     import uvicorn

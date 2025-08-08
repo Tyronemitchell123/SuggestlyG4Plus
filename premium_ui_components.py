@@ -526,17 +526,41 @@ class PremiumUIComponents:
                 }
             </style>
         </head>
-        <body>
-            <!-- Loading Overlay -->
-            <div class="loading-overlay" id="loading">
-                <div class="loading-spinner"></div>
-            </div>
-            
-            <!-- Animated Background -->
-            <div class="animated-bg"></div>
-            
-            <!-- Floating Particles -->
-            <div class="particles" id="particles"></div>
+                    <body>
+                <!-- Loading Overlay -->
+                <div class="loading-overlay" id="loading">
+                    <div class="loading-spinner"></div>
+                </div>
+                
+                <!-- VIP Members Button -->
+                <div class="vip-button-container" style="position: fixed; top: 20px; right: 20px; z-index: 10000;">
+                    <button class="vip-members-btn" onclick="openVIPPortal()" style="
+                        background: linear-gradient(45deg, #D4AF37, #FFD700);
+                        color: #0A0A23;
+                        border: none;
+                        padding: 0.75rem 1.5rem;
+                        border-radius: 50px;
+                        font-weight: 700;
+                        font-size: 0.9rem;
+                        cursor: pointer;
+                        box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+                        transition: all 0.3s ease;
+                        display: flex;
+                        align-items: center;
+                        gap: 0.5rem;
+                        text-transform: uppercase;
+                        letter-spacing: 0.05em;
+                    ">
+                        <span style="font-size: 1rem;">👑</span>
+                        VIP MEMBERS
+                    </button>
+                </div>
+                
+                <!-- Animated Background -->
+                <div class="animated-bg"></div>
+                
+                <!-- Floating Particles -->
+                <div class="particles" id="particles"></div>
             
             <!-- Navigation -->
             <div class="nav-container">
@@ -763,6 +787,141 @@ class PremiumUIComponents:
                         element.style.transform = `translateY(${scrolled * speed}px)`;
                     });
                 });
+                
+                // VIP Members Button Functionality
+                window.openVIPPortal = function() {
+                    // Check if user is logged in and has VIP access
+                    const userTier = localStorage.getItem('userTier') || 'free';
+                    
+                    if (userTier === 'ultra_premium' || userTier === 'vip') {
+                        // Redirect to VIP portal
+                        window.open('/vip-portal', '_blank');
+                    } else {
+                        // Show VIP membership application
+                        showVIPApplication();
+                    }
+                };
+                
+                window.showVIPApplication = function() {
+                    const modal = document.createElement('div');
+                    modal.innerHTML = `
+                        <div style="
+                            position: fixed;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                            background: rgba(0, 0, 0, 0.8);
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            z-index: 20000;
+                        ">
+                            <div style="
+                                background: linear-gradient(135deg, #0A0A23 0%, #1A1A3A 100%);
+                                padding: 3rem;
+                                border-radius: 1rem;
+                                border: 2px solid #D4AF37;
+                                max-width: 600px;
+                                width: 90%;
+                                color: white;
+                                text-align: center;
+                                box-shadow: 0 25px 50px rgba(212, 175, 55, 0.3);
+                            ">
+                                <h2 style="color: #D4AF37; margin-bottom: 1rem; font-size: 2rem; font-weight: 800;">👑 VIP Members Portal</h2>
+                                <p style="margin-bottom: 2rem; opacity: 0.9; line-height: 1.6; font-size: 1.1rem;">
+                                    Access to our exclusive VIP Members Portal requires Ultra-Premium membership 
+                                    ($4,999/month) or special billionaire invitation. VIP benefits include:
+                                </p>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; text-align: left;">
+                                    <div>
+                                        <div style="margin-bottom: 0.5rem; color: #D4AF37; font-weight: 600;">🎭 Holographic Experiences</div>
+                                        <div style="margin-bottom: 0.5rem; color: #D4AF37; font-weight: 600;">👤 Personal Concierge 24/7</div>
+                                        <div style="margin-bottom: 0.5rem; color: #D4AF37; font-weight: 600;">💎 Exclusive Investment Deals</div>
+                                        <div style="margin-bottom: 0.5rem; color: #D4AF37; font-weight: 600;">🏝️ Private Island Events</div>
+                                    </div>
+                                    <div>
+                                        <div style="margin-bottom: 0.5rem; color: #D4AF37; font-weight: 600;">🤝 CEO Direct Access</div>
+                                        <div style="margin-bottom: 0.5rem; color: #D4AF37; font-weight: 600;">✈️ Private Jet Coordination</div>
+                                        <div style="margin-bottom: 0.5rem; color: #D4AF37; font-weight: 600;">🏛️ Family Office Services</div>
+                                        <div style="margin-bottom: 0.5rem; color: #D4AF37; font-weight: 600;">🌍 Global Intelligence</div>
+                                    </div>
+                                </div>
+                                <div style="background: rgba(212, 175, 55, 0.1); padding: 1.5rem; border-radius: 0.5rem; margin-bottom: 2rem;">
+                                    <h3 style="color: #D4AF37; margin-bottom: 0.5rem;">VIP Membership Tiers</h3>
+                                    <div style="font-size: 0.9rem; opacity: 0.9;">
+                                        💎 Platinum Elite: $100M+ net worth • $50K annual<br/>
+                                        💠 Diamond Sovereign: $500M+ net worth • $150K annual<br/>
+                                        🌟 Billionaire Circle: $1B+ net worth • $500K annual
+                                    </div>
+                                </div>
+                                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                                    <button onclick="upgradeToVIP()" style="
+                                        background: linear-gradient(45deg, #D4AF37, #FFD700);
+                                        color: #0A0A23;
+                                        border: none;
+                                        padding: 1rem 2rem;
+                                        border-radius: 0.5rem;
+                                        font-weight: 700;
+                                        cursor: pointer;
+                                        font-size: 1rem;
+                                        box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+                                    ">Apply for VIP Membership</button>
+                                    <button onclick="upgradeToUltra()" style="
+                                        background: transparent;
+                                        color: #D4AF37;
+                                        border: 2px solid #D4AF37;
+                                        padding: 1rem 2rem;
+                                        border-radius: 0.5rem;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                        font-size: 1rem;
+                                    ">Upgrade to Ultra-Premium</button>
+                                    <button onclick="closeModal()" style="
+                                        background: transparent;
+                                        color: white;
+                                        border: 1px solid rgba(255,255,255,0.3);
+                                        padding: 1rem 2rem;
+                                        border-radius: 0.5rem;
+                                        font-weight: 600;
+                                        cursor: pointer;
+                                        font-size: 1rem;
+                                    ">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    document.body.appendChild(modal);
+                    
+                    window.closeModal = function() {
+                        document.body.removeChild(modal);
+                    };
+                    
+                    window.upgradeToVIP = function() {
+                        window.location.href = '/vip-portal';
+                    };
+                    
+                    window.upgradeToUltra = function() {
+                        window.location.href = '/api/monetization/subscription?tier=ultra_premium';
+                    };
+                };
+                
+                // VIP Button Hover Effects
+                const vipBtn = document.querySelector('.vip-members-btn');
+                if (vipBtn) {
+                    vipBtn.addEventListener('mouseenter', function() {
+                        this.style.transform = 'translateY(-3px) scale(1.05)';
+                        this.style.boxShadow = '0 15px 35px rgba(212, 175, 55, 0.6)';
+                        this.style.background = 'linear-gradient(45deg, #FFD700, #FFA500)';
+                    });
+                    
+                    vipBtn.addEventListener('mouseleave', function() {
+                        this.style.transform = 'translateY(0) scale(1)';
+                        this.style.boxShadow = '0 8px 25px rgba(212, 175, 55, 0.4)';
+                        this.style.background = 'linear-gradient(45deg, #D4AF37, #FFD700)';
+                    });
+                }
             </script>
         </body>
         </html>

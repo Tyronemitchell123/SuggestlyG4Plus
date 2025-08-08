@@ -32,27 +32,92 @@ class MonetizationEngine:
         self.subscription_tiers = {
             "free": {
                 "monthly_price": 0,
-                "features": ["Basic AI Chat", "Limited Requests"],
+                "features": ["Basic AI Chat", "Limited Requests", "Standard Support"],
                 "api_calls_limit": 100,
-                "agent_access": ["ANALYST"]
+                "agent_access": ["ANALYST"],
+                "hologram_access": False,
+                "support_level": "Community",
+                "sla": "Best effort"
             },
             "professional": {
-                "monthly_price": 89,
-                "features": ["5 AI Agents", "10K Token Credits", "Basic Analytics"],
-                "api_calls_limit": 10000,
-                "agent_access": ["ANALYST", "INTEL", "RESEARCH", "RISK", "DATA"]
+                "monthly_price": 149,
+                "features": [
+                    "5 Premium AI Agents", 
+                    "25K Token Credits/month", 
+                    "Advanced Analytics Dashboard",
+                    "API Access",
+                    "Email Support (24hr response)",
+                    "Basic Hologram Agent (Desktop)"
+                ],
+                "api_calls_limit": 25000,
+                "agent_access": ["ANALYST", "INTEL", "RESEARCH", "RISK", "DATA"],
+                "hologram_access": "Desktop Only",
+                "hologram_agents": ["Standard AI Assistant"],
+                "support_level": "Professional",
+                "sla": "99.5% uptime"
             },
             "enterprise": {
-                "monthly_price": 349,
-                "features": ["All 7 Agents", "100K Tokens", "Advanced Analytics"],
-                "api_calls_limit": 100000,
-                "agent_access": ["ALL"]
+                "monthly_price": 599,
+                "features": [
+                    "All 7 Elite AI Agents",
+                    "250K Token Credits/month",
+                    "Executive Analytics Suite",
+                    "Full API Access",
+                    "Priority Support (4hr response)",
+                    "Premium Hologram Agents",
+                    "Custom Integrations",
+                    "White-label Options",
+                    "Team Management (unlimited users)"
+                ],
+                "api_calls_limit": 250000,
+                "agent_access": ["ALL"],
+                "hologram_access": "Premium Display Systems",
+                "hologram_agents": ["MARCUS_QUANTUM", "SOPHIA_CIPHER"],
+                "support_level": "Enterprise",
+                "sla": "99.9% uptime"
             },
             "ultra_premium": {
-                "monthly_price": 2500,
-                "features": ["Unlimited Everything", "Custom AI Training", "Concierge"],
-                "api_calls_limit": 1000000,
-                "agent_access": ["ALL", "EXCLUSIVE"]
+                "monthly_price": 4999,
+                "features": [
+                    "Unlimited AI Agent Access",
+                    "Unlimited Token Credits",
+                    "Ultra-Premium Holographic Experience",
+                    "Custom AI Model Training",
+                    "24/7 Concierge Support",
+                    "Dedicated Relationship Manager",
+                    "Private Server Deployment",
+                    "Custom Hologram Agent Creation",
+                    "White-glove Onboarding",
+                    "Executive Briefings & Analysis",
+                    "Global Intelligence Reports",
+                    "Private Banking Integration",
+                    "Family Office Services"
+                ],
+                "api_calls_limit": "unlimited",
+                "agent_access": ["ALL", "EXCLUSIVE", "CUSTOM"],
+                "hologram_access": "Ultra-Premium 8K Room-Scale",
+                "hologram_agents": ["ALEXANDRA_LUX", "MARCUS_QUANTUM", "SOPHIA_CIPHER", "CUSTOM_AGENTS"],
+                "support_level": "Ultra-Premium Concierge",
+                "sla": "99.99% uptime"
+            },
+            "enterprise_plus": {
+                "monthly_price": 1499,
+                "features": [
+                    "All Enterprise Features",
+                    "Advanced Hologram Agents",
+                    "Custom AI Training",
+                    "Dedicated Support Manager",
+                    "99.95% SLA",
+                    "Advanced Security Features",
+                    "Compliance Reporting",
+                    "Multi-region Deployment"
+                ],
+                "api_calls_limit": 500000,
+                "agent_access": ["ALL", "PREMIUM"],
+                "hologram_access": "Advanced Display Systems",
+                "hologram_agents": ["ALEXANDRA_LUX", "MARCUS_QUANTUM", "SOPHIA_CIPHER"],
+                "support_level": "Dedicated",
+                "sla": "99.95% uptime"
             }
         }
         
