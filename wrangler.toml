@@ -1,0 +1,8 @@
+name = "suggestlyg4plus-worker"
+main = "workers/proxy.js"
+compatibility_date = "2025-01-01"
+
+[vars]
+API_ORIGIN = "https://suggestlyg4plus-api.onrender.com"
+
+
