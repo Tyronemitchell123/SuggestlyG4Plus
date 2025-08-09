@@ -4,8 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurum Private - Elite AI-Powered Investment Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Website Selection - Aurum Private & SuggestlyG4Plus</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/suggestly-ai-platform/styles.css">
     <style>
         * {
             margin: 0;
@@ -15,286 +17,111 @@
         
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #000000 0%, #0a0a0a 25%, #1a1a1a 50%, #0a0a0a 75%, #000000 100%);
+            background: linear-gradient(135deg, #000000 0%, #111827 50%, #1f2937 100%);
             color: #ffffff;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        
-        .header {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(251, 191, 36, 0.2);
-            z-index: 1000;
-            padding: 1rem 0;
-        }
-        
-        .nav {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-        }
-        
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            color: #d1d5db;
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-        
-        .nav-links a:hover {
-            color: #fbbf24;
-        }
-        
-        .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+        }
+        
+        .container {
             text-align: center;
-            padding: 8rem 2rem 4rem;
-            position: relative;
-            overflow: hidden;
+            max-width: 800px;
+            padding: 2rem;
         }
         
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.1) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        
-        .hero-content {
-            max-width: 1000px;
-            z-index: 1;
-            position: relative;
-        }
-        
-        .hero-title {
-            font-size: 4rem;
+        .title {
+            font-size: 3rem;
             font-weight: 900;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #fbbf24, #f59e0b, #d97706);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.2;
-        }
-        
-        .hero-subtitle {
-            font-size: 1.5rem;
-            color: #d1d5db;
             margin-bottom: 2rem;
-            font-weight: 400;
-        }
-        
-        .hero-description {
-            font-size: 1.1rem;
-            color: #9ca3af;
-            margin-bottom: 3rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        .btn {
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            display: inline-block;
-            border: 2px solid transparent;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            color: #000000;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4);
-        }
-        
-        .btn-secondary {
-            background: transparent;
-            color: #fbbf24;
-            border-color: #fbbf24;
-        }
-        
-        .btn-secondary:hover {
-            background: #fbbf24;
-            color: #000000;
-            transform: translateY(-2px);
-        }
-        
-        .features {
-            padding: 6rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .section-title {
-            text-align: center;
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
             background: linear-gradient(135deg, #fbbf24, #f59e0b);
             -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         
-        .section-subtitle {
-            text-align: center;
-            color: #9ca3af;
-            font-size: 1.2rem;
-            margin-bottom: 4rem;
+        .subtitle {
+            font-size: 1.25rem;
+            color: #d1d5db;
+            margin-bottom: 3rem;
         }
         
-        .features-grid {
+        .website-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
-            margin-bottom: 4rem;
-        }
-        
-        .feature-card {
-            background: rgba(31, 41, 55, 0.8);
-            border: 1px solid rgba(251, 191, 36, 0.2);
-            border-radius: 15px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: #fbbf24;
-            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.2);
-        }
-        
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .feature-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-        
-        .feature-description {
-            color: #9ca3af;
-            line-height: 1.6;
-        }
-        
-        .tiers {
-            padding: 6rem 2rem;
-            background: rgba(0, 0, 0, 0.5);
-        }
-        
-        .tiers-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .tier-card {
-            background: rgba(31, 41, 55, 0.9);
-            border: 2px solid rgba(251, 191, 36, 0.3);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .tier-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-        }
-        
-        .tier-card:hover {
-            transform: translateY(-10px);
-            border-color: #fbbf24;
-            box-shadow: 0 20px 40px rgba(251, 191, 36, 0.3);
-        }
-        
-        .tier-name {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-            color: #fbbf24;
-        }
-        
-        .tier-price {
-            font-size: 2.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-        
-        .tier-features {
-            list-style: none;
             margin-bottom: 2rem;
         }
         
-        .tier-features li {
-            padding: 0.5rem 0;
+        .website-card {
+            background: rgba(31, 41, 55, 0.8);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .website-card:hover {
+            transform: translateY(-5px);
+            border-color: #fbbf24;
+            box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3);
+        }
+        
+        .website-card.aurum {
+            border-color: rgba(251, 191, 36, 0.3);
+        }
+        
+        .website-card.suggestly {
+            border-color: rgba(120, 119, 198, 0.3);
+        }
+        
+        .website-card.aurum:hover {
+            border-color: #fbbf24;
+        }
+        
+        .website-card.suggestly:hover {
+            border-color: #7877c6;
+        }
+        
+        .website-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .website-card.aurum .website-name {
+            color: #fbbf24;
+        }
+        
+        .website-card.suggestly .website-name {
+            color: #7877c6;
+        }
+        
+        .website-description {
+            color: #9ca3af;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .website-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+        
+        .website-features li {
+            padding: 0.25rem 0;
             color: #d1d5db;
             position: relative;
             padding-left: 1.5rem;
         }
         
-        .tier-features li::before {
+        .website-features li::before {
             content: '✓';
             position: absolute;
             left: 0;
@@ -302,440 +129,107 @@
             font-weight: bold;
         }
         
-        .ai-section {
-            padding: 6rem 2rem;
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.05) 0%, transparent 100%);
+        .view-button {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            width: 100%;
         }
         
-        .ai-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-        
-        .ai-text h2 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
+        .website-card.aurum .view-button {
             background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            color: #000000;
         }
         
-        .ai-text p {
-            color: #9ca3af;
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-            line-height: 1.7;
+        .website-card.suggestly .view-button {
+            background: linear-gradient(135deg, #7877c6, #ff77c6);
+            color: #ffffff;
         }
         
-        .ai-features {
-            list-style: none;
+        .view-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         
-        .ai-features li {
-            padding: 0.75rem 0;
-            color: #d1d5db;
-            position: relative;
-            padding-left: 2rem;
-            font-weight: 500;
-        }
-        
-        .ai-features li::before {
-            content: '🤖';
-            position: absolute;
-            left: 0;
-            font-size: 1.2rem;
-        }
-        
-        .ai-visual {
+        .server-info {
             background: rgba(31, 41, 55, 0.8);
-            border: 2px solid rgba(251, 191, 36, 0.3);
-            border-radius: 20px;
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .ai-visual::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(251, 191, 36, 0.1), transparent);
-            animation: rotate 10s linear infinite;
-        }
-        
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        
-        .ai-visual-content {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .ai-visual h3 {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: #fbbf24;
-        }
-        
-        .ai-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            border: 1px solid rgba(251, 191, 36, 0.2);
+            border-radius: 10px;
+            padding: 1.5rem;
             margin-top: 2rem;
         }
         
-        .ai-stat {
-            background: rgba(0, 0, 0, 0.3);
-            padding: 1rem;
-            border-radius: 10px;
-            border: 1px solid rgba(251, 191, 36, 0.2);
-        }
-        
-        .ai-stat-number {
-            font-size: 1.5rem;
-            font-weight: 800;
+        .server-info h3 {
             color: #fbbf24;
-        }
-        
-        .ai-stat-label {
-            font-size: 0.9rem;
-            color: #9ca3af;
-        }
-        
-        .footer {
-            background: rgba(0, 0, 0, 0.95);
-            border-top: 1px solid rgba(251, 191, 36, 0.2);
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-        
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .footer-logo {
-            font-size: 2rem;
-            font-weight: 900;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fbbf24, #f59e0b);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
         
-        .footer-text {
-            color: #9ca3af;
-            margin-bottom: 2rem;
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-        }
-        
-        .footer-links a {
+        .server-info p {
             color: #d1d5db;
-            text-decoration: none;
-            transition: color 0.3s ease;
+            margin-bottom: 0.5rem;
         }
         
-        .footer-links a:hover {
+        .server-info code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
             color: #fbbf24;
-        }
-        
-        .footer-bottom {
-            color: #6b7280;
-            font-size: 0.9rem;
         }
         
         @media (max-width: 768px) {
-            .hero-title {
-                font-size: 2.5rem;
+            .title {
+                font-size: 2rem;
             }
             
-            .nav-links {
-                display: none;
-            }
-            
-            .ai-content {
+            .website-grid {
                 grid-template-columns: 1fr;
-                gap: 2rem;
             }
-            
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .btn {
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-        
-        .floating-elements {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-        
-        .floating-element {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: #fbbf24;
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.3; }
-            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
         }
     </style>
 </head>
 <body>
-    <div class="floating-elements">
-        <div class="floating-element" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
-        <div class="floating-element" style="top: 20%; left: 80%; animation-delay: 1s;"></div>
-        <div class="floating-element" style="top: 60%; left: 20%; animation-delay: 2s;"></div>
-        <div class="floating-element" style="top: 80%; left: 70%; animation-delay: 3s;"></div>
-        <div class="floating-element" style="top: 40%; left: 90%; animation-delay: 4s;"></div>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <div class="container" id="main" role="main">
+        <h1 class="title">Website Selection</h1>
+        <p class="subtitle">Choose which website to view:</p>
+        
+        <div class="website-grid">
+            <a href="/aurum-private" class="website-card aurum">
+                <div class="website-name">Aurum Private</div>
+                <div class="website-description">Elite AI-Powered Investment Platform</div>
+                <ul class="website-features">
+                                         <li>Executive Suite from £75K/month</li>
+                    <li>Four premium investment tiers</li>
+                    <li>100% AI automation</li>
+                    <li>Ultra-high-net-worth focus</li>
+                </ul>
+                <div class="view-button">View Aurum Private</div>
+            </a>
+            
+            <a href="/suggestly-ai-platform" class="website-card suggestly">
+                <div class="website-name">SuggestlyG4Plus</div>
+                <div class="website-description">Fully Automated AI Platform</div>
+                <ul class="website-features">
+                    <li>Multi-agent intelligence</li>
+                    <li>IoT & blockchain integration</li>
+                    <li>Voice AI & computer vision</li>
+                    <li>Advanced subscription tiers</li>
+                </ul>
+                <div class="view-button">View SuggestlyG4Plus</div>
+            </a>
+        </div>
+        
+        <div class="server-info">
+            <h3>Server Information</h3>
+            <p><strong>Local Server:</strong> <code>http://localhost:8000</code></p>
+            <p><strong>Aurum Private:</strong> <code>http://localhost:8000/aurum-private</code></p>
+            <p><strong>SuggestlyG4Plus:</strong> <code>http://localhost:8000/suggestly-ai-platform</code></p>
+            <p><strong>Capital Tier Page:</strong> <code>http://localhost:8000/capital-tier.html</code></p>
+        </div>
     </div>
-
-    <header class="header">
-        <nav class="nav">
-            <div class="logo">Aurum Private</div>
-            <ul class="nav-links">
-                <li><a href="#features">Features</a></li>
-                <li><a href="#tiers">Investment Tiers</a></li>
-                <li><a href="#ai">AI Platform</a></li>
-                <li><a href="/contact.html">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section class="hero">
-        <div class="hero-content">
-            <h1 class="hero-title">Elite Investment Intelligence</h1>
-            <p class="hero-subtitle">Powered by Advanced AI Technology</p>
-            <p class="hero-description">
-                Experience the future of wealth management with our AI-powered investment platform. 
-                Access exclusive opportunities, real-time market analysis, and personalized portfolio management 
-                designed for ultra-high-net-worth individuals and institutions.
-            </p>
-            <div class="cta-buttons">
-                <a href="#tiers" class="btn btn-primary">Explore Investment Tiers</a>
-                <a href="contact.html" class="btn btn-secondary">Schedule Consultation</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="features" id="features">
-        <div class="section-title">Why Choose Aurum Private</div>
-        <p class="section-subtitle">Cutting-edge technology meets elite investment opportunities</p>
-        
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🤖</div>
-                <h3 class="feature-title">AI-Powered Analysis</h3>
-                <p class="feature-description">
-                    Advanced machine learning algorithms provide real-time market insights, 
-                    risk assessment, and investment recommendations.
-                </p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">💎</div>
-                <h3 class="feature-title">Exclusive Opportunities</h3>
-                <p class="feature-description">
-                    Access to private equity, venture capital, and alternative investments 
-                    typically reserved for institutional investors.
-                </p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h3 class="feature-title">Bank-Level Security</h3>
-                <p class="feature-description">
-                    Military-grade encryption and multi-factor authentication ensure 
-                    your investments and data remain completely secure.
-                </p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">📊</div>
-                <h3 class="feature-title">Real-Time Portfolio</h3>
-                <p class="feature-description">
-                    Monitor your investments 24/7 with live performance tracking, 
-                    detailed analytics, and predictive insights.
-                </p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">🌍</div>
-                <h3 class="feature-title">Global Access</h3>
-                <p class="feature-description">
-                    Invest in opportunities worldwide with our international network 
-                    of partners and regulatory compliance.
-                </p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">👥</div>
-                <h3 class="feature-title">Dedicated Support</h3>
-                <p class="feature-description">
-                    Personal relationship managers and AI assistants available 
-                    24/7 to support your investment journey.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <section class="tiers" id="tiers">
-        <div class="section-title">Investment Tiers</div>
-        <p class="section-subtitle">Choose the tier that matches your investment goals</p>
-        
-        <div class="tiers-grid">
-            <div class="tier-card">
-                <h3 class="tier-name">Elite Tier</h3>
-                <div class="tier-price">£50,000+</div>
-                <ul class="tier-features">
-                    <li>Access to private equity deals</li>
-                    <li>AI-powered portfolio management</li>
-                    <li>Dedicated relationship manager</li>
-                    <li>Quarterly performance reports</li>
-                    <li>Priority deal flow access</li>
-                </ul>
-                <a href="/elite-tier.html" class="btn btn-primary">Learn More</a>
-            </div>
-            
-            <div class="tier-card">
-                <h3 class="tier-name">Premium Tier</h3>
-                <div class="tier-price">£100,000+</div>
-                <ul class="tier-features">
-                    <li>All Elite features</li>
-                    <li>Venture capital opportunities</li>
-                    <li>Advanced AI insights</li>
-                    <li>Monthly strategy sessions</li>
-                    <li>Exclusive market research</li>
-                </ul>
-                <a href="/premium-tier.html" class="btn btn-primary">Learn More</a>
-            </div>
-            
-            <div class="tier-card">
-                <h3 class="tier-name">Ultra-Premium</h3>
-                <div class="tier-price">£250,000+</div>
-                <ul class="tier-features">
-                    <li>All Premium features</li>
-                    <li>Direct investment access</li>
-                    <li>Custom AI algorithms</li>
-                    <li>Weekly portfolio reviews</li>
-                    <li>Board seat opportunities</li>
-                </ul>
-                <a href="/ultimate-tier.html" class="btn btn-primary">Learn More</a>
-            </div>
-            
-            <div class="tier-card">
-                <h3 class="tier-name">Founder's Circle</h3>
-                <div class="tier-price">£500,000+</div>
-                <ul class="tier-features">
-                    <li>All Ultra-Premium features</li>
-                    <li>Co-investment opportunities</li>
-                    <li>Exclusive AI platform access</li>
-                    <li>Daily market briefings</li>
-                    <li>Family office services</li>
-                </ul>
-                <a href="/enterprise-tier.html" class="btn btn-primary">Learn More</a>
-            </div>
-        </div>
-    </section>
-
-    <section class="ai-section" id="ai">
-        <div class="ai-content">
-            <div class="ai-text">
-                <h2>Next-Generation AI Platform</h2>
-                <p>
-                    Our proprietary AI system combines machine learning, natural language processing, 
-                    and predictive analytics to deliver unparalleled investment intelligence. 
-                    Experience the power of artificial intelligence working 24/7 to optimize your portfolio.
-                </p>
-                <ul class="ai-features">
-                    <li>Real-time market sentiment analysis</li>
-                    <li>Predictive risk modeling</li>
-                    <li>Automated portfolio rebalancing</li>
-                    <li>Natural language investment queries</li>
-                    <li>Behavioral pattern recognition</li>
-                    <li>Multi-dimensional data analysis</li>
-                </ul>
-            </div>
-            
-            <div class="ai-visual">
-                <div class="ai-visual-content">
-                    <h3>AI Performance Metrics</h3>
-                    <div class="ai-stats">
-                        <div class="ai-stat">
-                            <div class="ai-stat-number">99.9%</div>
-                            <div class="ai-stat-label">Uptime</div>
-                        </div>
-                        <div class="ai-stat">
-                            <div class="ai-stat-number">24/7</div>
-                            <div class="ai-stat-label">Monitoring</div>
-                        </div>
-                        <div class="ai-stat">
-                            <div class="ai-stat-number">15-25%</div>
-                            <div class="ai-stat-label">Avg Returns</div>
-                        </div>
-                        <div class="ai-stat">
-                            <div class="ai-stat-number">0.1s</div>
-                            <div class="ai-stat-label">Response Time</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-logo">Aurum Private</div>
-            <p class="footer-text">
-                Elite investment intelligence powered by advanced AI technology
-            </p>
-            <div class="footer-links">
-                <a href="#features">Features</a>
-                <a href="#tiers">Investment Tiers</a>
-                <a href="#ai">AI Platform</a>
-                <a href="/contact.html">Contact</a>
-                <a href="/about.html">About</a>
-            </div>
-            <div class="footer-bottom">
-                © 2024 Aurum Private. All rights reserved. | 
-                <a href="#" style="color: #6b7280;">Privacy Policy</a> | 
-                <a href="#" style="color: #6b7280;">Terms of Service</a>
-            </div>
-        </div>
-    </footer>
 </body>
 </html>
     
