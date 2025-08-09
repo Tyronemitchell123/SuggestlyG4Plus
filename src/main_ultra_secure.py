@@ -713,6 +713,93 @@ async def get_agent_capabilities(current_user: dict = Depends(verify_token)):
         ]
     })
 
+# Business Console Integrations (Stripe, HubSpot, Calendly)
+@app.post("/api/business/create-invoice")
+async def business_create_invoice(amount: float, description: str = "Invoice", currency: str = "usd"):
+    """Create a payment checkout session (Stripe) or fallback invoice."""
+    try:
+        stripe_key = os.getenv("STRIPE_API_KEY")
+        success_url = os.getenv("BUSINESS_SUCCESS_URL", "http://localhost:8000/success")
+        cancel_url = os.getenv("BUSINESS_CANCEL_URL", "http://localhost:8000/cancel")
+        if stripe_key:
+            # Create a Stripe Checkout Session for one-time payment
+            form = {
+                "mode": "payment",
+                "success_url": success_url,
+                "cancel_url": cancel_url,
+                "line_items[0][quantity]": "1",
+                "line_items[0][price_data][currency]": currency,
+                "line_items[0][price_data][unit_amount]": str(int(round(amount * 100))),
+                "line_items[0][price_data][product_data][name]": description,
+            }
+            resp = requests.post(
+                "https://api.stripe.com/v1/checkout/sessions",
+                data=form,
+                auth=(stripe_key, ""),
+                timeout=15,
+            )
+            data = resp.json()
+            if resp.status_code >= 400:
+                return JSONResponse({"status": "error", "detail": data}, status_code=502)
+            return JSONResponse({"status": "ok", "provider": "stripe", "id": data.get("id"), "url": data.get("url")})
+        # Fallback to internal monetization invoice if available
+        if monetization:
+            invoice = await monetization.generate_invoice(None, amount, description)  # type: ignore
+            return JSONResponse({"status": "ok", "provider": "internal", "invoice": invoice})
+        return JSONResponse({"status": "ok", "provider": "none", "message": "Invoice recorded (stub)", "amount": amount, "description": description})
+    except Exception as e:
+        return JSONResponse({"status": "error", "detail": str(e)}, status_code=500)
+
+@app.post("/api/business/launch-campaign")
+async def business_launch_campaign(title: str, message: str, audience: str = "all"):
+    """Create a basic campaign entry; send to HubSpot if configured."""
+    try:
+        hubspot_token = os.getenv("HUBSPOT_PRIVATE_APP_TOKEN") or os.getenv("HUBSPOT_API_KEY")
+        if hubspot_token:
+            # Create a basic CRM note engagement as a placeholder for campaign launch log
+            payload = {
+                "properties": {
+                    "hs_timestamp": datetime.utcnow().isoformat() + "Z",
+                    "hs_note_body": f"Campaign: {title}\n\n{message[:8000]}",
+                }
+            }
+            resp = requests.post(
+                "https://api.hubapi.com/crm/v3/objects/notes",
+                headers={"Authorization": f"Bearer {hubspot_token}", "Content-Type": "application/json"},
+                json=payload,
+                timeout=15,
+            )
+            if resp.status_code >= 400:
+                return JSONResponse({"status": "error", "detail": resp.json()}, status_code=502)
+            return JSONResponse({"status": "ok", "provider": "hubspot", "id": resp.json().get("id")})
+        # Fallback: record in analytics table
+        try:
+            conn = sqlite3.connect(DATABASE_PATH)
+            cursor = conn.cursor()
+            cursor.execute("INSERT INTO analytics (user_id, event_type, event_data) VALUES (?, ?, ?)", (None, "campaign_launched", json.dumps({"title": title, "message": message, "audience": audience})))
+            conn.commit()
+            conn.close()
+        except sqlite3.Error:
+            pass
+        return JSONResponse({"status": "ok", "provider": "internal", "message": "Campaign recorded"})
+    except Exception as e:
+        return JSONResponse({"status": "error", "detail": str(e)}, status_code=500)
+
+@app.post("/api/business/schedule-demo")
+async def business_schedule_demo(name: str, email: str):
+    """Return a Calendly scheduling link prefilled when configured."""
+    try:
+        base_link = os.getenv("CALENDLY_SCHEDULING_LINK")  # e.g., https://calendly.com/your-org/demo
+        if base_link:
+            # Calendly supports prefill via params on some plans; use common params
+            from urllib.parse import urlencode
+            params = {"name": name, "email": email}
+            url = base_link + ("?" + urlencode(params))
+            return JSONResponse({"status": "ok", "provider": "calendly", "url": url})
+        return JSONResponse({"status": "ok", "provider": "none", "message": "No Calendly link configured"})
+    except Exception as e:
+        return JSONResponse({"status": "error", "detail": str(e)}, status_code=500)
+
 @app.get("/api/system/status")
 async def get_system_status(current_user: dict = Depends(verify_token)):
     """Get comprehensive system status and performance metrics"""
