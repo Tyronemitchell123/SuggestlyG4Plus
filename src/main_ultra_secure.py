@@ -833,6 +833,23 @@ async def get_system_status(current_user: dict = Depends(verify_token)):
         "real_processing": True
     })
 
+# General analytics tracking
+@app.post("/api/analytics/track")
+async def analytics_track(event_type: str, event_data: str = "", request: Request = None):
+    """Track a frontend event. Stores event_type and JSON string event_data."""
+    try:
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO analytics (user_id, event_type, event_data) VALUES (?, ?, ?)",
+            (None, event_type, event_data)
+        )
+        conn.commit()
+        conn.close()
+        return JSONResponse({"status": "ok"})
+    except Exception as e:
+        return JSONResponse({"status": "error", "detail": str(e)}, status_code=500)
+
 # WebSocket Chat Endpoint
 @app.websocket("/ws/chat/{user_id}")
 async def websocket_chat(websocket: WebSocket, user_id: str):
