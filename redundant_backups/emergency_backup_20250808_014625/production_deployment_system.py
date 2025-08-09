@@ -29,7 +29,7 @@ class ProductionDeploymentSystem:
             "app_name": "suggestly-g4plus",
             "environment": "production",
             "region": "us-east-1",
-            "domain": "suggestlyg4plus.com",
+            "domain": "suggestlyg4plus.io",
             "ssl_required": True,
             "auto_scaling": True,
             "load_balancer": True,

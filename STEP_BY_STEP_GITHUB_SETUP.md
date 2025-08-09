@@ -105,7 +105,8 @@ git push -u origin main
 6. **Application goes live**
 
 ### **Final Result:**
-- **🌐 Main**: https://suggestlyg4plus.io
+- **🌐 Main**: https://override
+suggestlyg4plus.io
 - **🌐 WWW**: https://www.suggestlyg4plus.io
 - **🔒 SSL**: Automatic HTTPS
 - **⚡ Performance**: Global CDN

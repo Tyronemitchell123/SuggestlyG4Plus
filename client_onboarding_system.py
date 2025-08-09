@@ -136,10 +136,10 @@ class UHNWIClientOnboarding:
             "relationship_manager": onboarding_record["assigned_relationship_manager"],
             "welcome_package": welcome_package,
             "compliance_schedule": compliance_schedule,
-            "secure_portal_url": f"https://onboarding.suggestlyg4plus.com/{onboarding_id}",
+            "secure_portal_url": f"https://onboarding.suggestlyg4plus.io/{onboarding_id}",
             "support_contact": {
                 "phone": "+1-800-SUGGESTLY",
-                "email": "onboarding@suggestlyg4plus.com",
+                "email": "onboarding@suggestlyg4plus.io",
                 "priority_support": tier in ["enterprise", "ultra_premium"]
             }
         }
@@ -217,7 +217,7 @@ class UHNWIClientOnboarding:
             "professional": {
                 "name": "Sarah Johnson",
                 "title": "Client Success Manager",
-                "email": "sarah.johnson@suggestlyg4plus.com",
+                "email": "sarah.johnson@suggestlyg4plus.io",
                 "phone": "+1-800-SUGGESTLY ext. 1001",
                 "specialization": "Professional services",
                 "languages": ["English", "Spanish"]
@@ -225,7 +225,7 @@ class UHNWIClientOnboarding:
             "enterprise": {
                 "name": "Michael Chen",
                 "title": "Enterprise Relationship Director",
-                "email": "michael.chen@suggestlyg4plus.com",
+                "email": "michael.chen@suggestlyg4plus.io",
                 "phone": "+1-800-SUGGESTLY ext. 2001",
                 "specialization": "Fortune 500 enterprises",
                 "languages": ["English", "Mandarin", "Japanese"]
@@ -233,7 +233,7 @@ class UHNWIClientOnboarding:
             "ultra_premium": {
                 "name": "Alexandra Pemberton",
                 "title": "UHNWI Private Client Director",
-                "email": "alexandra.pemberton@suggestlyg4plus.com",
+                "email": "alexandra.pemberton@suggestlyg4plus.io",
                 "phone": "+1-800-SUGGESTLY ext. 3001",
                 "specialization": "Ultra-high-net-worth individuals",
                 "languages": ["English", "French", "German", "Italian"],

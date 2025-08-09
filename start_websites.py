@@ -1,4 +1,19 @@
+#!/usr/bin/env python3
+"""
+Local Web Server for Aurum Private & SuggestlyG4Plus Websites
+This script starts a local server to view the websites immediately.
+"""
 
+import http.server
+import socketserver
+import webbrowser
+import os
+import sys
+from pathlib import Path
+
+def create_index_redirect():
+    """Create a main index page that redirects to both websites"""
+    html_content = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -226,4 +241,72 @@
     </div>
 </body>
 </html>
+    """
     
+    with open('index.html', 'w', encoding='utf-8') as f:
+        f.write(html_content)
+
+def create_directory_structure():
+    """Create the necessary directory structure"""
+    # Create aurum-private directory
+    aurum_dir = Path('aurum-private')
+    aurum_dir.mkdir(exist_ok=True)
+    
+    # Create suggestly-ai-platform directory if it doesn't exist
+    suggestly_dir = Path('suggestly-ai-platform')
+    suggestly_dir.mkdir(exist_ok=True)
+    
+    # Copy main index.html to aurum-private directory
+    if Path('index.html').exists():
+        import shutil
+        shutil.copy('index.html', aurum_dir / 'index.html')
+    
+    # Copy logo files to serve them
+    if Path('aurum-logo.svg').exists():
+        shutil.copy('aurum-logo.svg', aurum_dir / 'aurum-logo.svg')
+    if Path('suggestly-logo.svg').exists():
+        shutil.copy('suggestly-logo.svg', suggestly_dir / 'suggestly-logo.svg')
+
+def start_server(port=8000):
+    """Start the local web server"""
+    try:
+        # Create directory structure
+        create_directory_structure()
+        
+        # Create main index page
+        create_index_redirect()
+        
+        # Change to the current directory
+        os.chdir('.')
+        
+        # Create and start the server
+        with socketserver.TCPServer(("", port), http.server.SimpleHTTPRequestHandler) as httpd:
+            print(f"🚀 Starting local web server...")
+            print(f"📱 Server running at: http://localhost:{port}")
+            print(f"🌐 Aurum Private: http://localhost:{port}/aurum-private")
+            print(f"🤖 SuggestlyG4Plus: http://localhost:{port}/suggestly-ai-platform")
+            print(f"💰 Capital Tier: http://localhost:{port}/capital-tier.html")
+            print(f"\n✨ Opening browser automatically...")
+            print(f"⏹️  Press Ctrl+C to stop the server")
+            
+            # Open browser automatically
+            webbrowser.open(f'http://localhost:{port}')
+            
+            # Start serving
+            httpd.serve_forever()
+            
+    except KeyboardInterrupt:
+        print(f"\n🛑 Server stopped by user")
+    except OSError as e:
+        if e.errno == 48:  # Address already in use
+            print(f"❌ Port {port} is already in use. Trying port {port + 1}...")
+            start_server(port + 1)
+        else:
+            print(f"❌ Error starting server: {e}")
+    except Exception as e:
+        print(f"❌ Unexpected error: {e}")
+
+if __name__ == "__main__":
+    print("🎯 Aurum Private & SuggestlyG4Plus Local Server")
+    print("=" * 50)
+    start_server()

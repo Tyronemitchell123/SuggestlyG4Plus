@@ -1,0 +1,262 @@
+#!/usr/bin/env bash
+# path: tools/optim-suite
+# OPTIM Suite – Premium System Revitalizer
+# Flags:
+#   --web --workspace --backend --simulate --kill --yes --django PATH
+#   --theme neon|minimal|mono   --quiet
+# Notes:
+#   Minimal comments focus on *why* (UX/safety), not *what*.
+
+set -euo pipefail
+
+# ---------- platform ----------
+_os() { case "${OSTYPE:-}" in msys* | cygwin* | win32*) echo windows; ; darwin*) echo macos; ; linux*) echo linux; ; * ) echo unknown; ; esac; }
+_has() { command -v "$1" >/dev/null 2>&1; }
+
+# ---------- args ----------
+WEB=0 WORK=0 BACK=0 SIM=0 KILL=0 YES=0 QUIET=0 THEME="neon" DJ=""
+while [ $# -gt 0 ]; do
+case "$1" in
+--web) WEB=1; ;
+--workspace) WORK=1; ;
+--backend) BACK=1; ;
+--simulate | --check | --dry-run) SIM=1; ;
+--kill) KILL=1; ;
+--yes | -y) YES=1; ;
+--django) DJ="${2:-}"; shift; ;
+--theme) THEME="${2:-neon}"; shift; ;
+--quiet | -q) QUIET=1; ;
+--help | -h) cat <<'H'
+OPTIM Suite – Premium System Revitalizer
+Usage:
+optim-suite [--web] [--workspace] [--backend] [--simulate] [--kill] [--yes]
+[--django PATH] [--theme neon | minimal | mono] [--quiet]
+No flags → interactive menu (unless --quiet).
+H
+exit 0; ;
+esac; shift
+done
+
+# ---------- styling ----------
+if [ "$THEME" = "mono" ] || [ $QUIET -eq 1 ]; then
+C0=""; C1=""; C2=""; C3=""; C4=""; C5=""; C6=""; C7=""; CE=""; BG=""
+else
+case "$THEME" in
+neon)    C1="\033[38;5;51m"; C2="\033[38;5;45m"; C3="\033[38;5;220m"; C4="\033[38;5;201m"; C5="\033[38;5;82m"; C6="\033[38;5;214m"; C7="\033[38;5;244m"; CE="\033[0m"; BG="\033[40m"; ;
+minimal) C1="\033[36m"; C2="\033[34m"; C3="\033[33m"; C4="\033[35m"; C5="\033[32m"; C6="\033[33m"; C7="\033[90m"; CE="\033[0m"; BG="\033[40m"; ;
+mono | * )  C1=""; C2=""; C3=""; C4=""; C5=""; C6=""; C7=""; CE=""; BG=""; ;
+esac
+fi
+cols() { tput cols 2>/dev/null || echo 80; }
+log() { [ $QUIET -eq 1 ] && return 0; printf "${C2}[optim]${CE} %s\n" "$*"; }
+warn() { printf "${C6}[warn]${CE} %s\n" "$*" >&2; }
+err() { printf "${C4}[error]${CE} %s\n" "$*" >&2; }
+ok() { [ $QUIET -eq 1 ] && return 0; printf "${C5}[ok]${CE} %s\n" "$*"; }
+
+splash() {
+    [ $QUIET -eq 1 ] && return 0
+    printf "${BG}\n"
+    printf "  ${C1}███${C2}███${C1}███${CE}  ${C3}OPTIM SUITE${CE}  ${C4}⟡${CE} ${C2}Performance Revitalizer${CE}\n"
+    printf "  ${C7}State‑of‑the‑art cache orchestration • Premium, elegant, animated${CE}\n\n"
+}
+
+SPINNER_PID=""; SPINNER_ON=0
+spinner_start() {
+    [ $QUIET -eq 1 ] && return 0
+    [ "$THEME" = "mono" ] && return 0
+    SPINNER_ON=1
+    ( i=0; chars=('⠋' '⠙' '⠸' '⠴' '⠦' '⠇'); while [ $SPINNER_ON -eq 1 ]; do printf "\r${C1}%s${CE} " "${chars[$((i%6))]}"; i=$((i+1)); sleep 0.08; done ) & SPINNER_PID=$!
+}
+spinner_stop() {
+    [ -n "$SPINNER_PID" ] && SPINNER_ON=0 && wait "$SPINNER_PID" 2>/dev/null || true
+    [ $QUIET -eq 1 ] || printf "\r  \r"
+}
+bar() {
+    [ $QUIET -eq 1 ] && return 0
+    [ "$THEME" = "mono" ] && return 0
+    local cur=$1 max=${2:-100} label=${3:-""} w=$(( $(cols)-12 )); [ $w -lt 20 ] && w=20
+    local filled=$(( cur * (w-2) / max )); local empty=$(( (w-2) - filled ))
+    printf "\r${C7}[${CE}${C5}%0.s█${CE}" $(seq 1 "$filled")
+    printf "%0.s·" $(seq 1 "$empty")
+    printf "${C7}]${CE} ${C1}%s${CE}" "$label"
+}
+step() { for i in $(seq 1 100); do bar "$i" 100 "$1"; sleep 0.004; done; [ $QUIET -eq 1 ] || printf "\n"; }
+
+confirm() { [ $YES -eq 1 ] && return 0; read -r -p "Run: $1 [y/N] " a; case "$a" in [yY]*) return 0; ; * ) return 1; ; esac; }
+killp() {
+    [ $KILL -eq 1 ] || return 0
+    # Why: avoids locked cache files.
+    for p in "Google Chrome" chrome "Microsoft Edge" microsoft-edge firefox Code brave "Brave Browser" vivaldi opera Arc; do
+    pkill -x "$p" >/dev/null 2>&1 || true
+    done
+}
+
+# ---------- menu ----------
+menu() {
+    [ $QUIET -eq 1 ] && { err "No flags and --quiet set; nothing to do."; exit 2; }
+    splash
+    printf "  ${C2}1)${CE} 🌐 Web Experience Refresh\n"
+    printf "  ${C2}2)${CE} 🛠 Developer Workspace Purge\n"
+    printf "  ${C2}3)${CE} 🖥 Backend Memory Reset\n"
+    printf "  ${C1}4)${CE} 🔍 Simulation Mode (All)\n"
+    printf "  0) Exit\n\n"
+    read -r -p "Select: " c
+    case "$c" in
+    1) WEB=1 ; ;
+2) WORK=1 ; ;
+3) BACK=1 ; ;
+4) WEB=1; WORK=1; BACK=1; SIM=1 ; ;
+* ) exit 0 ; ;
+esac
+}
+
+# ---------- windows handoff ----------
+if [ "$(_os)" = "windows" ]; then
+exe="pwsh"; _has pwsh || exe="powershell"
+"$exe" -NoProfile -Command '
+param([switch]$Web,[switch]$Workspace,[switch]$Backend,[switch]$Sim,[switch]$Kill,[switch]$Yes,[string]$Django,[string]$Theme,[switch]$Quiet)
+function C($s,$c){ if($Quiet){return}; if($Theme -eq "mono"){ Write-Host $s } else { Write-Host $s -ForegroundColor $c } }
+function Splash(){ if($Quiet){return}; C "`n █████ OPTIM SUITE  " Cyan; C "Performance Revitalizer" Magenta }
+function Confirm($q){ if($Yes){ return $true } $a=Read-Host "$q [y/N]"; return $a -match "^(?i)y$" }
+function KillP(){ if(-not $Kill){return}; "chrome","msedge","firefox","Code","brave","vivaldi","opera","Arc" |%{ Get-Process -Name $_ -ErrorAction SilentlyContinue | Stop-Process -Force -ErrorAction SilentlyContinue } }
+function RM($paths){
+  foreach($p in $paths){
+    $items = Get-ChildItem $p -Force -ErrorAction SilentlyContinue
+    if(-not $items){ if(-not $Quiet){ C "[skip] $p" DarkGray }; continue }
+    foreach($i in $items){
+      if($Sim){ if(-not $Quiet){ C "[would] $($i.FullName)" Cyan } }
+      else { Remove-Item $i.FullName -Recurse -Force -ErrorAction SilentlyContinue }
+    }
+  }
+}
+function WebAct(){
+  if(-not $Quiet -and -not ($Theme -eq "mono")){ 1..100 | % { $p=$_; Write-Host ( "`r[ " + ("=" * [Math]::Floor($p/2)) + (" " * (50 - [Math]::Floor($p/2))) + " ] Web" ) -ForegroundColor Gray -NoNewline; Start-Sleep -Milliseconds 5 }; Write-Host "" }
+  RM @(
+    "$env:LOCALAPPDATA\Google\Chrome\User Data\*\Cache*","$env:LOCALAPPDATA\Google\Chrome\User Data\*\Code Cache",
+    "$env:LOCALAPPDATA\Microsoft\Edge\User Data\*\Cache*","$env:LOCALAPPDATA\Microsoft\Edge\User Data\*\Code Cache",
+    "$env:APPDATA\Mozilla\Firefox\Profiles\*\cache2\*",
+    "$env:LOCALAPPDATA\BraveSoftware\Brave-Browser\User Data\*\Cache*","$env:LOCALAPPDATA\BraveSoftware\Brave-Browser\User Data\*\Code Cache",
+    "$env:LOCALAPPDATA\Vivaldi\User Data\*\Cache*","$env:LOCALAPPDATA\Vivaldi\User Data\*\Code Cache",
+    "$env:APPDATA\Opera Software\Opera Stable\Cache\*"
+  )
+}
+function WorkAct(){
+  if(-not $Quiet -and -not ($Theme -eq "mono")){ 1..100 | % { $p=$_; Write-Host ( "`r[ " + ("=" * [Math]::Floor($p/2)) + (" " * (50 - [Math]::Floor($p/2))) + " ] Workspace" ) -ForegroundColor Gray -NoNewline; Start-Sleep -Milliseconds 5 }; Write-Host "" }
+  RM @("$env:APPDATA\Code\Cache","$env:APPDATA\Code\CachedData","$env:LOCALAPPDATA\Code\User\workspaceStorage\*")
+  if(Get-Command npm -ea 0){ if($Sim){ if(-not $Quiet){ C "[would] npm cache clean --force && npm cache verify" Cyan } } else { npm cache clean --force *> $null; npm cache verify *> $null } }
+  if(Get-Command pip -ea 0){ if($Sim){ if(-not $Quiet){ C "[would] pip cache purge" Cyan } } else { pip cache purge *> $null } }
+}
+function BackAct(){
+  if(-not $Quiet -and -not ($Theme -eq "mono")){ 1..100 | % { $p=$_; Write-Host ( "`r[ " + ("=" * [Math]::Floor($p/2)) + (" " * (50 - [Math]::Floor($p/2))) + " ] Backend" ) -ForegroundColor Gray -NoNewline; Start-Sleep -Milliseconds 5 }; Write-Host "" }
+  if(Get-Command redis-cli -ea 0){ if($Sim){ if(-not $Quiet){ C "[would] redis-cli FLUSHALL" Cyan } } elseif( Confirm "Run redis-cli FLUSHALL (ALL DBs)?" ){ redis-cli FLUSHALL *> $null } }
+  $p=$Django; if(-not $p -and (Test-Path .\manage.py)){ $p="." }
+  if($p){ if($Sim){ if(-not $Quiet){ C "[would] Django cache.clear() at $p" Cyan } } else { Push-Location $p; python manage.py shell -c "from django.core.cache import cache; cache.clear()"; Pop-Location } }
+}
+if(-not ($Web -or $Workspace -or $Backend)){
+  if(-not $Quiet){
+    Splash
+    Write-Host "  1) 🌐 Web Experience Refresh"
+    Write-Host "  2) 🛠 Developer Workspace Purge"
+    Write-Host "  3) 🖥 Backend Memory Reset"
+    Write-Host "  4) 🔍 Simulation Mode (All)"
+    Write-Host "  0) Exit"
+    $c=Read-Host "Select"
+    switch($c){"1"{$Web=$true};"2"{$Workspace=$true};"3"{$Backend=$true};"4"{$Web=$true;$Workspace=$true;$Backend=$true;$Sim=$true};default{exit}}
+  } else { Write-Error "No flags with --Quiet"; exit 2 }
+}
+KillP
+if($Web){ WebAct }
+if($Workspace){ WorkAct }
+if($Backend){ BackAct }
+if(-not $Quiet){ C "`n✅ Optimization Complete" Green }
+' --% \
+$( [ $WEB -eq 1 ] && echo -Web ) \
+$( [ $WORK -eq 1 ] && echo -Workspace ) \
+$( [ $BACK -eq 1 ] && echo -Backend ) \
+$( [ $SIM -eq 1 ] && echo -Sim ) \
+$( [ $KILL -eq 1 ] && echo -Kill ) \
+$( [ $YES -eq 1 ] && echo -Yes ) \
+$( [ -n "${DJ:-}" ] && printf -- "-Django '%s'" "$DJ") \
+-Theme "$THEME" $( [ $QUIET -eq 1 ] && echo -Quiet )
+exit $?
+fi
+
+# ---------- unix impl ----------
+rmx() { shopt -s nullglob dotglob 2>/dev/null || true; for pat in "$@"; do arr=( $pat ); [ ${#arr[@]} -eq 0 ] && { [ $QUIET -eq 1 ] || printf "${C7}[skip]${CE} %s\n" "$pat"; continue; }; for m in "${arr[@]}"; do if [ $SIM -eq 1 ]; then [ $QUIET -eq 1 ] || printf "${C1}[would]${CE} %s\n" "$m"; else rm -rf -- "$m" 2>/dev/null || true; fi; done; done; }
+
+web_clear() {
+    step "Web"
+    case "$( _os )" in
+    macos)
+rmx \
+"$HOME/Library/Caches/Google/Chrome/*" \
+"$HOME/Library/Application Support/Google/Chrome/*/Code Cache" \
+"$HOME/Library/Caches/Microsoft Edge/*" \
+"$HOME/Library/Application Support/Microsoft Edge/*/Code Cache" \
+"$HOME/Library/Caches/Firefox/Profiles/*/cache2/*" \
+"$HOME/Library/Application Support/Firefox/Profiles/*/cache2/*" \
+"$HOME/Library/Application Support/BraveSoftware/Brave-Browser/*/Cache*" \
+"$HOME/Library/Application Support/BraveSoftware/Brave-Browser/*/Code Cache" \
+"$HOME/Library/Application Support/Vivaldi/*/Cache*" \
+"$HOME/Library/Application Support/Vivaldi/*/Code Cache" \
+"$HOME/Library/Application Support/Opera Software/Opera Stable/Cache/*" \
+"$HOME/Library/Application Support/Arc/User Data/*/Cache/*"
+; ;
+linux)
+rmx \
+"$HOME/.cache/google-chrome/*" \
+"$HOME/.config/google-chrome/*/Code Cache" \
+"$HOME/.cache/microsoft-edge/*" \
+"$HOME/.config/microsoft-edge/*/Code Cache" \
+"$HOME/.cache/mozilla/firefox/*/cache2/*" \
+"$HOME/.mozilla/firefox/*/cache2/*" \
+"$HOME/.cache/BraveSoftware/Brave-Browser/*" \
+"$HOME/.config/BraveSoftware/Brave-Browser/*/Code Cache" \
+"$HOME/.cache/vivaldi/*" \
+"$HOME/.config/vivaldi/*/Code Cache" \
+"$HOME/.cache/opera/*"
+; ;
+esac
+ok "Web Experience Refresh complete."
+}
+
+work_clear() {
+    step "Workspace"
+    case "$( _os )" in
+    macos) rmx "$HOME/Library/Application Support/Code/Cache" "$HOME/Library/Application Support/Code/CachedData" "$HOME/Library/Application Support/Code/User/workspaceStorage/*" ; ;
+linux) rmx "$HOME/.config/Code/Cache" "$HOME/.config/Code/CachedData" "$HOME/.config/Code/User/workspaceStorage/*" ; ;
+esac
+if _has npm; then
+[ $SIM -eq 1 ] && log "Would: npm cache clean --force && npm cache verify" || { npm cache clean --force >/dev/null 2>&1; npm cache verify >/dev/null 2>&1 || true; }
+fi
+if _has pip; then
+[ $SIM -eq 1 ] && log "Would: pip cache purge" || pip cache purge >/dev/null 2>&1 || true
+fi
+ok "Developer Workspace Purge complete."
+}
+
+back_clear() {
+    step "Backend"
+    if _has redis-cli; then
+    [ $SIM -eq 1 ] && log "Would: redis-cli FLUSHALL" || { confirm "redis-cli FLUSHALL (ALL DBs)?" && redis-cli FLUSHALL >/dev/null 2>&1 || true; }
+    fi
+    P="$DJ"; [ -z "$P" ] && [ -f "./manage.py" ] && P="."
+    if [ -n "$P" ]; then
+    [ $SIM -eq 1 ] && log "Would: Django cache.clear() at $P" || ( cd "$P" && python manage.py shell -c "from django.core.cache import cache; cache.clear()" ) || warn "Django: failed"
+    fi
+    ok "Backend Memory Reset complete."
+}
+
+# ---------- flow ----------
+if [ $WEB$WORK$BACK -eq 0 ] 2>/dev/null; then menu; fi
+[ $KILL -eq 1 ] && killp
+[ $QUIET -eq 1 ] || splash
+spinner_start
+
+[ $WEB -eq 1 ] && web_clear
+[ $WORK -eq 1 ] && work_clear
+[ $BACK -eq 1 ] && back_clear
+
+spinner_stop
+[ $QUIET -eq 1 ] || printf "\n${C5}✅ Optimization Complete${CE}  ${C1}optim-suite --web --workspace --backend --yes --theme %s${CE}\n" "$THEME"
+

@@ -363,7 +363,7 @@ class SpeedOptimizationSystem:
                         }
                     },
                     "alert_channels": [
-                        {"type": "email", "endpoint": "admin@suggestly.com"},
+                        {"type": "email", "endpoint": "admin@suggestlyg4plus.io"},
                         {"type": "slack", "webhook": "slack-webhook-url"},
                         {"type": "sms", "number": "+1234567890"}
                     ]

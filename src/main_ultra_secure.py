@@ -93,15 +93,21 @@ import bcrypt
 import sqlite3
 import asyncio
 import requests
-import yfinance as yf
-import pandas as pd
-import numpy as np
-import feedparser
-from bs4 import BeautifulSoup
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.cluster import KMeans
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import StandardScaler
+# Optional heavy dependencies (guarded to allow low-footprint runs)
+try:
+    import yfinance as yf  # type: ignore
+    import pandas as pd  # type: ignore
+    import numpy as np  # type: ignore
+    import feedparser  # type: ignore
+    from bs4 import BeautifulSoup  # type: ignore
+    from sklearn.feature_extraction.text import TfidfVectorizer  # type: ignore
+    from sklearn.cluster import KMeans  # type: ignore
+    from sklearn.ensemble import RandomForestClassifier  # type: ignore
+    from sklearn.preprocessing import StandardScaler  # type: ignore
+    HEAVY_LIBS_AVAILABLE = True
+except Exception:
+    HEAVY_LIBS_AVAILABLE = False
+    print("⚠️ Running in light mode: heavy ML/data libs not available. Core API will still run.")
 import warnings
 warnings.filterwarnings('ignore')
 

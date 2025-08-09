@@ -190,7 +190,7 @@ class VIPMembersSystem:
             "privileges": vip_member.privileges,
             "personal_concierge": vip_member.personal_concierge,
             "welcome_package": welcome_package,
-            "access_portal": f"https://vip.suggestlyg4plus.com/{member_id}",
+            "access_portal": f"https://vip.suggestlyg4plus.io/{member_id}",
             "emergency_contact": "+1-800-VIP-ELITE"
         }
     
@@ -744,7 +744,7 @@ class VIPMembersSystem:
                     </p>
                     <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
                         <a href="tel:+1-800-VIP-ELITE" class="vip-btn">📞 Call VIP Hotline</a>
-                        <a href="mailto:vip@suggestlyg4plus.com" class="vip-btn">✉️ Email Private Office</a>
+                        <a href="mailto:vip@suggestlyg4plus.io" class="vip-btn">✉️ Email Private Office</a>
                         <a href="/ultra-premium-upgrade" class="vip-btn">⬆️ Upgrade to Ultra-Premium</a>
                     </div>
                 </div>

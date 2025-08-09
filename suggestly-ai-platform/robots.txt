@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://suggestlyg4plus.io/sitemap.xml
+
