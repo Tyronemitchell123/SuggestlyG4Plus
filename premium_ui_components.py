@@ -105,6 +105,7 @@ class PremiumUIComponents:
                     z-index: 1000;
                     background: rgba(10, 10, 35, 0.95);
                     backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
                     border-bottom: 1px solid rgba(212, 175, 55, 0.2);
                     transition: all 0.3s ease;
                 }
@@ -123,6 +124,8 @@ class PremiumUIComponents:
                     font-weight: 800;
                     background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold));
                     -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
                     -webkit-text-fill-color: transparent;
                     animation: logoGlow 3s ease-in-out infinite;
                 }
@@ -197,6 +200,8 @@ class PremiumUIComponents:
                     margin-bottom: 2rem;
                     background: linear-gradient(45deg, #FFFFFF, var(--primary-gold), var(--diamond));
                     -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
                     -webkit-text-fill-color: transparent;
                     animation: titlePulse 4s ease-in-out infinite;
                     line-height: 1.1;
@@ -206,11 +211,15 @@ class PremiumUIComponents:
                     0%, 100% { 
                         background: linear-gradient(45deg, #FFFFFF, var(--primary-gold), var(--diamond));
                         -webkit-background-clip: text;
+                        background-clip: text;
+                        color: transparent;
                         -webkit-text-fill-color: transparent;
                     }
                     50% { 
                         background: linear-gradient(45deg, var(--primary-gold), var(--secondary-gold), #FFFFFF);
                         -webkit-background-clip: text;
+                        background-clip: text;
+                        color: transparent;
                         -webkit-text-fill-color: transparent;
                     }
                 }
@@ -237,6 +246,7 @@ class PremiumUIComponents:
                     border-radius: 1rem;
                     padding: 2rem 1rem;
                     backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
                     transition: all 0.3s ease;
                     animation: statFloat 6s ease-in-out infinite;
                 }
@@ -348,6 +358,7 @@ class PremiumUIComponents:
                     padding: 8rem 2rem;
                     background: rgba(0, 0, 0, 0.3);
                     backdrop-filter: blur(20px);
+                    -webkit-backdrop-filter: blur(20px);
                 }
                 
                 .features-container {
@@ -362,6 +373,8 @@ class PremiumUIComponents:
                     margin-bottom: 1rem;
                     background: linear-gradient(45deg, var(--text-light), var(--primary-gold));
                     -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
                     -webkit-text-fill-color: transparent;
                 }
                 
@@ -389,6 +402,7 @@ class PremiumUIComponents:
                     padding: 3rem 2rem;
                     text-align: center;
                     backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
                     transition: all 0.5s ease;
                     position: relative;
                     overflow: hidden;
