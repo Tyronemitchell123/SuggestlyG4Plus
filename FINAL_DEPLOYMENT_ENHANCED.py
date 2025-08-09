@@ -66,6 +66,8 @@ def create_enhanced_deployment_package():
         .enhanced-badge {
             background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
             -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             -webkit-text-fill-color: transparent;
             font-size: 24px;
             font-weight: bold;
