@@ -11,6 +11,14 @@ import os
 import sys
 from pathlib import Path
 
+class NoCacheRequestHandler(http.server.SimpleHTTPRequestHandler):
+    """HTTP handler that disables caching for local development"""
+    def end_headers(self):
+        self.send_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+        self.send_header('Pragma', 'no-cache')
+        self.send_header('Expires', '0')
+        super().end_headers()
+
 def create_index_redirect():
     """Create a main index page that redirects to both websites"""
     html_content = """
@@ -280,7 +288,7 @@ def start_server(port=8000):
         os.chdir('.')
         
         # Create and start the server
-        with socketserver.TCPServer(("", port), http.server.SimpleHTTPRequestHandler) as httpd:
+        with socketserver.TCPServer(("", port), NoCacheRequestHandler) as httpd:
             print(f"🚀 Starting local web server...")
             print(f"📱 Server running at: http://localhost:{port}")
             print(f"🌐 Aurum Private: http://localhost:{port}/aurum-private")
