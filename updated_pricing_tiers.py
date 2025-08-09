@@ -10,7 +10,7 @@ def get_updated_pricing_html() -> str:
     return """
     <section class="pricing-section" style="background: linear-gradient(135deg, rgba(10, 10, 35, 0.95), rgba(26, 26, 58, 0.9)); padding: 6rem 2rem; margin: 4rem 0;">
         <div class="container" style="max-width: 1400px; margin: 0 auto;">
-            <h2 style="text-align: center; font-size: clamp(2.5rem, 6vw, 3.5rem); font-weight: 800; margin-bottom: 1rem; background: linear-gradient(45deg, #FFFFFF, #D4AF37); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            <h2 style="text-align: center; font-size: clamp(2.5rem, 6vw, 3.5rem); font-weight: 800; margin-bottom: 1rem; background: linear-gradient(45deg, #FFFFFF, #D4AF37); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent;">
                 Ultra-Premium Pricing
             </h2>
             <p style="text-align: center; font-size: 1.2rem; opacity: 0.8; margin-bottom: 4rem; max-width: 700px; margin-left: auto; margin-right: auto; color: #F8F9FA;">
@@ -20,7 +20,7 @@ def get_updated_pricing_html() -> str:
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem;">
                 
                 <!-- Professional Tier -->
-                <div style="background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(212, 175, 55, 0.2); border-radius: 1rem; padding: 2.5rem 2rem; text-align: center; backdrop-filter: blur(10px); transition: all 0.3s ease; position: relative;">
+                <div style="background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(212, 175, 55, 0.2); border-radius: 1rem; padding: 2.5rem 2rem; text-align: center; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: all 0.3s ease; position: relative;">
                     <div style="font-size: 1.125rem; font-weight: 600; color: #6b7280; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">Professional</div>
                     <div style="font-size: 3rem; font-weight: 700; color: #3b82f6; margin-bottom: 0.5rem;">$149</div>
                     <div style="font-size: 1rem; color: #6b7280; margin-bottom: 2rem;">per month</div>
@@ -58,7 +58,7 @@ def get_updated_pricing_html() -> str:
                 </div>
                 
                 <!-- Enterprise Tier (Most Popular) -->
-                <div style="background: rgba(255, 255, 255, 0.05); border: 2px solid #D4AF37; border-radius: 1rem; padding: 2.5rem 2rem; text-align: center; backdrop-filter: blur(10px); transition: all 0.3s ease; position: relative; transform: scale(1.05); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);">
+                <div style="background: rgba(255, 255, 255, 0.05); border: 2px solid #D4AF37; border-radius: 1rem; padding: 2.5rem 2rem; text-align: center; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: all 0.3s ease; position: relative; transform: scale(1.05); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);">
                     <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #D4AF37; color: #0A0A23; padding: 0.5rem 1rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 600;">
                         Most Popular
                     </div>
@@ -103,7 +103,7 @@ def get_updated_pricing_html() -> str:
                 </div>
                 
                 <!-- Enterprise Plus Tier -->
-                <div style="background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(212, 175, 55, 0.4); border-radius: 1rem; padding: 2.5rem 2rem; text-align: center; backdrop-filter: blur(10px); transition: all 0.3s ease; position: relative;">
+                <div style="background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(212, 175, 55, 0.4); border-radius: 1rem; padding: 2.5rem 2rem; text-align: center; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: all 0.3s ease; position: relative;">
                     <div style="font-size: 1.125rem; font-weight: 600; color: #D4AF37; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">Enterprise Plus</div>
                     <div style="font-size: 3rem; font-weight: 700; color: #D4AF37; margin-bottom: 0.5rem;">$1,499</div>
                     <div style="font-size: 1rem; color: #6b7280; margin-bottom: 2rem;">per month</div>
@@ -141,12 +141,12 @@ def get_updated_pricing_html() -> str:
                 </div>
                 
                 <!-- Ultra-Premium Tier -->
-                <div style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(255, 215, 0, 0.1)); border: 3px solid #D4AF37; border-radius: 1rem; padding: 2.5rem 2rem; text-align: center; backdrop-filter: blur(15px); transition: all 0.3s ease; position: relative; box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);">
+                <div style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(255, 215, 0, 0.1)); border: 3px solid #D4AF37; border-radius: 1rem; padding: 2.5rem 2rem; text-align: center; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); transition: all 0.3s ease; position: relative; box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);">
                     <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: linear-gradient(45deg, #D4AF37, #FFD700); color: #0A0A23; padding: 0.5rem 1rem; border-radius: 1rem; font-size: 0.875rem; font-weight: 700;">
                         Ultra-Premium UHNWI
                     </div>
                     <div style="font-size: 1.125rem; font-weight: 600; color: #D4AF37; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em;">Ultra-Premium</div>
-                    <div style="font-size: 3rem; font-weight: 700; background: linear-gradient(45deg, #D4AF37, #FFD700); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem;">$4,999</div>
+                    <div style="font-size: 3rem; font-weight: 700; background: linear-gradient(45deg, #D4AF37, #FFD700); -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; margin-bottom: 0.5rem;">$4,999</div>
                     <div style="font-size: 1rem; color: #6b7280; margin-bottom: 2rem;">per month</div>
                     
                     <ul style="list-style: none; margin-bottom: 2rem; text-align: left; color: #F8F9FA;">
