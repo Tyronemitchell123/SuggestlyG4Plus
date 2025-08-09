@@ -57,8 +57,10 @@ def create_index_redirect():
             margin-bottom: 2rem;
             background: linear-gradient(135deg, #fbbf24, #f59e0b);
             -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
             background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+            
         }
         
         .subtitle {
