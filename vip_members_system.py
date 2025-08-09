@@ -530,6 +530,8 @@ class VIPMembersSystem:
                     font-weight: 900;
                     background: linear-gradient(45deg, #D4AF37, #FFD700);
                     -webkit-background-clip: text;
+                    background-clip: text;
+                    color: transparent;
                     -webkit-text-fill-color: transparent;
                     margin-bottom: 0.5rem;
                 }
@@ -559,6 +561,7 @@ class VIPMembersSystem:
                     border-radius: 1rem;
                     padding: 2rem;
                     backdrop-filter: blur(10px);
+                    -webkit-backdrop-filter: blur(10px);
                     transition: all 0.3s ease;
                 }
                 
