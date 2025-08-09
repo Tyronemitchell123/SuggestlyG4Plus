@@ -235,12 +235,110 @@ def init_database():
         )
     ''')
     
+    # Settings table for development configuration (admin-configurable)
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS settings (
+            key TEXT PRIMARY KEY,
+            value TEXT NOT NULL,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    ''')
+    
     conn.commit()
     conn.close()
     print("✅ Database initialized successfully")
 
 # Initialize database on startup
 init_database()
+
+# Configuration helpers (env takes precedence over DB settings)
+ALLOWED_SETTING_KEYS = {
+    "STRIPE_API_KEY",
+    "HUBSPOT_PRIVATE_APP_TOKEN",
+    "HUBSPOT_API_KEY",
+    "CALENDLY_SCHEDULING_LINK",
+    "BUSINESS_SUCCESS_URL",
+    "BUSINESS_CANCEL_URL",
+}
+
+def get_config_value(name: str) -> Optional[str]:
+    env_val = os.getenv(name)
+    if env_val:
+        return env_val
+    try:
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT value FROM settings WHERE key = ?", (name,))
+        row = cursor.fetchone()
+        conn.close()
+        return row[0] if row else None
+    except sqlite3.Error:
+        return None
+
+def set_config_values(pairs: Dict[str, str]) -> None:
+    conn = sqlite3.connect(DATABASE_PATH)
+    cursor = conn.cursor()
+    for k, v in pairs.items():
+        if k in ALLOWED_SETTING_KEYS:
+            cursor.execute("INSERT INTO settings (key, value, updated_at) VALUES (?, ?, CURRENT_TIMESTAMP) ON CONFLICT(key) DO UPDATE SET value=excluded.value, updated_at=CURRENT_TIMESTAMP", (k, v))
+    conn.commit()
+    conn.close()
+
+# Admin settings API (protect with admin token)
+def _require_admin(request: Request):
+    admin_token_hdr = request.headers.get("X-Admin-Token")
+    admin_token_env = os.getenv("ADMIN_DASH_TOKEN")
+    if not admin_token_env:
+        # For development convenience, allow if not set
+        return True
+    if admin_token_hdr != admin_token_env:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    return True
+
+@app.get("/api/admin/config-status")
+async def admin_config_status():
+    """Return presence (bool) of critical integration keys without exposing values."""
+    keys = [
+        "STRIPE_API_KEY",
+        "HUBSPOT_PRIVATE_APP_TOKEN",
+        "HUBSPOT_API_KEY",
+        "CALENDLY_SCHEDULING_LINK",
+        "BUSINESS_SUCCESS_URL",
+        "BUSINESS_CANCEL_URL",
+    ]
+    status = {k: bool(get_config_value(k)) for k in keys}
+    return JSONResponse({"status": status})
+
+@app.get("/api/admin/settings")
+async def admin_get_settings(request: Request):
+    _require_admin(request)
+    out: Dict[str, Optional[str]] = {}
+    for k in ALLOWED_SETTING_KEYS:
+        val = get_config_value(k)
+        if val is None:
+            out[k] = None
+        else:
+            # Mask secrets
+            if "KEY" in k or "TOKEN" in k:
+                out[k] = ("****" + val[-4:]) if len(val) > 8 else "****"
+            else:
+                out[k] = val
+    return JSONResponse({"settings": out})
+
+@app.post("/api/admin/settings")
+async def admin_set_settings(request: Request):
+    _require_admin(request)
+    try:
+        payload = await request.json()
+        if not isinstance(payload, dict):
+            raise ValueError("Invalid payload")
+        filtered = {k: str(v) for k, v in payload.items() if k in ALLOWED_SETTING_KEYS}
+        if not filtered:
+            return JSONResponse({"updated": 0})
+        set_config_values(filtered)
+        return JSONResponse({"updated": len(filtered)})
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 # WebSocket Connection Manager
 class ConnectionManager:
