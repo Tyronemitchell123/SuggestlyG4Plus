@@ -17,6 +17,7 @@ jobs:
       contents: read
     steps:
       - name: Check Production Health (optional)
+        id: prod
         env:
           HEALTH_URL: ${{ secrets.RENDER_HEALTH_URL }}
         shell: bash
@@ -31,6 +32,7 @@ jobs:
           echo "Production health status: $CODE"
 
       - name: Check Staging Health (optional)
+        id: staging
         env:
           HEALTH_URL: ${{ secrets.RENDER_STAGING_HEALTH_URL }}
         shell: bash
@@ -43,4 +45,36 @@ jobs:
           CODE=$(curl -fsS -o /dev/null -w "%{http_code}" --max-time 10 "$HEALTH_URL" || true)
           echo "staging_status=$CODE" >> "$GITHUB_OUTPUT"
           echo "Staging health status: $CODE"
+
+      - name: Notify on failures (optional)
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          PROD_STATUS: ${{ steps.prod.outputs.prod_status }}
+          STAGING_STATUS: ${{ steps.staging.outputs.staging_status }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${SLACK_WEBHOOK_URL:-}" && -z "${DISCORD_WEBHOOK_URL:-}" ]]; then
+            exit 0
+          fi
+          bad=""
+          if [[ -n "${PROD_STATUS:-}" && "${PROD_STATUS}" != "200" && "${PROD_STATUS}" != "204" ]]; then
+            bad+="Production unhealthy (status: ${PROD_STATUS}). "
+          fi
+          if [[ -n "${STAGING_STATUS:-}" && "${STAGING_STATUS}" != "200" && "${STAGING_STATUS}" != "204" ]]; then
+            bad+="Staging unhealthy (status: ${STAGING_STATUS}). "
+          fi
+          if [[ -z "$bad" ]]; then
+            exit 0
+          fi
+          JOB_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          MSG="Health Monitor alert: $bad Run: ${JOB_URL}"
+          if [[ -n "${SLACK_WEBHOOK_URL:-}" ]]; then
+            curl -fsSL -X POST -H 'Content-type: application/json' --data "{\"text\": \"${MSG//\"/\\\"}\"}" "$SLACK_WEBHOOK_URL" || true
+          fi
+          if [[ -n "${DISCORD_WEBHOOK_URL:-}" ]]; then
+            curl -fsSL -X POST -H 'Content-type: application/json' --data "{\"content\": \"${MSG//\"/\\\"}\"}" "$DISCORD_WEBHOOK_URL" || true
+          fi
 
