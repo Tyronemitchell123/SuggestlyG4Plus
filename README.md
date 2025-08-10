@@ -1,7 +1,10 @@
 # Aurum Private - Elite Investment Platform
 
+[![Deploy Backend to Render](https://github.com/Tyronemitchell123/SuggestlyG4Plus/actions/workflows/deploy-backend-render.yml/badge.svg)](https://github.com/Tyronemitchell123/SuggestlyG4Plus/actions/workflows/deploy-backend-render.yml)
+[![Manual Render Deploy](https://github.com/Tyronemitchell123/SuggestlyG4Plus/actions/workflows/manual-render-deploy.yml/badge.svg)](https://github.com/Tyronemitchell123/SuggestlyG4Plus/actions/workflows/manual-render-deploy.yml)
+
 ## 🏆 Overview
-Aurum Private is a premium investment platform website designed for high-net-worth individuals. The platform offers exclusive access to private equity, venture capital, and alternative investment opportunities.
+ Aurum Private is a premium investment platform website designed for high-net-worth individuals. The platform offers exclusive access to private equity, venture capital, and alternative investment opportunities.
 
 ## 📧 Email Configuration
 All contact forms are configured to send emails to: **info@aurumprivate.com**
