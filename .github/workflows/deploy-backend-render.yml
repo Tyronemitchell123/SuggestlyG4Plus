@@ -10,9 +10,9 @@ on:
       - ".github/workflows/deploy-backend-render.yml"
   workflow_dispatch: {}
 
-# Cancel any in-progress deploy for main when a new commit arrives
+# Cancel any in-progress deploy for the same workflow and ref (branch/tag)
 concurrency:
-  group: render-deploy-main
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
