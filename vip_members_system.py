@@ -1,3 +1,30 @@
+from typing import Any
+from fastapi import APIRouter
+
+
+vip_router = APIRouter()
+
+
+@vip_router.get("/vip/ping")
+async def vip_ping() -> Any:
+    return {"status": "ok", "module": "vip_members_system"}
+
+
+class VIPSystemShim:
+    def get_vip_portal_html(self) -> str:
+        return """
+        <div style='padding:1rem;border:1px solid #e5e7eb;border-radius:12px'>
+          <h3>VIP Members</h3>
+          <p>Exclusive content and services for VIPs.</p>
+        </div>
+        """
+
+    def get_vip_button_html(self) -> str:
+        return "<button style='padding:.6rem 1rem;border-radius:10px;background:#d97706;color:#fff'>VIP</button>"
+
+
+vip_system = VIPSystemShim()
+
 #!/usr/bin/env python3
 """
 VIP MEMBERS SYSTEM v2.0 - ULTRA-EXCLUSIVE MEMBERSHIP PORTAL

@@ -1,3 +1,46 @@
+from typing import Any
+
+
+def get_animated_homepage() -> str:
+    return """
+<!DOCTYPE html>
+<html><head><meta charset='utf-8'><title>SuggestlyG4Plus — Premium</title>
+<meta name='viewport' content='width=device-width, initial-scale=1'>
+<style>
+  body{margin:0;font-family:Inter,system-ui,-apple-system,sans-serif;background:#0B2348;color:#fff}
+  .wrap{max-width:1100px;margin:0 auto;padding:2rem}
+  .hero{padding:5rem 0;text-align:center}
+  .badge{display:inline-block;border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:.25rem .6rem;color:#9adcff}
+  .title{font-size:2.8rem;font-weight:900;margin:.5rem 0}
+  .cta{display:inline-block;margin-top:1rem;background:#00FFC6;color:#0B2348;padding:.6rem 1rem;border-radius:10px;text-decoration:none;font-weight:800}
+  .grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+  .card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:1rem}
+  .muted{color:#c8d2e0}
+  .foot{margin-top:2rem;color:#c8d2e0}
+</style></head>
+<body>
+  <div class='wrap'>
+    <div class='hero'>
+      <span class='badge'>Animated Experience</span>
+      <h1 class='title'>SuggestlyG4Plus — Premium UI</h1>
+      <p class='muted'>High polish, motion flourishes, and executive presence. Fully static, load-fast template.</p>
+      <a class='cta' href='/suggestly-ai-platform/index.html'>Enter Platform</a>
+    </div>
+    <div class='grid'>
+      <div class='card'><strong>Luxury</strong><div class='muted'>High-end typography, gradients, motion.</div></div>
+      <div class='card'><strong>Performance</strong><div class='muted'>Lean static assets, tuned layout.</div></div>
+      <div class='card'><strong>Security</strong><div class='muted'>Safe defaults. No remote scripts needed.</div></div>
+      <div class='card'><strong>Integrations</strong><div class='muted'>Ready to wire to auth and billing.</div></div>
+    </div>
+    <div class='foot'>© SuggestlyG4Plus</div>
+  </div>
+</body></html>
+"""
+
+
+# Minimal shim for usage in code
+premium_ui: Any = type("PremiumUIShim", (), {"get_animated_homepage": staticmethod(get_animated_homepage)})
+
 #!/usr/bin/env python3
 """
 PREMIUM UI COMPONENTS v2.0 - CUTTING-EDGE ANIMATED WEB INTERFACE

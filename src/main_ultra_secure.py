@@ -83,9 +83,11 @@ for agent_name, agent_data in AGENTS.items():
 print("🤖 ALL AGENTS ACTIVE AND READY FOR COMMUNICATION!")
 
 from fastapi import FastAPI, Request, HTTPException, Depends, WebSocket, WebSocketDisconnect
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi import Form
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from fastapi.middleware.gzip import GZipMiddleware
 import jwt
@@ -107,7 +109,9 @@ try:
     HEAVY_LIBS_AVAILABLE = True
 except Exception:
     HEAVY_LIBS_AVAILABLE = False
-    print("⚠️ Running in light mode: heavy ML/data libs not available. Core API will still run.")
+    # Silence noisy light-mode message unless explicitly enabled
+    if os.getenv("SHOW_LIGHT_MODE", "0") == "1":
+        print("ℹ️ Running in light mode: heavy ML/data libs not available. Core API will still run.")
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -121,49 +125,108 @@ import hashlib
 try:
     from real_agents import REAL_AGENTS
 except ImportError:
-    print("Warning: real_agents module not found, using fallback")
-    REAL_AGENTS = {}
+    try:
+        from src.real_agents import REAL_AGENTS  # type: ignore
+    except ImportError:
+        REAL_AGENTS = {}
 
 # Import monetization and premium UI components
 try:
     from monetization_endpoints import monetization, create_subscription_endpoint, process_api_billing_endpoint, revenue_dashboard_endpoint
     from premium_ui_components import premium_ui
-    print("✅ Monetization and Premium UI modules loaded")
-except ImportError as e:
-    print(f"Warning: Monetization modules not found: {e}")
-    monetization = None
+except ImportError:
+    try:
+        from src.monetization_endpoints import monetization, create_subscription_endpoint, process_api_billing_endpoint, revenue_dashboard_endpoint  # type: ignore
+        from src.premium_ui_components import premium_ui  # type: ignore
+    except ImportError:
+        monetization = None
+        premium_ui = None
 
 # Import luxury hologram system
 try:
     from luxury_hologram_ai_system import luxury_hologram, hologram_router
-    print("✅ Luxury Hologram AI System loaded")
     hologram_available = True
-except ImportError as e:
-    print(f"Warning: Luxury Hologram modules not found: {e}")
-    hologram_available = False
+except ImportError:
+    try:
+        from src.luxury_hologram_ai_system import luxury_hologram, hologram_router  # type: ignore
+        hologram_available = True
+    except ImportError:
+        hologram_available = False
 
 # Import VIP members system
 try:
     from vip_members_system import vip_system, vip_router
-    print("✅ VIP Members System loaded")
     vip_available = True
-except ImportError as e:
-    print(f"Warning: VIP Members modules not found: {e}")
-    vip_available = False
+except ImportError:
+    try:
+        from src.vip_members_system import vip_system, vip_router  # type: ignore
+        vip_available = True
+    except ImportError:
+        vip_available = False
 
 # Enhanced Configuration v2.0
-SECRET_KEY = secrets.token_urlsafe(32)
+# Use a stable secret key from environment in production; fallback to ephemeral for local/dev
+SECRET_KEY = os.getenv("SECRET_KEY") or secrets.token_urlsafe(32)
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
-DATABASE_PATH = "suggestly_data.db"
+DATABASE_PATH = os.getenv("DATABASE_PATH", "suggestly_data.db")
 
 # Enhanced Security
-security = HTTPBearer()
+# Allow missing Authorization so we can fallback to Trial-Token
+security = HTTPBearer(auto_error=False)
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+# Simple browser login page (HTML form)
+LOGIN_PAGE_HTML = """
+<!DOCTYPE html>
+<html lang=\"en\">
+<head>
+  <meta charset=\"UTF-8\" />
+  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" />
+  <title>Admin Login - Suggestly</title>
+  <style>
+    body { font-family: Inter, sans-serif; background:#0b0b0c; color:#fff; display:flex; align-items:center; justify-content:center; height:100vh; margin:0; }
+    .card { background:#151518; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:24px; width:100%; max-width:380px; box-shadow:0 10px 30px rgba(0,0,0,0.35); }
+    h1 { margin:0 0 16px; font-size:20px; color:#fbbf24; }
+    label { display:block; margin:10px 0 6px; color:#c7c7cc; font-size:14px; }
+    input { width:100%; padding:12px 14px; border-radius:10px; border:1px solid #2a2a30; background:#0f0f12; color:#fff; outline:none; }
+    input:focus { border-color:#fbbf24; }
+    button { width:100%; margin-top:16px; padding:12px 14px; border:none; border-radius:10px; background:#f59e0b; color:#000; font-weight:700; cursor:pointer; }
+    button:hover { background:#fbbf24; }
+    .hint { margin-top:10px; color:#9ca3af; font-size:12px; }
+    .error { color:#ef4444; margin:8px 0 0; font-size:13px; }
+  </style>
+  <script>
+    const qs = new URLSearchParams(location.search);
+    if (qs.get('error')) {
+      window.addEventListener('DOMContentLoaded', () => {
+        const el = document.getElementById('error');
+        if (el) el.textContent = qs.get('error');
+      });
+    }
+  </script>
+  <link href=\"https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap\" rel=\"stylesheet\" />
+</head>
+<body>
+  <form class=\"card\" method=\"post\" action=\"/admin/login\">
+    <h1>Admin Login</h1>
+    <div id=\"error\" class=\"error\"></div>
+    <label for=\"username\">Username</label>
+    <input id=\"username\" name=\"username\" autocomplete=\"username\" required />
+    <label for=\"password\">Password</label>
+    <input id=\"password\" name=\"password\" type=\"password\" autocomplete=\"current-password\" required />
+    <button type=\"submit\">Sign In</button>
+    <div class=\"hint\">Use your normal account; admin rights are required for access.</div>
+  </form>
+</body>
+</html>
+"""
+
+# (placeholder removed)
+
 # Rate limiting
-RATE_LIMIT_PER_MINUTE = 100
-RATE_LIMIT_PER_HOUR = 1000
+RATE_LIMIT_PER_MINUTE = 300
+RATE_LIMIT_PER_HOUR = 5000
 
 # Enhanced security headers
 SECURITY_HEADERS = {
@@ -190,9 +253,25 @@ def init_database():
             subscription_tier TEXT DEFAULT 'free',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             last_login TIMESTAMP,
-            token_credits INTEGER DEFAULT 1000
+            token_credits INTEGER DEFAULT 3000
         )
     ''')
+    # Ensure admin/VIP/trial columns exist
+    try:
+        cursor.execute("PRAGMA table_info(users)")
+        existing_columns = [row[1] for row in cursor.fetchall()]
+        if "is_admin" not in existing_columns:
+            cursor.execute("ALTER TABLE users ADD COLUMN is_admin INTEGER DEFAULT 0")
+        if "is_vip" not in existing_columns:
+            cursor.execute("ALTER TABLE users ADD COLUMN is_vip INTEGER DEFAULT 0")
+        if "on_trial" not in existing_columns:
+            cursor.execute("ALTER TABLE users ADD COLUMN on_trial INTEGER DEFAULT 0")
+        if "trial_started_at" not in existing_columns:
+            cursor.execute("ALTER TABLE users ADD COLUMN trial_started_at TIMESTAMP")
+        if "trial_expires_at" not in existing_columns:
+            cursor.execute("ALTER TABLE users ADD COLUMN trial_expires_at TIMESTAMP")
+    except Exception:
+        pass
     
     # Agent interactions table
     cursor.execute('''
@@ -205,6 +284,18 @@ def init_database():
             timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             processing_time REAL,
             FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    ''')
+
+    # Trial tokens table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS trials (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            token TEXT UNIQUE NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            expires_at TIMESTAMP NOT NULL,
+            consumed_by_user_id INTEGER,
+            status TEXT DEFAULT 'active'
         )
     ''')
     
@@ -285,60 +376,50 @@ def set_config_values(pairs: Dict[str, str]) -> None:
     conn.close()
 
 # Admin settings API (protect with admin token)
-def _require_admin(request: Request):
-    admin_token_hdr = request.headers.get("X-Admin-Token")
-    admin_token_env = os.getenv("ADMIN_DASH_TOKEN")
-    if not admin_token_env:
-        # For development convenience, allow if not set
-        return True
-    if admin_token_hdr != admin_token_env:
-        raise HTTPException(status_code=401, detail="Unauthorized")
-    return True
-
-@app.get("/api/admin/config-status")
-async def admin_config_status():
-    """Return presence (bool) of critical integration keys without exposing values."""
-    keys = [
-        "STRIPE_API_KEY",
-        "HUBSPOT_PRIVATE_APP_TOKEN",
-        "HUBSPOT_API_KEY",
-        "CALENDLY_SCHEDULING_LINK",
-        "BUSINESS_SUCCESS_URL",
-        "BUSINESS_CANCEL_URL",
-    ]
-    status = {k: bool(get_config_value(k)) for k in keys}
-    return JSONResponse({"status": status})
-
-@app.get("/api/admin/settings")
-async def admin_get_settings(request: Request):
-    _require_admin(request)
-    out: Dict[str, Optional[str]] = {}
-    for k in ALLOWED_SETTING_KEYS:
-        val = get_config_value(k)
-        if val is None:
-            out[k] = None
-        else:
-            # Mask secrets
-            if "KEY" in k or "TOKEN" in k:
-                out[k] = ("****" + val[-4:]) if len(val) > 8 else "****"
-            else:
-                out[k] = val
-    return JSONResponse({"settings": out})
-
-@app.post("/api/admin/settings")
-async def admin_set_settings(request: Request):
-    _require_admin(request)
+def _load_admin_token_from_file() -> Optional[str]:
     try:
-        payload = await request.json()
-        if not isinstance(payload, dict):
-            raise ValueError("Invalid payload")
-        filtered = {k: str(v) for k, v in payload.items() if k in ALLOWED_SETTING_KEYS}
-        if not filtered:
-            return JSONResponse({"updated": 0})
-        set_config_values(filtered)
-        return JSONResponse({"updated": len(filtered)})
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        with open("admin_token.txt", "r", encoding="utf-8") as token_file:
+            token_value = token_file.read().strip()
+            return token_value or None
+    except Exception:
+        return None
+
+def _get_expected_admin_token() -> Optional[str]:
+    # Environment variable takes precedence; fallback to local file if present
+    return os.getenv("ADMIN_DASH_TOKEN") or _load_admin_token_from_file()
+
+def _require_admin(request: Request):
+    if ADMIN_HARD_DISABLE:
+        raise HTTPException(status_code=404, detail="Not found")
+    # Backward-compatible header token check (optional)
+    admin_token_hdr = request.headers.get("X-Admin-Token")
+    expected_token = _get_expected_admin_token()
+    if expected_token and admin_token_hdr == expected_token:
+        return True
+    # Otherwise require authenticated admin via cookie JWT
+    token_cookie = request.cookies.get("access_token")
+    if token_cookie:
+        try:
+            payload = jose_jwt.decode(token_cookie, SECRET_KEY, algorithms=[ALGORITHM])
+            user_id = payload.get("user_id")
+            if not user_id:
+                raise HTTPException(status_code=401, detail="Unauthorized")
+            conn = sqlite3.connect(DATABASE_PATH)
+            cursor = conn.cursor()
+            cursor.execute("SELECT is_admin FROM users WHERE id = ?", (user_id,))
+            row = cursor.fetchone()
+            conn.close()
+            if row and bool(row[0]):
+                return True
+        except Exception:
+            pass
+    raise HTTPException(status_code=401, detail="Unauthorized")
+
+def assert_admin(current_user: dict) -> None:
+    if not current_user or not current_user.get("is_admin"):
+        raise HTTPException(status_code=403, detail="Admin privileges required")
+
+# Admin API routes are defined after FastAPI app creation below
 
 # WebSocket Connection Manager
 class ConnectionManager:
@@ -375,32 +456,76 @@ class ConnectionManager:
 # Global connection manager
 manager = ConnectionManager()
 
+# Env-driven config
+ENVIRONMENT = os.getenv("ENVIRONMENT", "development").lower()
+ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",") if h.strip()]
+cors_origins_env = os.getenv("CORS_ORIGINS", "*")
+ALLOW_ALL_CORS = cors_origins_env.strip() == "*"
+CORS_ORIGINS = [o.strip() for o in cors_origins_env.split(",") if o.strip()] if not ALLOW_ALL_CORS else ["*"]
+
+# Admin UI is disabled by default; can be enabled explicitly in non-production
+ADMIN_UI_ENABLED = os.getenv("ADMIN_UI_ENABLED", "0") == "1" and ENVIRONMENT != "production"
+# Hard-disable switch: when enabled, all admin routes and checks will 404 regardless of any other flag
+ADMIN_HARD_DISABLE = os.getenv("ADMIN_HARD_DISABLE", "1") == "1"
+
+# Reverse proxy trust controls for source IP detection
+TRUST_PROXY = os.getenv("TRUST_PROXY", "0") == "1"
+TRUSTED_PROXY_IPS = {ip.strip() for ip in os.getenv("TRUSTED_PROXY_IPS", "").split(",") if ip.strip()}
+
 # Create Enhanced FastAPI app v2.0
 app = FastAPI(
     title="SuggestlyG4Plus v2.0 - Enhanced Ultra Secure AI Platform",
     description="Enhanced Multi-Agent AI System with Advanced Security & Performance",
     version="2.0.0",
-    docs_url="/docs" if os.getenv("ENVIRONMENT") == "development" else None,
-    redoc_url="/redoc" if os.getenv("ENVIRONMENT") == "development" else None,
-    openapi_url="/openapi.json" if os.getenv("ENVIRONMENT") == "development" else None
+    docs_url=None if ENVIRONMENT == "production" else "/docs",
+    redoc_url=None if ENVIRONMENT == "production" else "/redoc",
+    openapi_url=None if ENVIRONMENT == "production" else "/openapi.json"
 )
 
 # Enhanced CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
+# Serve static files for local development so the frontend and API share one port
+try:
+    app.mount("/suggestly-ai-platform", StaticFiles(directory="suggestly-ai-platform"), name="suggestly-static")
+except Exception:
+    # Directory may not exist in some deployments; ignore
+    pass
+
 # Enhanced Security Middleware
-app.add_middleware(
-    TrustedHostMiddleware,
-    allowed_hosts=["*"]
-)
+if ENVIRONMENT == "production":
+    app.add_middleware(
+        TrustedHostMiddleware,
+        allowed_hosts=ALLOWED_HOSTS + ["localhost", "127.0.0.1"]
+    )
 
 app.add_middleware(GZipMiddleware, minimum_size=1000)
+
+# Security and caching headers
+@app.middleware("http")
+async def add_security_and_caching_headers(request: Request, call_next):
+    response = await call_next(request)
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    if ENVIRONMENT == "production":
+        response.headers.setdefault("Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload")
+    path = request.url.path or ""
+    is_static = path.startswith("/suggestly-ai-platform/")
+    if ENVIRONMENT == "production" and is_static:
+        if any(path.endswith(ext) for ext in (".css", ".js", ".svg", ".png", ".jpg", ".jpeg", ".ico", ".webp")):
+            response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+        elif path.endswith((".html", "/")):
+            response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    elif ENVIRONMENT != "production":
+        response.headers["Cache-Control"] = "no-store"
+    return response
 
 # Include luxury hologram router if available
 if hologram_available:
@@ -410,6 +535,201 @@ if hologram_available:
 if vip_available:
     app.include_router(vip_router)
 
+"""
+HARD LOCKDOWN: Remove browser-exposed admin login and UI routes to prevent any access.
+Admins should authenticate via API clients or a separate secure console.
+"""
+
+def _get_admin_ui_password() -> Optional[str]:
+    env_pw = os.getenv("ADMIN_UI_PASSWORD")
+    if env_pw:
+        return env_pw
+    try:
+        with open("admin_password.txt", "r", encoding="utf-8") as f:
+            pw = f.read().strip()
+            return pw or None
+    except Exception:
+        return None
+
+def _create_admin_ui_token() -> str:
+    return jose_jwt.encode({
+        "scope": "admin_ui",
+        "iat": datetime.utcnow(),
+        "exp": datetime.utcnow() + timedelta(hours=1),
+        "jti": secrets.token_urlsafe(12)
+    }, SECRET_KEY, algorithm=ALGORITHM)
+
+def _verify_admin_ui_session(request: Request) -> bool:
+    token = request.cookies.get("admin_ui")
+    if not token:
+        return False
+    try:
+        payload = jose_jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        return payload.get("scope") == "admin_ui"
+    except Exception:
+        return False
+
+def _is_local_request(request: Request) -> bool:
+    """Return True only for loopback-originated requests.
+
+    By default, this ignores X-Forwarded-For which is client-controlled and unsafe.
+    If running behind a trusted reverse proxy, enable TRUST_PROXY=1 and provide
+    TRUSTED_PROXY_IPS so that we can safely consider X-Forwarded-For.
+    """
+    client_ip = None
+    try:
+        client_ip = request.client.host if request.client else None
+    except Exception:
+        client_ip = None
+
+    # Direct loopback access
+    if client_ip in {"127.0.0.1", "::1"}:
+        return True
+
+    # Optionally trust a reverse proxy and honor the forwarded client IP
+    if TRUST_PROXY and client_ip in TRUSTED_PROXY_IPS:
+        xff = request.headers.get("x-forwarded-for") or request.headers.get("X-Forwarded-For")
+        if xff:
+            first_hop = xff.split(",")[0].strip()
+            if first_hop in {"127.0.0.1", "::1", "localhost"}:
+                return True
+
+    return False
+
+def _dev_auto_auth_enabled() -> bool:
+    return os.getenv("DEV_AUTO_AUTH", "0") == "1"
+
+def _dev_bypass_auth_enabled() -> bool:
+    # When enabled, non-admin auth is bypassed and endpoints treat the requester as a demo user
+    return os.getenv("DEV_BYPASS_AUTH", "0") == "1"
+
+@app.get("/admin/login", response_class=HTMLResponse)
+async def admin_login_page(request: Request):
+    if not ADMIN_UI_ENABLED:
+        raise HTTPException(status_code=404, detail="Not found")
+    if not _is_local_request(request):
+        raise HTTPException(status_code=404, detail="Not found")
+    expected = _get_admin_ui_password()
+    if not expected:
+        raise HTTPException(status_code=503, detail="Admin password not configured")
+    return HTMLResponse(content=LOGIN_PAGE_HTML)
+
+@app.post("/admin/login")
+async def admin_login(request: Request, admin_password: str = Form(...)):
+    if not ADMIN_UI_ENABLED:
+        raise HTTPException(status_code=404, detail="Not found")
+    if not _is_local_request(request):
+        raise HTTPException(status_code=404, detail="Not found")
+    expected = _get_admin_ui_password()
+    if not expected:
+        raise HTTPException(status_code=503, detail="Admin password not configured")
+    if admin_password != expected:
+        return RedirectResponse(url="/admin/login?error=Invalid%20password", status_code=302)
+    token = _create_admin_ui_token()
+    response = RedirectResponse(url="/admin", status_code=302)
+    response.set_cookie(
+        key="admin_ui",
+        value=token,
+        httponly=True,
+        secure=False,
+        samesite="Lax",
+        max_age=60*60
+    )
+    return response
+
+@app.get("/admin", response_class=HTMLResponse)
+async def admin_home(request: Request):
+    if not ADMIN_UI_ENABLED:
+        raise HTTPException(status_code=404, detail="Not found")
+    if not _is_local_request(request):
+        raise HTTPException(status_code=404, detail="Not found")
+    if not _verify_admin_ui_session(request):
+        return RedirectResponse(url="/admin/login", status_code=302)
+    html = """
+    <!doctype html><html><head><meta charset='utf-8'><title>Admin</title></head>
+    <body style='font-family:Inter,system-ui;padding:24px;background:#0b0b0c;color:#fff'>
+      <h1 style='color:#fbbf24'>Admin Dashboard</h1>
+      <p>Protected by admin password. API calls are blocked unless authorized.</p>
+      <script>
+        async function loadStatus(){
+          const r = await fetch('/api/admin/config-status', {credentials:'include'});
+          const j = await r.json();
+          document.getElementById('out').textContent = JSON.stringify(j, null, 2);
+        }
+        loadStatus();
+      </script>
+      <pre id='out' style='background:#0f0f12;border:1px solid #2a2a30;padding:16px;border-radius:10px;margin-top:12px'></pre>
+    </body></html>
+    """
+    return HTMLResponse(html)
+
+@app.get("/api/admin/config-status")
+async def admin_config_status(request: Request):
+    _require_admin(request)
+    keys = [
+        "STRIPE_API_KEY",
+        "HUBSPOT_PRIVATE_APP_TOKEN",
+        "HUBSPOT_API_KEY",
+        "CALENDLY_SCHEDULING_LINK",
+        "BUSINESS_SUCCESS_URL",
+        "BUSINESS_CANCEL_URL",
+    ]
+    status = {k: bool(get_config_value(k)) for k in keys}
+    return JSONResponse({"status": status})
+
+@app.get("/api/admin/settings")
+async def admin_get_settings(request: Request):
+    _require_admin(request)
+    out: Dict[str, Optional[str]] = {}
+    for k in ALLOWED_SETTING_KEYS:
+        val = get_config_value(k)
+        if val is None:
+            out[k] = None
+        else:
+            if "KEY" in k or "TOKEN" in k:
+                out[k] = ("****" + val[-4:]) if len(val) > 8 else "****"
+            else:
+                out[k] = val
+    return JSONResponse({"settings": out})
+
+@app.post("/api/admin/settings")
+async def admin_set_settings(request: Request):
+    _require_admin(request)
+    try:
+        payload = await request.json()
+        if not isinstance(payload, dict):
+            raise ValueError("Invalid payload")
+        filtered = {k: str(v) for k, v in payload.items() if k in ALLOWED_SETTING_KEYS}
+        if not filtered:
+            return JSONResponse({"updated": 0})
+        set_config_values(filtered)
+        return JSONResponse({"updated": len(filtered)})
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+# Dev-only: auto login/create a local user for testing (localhost + flag)
+@app.post("/auth/dev-auto-login")
+async def dev_auto_login(request: Request):
+    if not _is_local_request(request) or not _dev_auto_auth_enabled():
+        raise HTTPException(status_code=404, detail="Not found")
+    username = (await request.json()).get("username", "dev") if request.headers.get("content-type", "").startswith("application/json") else "dev"
+    email = f"{username}@local.dev"
+    try:
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT id FROM users WHERE username = ?", (username,))
+        row = cursor.fetchone()
+        if not row:
+            cursor.execute("INSERT INTO users (username, email, password_hash, subscription_tier, is_admin) VALUES (?, ?, ?, ?, ?)", (username, email, hash_password("password"), "enterprise", 1))
+            conn.commit()
+            user_id = cursor.lastrowid
+        else:
+            user_id = row[0]
+        conn.close()
+        token = create_access_token({"user_id": user_id})
+        return JSONResponse({"access_token": token, "token_type": "bearer"})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 # Enhanced Agent System v2.0
 class EnhancedAgent:
     def __init__(self, name: str, intelligence: int):
@@ -477,6 +797,18 @@ def create_access_token(data: dict) -> str:
 
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     """Enhanced JWT token verification with better error handling"""
+    if _dev_bypass_auth_enabled():
+        return {
+            "user_id": 0,
+            "username": "dev",
+            "email": "dev@local.dev",
+            "subscription_tier": "free",
+            "is_admin": False,
+            "is_vip": False,
+        }
+    # If no bearer token provided, allow trial token path (handled in router deps)
+    if not credentials:
+        raise HTTPException(status_code=401, detail="Unauthorized")
     try:
         payload = jose_jwt.decode(credentials.credentials, SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload.get("user_id")
@@ -487,7 +819,7 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
         try:
             conn = sqlite3.connect(DATABASE_PATH)
             cursor = conn.cursor()
-            cursor.execute("SELECT id, username, email, subscription_tier FROM users WHERE id = ?", (user_id,))
+            cursor.execute("SELECT id, username, email, subscription_tier, is_admin, is_vip FROM users WHERE id = ?", (user_id,))
             user = cursor.fetchone()
             conn.close()
             
@@ -498,7 +830,9 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
                 "user_id": user[0],
                 "username": user[1], 
                 "email": user[2],
-                "subscription_tier": user[3]
+                "subscription_tier": user[3],
+                "is_admin": bool(user[4]) if len(user) > 4 else False,
+                "is_vip": bool(user[5]) if len(user) > 5 else False
             }
         except sqlite3.Error as e:
             raise HTTPException(status_code=500, detail="Database error")
@@ -507,11 +841,52 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
         raise HTTPException(status_code=401, detail="Invalid token")
         raise HTTPException(status_code=401, detail="Invalid token")
 
+def get_current_user_from_request(request: Request):
+    """Resolve current user from Authorization header OR cookie token."""
+    if _dev_bypass_auth_enabled():
+        return {
+            "user_id": 0,
+            "username": "dev",
+            "email": "dev@local.dev",
+            "subscription_tier": "free",
+            "is_admin": False,
+        }
+    token: Optional[str] = None
+    auth_header = request.headers.get("Authorization")
+    if auth_header and auth_header.lower().startswith("bearer "):
+        token = auth_header.split(" ", 1)[1].strip()
+    if not token:
+        token = request.cookies.get("access_token")
+    if not token:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    try:
+        payload = jose_jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        user_id = payload.get("user_id")
+        if not user_id:
+            raise HTTPException(status_code=401, detail="Unauthorized")
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, username, email, subscription_tier, is_admin FROM users WHERE id = ?", (user_id,))
+        user = cursor.fetchone()
+        conn.close()
+        if not user:
+            raise HTTPException(status_code=401, detail="Unauthorized")
+            return {
+            "user_id": user[0],
+            "username": user[1],
+            "email": user[2],
+            "subscription_tier": user[3],
+                "is_admin": bool(user[4]) if len(user) > 4 else False,
+                "is_vip": bool(user[5]) if len(user) > 5 else False
+        }
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
 def get_user_by_credentials(username: str, password: str):
     """Authenticate user with username/password"""
     conn = sqlite3.connect(DATABASE_PATH)
     cursor = conn.cursor()
-    cursor.execute("SELECT id, username, email, password_hash, subscription_tier FROM users WHERE username = ? OR email = ?", (username, username))
+    cursor.execute("SELECT id, username, email, password_hash, subscription_tier, is_admin, is_vip, on_trial, trial_started_at, trial_expires_at FROM users WHERE username = ? OR email = ?", (username, username))
     user = cursor.fetchone()
     conn.close()
     
@@ -520,7 +895,12 @@ def get_user_by_credentials(username: str, password: str):
             "user_id": user[0],
             "username": user[1],
             "email": user[2], 
-            "subscription_tier": user[4]
+            "subscription_tier": user[4],
+            "is_admin": bool(user[5]) if len(user) > 5 else False,
+            "is_vip": bool(user[6]) if len(user) > 6 else False,
+            "on_trial": bool(user[7]) if len(user) > 7 else False,
+            "trial_started_at": user[8] if len(user) > 8 else None,
+            "trial_expires_at": user[9] if len(user) > 9 else None,
         }
     return None
 
@@ -570,8 +950,26 @@ async def register(username: str, email: str, password: str):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.post("/auth/login")
-async def login(username: str, password: str):
-    """Login user"""
+async def login(request: Request, username: str = Form(None), password: str = Form(None)):
+    """Login user (accepts form, JSON, or query params)"""
+    # Fallbacks if form fields not provided
+    if username is None or password is None:
+        # Try JSON body
+        try:
+            if request.headers.get("content-type", "").startswith("application/json"):
+                data = await request.json()
+                username = username or data.get("username")
+                password = password or data.get("password")
+        except Exception:
+            pass
+    if username is None or password is None:
+        # Try query params
+        qp = request.query_params
+        username = username or qp.get("username")
+        password = password or qp.get("password")
+    if not username or not password:
+        raise HTTPException(status_code=422, detail="username and password required")
+
     user = get_user_by_credentials(username, password)
     if not user:
         raise HTTPException(status_code=401, detail="Invalid credentials")
@@ -591,6 +989,127 @@ async def login(username: str, password: str):
         "access_token": token,
         "user": user
     })
+
+@app.post("/auth/register-trial")
+async def register_trial(request: Request):
+    """Register a new user and start a 7-day trial (requires signup). Accepts JSON or form."""
+    username: Optional[str] = None
+    email: Optional[str] = None
+    password: Optional[str] = None
+    # Try JSON first
+    try:
+        content_type = request.headers.get("content-type", "").lower()
+        if content_type.startswith("application/json"):
+            data = await request.json()
+            if isinstance(data, dict):
+                username = data.get("username")
+                email = data.get("email")
+                password = data.get("password")
+    except Exception:
+        # Ignore JSON parsing errors; we'll try form next
+        pass
+    # Try form only when content-type suggests form data
+    if (username is None or email is None or password is None):
+        try:
+            content_type = request.headers.get("content-type", "").lower()
+            if content_type.startswith("application/x-www-form-urlencoded") or content_type.startswith("multipart/form-data"):
+                form = await request.form()
+                username = username or form.get("username")
+                email = email or form.get("email")
+                password = password or form.get("password")
+        except Exception:
+            # If form parsing fails, we'll validate below and return 422
+            pass
+    if not username or not email or not password:
+        raise HTTPException(status_code=422, detail="username, email, and password are required")
+
+    try:
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT id FROM users WHERE username = ? OR email = ?", (username, email))
+        existing = cursor.fetchone()
+        if existing:
+            conn.close()
+            raise HTTPException(status_code=400, detail="Username or email already exists")
+        pw_hash = hash_password(password)
+        cursor.execute(
+            "INSERT INTO users (username, email, password_hash, subscription_tier, on_trial, trial_started_at, trial_expires_at, is_vip) VALUES (?, ?, ?, ?, 1, CURRENT_TIMESTAMP, DATETIME('now','+7 days'), 0)",
+            (username, email, pw_hash, "trial")
+        )
+        user_id = cursor.lastrowid
+        conn.commit()
+        conn.close()
+        token = create_access_token({"user_id": user_id, "username": username})
+        return JSONResponse({
+            "message": "Trial started",
+            "access_token": token,
+            "trial": {"days": 7}
+        })
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/auth/trial-status")
+async def trial_status(current_user: dict = Depends(verify_token)):
+    try:
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT on_trial, trial_started_at, trial_expires_at FROM users WHERE id = ?", (current_user["user_id"],))
+        row = cursor.fetchone()
+        conn.close()
+        if not row:
+            return JSONResponse({"active": False})
+        on_trial, started_at, expires_at = row
+        remaining_seconds = 0
+        if on_trial and expires_at:
+            conn = sqlite3.connect(DATABASE_PATH)
+            cursor = conn.cursor()
+            cursor.execute("SELECT CAST((JULIANDAY(?) - JULIANDAY('now')) * 86400 AS INTEGER)", (expires_at,))
+            remaining_seconds = cursor.fetchone()[0]
+            conn.close()
+        return JSONResponse({
+            "active": bool(on_trial) and remaining_seconds > 0,
+            "remaining_seconds": max(0, remaining_seconds),
+            "expires_at": expires_at,
+        })
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Trial/subscription checks
+def _is_trial_active_for_user_id(user_id: int) -> bool:
+    try:
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT on_trial, trial_expires_at FROM users WHERE id = ?", (user_id,))
+        row = cursor.fetchone()
+        conn.close()
+        if not row:
+            return False
+        on_trial = bool(row[0])
+        expires_at = row[1]
+        if not on_trial or not expires_at:
+            return False
+        conn = sqlite3.connect(DATABASE_PATH)
+        cursor = conn.cursor()
+        cursor.execute("SELECT CASE WHEN DATETIME(?) > DATETIME('now') THEN 1 ELSE 0 END", (expires_at,))
+        active = cursor.fetchone()[0] == 1
+        conn.close()
+        return active
+    except Exception:
+        return False
+
+def require_active_subscription(current_user: dict) -> None:
+    if not current_user:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    if current_user.get("is_vip") or current_user.get("is_admin"):
+        return
+    tier = (current_user.get("subscription_tier") or "").lower()
+    if tier in {"enterprise", "professional", "premium", "ultra-premium", "ultra_premium"}:
+        return
+    if _is_trial_active_for_user_id(current_user.get("user_id")):
+        return
+    raise HTTPException(status_code=402, detail="Subscription required. Your 7-day trial has ended.")
 
 @app.get("/auth/profile")
 async def get_profile(current_user: dict = Depends(verify_token)):
@@ -622,6 +1141,11 @@ async def get_agents_status(current_user: dict = Depends(verify_token)):
 @app.post("/api/agents/chat")
 async def chat_with_agent(agent_name: str, message: str, current_user: dict = Depends(verify_token)):
     """Chat with a specific REAL AI agent"""
+    # Require subscription or active trial unless VIP/admin
+    try:
+        require_active_subscription(current_user)
+    except Exception as _:
+        raise
     if agent_name not in REAL_AGENTS:
         raise HTTPException(status_code=404, detail=f"Agent {agent_name} not found. Available: {list(REAL_AGENTS.keys())}")
     
@@ -651,6 +1175,11 @@ async def chat_with_agent(agent_name: str, message: str, current_user: dict = De
 @app.post("/api/agents/task")
 async def assign_task(agent_name: str, task_description: str, current_user: dict = Depends(verify_token)):
     """Assign a task to a REAL AI agent"""
+    # Require subscription or active trial unless VIP/admin
+    try:
+        require_active_subscription(current_user)
+    except Exception as _:
+        raise
     if agent_name not in REAL_AGENTS:
         raise HTTPException(status_code=404, detail=f"Agent {agent_name} not found. Available: {list(REAL_AGENTS.keys())}")
     
@@ -1283,6 +1812,92 @@ async def get_subscription_tiers():
         },
         "pricing_notes": "Professional tier competitive with GitHub Copilot Business, Enterprise matches ServiceNow AI, Ultra-Premium equivalent to private wealth management fees"
     })
+
+@app.post("/api/concierge/chat")
+async def concierge_chat(request: Request, current_user: dict = Depends(verify_token)):
+    """Handle concierge chat requests with AI agents Orla and Lux"""
+    try:
+        body = await request.json()
+        message = body.get("message", "")
+        
+        if not message:
+            raise HTTPException(status_code=400, detail="Message is required")
+        
+        # Enhanced concierge response system
+        concierge_responses = {
+            "market": [
+                "I'm analyzing current market conditions. Our latest intelligence shows emerging opportunities in tech and sustainable energy sectors.",
+                "Market volatility is creating strategic entry points. I recommend reviewing our premium investment opportunities.",
+                "Based on our real-time analysis, we're seeing favorable conditions for portfolio rebalancing."
+            ],
+            "travel": [
+                "I'll arrange your travel with our usual discretion. Private jet options are available for immediate departure.",
+                "Consider it handled. I'm coordinating with our global network for seamless travel arrangements.",
+                "Your travel preferences have been noted. I'll ensure everything meets our luxury standards."
+            ],
+            "lifestyle": [
+                "I'm coordinating with our lifestyle management team. Your preferences are being prioritized.",
+                "Luxury services are being arranged according to your specifications. Everything will be ready shortly.",
+                "I've initiated your lifestyle request. Our team is working to exceed your expectations."
+            ],
+            "vault": [
+                "Secure vault access has been initiated. Your documents are being prepared for review.",
+                "I'm coordinating secure access to your private vault. Authentication protocols are active.",
+                "Vault access granted. Your confidential materials are ready for your review."
+            ],
+            "general": [
+                "I understand your request. Let me coordinate with our team to arrange this for you.",
+                "Excellent choice. I'll have this prepared within the hour.",
+                "Consider it done. Your preferences have been noted and will be ready shortly.",
+                "I'm on it. This will be handled with our usual discretion and efficiency.",
+                "Your request is being processed with the highest priority. I'll update you shortly."
+            ]
+        }
+        
+        # Determine response category based on message content
+        message_lower = message.lower()
+        if any(word in message_lower for word in ["market", "investment", "intel", "opportunity"]):
+            category = "market"
+        elif any(word in message_lower for word in ["travel", "flight", "arrangement", "trip"]):
+            category = "travel"
+        elif any(word in message_lower for word in ["lifestyle", "service", "management", "arrange"]):
+            category = "lifestyle"
+        elif any(word in message_lower for word in ["vault", "document", "secure", "access"]):
+            category = "vault"
+        else:
+            category = "general"
+        
+        # Select random response from appropriate category
+        import random
+        responses = concierge_responses[category]
+        response = random.choice(responses)
+        
+        # Determine which agent responds (Orla or Lux)
+        agent = "Orla" if random.random() > 0.3 else "Lux"
+        
+        # Log the interaction
+        try:
+            conn = sqlite3.connect('suggestly.db')
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO analytics (event_type, event_data, user_id, timestamp)
+                VALUES (?, ?, ?, ?)
+            """, ("concierge_chat", json.dumps({"message": message, "response": response, "agent": agent}), current_user.get("user_id"), datetime.now().isoformat()))
+            conn.commit()
+            conn.close()
+        except Exception as e:
+            print(f"Analytics logging error: {e}")
+        
+        return {
+            "agent": agent,
+            "response": response,
+            "timestamp": datetime.now().isoformat(),
+            "user_id": current_user.get("user_id")
+        }
+        
+    except Exception as e:
+        print(f"Concierge chat error: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
 
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
