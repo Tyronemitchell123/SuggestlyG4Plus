@@ -320,16 +320,22 @@ CMakeLists.txt
 pom.xml
 build.gradle
 
-# JavaScript/TypeScript files (if any)
-*.js
-*.ts
-*.jsx
-*.tsx
-package.json
-package-lock.json
-yarn.lock
-webpack.config.js
-tsconfig.json
+# JavaScript/TypeScript files
+# Do NOT ignore source files; only ignore build artifacts if any.
+# Explicitly allow common project files and source directories
+!next.config.js
+!package.json
+!package-lock.json
+!yarn.lock
+!pnpm-lock.yaml
+!webpack.config.js
+!tsconfig.json
+!tailwind.config.js
+!postcss.config.js
+!pages/**
+!src/**
+!public/**
+!app/**
 
 # CSS/SCSS files (if any)
 *.css
@@ -428,3 +434,5 @@ suggestly_data.db
 *.db
 __pycache__/
 *.pyc
+
+.vercel

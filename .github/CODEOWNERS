@@ -1,0 +1,10 @@
+# Default code owners
+* @Tyronemitchell123
+
+# Workflows and CI
+.github/ @Tyronemitchell123
+
+# Python application
+src/ @Tyronemitchell123
+
+
