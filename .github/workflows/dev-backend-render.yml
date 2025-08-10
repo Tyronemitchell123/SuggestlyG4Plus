@@ -1,0 +1,97 @@
+name: Dev Backend Deploy (Render)
+
+on:
+  push:
+    branches:
+      - dev
+      - develop
+      - feature/**
+      - fix/**
+      - chore/**
+    paths:
+      - "src/**"
+      - "requirements.txt"
+      - "render.yaml"
+      - ".github/workflows/dev-backend-render.yml"
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "src/**"
+      - "requirements.txt"
+      - "render.yaml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  dev-deploy:
+    name: Dev Render Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: 'requirements.txt'
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Syntax check (compileall)
+        shell: bash
+        run: |
+          python -m compileall -q src || { echo "Syntax error in src/"; exit 1; }
+
+      - name: Deploy to Render (dev or fallback to staging)
+        env:
+          DEV_API_KEY: ${{ secrets.RENDER_DEV_API_KEY }}
+          DEV_SERVICE_ID: ${{ secrets.RENDER_DEV_SERVICE_ID }}
+          DEV_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEV_DEPLOY_HOOK_URL }}
+          STAGING_API_KEY: ${{ secrets.RENDER_STAGING_API_KEY }}
+          STAGING_SERVICE_ID: ${{ secrets.RENDER_STAGING_SERVICE_ID }}
+          STAGING_DEPLOY_HOOK_URL: ${{ secrets.RENDER_STAGING_DEPLOY_HOOK_URL }}
+          FAST_DEPLOY: 'true'
+        shell: bash
+        run: |
+          set -euo pipefail
+          RENDER_API_KEY="${DEV_API_KEY:-${STAGING_API_KEY:-}}"
+          RENDER_SERVICE_ID="${DEV_SERVICE_ID:-${STAGING_SERVICE_ID:-}}"
+          RENDER_DEPLOY_HOOK_URL="${DEV_DEPLOY_HOOK_URL:-${STAGING_DEPLOY_HOOK_URL:-}}"
+
+          if [[ -n "${RENDER_DEPLOY_HOOK_URL:-}" ]]; then
+            echo "Triggering Render deploy via Deploy Hook (dev)"
+            curl --retry 5 --retry-connrefused --retry-delay 2 --max-time 120 -fsSL -X POST "$RENDER_DEPLOY_HOOK_URL"
+            echo "Dev deploy hook triggered" >> "$GITHUB_STEP_SUMMARY"
+            if [[ "${FAST_DEPLOY:-}" == "true" ]]; then
+              echo "FAST_DEPLOY enabled: not waiting for Render; exiting after hook trigger" | tee -a "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            exit 0
+          fi
+
+          if [[ -n "${RENDER_API_KEY:-}" && -n "${RENDER_SERVICE_ID:-}" ]]; then
+            echo "Triggering Render deploy via API (dev)"
+            DEPLOY_JSON=$(curl --retry 5 --retry-connrefused --retry-delay 2 --max-time 120 -fsSL -X POST \
+              -H "Authorization: Bearer $RENDER_API_KEY" \
+              -H "Content-Type: application/json" \
+              "https://api.render.com/v1/services/$RENDER_SERVICE_ID/deploys" \
+              -d '{}')
+            echo "Dev API deploy triggered" >> "$GITHUB_STEP_SUMMARY"
+            if [[ "${FAST_DEPLOY:-}" == "true" ]]; then
+              echo "FAST_DEPLOY enabled: not waiting for Render; exiting after API trigger" | tee -a "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            exit 0
+          fi
+
+          echo "No Render dev/staging deployment method configured. Set DEV or STAGING secrets."
+
+
