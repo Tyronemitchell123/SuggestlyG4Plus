@@ -147,3 +147,9 @@ jobs:
 
 
 # trigger: no-op change to start deploy workflow
+
+      - name: Expose asset links (TWA)
+        if: success()
+        shell: bash
+        run: |
+          echo "If hosting under this repo, ensure '/.well-known/assetlinks.json' serves the file at 'suggestly-ai-platform/assetlinks.json'."

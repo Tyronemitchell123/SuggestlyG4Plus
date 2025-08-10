@@ -6,7 +6,8 @@
   "background_color": "#0B2348",
   "theme_color": "#0B2348",
   "icons": [
-    { "src": "/suggestly-ai-platform/suggestly-logo.svg", "sizes": "256x256", "type": "image/svg+xml" }
+    { "src": "/suggestly-ai-platform/suggestly-logo.svg", "sizes": "256x256", "type": "image/svg+xml" },
+    { "src": "/suggestly-ai-platform/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
   ]
 }
 

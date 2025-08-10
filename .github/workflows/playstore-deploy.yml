@@ -1,0 +1,93 @@
+name: Play Store Deploy (TWA)
+
+on:
+  workflow_dispatch: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    env:
+      ANDROID_PACKAGE_NAME: io.suggestlyg4plus
+      PLAY_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_SERVICE_ACCOUNT_JSON }}
+      TWA_KEYSTORE_BASE64: ${{ secrets.TWA_KEYSTORE_BASE64 }}
+      TWA_KEY_ALIAS: ${{ secrets.TWA_KEY_ALIAS }}
+      TWA_KEY_PASSWORD: ${{ secrets.TWA_KEY_PASSWORD }}
+      TWA_KEYSTORE_PASSWORD: ${{ secrets.TWA_KEYSTORE_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Bubblewrap
+        run: npm i -g @bubblewrap/cli
+
+      - name: Prepare keystore (optional)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -n "${TWA_KEYSTORE_BASE64:-}" ]]; then
+            echo "$TWA_KEYSTORE_BASE64" | base64 -d > upload.keystore
+            echo "Keystore written"
+          else
+            echo "No keystore provided; will build unsigned AAB (upload will be skipped)"
+          fi
+
+      - name: Generate Android TWA project
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx bubblewrap init --manifest twa/twa-manifest.json --directory android-twa --overwrite || true
+
+      - name: Build Android App Bundle (AAB)
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -f upload.keystore ]]; then
+            npx bubblewrap build --directory android-twa \
+              --signingKeyPath upload.keystore \
+              --signingKeyAlias "$TWA_KEY_ALIAS" \
+              --signingKeyPassword "$TWA_KEY_PASSWORD" \
+              --keyStorePassword "$TWA_KEYSTORE_PASSWORD"
+          else
+            npx bubblewrap build --directory android-twa || true
+          fi
+
+      - name: Upload to Google Play (Internal track)
+        if: ${{ env.PLAY_SERVICE_ACCOUNT_JSON != '' && env.TWA_KEYSTORE_BASE64 != '' }}
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJsonPlainText: ${{ env.PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: ${{ env.ANDROID_PACKAGE_NAME }}
+          releaseFiles: android-twa/app/build/outputs/bundle/release/app-release.aab
+          track: internal
+          status: draft
+          changesNotSentForReview: true
+
+      - name: Summary
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "Android package: $ANDROID_PACKAGE_NAME" >> "$GITHUB_STEP_SUMMARY"
+          if [[ -f android-twa/app/build/outputs/bundle/release/app-release.aab ]]; then
+            echo "AAB built successfully." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "AAB not built. Ensure Bubblewrap succeeded and keystore was provided for signing." >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [[ -n "${PLAY_SERVICE_ACCOUNT_JSON:-}" ]]; then
+            echo "Play upload step configured." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Play upload skipped: set PLAY_SERVICE_ACCOUNT_JSON secret." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
