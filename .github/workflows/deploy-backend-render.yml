@@ -9,6 +9,8 @@ on:
       - "render.yaml"
       - ".github/workflows/deploy-backend-render.yml"
   workflow_dispatch: {}
+  release:
+    types: [published]
 
 # Cancel any in-progress deploy for the same workflow and ref (branch/tag)
 concurrency:
@@ -23,16 +25,21 @@ jobs:
     permissions:
       contents: read
     if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
-    environment: production
+    environment: ${{ startsWith(github.ref, 'refs/heads/main') && 'production' || 'staging' }}
     steps:
       - name: Deploy to Render
         env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
-          RENDER_DEPLOY_HOOK_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+          RENDER_API_KEY: ${{ startsWith(github.ref, 'refs/heads/main') && secrets.RENDER_API_KEY || secrets.RENDER_STAGING_API_KEY }}
+          RENDER_SERVICE_ID: ${{ startsWith(github.ref, 'refs/heads/main') && secrets.RENDER_SERVICE_ID || secrets.RENDER_STAGING_SERVICE_ID }}
+          RENDER_DEPLOY_HOOK_URL: ${{ startsWith(github.ref, 'refs/heads/main') && secrets.RENDER_DEPLOY_HOOK_URL || secrets.RENDER_STAGING_DEPLOY_HOOK_URL }}
+          REQUIRE_TAG_FOR_PROD: ${{ secrets.REQUIRE_TAG_FOR_PROD }}
         shell: bash
         run: |
           set -euo pipefail
+          if [[ "${REQUIRE_TAG_FOR_PROD:-}" == "true" && "${GITHUB_EVENT_NAME:-}" != "release" ]]; then
+            echo "Skipping production deploy: release publication required (REQUIRE_TAG_FOR_PROD=true)" | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
           if [[ -n "${RENDER_DEPLOY_HOOK_URL:-}" ]]; then
             echo "Triggering Render deploy via Deploy Hook"
             curl --retry 5 --retry-connrefused --retry-delay 2 --max-time 120 -fsSL -X POST "$RENDER_DEPLOY_HOOK_URL"
