@@ -1,0 +1,19 @@
+name: Deploy to Render (Docker)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Render Deploy Hook
+        if: ${{ env.RENDER_DEPLOY_HOOK_URL != '' }}
+        run: |
+          curl -X POST "$RENDER_URL" -H "Accept: application/json"
+        env:
+          RENDER_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+

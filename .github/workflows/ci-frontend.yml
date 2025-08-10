@@ -1,0 +1,21 @@
+name: CI - Frontend
+
+on:
+  pull_request:
+    paths:
+      - "suggestly-ai-platform/**"
+  push:
+    branches: ["main"]
+    paths:
+      - "suggestly-ai-platform/**"
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check HTML exists
+        run: |
+          test -f suggestly-ai-platform/index.html
+
+

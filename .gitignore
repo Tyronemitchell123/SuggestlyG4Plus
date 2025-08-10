@@ -251,7 +251,9 @@ docker-compose.yml
 *.ansible
 
 # CI/CD files
-.github/
+# Allow GitHub workflows to run
+!.github/
+!.github/workflows/**
 .gitlab-ci.yml
 .travis.yml
 .circleci/

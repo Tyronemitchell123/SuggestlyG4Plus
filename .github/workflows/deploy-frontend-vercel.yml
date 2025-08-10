@@ -1,0 +1,42 @@
+name: Deploy Frontend to Vercel
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "suggestly-ai-platform/**"
+      - ".github/workflows/deploy-frontend-vercel.yml"
+  workflow_dispatch: {}
+
+jobs:
+  deploy:
+    name: Vercel Production Deploy
+    runs-on: ubuntu-latest
+    # Run if either (token-based) or (deploy hook URL) is provided
+    if: ${{ (secrets.VERCEL_TOKEN && secrets.VERCEL_ORG_ID && secrets.VERCEL_PROJECT_ID_FRONTEND) || secrets.VERCEL_DEPLOY_HOOK_URL }}
+    defaults:
+      run:
+        working-directory: suggestly-ai-platform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Deploy via Vercel CLI (token-based)
+        if: ${{ secrets.VERCEL_TOKEN && secrets.VERCEL_ORG_ID && secrets.VERCEL_PROJECT_ID_FRONTEND }}
+        run: |
+          npm i -g vercel@latest
+          vercel pull --yes --environment=production --token "${{ secrets.VERCEL_TOKEN }}"
+          echo "No build step needed for static site"
+          vercel deploy --prod --token "${{ secrets.VERCEL_TOKEN }}" --yes
+
+      - name: Deploy via Deploy Hook URL (no token)
+        if: ${{ secrets.VERCEL_DEPLOY_HOOK_URL && ! (secrets.VERCEL_TOKEN && secrets.VERCEL_ORG_ID && secrets.VERCEL_PROJECT_ID_FRONTEND) }}
+        run: |
+          curl -fsSL -X POST "${{ secrets.VERCEL_DEPLOY_HOOK_URL }}"
+
+
