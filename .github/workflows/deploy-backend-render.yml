@@ -103,7 +103,7 @@ jobs:
       - name: Health check (optional)
         if: success()
         env:
-          HEALTH_URL: ${{ secrets.RENDER_HEALTH_URL }}
+          HEALTH_URL: ${{ startsWith(github.ref, 'refs/heads/main') && secrets.RENDER_HEALTH_URL || secrets.RENDER_STAGING_HEALTH_URL }}
         shell: bash
         run: |
           set -euo pipefail
