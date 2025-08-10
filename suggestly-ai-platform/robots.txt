@@ -1,10 +1,8 @@
 User-agent: *
 Allow: /
 
+# Sitemaps
 Sitemap: /suggestly-ai-platform/sitemap.xml
-User-agent: *
-Allow: /
-
 Sitemap: https://suggestlyg4plus.io/sitemap.xml
 
 

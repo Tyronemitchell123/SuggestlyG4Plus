@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ========== Base SEO ========== -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Suggestly G4+ — EQ Concierge™</title>
+  <meta name="description" content="Ultra‑luxury AI concierge. Private vault, prestige marketplace, and invite‑only experiences for UHNW members." />
+  <meta name="keywords" content="ultra luxury AI concierge, private AI assistant, VIP concierge AI, UHNW concierge, encrypted vault, prestige marketplace, invite-only experiences, executive concierge software, luxury AI platform" />
+  <meta name="theme-color" content="#0B2348" />
+  <link rel="icon" href="/suggestly-ai-platform/suggestly-logo.svg" type="image/svg+xml" />
+  <link rel="canonical" href="https://suggestlyg4plus.io/" />
+  <meta name="robots" content="index, follow" />
+  <link rel="manifest" href="/suggestly-ai-platform/manifest.webmanifest" />
+  <meta property="og:image" content="/suggestly-ai-platform/suggestly-logo.svg" />
+
+  <!-- Organization Schema for Entity Linking -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Suggestly G4+",
+    "url": "https://suggestlyg4plus.io/",
+    "sameAs": [
+      "https://www.ontargetcouriers.co.uk/",
+      "https://www.velocities.ltd/",
+      "https://www.ontagetwebdesigns.com/"
+    ]
+  }
+  </script>
+
+  <!-- WebSite schema with search intent (no-op placeholder) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Suggestly G4+",
+    "url": "https://suggestlyg4plus.io/",
+    "inLanguage": "en",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://suggestlyg4plus.io/?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Service schema with Offers for rich results -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": "EQ Concierge™",
+    "provider": {
+      "@type": "Organization",
+      "name": "Suggestly G4+",
+      "url": "https://suggestlyg4plus.io/"
+    },
+    "areaServed": "Worldwide",
+    "serviceType": "Ultra‑luxury AI concierge",
+    "description": "Private AI assistance, encrypted vaults, and a prestige marketplace for invite‑only members.",
+    "keywords": [
+      "ultra luxury AI concierge",
+      "VIP concierge AI",
+      "UHNW concierge",
+      "encrypted vault",
+      "prestige marketplace"
+    ],
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "Professional",
+        "price": "89",
+        "priceCurrency": "USD",
+        "url": "https://suggestlyg4plus.io/#tiers",
+        "availability": "https://schema.org/InStock"
+      },
+      {
+        "@type": "Offer",
+        "name": "Enterprise",
+        "price": "349",
+        "priceCurrency": "USD",
+        "url": "https://suggestlyg4plus.io/#tiers",
+        "availability": "https://schema.org/InStock"
+      },
+      {
+        "@type": "Offer",
+        "name": "Ultra‑Premium",
+        "price": "2500",
+        "priceCurrency": "USD",
+        "url": "https://suggestlyg4plus.io/#tiers",
+        "availability": "https://schema.org/InStock"
+      }
+    ]
+  }
+  </script>
+  <!-- Open Graph -->
+  <meta property="og:title" content="Suggestly G4+ — EQ Concierge™" />
+  <meta property="og:description" content="Ultra‑luxury AI concierge for UHNW members." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://suggestlyg4plus.io/" />
+  <meta property="og:site_name" content="Suggestly G4+" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Suggestly G4+ — EQ Concierge™" />
+  <meta name="twitter:description" content="Ultra‑luxury AI concierge for UHNW members." />
+  <meta name="twitter:image" content="/suggestly-ai-platform/suggestly-logo.svg" />
+
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            navy: '#0B2348',
+            teal: '#00FFC6'
+          },
+          fontFamily: {
+            display: ['"Playfair Display"', 'ui-serif', 'Georgia', 'serif'],
+            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'Segoe UI', 'Arial']
+          },
+          boxShadow: {
+            glow: '0 0 0 1px rgba(0,255,198,0.15), 0 8px 40px rgba(0,255,198,0.07)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Fonts (optional, graceful fallback) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;600&family=Playfair+Display:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/suggestly-ai-platform/styles.css">
+
+  <style>
+    /* subtle grain to feel premium */
+    .grain:before{
+      content:"";
+      position:fixed;inset:0;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+    /* enter animations */
+    .reveal{opacity:0; transform:translateY(12px); transition:opacity .7s ease, transform .7s ease;}
+    .reveal.visible{opacity:1; transform:translateY(0);} 
+    /* gated blur */
+    .gated-blur{filter:blur(8px); transform:scale(1.01);} 
+    @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  </style>
+</head>
+
+<body class="bg-navy text-white font-sans antialiased selection:bg-teal selection:text-navy grain">
+  <a href="#main" class="skip-link">Skip to content</a>
+  <!-- ========== Top Nav ========== -->
+  <header class="fixed top-0 inset-x-0 z-40">
+    <div id="navWrap" class="mx-auto max-w-7xl px-6 py-4 transition backdrop-blur-sm/0">
+      <nav class="flex items-center justify-between rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm px-4 py-3">
+        <div class="flex items-center gap-3">
+          <div class="h-8 w-8 rounded-md bg-gradient-to-br from-teal/90 to-white/20 shadow-glow"></div>
+          <span class="tracking-wide font-semibold">Suggestly G4+ <span class="text-teal">EQ</span></span>
+        </div>
+        <ul class="hidden md:flex items-center gap-6 text-sm">
+          <li><a href="#features" class="hover:text-teal transition">Features</a></li>
+          <li><a href="#story" class="hover:text-teal transition">Story</a></li>
+          <li><a href="#press" class="hover:text-teal transition">Press</a></li>
+          <li><a href="/suggestly-ai-platform/pricing.html" class="hover:text-teal transition">Pricing</a></li>
+          
+          <li class="local-only hidden"><a href="/suggestly-ai-platform/business.html" class="hover:text-teal transition">Business Console</a></li>
+          <li class="local-only hidden"><a href="/admin" class="hover:text-teal transition">Admin</a></li>
+          <li><a href="#contact" class="hover:text-teal transition">Contact</a></li>
+        </ul>
+        <div class="flex items-center gap-2">
+          <button id="modeToggle"
+            class="text-xs md:text-sm rounded-lg border border-teal/30 px-3 py-2 hover:border-teal hover:shadow-glow transition"
+            aria-pressed="false">Enter VIP Concierge</button>
+          <a href="#" class="hidden md:inline-block text-xs md:text-sm rounded-lg bg-teal/90 text-navy px-3 py-2 font-semibold hover:bg-teal transition">Request Access</a>
+          <button id="menuBtn" class="md:hidden rounded-lg border border-white/20 px-3 py-2">Menu</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="fixed inset-x-4 top-20 z-30 hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur-md p-4">
+    <a href="#features" class="block py-2 border-b border-white/10">Features</a>
+    <a href="#story" class="block py-2 border-b border-white/10">Story</a>
+    <a href="#press" class="block py-2 border-b border-white/10">Press</a>
+    <a href="/suggestly-ai-platform/pricing.html" class="block py-2 border-b border-white/10">Pricing</a>
+    
+    <a href="/suggestly-ai-platform/business.html" class="local-only hidden block-on-show py-2 border-b border-white/10">Business Console</a>
+    <a href="/admin" class="local-only hidden block-on-show py-2 border-b border-white/10">Admin</a>
+    <a href="#contact" class="block py-2">Contact</a>
+  </div>
+
+  <!-- Spacer for fixed header -->
+  <div class="h-24"></div>
+
+  <!-- ========== Hero ========== -->
+  <section id="main" role="main" class="relative overflow-hidden">
+    <!-- animated gradient backdrop -->
+    <div class="absolute inset-0 -z-10">
+      <div class="absolute -inset-40 bg-[radial-gradient(60%_40%_at_20%_20%,rgba(0,255,198,0.18),transparent_60%),radial-gradient(40%_40%_at_80%_0%,rgba(255,255,255,0.15),transparent_60%)] animate-pulse"></div>
+    </div>
+
+    <div class="mx-auto max-w-6xl px-6 py-24 md:py-32 text-center">
+      <p class="uppercase tracking-[0.3em] text-white/60 text-xs md:text-sm reveal">Ultra‑Luxury AI</p>
+      <h1 class="mt-4 font-display text-4xl md:text-6xl leading-tight reveal">
+        EQ Concierge™ for the <span class="text-teal">Exceptional Few</span>
+      </h1>
+      <p class="mt-5 text-white/70 max-w-2xl mx-auto reveal">
+        Private AI assistance, encrypted vaults, and a prestige marketplace — crafted for discretion, speed, and excellence.
+      </p>
+      <div class="mt-8 flex items-center justify-center gap-3 reveal">
+        <a href="#features" class="rounded-lg bg-teal/90 text-navy font-semibold px-5 py-3 hover:bg-teal transition">Explore Features</a>
+        <button id="heroVIP" class="rounded-lg border border-white/20 px-5 py-3 hover:border-teal hover:shadow-glow transition">Enter Concierge Mode</button>
+        
+      </div>
+
+      <!-- KPI / trust strip -->
+      <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-4 reveal">
+        <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+          <div class="text-teal font-semibold text-lg">45ms</div>
+          <div class="text-white/60 text-xs">Avg AI Response</div>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+          <div class="text-teal font-semibold text-lg">256‑bit</div>
+          <div class="text-white/60 text-xs">Vault Encryption</div>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+          <div class="text-teal font-semibold text-lg">99.99%</div>
+          <div class="text-white/60 text-xs">Uptime SLA</div>
+        </div>
+        <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+          <div class="text-teal font-semibold text-lg">Invite‑Only</div>
+          <div class="text-white/60 text-xs">Membership</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Features ========== -->
+  <section id="features" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+    <div class="grid md:grid-cols-2 gap-10 items-start">
+      <div class="reveal">
+        <h2 class="font-display text-3xl md:text-4xl">Precision Features</h2>
+        <p class="mt-3 text-white/70">Built from scratch for performance, privacy, and poise. No templates. No noise.</p>
+        <ul class="mt-6 space-y-4">
+          <li class="flex gap-3">
+            <span class="mt-1 h-5 w-5 rounded-full border border-teal/40 flex items-center justify-center">✓</span>
+            <div><b>AI Concierge (Orla/Lux)</b><br><span class="text-white/70 text-sm">Voice‑enabled, context‑aware, multilingual.</span></div>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-1 h-5 w-5 rounded-full border border-teal/40 flex items-center justify-center">✓</span>
+            <div><b>Encrypted Vault 3.0</b><br><span class="text-white/70 text-sm">Zero‑knowledge storage with biometric‑ready hooks.</span></div>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-1 h-5 w-5 rounded-full border border-teal/40 flex items-center justify-center">✓</span>
+            <div><b>Prestige Marketplace</b><br><span class="text-white/70 text-sm">Invite‑only curation, instant settlement, concierge delivery.</span></div>
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-1 h-5 w-5 rounded-full border border-teal/40 flex items-center justify-center">✓</span>
+            <div><b>Globalisation</b><br><span class="text-white/70 text-sm">Multi‑currency, multi‑locale, luxury typography presets.</span></div>
+          </li>
+        </ul>
+      </div>
+
+      <!-- VIP Concierge Panel (unlocked on toggle) -->
+      <div id="vipPanel" class="reveal rounded-2xl border border-white/10 bg-white/5 p-6">
+        <div class="flex items-center justify-between">
+          <h3 class="font-semibold">Concierge Console</h3>
+          <span id="authStatus" class="text-xs rounded-full px-2 py-1 border border-white/20">Sign in required</span>
+        </div>
+        
+        <!-- Authentication Section -->
+        <div id="vipAuth" class="mt-4 grid gap-2">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <input id="loginUser" placeholder="Username" autocomplete="username" class="bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm placeholder:text-white/40" />
+            <input id="loginPass" type="password" placeholder="Password" autocomplete="current-password" class="bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm placeholder:text-white/40" />
+          </div>
+          <div class="flex gap-2">
+            <button id="loginBtn" class="flex-1 rounded-lg bg-teal/90 text-navy font-semibold px-4 py-2 hover:bg-teal transition">Sign in</button>
+            <button id="logoutBtn" class="rounded-lg border border-white/20 px-4 py-2 text-sm hidden">Sign out</button>
+          </div>
+          <div id="loginMsg" class="text-xs text-white/60"></div>
+        </div>
+
+        <!-- Concierge Interface (hidden until authenticated) -->
+        <div id="conciergeInterface" class="mt-4 hidden">
+          <!-- Status Bar -->
+          <div class="flex items-center justify-between mb-4 p-3 rounded-lg bg-black/20 border border-white/10">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+              <span class="text-xs text-white/80">Connected to Orla & Lux</span>
+            </div>
+            <div class="text-xs text-white/60">VIP Access Active</div>
+          </div>
+
+          <!-- Chat Interface -->
+          <div id="chatContainer" class="h-64 rounded-lg border border-white/10 bg-black/30 p-3 mb-3 overflow-y-auto">
+            <div id="chatMessages" class="space-y-2">
+              <div class="flex items-start gap-2">
+                <div class="w-6 h-6 rounded-full bg-teal/20 flex items-center justify-center text-xs">O</div>
+                <div class="flex-1">
+                  <div class="text-xs text-teal mb-1">Orla</div>
+                  <div class="text-sm text-white/90 bg-white/5 rounded-lg p-2">Welcome to your private concierge. How may I assist you today?</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Input Area -->
+          <div class="flex gap-2">
+            <input id="chatInput" placeholder="Type your request..." class="flex-1 bg-black/30 border border-white/10 rounded-lg px-3 py-2 text-sm placeholder:text-white/40" />
+            <button id="sendBtn" class="rounded-lg bg-teal/90 text-navy font-semibold px-4 py-2 hover:bg-teal transition">Send</button>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="mt-3 grid grid-cols-2 gap-2">
+            <button class="quick-action rounded-lg border border-white/10 px-3 py-2 text-xs hover:border-teal transition" data-action="market-intel">Market Intel</button>
+            <button class="quick-action rounded-lg border border-white/10 px-3 py-2 text-xs hover:border-teal transition" data-action="travel-request">Travel Request</button>
+            <button class="quick-action rounded-lg border border-white/10 px-3 py-2 text-xs hover:border-teal transition" data-action="lifestyle">Lifestyle</button>
+            <button class="quick-action rounded-lg border border-white/10 px-3 py-2 text-xs hover:border-teal transition" data-action="vault-access">Vault Access</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Story Strip ========== -->
+  <section id="story" class="relative overflow-hidden">
+    <div class="mx-auto max-w-6xl px-6 py-20 md:py-28">
+      <div class="reveal text-center">
+        <h2 class="font-display text-3xl md:text-4xl">A Discreet Lineage</h2>
+        <p class="mt-3 text-white/70 max-w-2xl mx-auto">Born from precision engineering and concierge craft. Every pixel, every millisecond — intentional.</p>
+      </div>
+      <div class="mt-10 grid md:grid-cols-3 gap-6">
+        <!-- cards -->
+        <div class="reveal rounded-2xl border border-white/10 bg-white/5 p-5">
+          <div class="text-teal font-semibold">I</div>
+          <div class="mt-2 font-semibold">Craft</div>
+          <p class="text-white/70 text-sm mt-1">Bespoke codebase, security‑first. No drag‑and‑drop templates.</p>
+        </div>
+        <div class="reveal rounded-2xl border border-white/10 bg-white/5 p-5">
+          <div class="text-teal font-semibold">II</div>
+          <div class="mt-2 font-semibold">Discretion</div>
+          <p class="text-white/70 text-sm mt-1">Zero‑knowledge vaults and invite‑only experiences.</p>
+        </div>
+        <div class="reveal rounded-2xl border border-white/10 bg-white/5 p-5">
+          <div class="text-teal font-semibold">III</div>
+          <div class="mt-2 font-semibold">Velocity</div>
+          <p class="text-white/70 text-sm mt-1">Core Web Vitals tuned for instant feel on any device.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Press / Media ========== -->
+  <section id="press" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+    <div class="reveal">
+      <h2 class="font-display text-3xl md:text-4xl">Press & Mentions</h2>
+      <p class="mt-3 text-white/70">Magazine‑style layout for editorials, interviews, and features.</p>
+    </div>
+    <div class="mt-8 grid md:grid-cols-3 gap-6">
+      <article class="reveal rounded-2xl border border-white/10 bg-white/5 p-5">
+        <div class="text-xs text-white/60">Jul 2025</div>
+        <h3 class="mt-2 font-semibold">The Age of Discreet AI</h3>
+        <p class="text-white/70 text-sm mt-1">Why UHNW clients are moving to private concierge systems.</p>
+      </article>
+      <article class="reveal rounded-2xl border border-white/10 bg-white/5 p-5">
+        <div class="text-xs text-white/60">Jun 2025</div>
+        <h3 class="mt-2 font-semibold">Vaults, Not Feeds</h3>
+        <p class="text-white/70 text-sm mt-1">Encrypted intimacy over public algorithms.</p>
+      </article>
+      <article class="reveal rounded-2xl border border-white/10 bg-white/5 p-5">
+        <div class="text-xs text-white/60">May 2025</div>
+        <h3 class="mt-2 font-semibold">The Prestige Marketplace</h3>
+        <p class="text-white/70 text-sm mt-1">Curated, invite‑only commerce with human‑grade service.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ========== Pricing / Tiers ========== -->
+  <section id="tiers" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+    <div class="reveal text-center">
+      <h2 class="font-display text-3xl md:text-4xl">Membership Tiers</h2>
+      <p class="mt-3 text-white/70">Transparent pricing with premium value. Choose your experience.</p>
+    </div>
+    <div class="mt-10 grid md:grid-cols-3 gap-6">
+      <div class="reveal rounded-2xl border border-white/10 bg-white/5 p-6">
+        <div class="text-white/60 text-sm">Professional</div>
+        <div class="mt-2 text-4xl font-semibold">$89<span class="text-base text-white/60 font-normal">/mo</span></div>
+        <ul class="mt-4 space-y-2 text-sm text-white/80 text-left">
+          <li>5 AI agents</li>
+          <li>10,000 token credits</li>
+          <li>Basic analytics</li>
+          <li>Email support (24h)</li>
+        </ul>
+        <a href="#contact" class="mt-5 inline-block rounded-lg bg-teal/90 text-navy font-semibold px-4 py-2 hover:bg-teal transition">Start Trial</a>
+      </div>
+      <div class="reveal rounded-2xl border border-teal/30 bg-white/5 p-6 shadow-glow">
+        <div class="text-white/60 text-sm">Enterprise</div>
+        <div class="mt-2 text-4xl font-semibold">$349<span class="text-base text-white/60 font-normal">/mo</span></div>
+        <ul class="mt-4 space-y-2 text-sm text-white/80 text-left">
+          <li>All 7 AI agents</li>
+          <li>100,000 token credits</li>
+          <li>Advanced analytics</li>
+          <li>Priority support (2h)</li>
+          <li>Integrations & security</li>
+        </ul>
+        <a href="#contact" class="mt-5 inline-block rounded-lg bg-teal/90 text-navy font-semibold px-4 py-2 hover:bg-teal transition">Contact Sales</a>
+      </div>
+      <div class="reveal rounded-2xl border border-white/10 bg-white/5 p-6">
+        <div class="text-white/60 text-sm">Ultra‑Premium</div>
+        <div class="mt-2 text-4xl font-semibold">$2,500<span class="text-base text-white/60 font-normal">/mo</span></div>
+        <ul class="mt-4 space-y-2 text-sm text-white/80 text-left">
+          <li>Everything in Enterprise</li>
+          <li>1M+ token credits</li>
+          <li>Private server option</li>
+          <li>24/7 concierge</li>
+          <li>Executive briefings</li>
+        </ul>
+        <a href="#contact" class="mt-5 inline-block rounded-lg bg-teal/90 text-navy font-semibold px-4 py-2 hover:bg-teal transition">Private Office</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA ========== -->
+  <section id="contact" class="mx-auto max-w-6xl px-6 py-16 md:py-24">
+    <div class="reveal rounded-2xl border border-white/10 bg-white/5 p-8 md:p-12 text-center">
+      <h2 class="font-display text-3xl md:text-4xl">Membership by Invitation</h2>
+      <p class="mt-3 text-white/70 max-w-2xl mx-auto">Apply for VIP access. Our concierge will follow up discreetly.</p>
+      <div class="mt-6 mx-auto max-w-md grid gap-3">
+        <input placeholder="Full name" class="bg-black/30 border border-white/10 rounded-lg px-4 py-3 placeholder:text-white/40" />
+        <input placeholder="Email" class="bg-black/30 border border-white/10 rounded-lg px-4 py-3 placeholder:text-white/40" />
+        <input placeholder="Organisation (optional)" class="bg-black/30 border border-white/10 rounded-lg px-4 py-3 placeholder:text-white/40" />
+        <button class="rounded-lg bg-teal/90 text-navy font-semibold px-5 py-3 hover:bg-teal transition">Request Access</button>
+      </div>
+      <p class="mt-3 text-xs text-white/60">By continuing you agree to discreet communications and our privacy policy.</p>
+    </div>
+  </section>
+
+  <!-- ========== Footer ========== -->
+  <footer class="border-t border-white/10">
+    <div class="mx-auto max-w-6xl px-6 py-10 text-sm text-white/60">
+      <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>© <span id="yr"></span> Suggestly G4+ • EQ Concierge™</div>
+        <div class="flex gap-6">
+          <a href="/suggestly-ai-platform/#privacy" class="hover:text-teal">Privacy</a>
+          <a href="/suggestly-ai-platform/#terms" class="hover:text-teal">Terms</a>
+          <a href="/suggestly-ai-platform/#security" class="hover:text-teal">Security</a>
+          
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========== Minimal JS ========== -->
+  <script>
+    // lightweight analytics (no-op unless API is available)
+    let apiAvailable = false;
+    const track = (type, data) => {
+      if (!apiAvailable) return;
+      fetch('/api/analytics/track?event_type='+encodeURIComponent(type)+'&event_data='+encodeURIComponent(JSON.stringify(data||{})), { method:'POST' }).catch(()=>{});
+    };
+    // year
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    // detect API availability and reveal local-only links only when usable
+    const isLocalHost = ["localhost", "127.0.0.1", "::1"].includes(location.hostname);
+    async function detectApi() {
+      // try openapi.json (FastAPI) with a short timeout
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), 1500);
+      try {
+        const res = await fetch('/openapi.json', { method: 'GET', signal: controller.signal });
+        apiAvailable = res.ok;
+      } catch (_) {
+        apiAvailable = false;
+      } finally {
+        clearTimeout(timer);
+      }
+      if (isLocalHost && apiAvailable) {
+        document.querySelectorAll('.local-only').forEach(el => {
+          el.classList.remove('hidden');
+          if (el.classList.contains('block-on-show')) el.classList.add('block');
+        });
+      }
+      // If API is not available, mark concierge as demo-only
+      if (!apiAvailable) {
+        const authStatusEl = document.getElementById('authStatus');
+        if (authStatusEl) {
+          authStatusEl.textContent = 'Demo mode';
+          authStatusEl.className = 'text-xs rounded-full px-2 py-1 border border-white/20';
+        }
+        const loginBtnEl = document.getElementById('loginBtn');
+        loginBtnEl?.setAttribute('disabled', 'true');
+        loginBtnEl?.classList.add('opacity-60', 'cursor-not-allowed');
+      }
+    }
+
+    // mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn?.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      track('nav_mobile_toggle', {open: !mobileMenu.classList.contains('hidden')});
+    });
+
+    // sticky nav subtle background on scroll
+    const navWrap = document.getElementById('navWrap');
+    const onScroll = () => {
+      if (window.scrollY > 10) {
+        navWrap.classList.add('backdrop-blur-md');
+      } else {
+        navWrap.classList.remove('backdrop-blur-md');
+      }
+    };
+    document.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+    // reveal on view
+    const io = new IntersectionObserver((entries)=> {
+      entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // VIP mode toggle + enhanced concierge backend integration
+    const modeToggle = document.getElementById('modeToggle');
+    const heroVIP = document.getElementById('heroVIP');
+    const authStatus = document.getElementById('authStatus');
+    const conciergeInterface = document.getElementById('conciergeInterface');
+    const chatMessages = document.getElementById('chatMessages');
+    const chatInput = document.getElementById('chatInput');
+    const sendBtn = document.getElementById('sendBtn');
+
+    // Check if user is already authenticated
+    function checkAuthStatus() {
+      const token = localStorage.getItem('sg4_token');
+      if (token) {
+        showConciergeInterface();
+        return true;
+      }
+      return false;
+    }
+
+    // Show concierge interface after authentication
+    function showConciergeInterface() {
+      document.getElementById('vipAuth').classList.add('hidden');
+      conciergeInterface.classList.remove('hidden');
+      authStatus.textContent = 'VIP Active';
+      authStatus.className = 'text-xs rounded-full px-2 py-1 border border-green-400/30 bg-green-400/10 text-green-400';
+    }
+
+    // Hide concierge interface and show login
+    function hideConciergeInterface() {
+      document.getElementById('vipAuth').classList.remove('hidden');
+      conciergeInterface.classList.add('hidden');
+      authStatus.textContent = 'Sign in required';
+      authStatus.className = 'text-xs rounded-full px-2 py-1 border border-white/20';
+    }
+
+    // Add message to chat
+    function addMessage(sender, message, isUser = false) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'flex items-start gap-2';
+      messageDiv.innerHTML = `
+        <div class="w-6 h-6 rounded-full ${isUser ? 'bg-teal/40' : 'bg-teal/20'} flex items-center justify-center text-xs">${isUser ? 'U' : sender === 'Orla' ? 'O' : 'L'}</div>
+        <div class="flex-1">
+          <div class="text-xs text-teal mb-1">${isUser ? 'You' : sender}</div>
+          <div class="text-sm text-white/90 bg-white/5 rounded-lg p-2">${message}</div>
+        </div>
+      `;
+      chatMessages.appendChild(messageDiv);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    // Send message to backend
+    async function sendMessage(message) {
+      const token = localStorage.getItem('sg4_token');
+      if (!token) {
+        // No auth token: provide demo response instead of blocking
+        const responses = [
+          "I understand your request. Let me coordinate with our team to arrange this for you.",
+          "Excellent choice. I'll have this prepared within the hour.",
+          "Consider it done. Your preferences have been noted and will be ready shortly.",
+          "I'm on it. This will be handled with our usual discretion and efficiency."
+        ];
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        addMessage('Orla', randomResponse);
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/concierge/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ message })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          addMessage(data.agent || 'Orla', data.response);
+        } else {
+          // Fallback response if backend not available
+          const responses = [
+            "I understand your request. Let me coordinate with our team to arrange this for you.",
+            "Excellent choice. I'll have this prepared within the hour.",
+            "Consider it done. Your preferences have been noted and will be ready shortly.",
+            "I'm on it. This will be handled with our usual discretion and efficiency."
+          ];
+          const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+          addMessage('Orla', randomResponse);
+        }
+      } catch (error) {
+        // Fallback for demo purposes
+        const responses = [
+          "I understand your request. Let me coordinate with our team to arrange this for you.",
+          "Excellent choice. I'll have this prepared within the hour.",
+          "Consider it done. Your preferences have been noted and will be ready shortly.",
+          "I'm on it. This will be handled with our usual discretion and efficiency."
+        ];
+        const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+        addMessage('Orla', randomResponse);
+      }
+    }
+
+    // Handle quick actions
+    function handleQuickAction(action) {
+      const actions = {
+        'market-intel': 'I need the latest market intelligence and investment opportunities.',
+        'travel-request': 'Please arrange private travel with our usual discretion.',
+        'lifestyle': 'I require lifestyle management services for this week.',
+        'vault-access': 'I need secure access to my private vault and documents.'
+      };
+      
+      const message = actions[action] || 'I need assistance with a special request.';
+      chatInput.value = message;
+      sendMessage(message);
+    }
+
+    async function doLogin(){
+      const u = document.getElementById('loginUser')?.value || '';
+      const p = document.getElementById('loginPass')?.value || '';
+      const msg = document.getElementById('loginMsg');
+      
+      if (!u || !p) {
+        msg.textContent = 'Please enter both username and password.';
+        return;
+      }
+
+      try {
+        let res = await fetch('/auth/login', {
+          method: 'POST', 
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
+          body: `username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}`
+        });
+        // If invalid, try to auto-register then login once more
+        if (!res.ok) {
+          if (res.status === 401) {
+            try {
+              await fetch(`/auth/register?username=${encodeURIComponent(u)}&email=${encodeURIComponent(u)}%40local.dev&password=${encodeURIComponent(p)}`, { method: 'POST' });
+            } catch(_){}
+            res = await fetch('/auth/login', {
+              method: 'POST', 
+              headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
+              body: `username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}`
+            });
+          }
+        }
+
+        if (!res.ok) throw new Error('Invalid credentials');
+        const j = await res.json();
+        msg.textContent = 'Signed in successfully.';
+        localStorage.setItem('sg4_token', j.access_token || '');
+        showConciergeInterface();
+        track('concierge_login', {success: true});
+      } catch(e){ 
+        msg.textContent = 'Login failed. Please check your credentials.';
+        track('concierge_login', {success: false, error: e.message});
+      }
+    }
+
+    async function doLogout(){
+      localStorage.removeItem('sg4_token');
+      document.getElementById('loginUser').value = '';
+      document.getElementById('loginPass').value = '';
+      document.getElementById('loginMsg').textContent = 'Signed out.';
+      hideConciergeInterface();
+      track('concierge_logout');
+    }
+
+    // Event listeners
+    document.getElementById('loginBtn')?.addEventListener('click', doLogin);
+    document.getElementById('logoutBtn')?.addEventListener('click', doLogout);
+    heroVIP?.addEventListener('click', () => modeToggle?.click());
+
+    // Chat functionality (fallback to demo if API is unavailable)
+    sendBtn?.addEventListener('click', () => {
+      const message = chatInput.value.trim();
+      if (message) {
+        addMessage('You', message, true);
+        if (apiAvailable) {
+          sendMessage(message);
+        } else {
+          const responses = [
+            "I understand your request. Let me coordinate with our team to arrange this for you.",
+            "Excellent choice. I'll have this prepared within the hour.",
+            "Consider it done. Your preferences have been noted and will be ready shortly.",
+            "I'm on it. This will be handled with our usual discretion and efficiency."
+          ];
+          const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+          addMessage('Orla', randomResponse);
+        }
+        chatInput.value = '';
+      }
+    });
+
+    chatInput?.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sendBtn.click();
+      }
+    });
+
+    // Quick action buttons
+    document.querySelectorAll('.quick-action').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const action = btn.dataset.action;
+        handleQuickAction(action);
+      });
+    });
+
+    // Check auth status on load and detect API
+    checkAuthStatus();
+    async function bootstrapAuth(){
+      await detectApi();
+      await tryDevAutoLogin();
+    }
+
+    // Dev-only: auto login on localhost when DEV_AUTO_AUTH is enabled server-side
+    async function tryDevAutoLogin(){
+      if (!['localhost','127.0.0.1','::1'].includes(location.hostname)) return;
+      if (localStorage.getItem('sg4_token')) return;
+      const attempt = async () => {
+        try {
+          const res = await fetch('/auth/dev-auto-login', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username:'dev'})});
+          if (res.ok){
+            const j = await res.json();
+            localStorage.setItem('sg4_token', j.access_token || '');
+            showConciergeInterface();
+            return true;
+          }
+        } catch(_){}
+        return false;
+      };
+      // First try immediately, then retry once shortly after in case API just started
+      if (!(await attempt())){
+        setTimeout(attempt, 800);
+      }
+    }
+    bootstrapAuth();
+
+    modeToggle?.addEventListener('click', (e) => {
+      const pressed = modeToggle.getAttribute('aria-pressed') === 'true';
+      const next = !pressed;
+      modeToggle.setAttribute('aria-pressed', String(next));
+      modeToggle.textContent = next ? 'Exit VIP Concierge' : 'Enter VIP Concierge';
+
+      // global theme accent swap (subtle)
+      document.body.classList.toggle('vip', next);
+      if (next) { /* require auth via the login fields */ }
+      track('vip_toggle', {enabled: next});
+    });
+
+    // track key nav clicks
+    document.querySelectorAll('a[href]').forEach(a => {
+      a.addEventListener('click', ()=>{
+        const href = a.getAttribute('href') || '';
+        track('nav_click', {href});
+      });
+    });
+  </script>
+</body>
+</html>
+
