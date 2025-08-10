@@ -19,10 +19,11 @@ jobs:
   deploy:
     name: Render Blueprint Deploy
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
       - name: Deploy to Render
         env:
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
@@ -33,12 +34,12 @@ jobs:
           set -euo pipefail
           if [[ -n "${RENDER_DEPLOY_HOOK_URL:-}" ]]; then
             echo "Triggering Render deploy via Deploy Hook"
-            curl -fsSL -X POST "$RENDER_DEPLOY_HOOK_URL"
+            curl --retry 5 --retry-connrefused --retry-delay 2 --max-time 120 -fsSL -X POST "$RENDER_DEPLOY_HOOK_URL"
             exit 0
           fi
           if [[ -n "${RENDER_API_KEY:-}" && -n "${RENDER_SERVICE_ID:-}" ]]; then
             echo "Triggering Render deploy via API"
-            curl -fsSL -X POST \
+            curl --retry 5 --retry-connrefused --retry-delay 2 --max-time 120 -fsSL -X POST \
               -H "Authorization: Bearer $RENDER_API_KEY" \
               -H "Content-Type: application/json" \
               "https://api.render.com/v1/services/$RENDER_SERVICE_ID/deploys" \
