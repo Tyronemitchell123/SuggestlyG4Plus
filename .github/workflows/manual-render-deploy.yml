@@ -1,0 +1,143 @@
+name: Manual Render Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      method:
+        description: "Deploy method (auto chooses hook if present, else API)"
+        required: true
+        default: auto
+        type: choice
+        options:
+          - auto
+          - hook
+          - api
+      deploy_hook_url:
+        description: "Override deploy hook URL (optional)"
+        required: false
+        type: string
+      service_id:
+        description: "Override Render service ID (optional)"
+        required: false
+        type: string
+      skip_notifications:
+        description: "Skip notifications"
+        required: true
+        default: false
+        type: boolean
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Manual Render Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    environment: production
+    steps:
+      - name: Deploy to Render (manual)
+        env:
+          METHOD: ${{ inputs.method }}
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          SERVICE_ID_INPUT: ${{ inputs.service_id }}
+          SERVICE_ID_SECRET: ${{ secrets.RENDER_SERVICE_ID }}
+          HOOK_INPUT: ${{ inputs.deploy_hook_url }}
+          HOOK_SECRET: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          METHOD="${METHOD:-auto}"
+          RENDER_SERVICE_ID="${SERVICE_ID_INPUT:-${SERVICE_ID_SECRET:-}}"
+          RENDER_DEPLOY_HOOK_URL="${HOOK_INPUT:-${HOOK_SECRET:-}}"
+
+          if [[ "$METHOD" == "hook" && -z "${RENDER_DEPLOY_HOOK_URL:-}" ]]; then
+            echo "Method 'hook' selected but no deploy hook URL provided." >&2
+            exit 1
+          fi
+          if [[ "$METHOD" == "api" && (-z "${RENDER_API_KEY:-}" || -z "${RENDER_SERVICE_ID:-}") ]]; then
+            echo "Method 'api' selected but API key or service id missing." >&2
+            exit 1
+          fi
+
+          if [[ "$METHOD" == "hook" || ( "$METHOD" == "auto" && -n "${RENDER_DEPLOY_HOOK_URL:-}" ) ]]; then
+            echo "Triggering Render deploy via Deploy Hook"
+            curl --retry 5 --retry-connrefused --retry-delay 2 --max-time 120 -fsSL -X POST "$RENDER_DEPLOY_HOOK_URL"
+            echo "Deploy hook triggered" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          if [[ "$METHOD" == "api" || ( "$METHOD" == "auto" && -n "${RENDER_API_KEY:-}" && -n "${RENDER_SERVICE_ID:-}" ) ]]; then
+            echo "Triggering Render deploy via API"
+            DEPLOY_JSON=$(curl --retry 5 --retry-connrefused --retry-delay 2 --max-time 120 -fsSL -X POST \
+              -H "Authorization: Bearer $RENDER_API_KEY" \
+              -H "Content-Type: application/json" \
+              "https://api.render.com/v1/services/$RENDER_SERVICE_ID/deploys" \
+              -d '{}')
+            echo "API deploy triggered" >> "$GITHUB_STEP_SUMMARY"
+
+            DEPLOY_ID=$(python3 -c "import json,sys; data=sys.stdin.read(); print(json.loads(data).get('id',''))" <<< "$DEPLOY_JSON")
+            if [[ -z "$DEPLOY_ID" ]]; then
+              echo "Failed to parse deploy id; response:" >&2
+              echo "$DEPLOY_JSON" >&2
+              exit 1
+            fi
+            echo "Deploy ID: $DEPLOY_ID" >> "$GITHUB_STEP_SUMMARY"
+
+            echo "Polling Render deploy status..."
+            ATTEMPTS=0
+            SLEEP_SECS=5
+            while true; do
+              STATUS_JSON=$(curl -fsSL -H "Authorization: Bearer $RENDER_API_KEY" \
+                "https://api.render.com/v1/deploys/$DEPLOY_ID") || true
+              STATUS=$(python3 -c "import json,sys; data=sys.stdin.read(); print(json.loads(data or '{}').get('status',''))" <<< "$STATUS_JSON")
+              if [[ "$STATUS" == "live" ]]; then
+                echo "Render deploy successful (status: $STATUS)" | tee -a "$GITHUB_STEP_SUMMARY"
+                break
+              fi
+              if [[ "$STATUS" == "failed" || "$STATUS" == "canceled" ]]; then
+                echo "Render deploy failed (status: $STATUS)" | tee -a "$GITHUB_STEP_SUMMARY"
+                exit 1
+              fi
+              ATTEMPTS=$((ATTEMPTS+1))
+              if (( ATTEMPTS > 120 )); then
+                echo "Timeout waiting for deploy to complete" | tee -a "$GITHUB_STEP_SUMMARY"
+                exit 1
+              fi
+              sleep "$SLEEP_SECS"
+            done
+            exit 0
+          fi
+
+          echo "No valid deploy method available. Provide deploy hook or API credentials."
+
+      - name: Notify (optional)
+        if: always()
+        env:
+          SKIP_NOTIFICATIONS: ${{ inputs.skip_notifications }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          JOB_STATUS: ${{ job.status }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "${SKIP_NOTIFICATIONS}" == "true" ]]; then
+            exit 0
+          fi
+          if [[ -z "${SLACK_WEBHOOK_URL:-}" && -z "${DISCORD_WEBHOOK_URL:-}" ]]; then
+            exit 0
+          fi
+          JOB_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          MSG="Manual Render deploy ${JOB_STATUS} for ${GITHUB_REPOSITORY}@${GITHUB_REF}. Run: ${JOB_URL}"
+          if [[ -n "${SLACK_WEBHOOK_URL:-}" ]]; then
+            curl -fsSL -X POST -H 'Content-type: application/json' --data "{\"text\": \"${MSG//\"/\\\"}\"}" "$SLACK_WEBHOOK_URL" || true
+          fi
+          if [[ -n "${DISCORD_WEBHOOK_URL:-}" ]]; then
+            curl -fsSL -X POST -H 'Content-type: application/json' --data "{\"content\": \"${MSG//\"/\\\"}\"}" "$DISCORD_WEBHOOK_URL" || true
+          fi
+
+
