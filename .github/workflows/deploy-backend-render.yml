@@ -84,6 +84,29 @@ jobs:
           fi
           echo "No Render deployment method configured. Set RENDER_DEPLOY_HOOK_URL or both RENDER_API_KEY and RENDER_SERVICE_ID as secrets."
 
+      - name: Health check (optional)
+        if: success()
+        env:
+          HEALTH_URL: ${{ secrets.RENDER_HEALTH_URL }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${HEALTH_URL:-}" ]]; then
+            echo "No HEALTH_URL configured; skipping health check" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          echo "Checking service health at $HEALTH_URL ..."
+          for i in {1..30}; do
+            CODE=$(curl --retry 2 --retry-delay 1 -fsS -o /dev/null -w "%{http_code}" --max-time 10 "$HEALTH_URL" || true)
+            if [[ "$CODE" == "200" || "$CODE" == "204" ]]; then
+              echo "Health check passed ($CODE)" | tee -a "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Health check failed; last status: ${CODE:-none}" | tee -a "$GITHUB_STEP_SUMMARY"
+          exit 1
+
       - name: Notify (optional)
         if: always()
         env:
