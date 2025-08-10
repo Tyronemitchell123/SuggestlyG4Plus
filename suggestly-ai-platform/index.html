@@ -146,9 +146,9 @@
     }
     /* enter animations */
     .reveal{opacity:0; transform:translateY(12px); transition:opacity .7s ease, transform .7s ease;}
-    .reveal.visible{opacity:1; transform:translateY(0);} 
+    .reveal.visible{opacity:1; transform:translateY(0);}
     /* gated blur */
-    .gated-blur{filter:blur(8px); transform:scale(1.01);} 
+    .gated-blur{filter:blur(8px); transform:scale(1.01);}
     @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
   </style>
 </head>
@@ -168,7 +168,7 @@
           <li><a href="#story" class="hover:text-teal transition">Story</a></li>
           <li><a href="#press" class="hover:text-teal transition">Press</a></li>
           <li><a href="/suggestly-ai-platform/pricing.html" class="hover:text-teal transition">Pricing</a></li>
-          
+
           <li class="local-only hidden"><a href="/suggestly-ai-platform/business.html" class="hover:text-teal transition">Business Console</a></li>
           <li class="local-only hidden"><a href="/admin" class="hover:text-teal transition">Admin</a></li>
           <li><a href="#contact" class="hover:text-teal transition">Contact</a></li>
@@ -190,7 +190,7 @@
     <a href="#story" class="block py-2 border-b border-white/10">Story</a>
     <a href="#press" class="block py-2 border-b border-white/10">Press</a>
     <a href="/suggestly-ai-platform/pricing.html" class="block py-2 border-b border-white/10">Pricing</a>
-    
+
     <a href="/suggestly-ai-platform/business.html" class="local-only hidden block-on-show py-2 border-b border-white/10">Business Console</a>
     <a href="/admin" class="local-only hidden block-on-show py-2 border-b border-white/10">Admin</a>
     <a href="#contact" class="block py-2">Contact</a>
@@ -217,7 +217,7 @@
       <div class="mt-8 flex items-center justify-center gap-3 reveal">
         <a href="#features" class="rounded-lg bg-teal/90 text-navy font-semibold px-5 py-3 hover:bg-teal transition">Explore Features</a>
         <button id="heroVIP" class="rounded-lg border border-white/20 px-5 py-3 hover:border-teal hover:shadow-glow transition">Enter Concierge Mode</button>
-        
+
       </div>
 
       <!-- KPI / trust strip -->
@@ -274,7 +274,7 @@
           <h3 class="font-semibold">Concierge Console</h3>
           <span id="authStatus" class="text-xs rounded-full px-2 py-1 border border-white/20">Sign in required</span>
         </div>
-        
+
         <!-- Authentication Section -->
         <div id="vipAuth" class="mt-4 grid gap-2">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -452,7 +452,7 @@
           <a href="/suggestly-ai-platform/#privacy" class="hover:text-teal">Privacy</a>
           <a href="/suggestly-ai-platform/#terms" class="hover:text-teal">Terms</a>
           <a href="/suggestly-ai-platform/#security" class="hover:text-teal">Security</a>
-          
+
         </div>
       </div>
     </div>
@@ -638,7 +638,7 @@
         'lifestyle': 'I require lifestyle management services for this week.',
         'vault-access': 'I need secure access to my private vault and documents.'
       };
-      
+
       const message = actions[action] || 'I need assistance with a special request.';
       chatInput.value = message;
       sendMessage(message);
@@ -648,7 +648,7 @@
       const u = document.getElementById('loginUser')?.value || '';
       const p = document.getElementById('loginPass')?.value || '';
       const msg = document.getElementById('loginMsg');
-      
+
       if (!u || !p) {
         msg.textContent = 'Please enter both username and password.';
         return;
@@ -656,8 +656,8 @@
 
       try {
         let res = await fetch('/auth/login', {
-          method: 'POST', 
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
+          method: 'POST',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
           body: `username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}`
         });
         // If invalid, try to auto-register then login once more
@@ -667,8 +667,8 @@
               await fetch(`/auth/register?username=${encodeURIComponent(u)}&email=${encodeURIComponent(u)}%40local.dev&password=${encodeURIComponent(p)}`, { method: 'POST' });
             } catch(_){}
             res = await fetch('/auth/login', {
-              method: 'POST', 
-              headers: {'Content-Type': 'application/x-www-form-urlencoded'}, 
+              method: 'POST',
+              headers: {'Content-Type': 'application/x-www-form-urlencoded'},
               body: `username=${encodeURIComponent(u)}&password=${encodeURIComponent(p)}`
             });
           }
@@ -680,7 +680,7 @@
         localStorage.setItem('sg4_token', j.access_token || '');
         showConciergeInterface();
         track('concierge_login', {success: true});
-      } catch(e){ 
+      } catch(e){
         msg.textContent = 'Login failed. Please check your credentials.';
         track('concierge_login', {success: false, error: e.message});
       }
