@@ -23,6 +23,7 @@ jobs:
     permissions:
       contents: read
     if: ${{ !contains(github.event.head_commit.message, '[skip deploy]') }}
+    environment: production
     steps:
       - name: Deploy to Render
         env:
@@ -82,5 +83,26 @@ jobs:
             exit 0
           fi
           echo "No Render deployment method configured. Set RENDER_DEPLOY_HOOK_URL or both RENDER_API_KEY and RENDER_SERVICE_ID as secrets."
+
+      - name: Notify (optional)
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          JOB_STATUS: ${{ job.status }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${SLACK_WEBHOOK_URL:-}" && -z "${DISCORD_WEBHOOK_URL:-}" ]]; then
+            exit 0
+          fi
+          JOB_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          MSG="Render deploy ${JOB_STATUS} for ${GITHUB_REPOSITORY}@${GITHUB_REF}. Run: ${JOB_URL}"
+          if [[ -n "${SLACK_WEBHOOK_URL:-}" ]]; then
+            curl -fsSL -X POST -H 'Content-type: application/json' --data "{\"text\": \"${MSG//\"/\\\"}\"}" "$SLACK_WEBHOOK_URL" || true
+          fi
+          if [[ -n "${DISCORD_WEBHOOK_URL:-}" ]]; then
+            curl -fsSL -X POST -H 'Content-type: application/json' --data "{\"content\": \"${MSG//\"/\\\"}\"}" "$DISCORD_WEBHOOK_URL" || true
+          fi
 
 
