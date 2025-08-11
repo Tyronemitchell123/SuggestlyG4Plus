@@ -93,30 +93,83 @@ import bcrypt
 import sqlite3
 import asyncio
 import requests
-import yfinance as yf
-import pandas as pd
-import numpy as np
-import feedparser
-from bs4 import BeautifulSoup
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.cluster import KMeans
-from sklearn.ensemble import RandomForestClassifier
-from sklearn.preprocessing import StandardScaler
+
+# Optional heavy dependencies (guarded to allow app to boot without them)
+SKIP_HEAVY_IMPORTS = os.getenv("LIGHT_MODE") == "1" or os.getenv("SKIP_HEAVY_IMPORTS") == "1"
+if not SKIP_HEAVY_IMPORTS:
+    try:
+        import yfinance as yf
+    except Exception:
+        yf = None
+    try:
+        import pandas as pd
+    except Exception:
+        pd = None
+    try:
+        import numpy as np
+    except Exception:
+        np = None
+    try:
+        import feedparser
+    except Exception:
+        feedparser = None
+    try:
+        from bs4 import BeautifulSoup
+    except Exception:
+        BeautifulSoup = None
+    try:
+        from sklearn.feature_extraction.text import TfidfVectorizer
+        from sklearn.cluster import KMeans
+        from sklearn.ensemble import RandomForestClassifier
+        from sklearn.preprocessing import StandardScaler
+    except Exception:
+        TfidfVectorizer = KMeans = RandomForestClassifier = StandardScaler = None
+else:
+    yf = pd = np = feedparser = BeautifulSoup = None
+    TfidfVectorizer = KMeans = RandomForestClassifier = StandardScaler = None
+
 import warnings
 warnings.filterwarnings('ignore')
 
-# Enhanced security imports
-from passlib.context import CryptContext
-from jose import JWTError, jwt as jose_jwt
+# Enhanced security imports (guarded)
+try:
+    from passlib.context import CryptContext
+except ImportError:
+    CryptContext = None
+try:
+    from jose import JWTError, jwt as jose_jwt
+except ImportError:
+    JWTError = Exception
+    jose_jwt = None
 import secrets
 import hashlib
 
 # Import real agents
 try:
     from real_agents import REAL_AGENTS
+    print("✅ Real agents loaded successfully")
 except ImportError:
     print("Warning: real_agents module not found, using fallback")
-    REAL_AGENTS = {}
+    REAL_AGENTS = {
+        "ANALYST": {"name": "ANALYST", "specialty": "Financial Analysis"},
+        "INTEL": {"name": "INTEL", "specialty": "Market Intelligence"},
+        "RESEARCH": {"name": "RESEARCH", "specialty": "Research Analysis"},
+        "RISK": {"name": "RISK", "specialty": "Risk Assessment"},
+        "DATA": {"name": "DATA", "specialty": "Data Processing"},
+        "MONITOR": {"name": "MONITOR", "specialty": "System Monitoring"},
+        "STRATEGY": {"name": "STRATEGY", "specialty": "Strategic Planning"}
+    }
+else:
+    print("Light mode enabled - using fallback agents")
+    REAL_AGENTS = {
+        "ANALYST": {"name": "ANALYST", "specialty": "Financial Analysis"},
+        "INTEL": {"name": "INTEL", "specialty": "Market Intelligence"},
+        "RESEARCH": {"name": "RESEARCH", "specialty": "Research Analysis"},
+        "RISK": {"name": "RISK", "specialty": "Risk Assessment"},
+        "DATA": {"name": "DATA", "specialty": "Data Processing"},
+        "MONITOR": {"name": "MONITOR", "specialty": "System Monitoring"},
+        "STRATEGY": {"name": "STRATEGY", "specialty": "Strategic Planning"}
+    }
 
 # Import monetization and premium UI components
 try:
@@ -126,6 +179,8 @@ try:
 except ImportError as e:
     print(f"Warning: Monetization modules not found: {e}")
     monetization = None
+    # Ensure premium_ui symbol always exists to avoid NameError downstream
+    premium_ui = None
 
 # Import luxury hologram system
 try:
@@ -153,7 +208,7 @@ DATABASE_PATH = "suggestly_data.db"
 
 # Enhanced Security
 security = HTTPBearer()
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto") if CryptContext else None
 
 # Rate limiting
 RATE_LIMIT_PER_MINUTE = 100
@@ -354,14 +409,20 @@ enhanced_agents = {name: EnhancedAgent(name, 200)  # Default intelligence level 
 # Enhanced Authentication Functions v2.0
 def hash_password(password: str) -> str:
     """Enhanced password hashing using bcrypt with increased rounds"""
+    if pwd_context is None:
+        raise HTTPException(status_code=503, detail="Password hashing unavailable (dependency missing)")
     return pwd_context.hash(password)
 
 def verify_password(password: str, hashed: str) -> bool:
     """Enhanced password verification"""
+    if pwd_context is None:
+        raise HTTPException(status_code=503, detail="Password verification unavailable (dependency missing)")
     return pwd_context.verify(password, hashed)
 
 def create_access_token(data: dict) -> str:
     """Enhanced JWT access token creation with better security"""
+    if jose_jwt is None:
+        raise HTTPException(status_code=503, detail="Token creation unavailable (dependency missing)")
     to_encode = data.copy()
     expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({
@@ -374,6 +435,8 @@ def create_access_token(data: dict) -> str:
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     """Enhanced JWT token verification with better error handling"""
     try:
+        if jose_jwt is None:
+            raise JWTError("Token verification unavailable (dependency missing)")
         payload = jose_jwt.decode(credentials.credentials, SECRET_KEY, algorithms=[ALGORITHM])
         user_id = payload.get("user_id")
         if user_id is None:
@@ -423,6 +486,24 @@ def get_user_by_credentials(username: str, password: str):
 @app.get("/health")
 async def health():
     return JSONResponse({"status": "ultra_secure", "monitoring": "disabled"})
+
+@app.get("/demo")
+async def demo():
+    """Demo endpoint for testing functionality without authentication"""
+    return JSONResponse({
+        "message": "SuggestlyG4Plus v2.0 Demo",
+        "agents": list(REAL_AGENTS.keys()),
+        "status": "operational",
+        "features": [
+            "AI Agent Communication",
+            "Financial Analysis",
+            "Market Intelligence", 
+            "Risk Assessment",
+            "Data Processing",
+            "System Monitoring",
+            "Strategic Planning"
+        ]
+    })
 
 # Authentication Endpoints
 @app.post("/auth/register")
@@ -1095,347 +1176,497 @@ async def root(request: Request):
         return await api_portal()
     
     # Use ultra-premium animated homepage if available
-    if premium_ui:
+    if premium_ui is not None:
         return HTMLResponse(premium_ui.get_animated_homepage())
+
+    # Fallback to local static index.html if present
+    try:
+        index_path = os.path.join(os.getcwd(), "index.html")
+        if os.path.exists(index_path):
+            with open(index_path, "r", encoding="utf-8") as f:
+                return HTMLResponse(f.read())
+    except Exception:
+        # Ignore file read errors and continue to default HTML
+        pass
     
-    # Default main portal with professional design
+    # Ultra-Premium Professional Homepage
     return HTMLResponse("""
     <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-        <meta http-equiv="Pragma" content="no-cache">
-        <meta http-equiv="Expires" content="0">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="timestamp" content="2025-buttons-fixed">
-        <title>SuggestlyG4Plus Enterprise - Professional AI Platform [BUTTONS FIXED]</title>
+        <title>SuggestlyG4Plus Ultra-Premium - Professional AI Platform</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
         <style>
             * { margin: 0; padding: 0; box-sizing: border-box; }
             
             :root {
-                --primary-blue: #1e3a8a;
-                --secondary-blue: #3b82f6;
-                --accent-gold: #d97706;
-                --dark-gray: #1f2937;
-                --light-gray: #f8fafc;
-                --text-dark: #111827;
-                --text-light: #6b7280;
-                --border-gray: #e5e7eb;
+                --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+                --gold-gradient: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+                --dark-bg: #0a0a0a;
+                --card-bg: rgba(255, 255, 255, 0.05);
+                --text-primary: #ffffff;
+                --text-secondary: #a0a0a0;
+                --accent-gold: #ffd700;
+                --accent-blue: #00d4ff;
+                --border-glow: rgba(0, 212, 255, 0.3);
             }
             
             body { 
-                font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-                line-height: 1.6;
-                color: var(--text-dark);
-                background: var(--light-gray);
+                font-family: 'Inter', sans-serif;
+                background: var(--dark-bg);
+                color: var(--text-primary);
+                overflow-x: hidden;
+                position: relative;
+            }
+
+            body::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: 
+                    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.3) 0%, transparent 50%),
+                    radial-gradient(circle at 40% 40%, rgba(0, 212, 255, 0.2) 0%, transparent 50%);
+                z-index: -1;
             }
 
             .header {
-                background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-                color: white;
-                padding: 2rem 0;
-                text-align: center;
+                background: rgba(10, 10, 10, 0.8);
+                backdrop-filter: blur(20px);
+                border-bottom: 1px solid var(--border-glow);
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 1000;
+                padding: 1rem 0;
             }
 
-            .container {
-                max-width: 1200px;
+            .nav-container {
+                max-width: 1400px;
                 margin: 0 auto;
                 padding: 0 2rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
             }
 
             .logo {
-                font-size: 2.5rem;
+                font-size: 1.8rem;
                 font-weight: 700;
-                margin-bottom: 1rem;
-                letter-spacing: -0.02em;
+                background: var(--gold-gradient);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
             }
 
-            .subtitle {
-                font-size: 1.25rem;
-                font-weight: 300;
-                opacity: 0.9;
-                margin-bottom: 2rem;
-            }
-
-            .status-bar {
-                display: inline-flex;
-                align-items: center;
-                background: rgba(255, 255, 255, 0.1);
-                border: 1px solid rgba(255, 255, 255, 0.2);
-                padding: 0.75rem 1.5rem;
-                border-radius: 0.5rem;
-                font-weight: 500;
-            }
-
-            .status-indicator {
-                width: 8px;
-                height: 8px;
-                background: #10b981;
-                border-radius: 50%;
-                margin-right: 0.5rem;
-            }
-
-            .main-content {
-                padding: 4rem 0;
-            }
-
-            .section {
-                margin-bottom: 4rem;
-            }
-
-            .section-title {
-                font-size: 2rem;
-                font-weight: 600;
-                text-align: center;
-                margin-bottom: 1rem;
-                color: var(--primary-blue);
-            }
-
-            .section-subtitle {
-                text-align: center;
-                color: var(--text-light);
-                font-size: 1.125rem;
-                margin-bottom: 3rem;
-                max-width: 600px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-
-            .features-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            .nav-links {
+                display: flex;
                 gap: 2rem;
-                margin-top: 3rem;
+                list-style: none;
             }
 
-            .feature-card {
-                background: white;
-                border: 1px solid var(--border-gray);
-                border-radius: 0.75rem;
-                padding: 2rem;
-                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            .nav-links a {
+                color: var(--text-secondary);
+                text-decoration: none;
+                font-weight: 500;
                 transition: all 0.3s ease;
+                position: relative;
             }
 
-            .feature-card:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 10px 25px -3px rgba(0, 0, 0, 0.1);
-                border-color: var(--secondary-blue);
+            .nav-links a:hover {
+                color: var(--accent-gold);
             }
 
-            .feature-icon {
-                width: 48px;
-                height: 48px;
-                background: var(--secondary-blue);
-                border-radius: 0.5rem;
+            .nav-links a::after {
+                content: '';
+                position: absolute;
+                bottom: -5px;
+                left: 0;
+                width: 0;
+                height: 2px;
+                background: var(--accent-gold);
+                transition: width 0.3s ease;
+            }
+
+            .nav-links a:hover::after {
+                width: 100%;
+            }
+
+            .hero {
+                min-height: 100vh;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                text-align: center;
+                padding: 8rem 2rem 4rem;
+                position: relative;
+            }
+
+            .hero-content {
+                max-width: 800px;
+                z-index: 2;
+            }
+
+            .hero-title {
+                font-size: 4rem;
+                font-weight: 700;
                 margin-bottom: 1.5rem;
-                font-size: 1.5rem;
-                color: white;
+                background: var(--primary-gradient);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                animation: glow 2s ease-in-out infinite alternate;
             }
 
-            .feature-title {
-                font-size: 1.25rem;
-                font-weight: 600;
-                margin-bottom: 1rem;
-                color: var(--text-dark);
+            @keyframes glow {
+                from { filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.5)); }
+                to { filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.8)); }
             }
 
-            .feature-desc {
-                color: var(--text-light);
+            .hero-subtitle {
+                font-size: 1.3rem;
+                color: var(--text-secondary);
+                margin-bottom: 3rem;
                 line-height: 1.6;
             }
 
-            .pricing-section {
-                background: white;
-                padding: 4rem 0;
-                margin: 4rem 0;
-                border-radius: 1rem;
-                border: 1px solid var(--border-gray);
-            }
-
-            .pricing-grid {
+            .portal-grid {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
                 gap: 2rem;
-                max-width: 1000px;
+                max-width: 1200px;
                 margin: 0 auto;
-            }
-
-            .pricing-card {
-                border: 2px solid var(--border-gray);
-                border-radius: 0.75rem;
                 padding: 2rem;
-                position: relative;
-                background: white;
+            }
+
+            .portal-card {
+                background: var(--card-bg);
+                border: 1px solid var(--border-glow);
+                border-radius: 20px;
+                padding: 2.5rem;
                 text-align: center;
+                transition: all 0.4s ease;
+                position: relative;
+                overflow: hidden;
+                backdrop-filter: blur(10px);
             }
 
-            .pricing-card.featured {
-                border-color: var(--accent-gold);
-                transform: scale(1.05);
-                box-shadow: 0 10px 25px -3px rgba(217, 119, 6, 0.1);
-            }
-
-            .pricing-badge {
+            .portal-card::before {
+                content: '';
                 position: absolute;
-                top: -12px;
-                left: 50%;
-                transform: translateX(-50%);
-                background: var(--accent-gold);
-                color: white;
-                padding: 0.5rem 1rem;
-                border-radius: 1rem;
-                font-size: 0.875rem;
-                font-weight: 600;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+                transition: left 0.5s ease;
             }
 
-            .pricing-tier {
-                font-size: 1.125rem;
-                font-weight: 600;
-                color: var(--text-light);
-                margin-bottom: 1rem;
-                text-transform: uppercase;
-                letter-spacing: 0.05em;
+            .portal-card:hover::before {
+                left: 100%;
             }
 
-            .pricing-amount {
+            .portal-card:hover {
+                transform: translateY(-10px);
+                border-color: var(--accent-gold);
+                box-shadow: 0 20px 40px rgba(255, 215, 0, 0.2);
+            }
+
+            .portal-icon {
                 font-size: 3rem;
-                font-weight: 700;
-                color: var(--primary-blue);
-                margin-bottom: 0.5rem;
+                margin-bottom: 1.5rem;
+                background: var(--secondary-gradient);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
             }
 
-            .pricing-period {
-                font-size: 1rem;
-                color: var(--text-light);
-                margin-bottom: 2rem;
-            }
-
-            .pricing-features {
-                list-style: none;
-                margin-bottom: 2rem;
-                text-align: left;
-            }
-
-            .pricing-features li {
-                padding: 0.5rem 0;
-                border-bottom: 1px solid var(--border-gray);
-                display: flex;
-                align-items: center;
-            }
-
-            .pricing-features li:before {
-                content: "✓";
-                color: var(--secondary-blue);
+            .portal-title {
+                font-size: 1.5rem;
                 font-weight: 600;
-                margin-right: 0.75rem;
+                margin-bottom: 1rem;
+                color: var(--text-primary);
             }
 
-            .btn {
+            .portal-description {
+                color: var(--text-secondary);
+                margin-bottom: 2rem;
+                line-height: 1.6;
+            }
+
+            .portal-button {
                 display: inline-block;
-                padding: 0.75rem 2rem;
-                background: var(--secondary-blue);
+                padding: 1rem 2rem;
+                background: var(--primary-gradient);
                 color: white;
                 text-decoration: none;
-                border-radius: 0.5rem;
-                font-weight: 500;
-                transition: all 0.3s ease;
-                border: 2px solid var(--secondary-blue);
-                cursor: pointer;
-            }
-
-            .btn:hover {
-                background: var(--primary-blue);
-                border-color: var(--primary-blue);
-            }
-
-            .btn-outline {
-                background: transparent;
-                color: var(--secondary-blue);
-            }
-
-            .btn-outline:hover {
-                background: var(--secondary-blue);
-                color: white;
-            }
-
-            .stats-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-                gap: 2rem;
-                margin: 3rem 0;
-            }
-
-            .stat-card {
-                text-align: center;
-                padding: 1.5rem;
-                background: white;
-                border-radius: 0.5rem;
-                border: 1px solid var(--border-gray);
-            }
-
-            .stat-number {
-                font-size: 2.5rem;
-                font-weight: 700;
-                color: var(--primary-blue);
-                margin-bottom: 0.5rem;
-            }
-
-            .stat-label {
-                color: var(--text-light);
-                font-weight: 500;
-            }
-
-            .cta-section {
-                background: var(--primary-blue);
-                color: white;
-                padding: 4rem 2rem;
-                text-align: center;
-                border-radius: 1rem;
-                margin: 4rem 0;
-            }
-
-            .cta-title {
-                font-size: 2rem;
+                border-radius: 50px;
                 font-weight: 600;
-                margin-bottom: 1rem;
+                transition: all 0.3s ease;
+                border: none;
+                cursor: pointer;
+                position: relative;
+                overflow: hidden;
             }
 
-            .cta-subtitle {
-                font-size: 1.125rem;
-                opacity: 0.9;
-                margin-bottom: 2rem;
+            .portal-button::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+                transition: left 0.5s ease;
             }
 
-            .research-note {
-                background: #f0f9ff;
-                border: 1px solid #0ea5e9;
-                border-radius: 0.75rem;
-                padding: 1.5rem;
-                margin: 2rem 0;
-                font-size: 0.875rem;
-                color: #0c4a6e;
+            .portal-button:hover::before {
+                left: 100%;
+            }
+
+            .portal-button:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+            }
+
+            .floating-particles {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 1;
+            }
+
+            .particle {
+                position: absolute;
+                width: 4px;
+                height: 4px;
+                background: var(--accent-gold);
+                border-radius: 50%;
+                animation: float 6s infinite linear;
+            }
+
+            @keyframes float {
+                0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+                10% { opacity: 1; }
+                90% { opacity: 1; }
+                100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+            }
+
+            .status-indicator {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(0, 255, 0, 0.2);
+                border: 1px solid #00ff00;
+                border-radius: 20px;
+                padding: 0.5rem 1rem;
+                font-size: 0.9rem;
+                color: #00ff00;
+                z-index: 1001;
             }
 
             @media (max-width: 768px) {
-                .pricing-card.featured {
-                    transform: none;
-                }
-                .logo {
-                    font-size: 2rem;
-                }
-                .container {
-                    padding: 0 1rem;
-                }
+                .hero-title { font-size: 2.5rem; }
+                .portal-grid { grid-template-columns: 1fr; }
+                .nav-links { display: none; }
             }
         </style>
     </head>
     <body>
+        <div class="floating-particles" id="particles"></div>
+        
+        <div class="status-indicator">
+            <i class="fas fa-circle"></i> System Online
+        </div>
+
+        <header class="header">
+            <nav class="nav-container">
+                <div class="logo">SuggestlyG4Plus</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h1 class="hero-title">Ultra-Premium AI Platform</h1>
+                <p class="hero-subtitle">
+                    Experience the future of artificial intelligence with our cutting-edge multi-agent system. 
+                    Professional-grade tools for enterprise-level decision making and analysis.
+                </p>
+                
+                <div class="portal-grid">
+                    <div class="portal-card">
+                        <div class="portal-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h3 class="portal-title">AI Agents Portal</h3>
+                        <p class="portal-description">
+                            Interact with our advanced AI agents for intelligent analysis and decision support
+                        </p>
+                        <a href="/agents" class="portal-button">Access Portal</a>
+                    </div>
+
+                    <div class="portal-card">
+                        <div class="portal-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3 class="portal-title">Finance Portal</h3>
+                        <p class="portal-description">
+                            Advanced financial analysis, market intelligence, and portfolio optimization
+                        </p>
+                        <a href="/finance" class="portal-button">Access Portal</a>
+                    </div>
+
+                    <div class="portal-card">
+                        <div class="portal-icon">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <h3 class="portal-title">Executive Portal</h3>
+                        <p class="portal-description">
+                            Strategic planning, risk assessment, and executive decision support tools
+                        </p>
+                        <a href="/executive" class="portal-button">Access Portal</a>
+                    </div>
+
+                    <div class="portal-card">
+                        <div class="portal-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3 class="portal-title">Analytics Portal</h3>
+                        <p class="portal-description">
+                            Comprehensive data analytics, insights, and performance monitoring
+                        </p>
+                        <a href="/analytics" class="portal-button">Access Portal</a>
+                    </div>
+
+                    <div class="portal-card">
+                        <div class="portal-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3 class="portal-title">Support Portal</h3>
+                        <p class="portal-description">
+                            Technical support, documentation, and system assistance
+                        </p>
+                        <a href="/support" class="portal-button">Access Portal</a>
+                    </div>
+
+                    <div class="portal-card">
+                        <div class="portal-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="portal-title">API Portal</h3>
+                        <p class="portal-description">
+                            Developer tools, API documentation, and integration resources
+                        </p>
+                        <a href="/api" class="portal-button">Access Portal</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <script>
+            // Create floating particles
+            function createParticles() {
+                const particlesContainer = document.getElementById('particles');
+                const particleCount = 50;
+                
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'particle';
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 6 + 's';
+                    particle.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                    particlesContainer.appendChild(particle);
+                }
+            }
+
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add hover effects to portal cards
+            document.querySelectorAll('.portal-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+
+            // Initialize particles on page load
+            window.addEventListener('load', createParticles);
+
+            // Add loading animation
+            window.addEventListener('load', function() {
+                document.body.style.opacity = '0';
+                document.body.style.transition = 'opacity 1s ease-in-out';
+                setTimeout(() => {
+                    document.body.style.opacity = '1';
+                }, 100);
+            });
+                 </script>
+     </body>
+     </html>
+     """)
+
+async def agents_portal():
+    return HTMLResponse("""
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AI Agents Portal - SuggestlyG4Plus</title>
+        <style>
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            body { font-family: 'Segoe UI', system-ui, sans-serif; background: #f8fafc; color: #111827; }
+            .header { background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: white; padding: 2rem 0; text-align: center; }
+            .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+            .back-link { color: white; text-decoration: none; font-size: 0.9rem; }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <div class="container">
+                <h1>AI Agents Portal</h1>
+                <p>Interact with our advanced AI agents</p>
+                <a href="/" class="back-link">← Back to Main Portal</a>
+            </div>
+        </div>
+        <div class="container">
+            <h2>Available Agents</h2>
+            <p>All 7 AI agents are online and ready for communication.</p>
+        </div>
+    </body>
+    </html>
+    """)
         <header class="header">
             <div class="container">
                 <h1 class="logo">SuggestlyG4Plus</h1>
