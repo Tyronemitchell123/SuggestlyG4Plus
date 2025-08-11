@@ -21,3 +21,5 @@ aiofiles>=0.8.0
 httpx>=0.24.0
 pydantic>=1.8.0
 pydantic-settings>=2.0.0
+
+

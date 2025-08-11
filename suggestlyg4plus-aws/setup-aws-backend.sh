@@ -48,3 +48,5 @@ echo "   - tf_lock_table = \"$TF_LOCK_TABLE\""
 echo "3. Run: ./scripts/deploy.sh"
 echo ""
 echo -e "${GREEN}Happy deploying! 🚀${NC}"
+
+

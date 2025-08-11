@@ -153,3 +153,5 @@ Choose your path:
 3. **Both**: Deploy to Vercel first, then AWS for production
 
 **The current AWS setup is excellent - it's just a matter of timing and cost optimization!**
+
+
