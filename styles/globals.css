@@ -66,6 +66,17 @@ body {
     inset: -10%;
     filter: blur(18px);
   }
+  .gold-beams {
+    inset: -8%;
+    filter: blur(16px);
+  }
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .beams, .gold-beams {
+    display: none;
+  }
 }
 
 
