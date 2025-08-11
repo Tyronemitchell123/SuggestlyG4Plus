@@ -31,7 +31,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       timestamp: ts,
       payload: {
         stripe_customer_id: customerId,
-        value,
+        value: String(value),
       },
     });
 
