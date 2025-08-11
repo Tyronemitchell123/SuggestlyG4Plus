@@ -35,7 +35,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       },
     });
 
-    return res.status(200).json({ id: created.id, created });
+    return res.status(200).json({ created });
   } catch (err: any) {
     return res.status(500).json({ error: err.message || 'Stripe meter event error' });
   }
