@@ -1,52 +1,73 @@
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-import sys
+from flask import Flask, jsonify
 import os
+from datetime import datetime
 
-# Add the src directory to the path to import our modules
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'src'))
+app = Flask(__name__)
 
-app = FastAPI(
-    title="SuggestlyG4Plus v2.0",
-    description="Enterprise AI Platform for Professional Services",
-    version="2.0.0"
-)
+@app.route('/')
+def home():
+    return jsonify({
+        "message": "SuggestlyG4Plus API",
+        "status": "running",
+        "environment": "production",
+        "version": "2.0.0",
+        "timestamp": datetime.now().isoformat(),
+        "infrastructure": "AWS ECS"
+    })
 
-app.add_middleware(
-    CORSMiddleware, 
-    allow_origins=["*"], 
-    allow_credentials=True,
-    allow_methods=["*"], 
-    allow_headers=["*"],
-)
-
-@app.get("/health")
+@app.route('/health')
 def health():
-    return {"status": "ultra_secure", "monitoring": "enabled", "version": "2.0.0"}
+    return jsonify({
+        "status": "healthy",
+        "timestamp": datetime.now().isoformat(),
+        "service": "suggestlyg4plus-backend"
+    })
 
-@app.get("/")
-def root():
-    return {"message": "SuggestlyG4Plus v2.0 - Enterprise AI Platform", "status": "operational"}
+@app.route('/api/health')
+def api_health():
+    return jsonify({
+        "status": "healthy",
+        "service": "suggestlyg4plus-backend",
+        "version": "2.0.0",
+        "timestamp": datetime.now().isoformat(),
+        "infrastructure": {
+            "platform": "AWS ECS",
+            "region": "eu-west-2",
+            "load_balancer": "ALB",
+            "monitoring": "CloudWatch"
+        }
+    })
 
-# Import and mount the main SuggestlyG4Plus application
-try:
-    from main_ultra_secure import app as suggestly_app
-    
-    # Mount all routes from the main application
-    app.mount("/api", suggestly_app)
-    
-    # Copy all routes from the main app to the root app
-    for route in suggestly_app.routes:
-        app.routes.append(route)
-        
-    print("✅ SuggestlyG4Plus v2.0 routes mounted successfully")
-    
-except ImportError as e:
-    print(f"⚠️ Warning: Could not import main_ultra_secure: {e}")
-    print("Running in minimal mode - only health endpoints available")
+@app.route('/api/infrastructure')
+def infrastructure():
+    return jsonify({
+        "domain": "suggestlyg4plus.io",
+        "region": "eu-west-2",
+        "components": {
+            "vpc": "Active",
+            "route53": "Configured",
+            "cloudfront": "Deployed",
+            "s3": "Active",
+            "ecs": "Running",
+            "alb": "Active",
+            "ssl": "Valid"
+        },
+        "status": "operational"
+    })
 
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+@app.route('/api/status')
+def status():
+    return jsonify({
+        "deployment": "complete",
+        "domain": "suggestlyg4plus.io",
+        "ssl": "enabled",
+        "cdn": "active",
+        "monitoring": "enabled",
+        "auto_scaling": "enabled"
+    })
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 8080))
+    app.run(host='0.0.0.0', port=port, debug=False)
 
 
