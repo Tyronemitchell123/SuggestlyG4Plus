@@ -146,3 +146,4 @@ If you encounter issues:
 ---
 
 **Ready to proceed?** Run the setup script once AWS credentials are configured!
+

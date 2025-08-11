@@ -267,3 +267,4 @@ Write-Host "- Sample backend: suggestlyg4plus-aws/app/backend/main.py" -Foregrou
 Write-Host "- Deployment status: suggestlyg4plus-aws/DEPLOYMENT_STATUS.md" -ForegroundColor White
 Write-Host ""
 Write-Host "🚀 Your domain infrastructure is ready for deployment!" -ForegroundColor Green
+

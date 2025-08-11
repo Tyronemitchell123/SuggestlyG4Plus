@@ -104,3 +104,4 @@ aws ec2 describe-regions
 ---
 
 **Ready to proceed? Choose an option and let's get your domain fully configured!**
+

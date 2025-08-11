@@ -195,3 +195,4 @@ cd suggestlyg4plus-aws/scripts
 ```
 
 **Ready to get started? Follow the steps above and your domain will be fully configured!** 🎯
+

@@ -163,3 +163,4 @@ Write-Host "- Estimated monthly cost: $12-26" -ForegroundColor White
 
 Write-Host ""
 Write-Host "🎯 Ready to deploy? Run the auto-domain-setup.sh script!" -ForegroundColor Green
+
