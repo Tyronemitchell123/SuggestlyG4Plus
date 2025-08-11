@@ -15,75 +15,52 @@ export default function HomePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="min-h-screen bg-slate-950 text-white font-sans overflow-hidden">
+      <main className="min-h-screen bg-black text-white font-sans overflow-hidden">
         <div className="relative min-h-screen flex flex-col items-center justify-center px-4 py-16 md:py-24">
-          {/* Gradient beams background */}
-          <div className="beams" />
-
-          {/* Floating gradient orbs */}
-          <motion.div
-            className="absolute -top-24 -left-16 h-72 w-72 rounded-full bg-gradient-to-br from-purple-600/30 to-pink-600/30 blur-3xl hidden sm:block"
-            animate={{ x: [0, 20, -10, 0], y: [0, -10, 10, 0], opacity: [0.6, 0.8, 0.6] }}
-            transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
-          />
-          <motion.div
-            className="absolute -bottom-24 -right-24 h-96 w-96 rounded-full bg-gradient-to-tr from-blue-600/20 to-purple-600/20 blur-3xl hidden sm:block"
-            animate={{ x: [0, -15, 10, 0], y: [0, 15, -10, 0], opacity: [0.5, 0.7, 0.5] }}
-            transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-          />
+          {/* Luxury gold beams background */}
+          <div className="gold-beams" />
 
           <div className="relative z-10 text-center max-w-6xl mx-auto">
             <motion.h1
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1 }}
-              className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-purple-300 via-fuchsia-300 to-sky-300 bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(168,85,247,.35)]"
+              className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-yellow-200 via-amber-300 to-yellow-500 bg-clip-text text-transparent drop-shadow-[0_0_35px_rgba(234,179,8,.25)]"
             >
-              Suggestly
+              Suggestly Private
             </motion.h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3 }}
-              className="text-xl md:text-2xl text-gray-300 mb-10 md:mb-16 max-w-3xl mx-auto leading-relaxed"
+              className="text-xl md:text-2xl text-zinc-300 mb-8 md:mb-12 max-w-2xl mx-auto leading-relaxed"
             >
-              Choose your platform for the future of technology and investment
+              Elite technology and investment infrastructure. Private access only.
             </motion.p>
-
-            {/* Premium mirror code preview */}
+            {/* Minimal luxury CTA */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5 }}
-              className="mx-auto max-w-5xl mb-16"
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="mx-auto max-w-xl mb-14"
             >
-              <div className="relative glass rounded-2xl gradient-border overflow-hidden">
-                <div className="p-4 md:p-8">
-                  <div className="flex items-center space-x-2 mb-4 opacity-70">
-                    <span className="h-3 w-3 rounded-full bg-red-500/80" />
-                    <span className="h-3 w-3 rounded-full bg-yellow-500/80" />
-                    <span className="h-3 w-3 rounded-full bg-green-500/80" />
-                    <span className="ml-3 text-xs text-gray-400">Live Preview</span>
-                  </div>
-                  <pre className="text-left text-xs sm:text-sm md:text-base leading-relaxed text-purple-100/90 overflow-auto">
-{`const platform = new SuggestlyG4Plus({
-  agents: ['Analyst', 'Strategist', 'Optimizer'],
-  security: 'Enterprise',
-  effects: 'Ultra-Premium Motion'
-})`}
-                  </pre>
-                </div>
-              </div>
-              <div className="relative mt-2 hidden md:block">
-                <div className="reflection glass rounded-2xl">
-                  <div className="p-5 md:p-8 opacity-50">
-                    <pre className="text-left text-sm md:text-base text-purple-100/40 overflow-auto">
-{`const platform = new SuggestlyG4Plus({ ... })`}
-                    </pre>
+              <div className="glass rounded-2xl border-yellow-500/20">
+                <div className="p-6 md:p-8 text-center">
+                  <p className="text-zinc-300 mb-6">Access by invitation only</p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <Link href="/aurum-private">
+                      <button className="w-full py-4 bg-yellow-500 text-black font-semibold rounded-full hover:bg-yellow-400 transition-colors">
+                        Request Invitation
+                      </button>
+                    </Link>
+                    <Link href="/suggestly-ai">
+                      <button className="w-full py-4 border border-yellow-500/40 text-yellow-300 font-semibold rounded-full hover:bg-yellow-500/10 transition-colors">
+                        Explore Platform
+                      </button>
+                    </Link>
                   </div>
                 </div>
-                <div className="fade-overlay rounded-2xl" />
               </div>
             </motion.div>
 
@@ -95,7 +72,7 @@ export default function HomePage() {
             >
               {/* Aurum Private Card */}
               <motion.div
-                whileHover={{ scale: 1.03, rotateX: 2, rotateY: -2 }}
+                whileHover={{ scale: 1.02 }}
                 transition={{ type: 'spring', stiffness: 120, damping: 12 }}
                 className="glass rounded-2xl p-8 border-yellow-500/20 hover:border-yellow-400/40 transition-all duration-500"
               >
@@ -133,11 +110,11 @@ export default function HomePage() {
 
               {/* SuggestlyG4Plus Card */}
               <motion.div
-                whileHover={{ scale: 1.03, rotateX: -2, rotateY: 2 }}
+                whileHover={{ scale: 1.02 }}
                 transition={{ type: 'spring', stiffness: 120, damping: 12 }}
-                className="glass rounded-2xl p-8 border-purple-500/20 hover:border-purple-400/40 transition-all duration-500"
+                className="glass rounded-2xl p-8 border-yellow-500/20 hover:border-yellow-400/40 transition-all duration-500"
               >
-                <div className="text-4xl font-bold text-purple-400 mb-4">SuggestlyG4Plus</div>
+                <div className="text-4xl font-bold text-yellow-300 mb-4">SuggestlyG4Plus</div>
                 <h3 className="text-2xl font-bold mb-4 text-white">Advanced AI Platform</h3>
                 <p className="text-gray-300 mb-6 leading-relaxed">
                   Next-generation AI platform with multi-agent intelligence,
@@ -146,24 +123,24 @@ export default function HomePage() {
                 </p>
                 <div className="space-y-3 mb-8 text-left">
                   <div className="flex items-center text-gray-300">
-                    <span className="text-purple-400 mr-3">✓</span>
+                    <span className="text-yellow-400 mr-3">✓</span>
                     Multi-agent AI system
                   </div>
                   <div className="flex items-center text-gray-300">
-                    <span className="text-purple-400 mr-3">✓</span>
+                    <span className="text-yellow-400 mr-3">✓</span>
                     IoT & Bluetooth integration
                   </div>
                   <div className="flex items-center text-gray-300">
-                    <span className="text-purple-400 mr-3">✓</span>
+                    <span className="text-yellow-400 mr-3">✓</span>
                     Voice AI & computer vision
                   </div>
                   <div className="flex items-center text-gray-300">
-                    <span className="text-purple-400 mr-3">✓</span>
+                    <span className="text-yellow-400 mr-3">✓</span>
                     Enterprise security
                   </div>
                 </div>
                 <Link href="/suggestly-ai">
-                  <button className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-semibold rounded-full transition-all duration-200">
+                  <button className="w-full py-4 bg-yellow-500 text-black font-semibold rounded-full hover:bg-yellow-400 transition-colors">
                     Get Started
                   </button>
                 </Link>

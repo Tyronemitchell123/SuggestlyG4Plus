@@ -39,6 +39,16 @@ body {
   transform: translateZ(0);
 }
 
+.gold-beams {
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(50rem 50rem at 20% -10%, rgba(234,179,8,.10), transparent 40%),
+              radial-gradient(40rem 40rem at 80% 10%, rgba(202,138,4,.08), transparent 45%),
+              radial-gradient(60rem 60rem at 50% 110%, rgba(250,204,21,.08), transparent 40%);
+  filter: blur(28px);
+  transform: translateZ(0);
+}
+
 .reflection {
   transform: scaleY(-1);
   opacity: .35;
