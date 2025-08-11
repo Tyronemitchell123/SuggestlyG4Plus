@@ -1667,6 +1667,8 @@ async def agents_portal():
     </body>
     </html>
     """)
+    
+    return HTMLResponse("""
         <header class="header">
             <div class="container">
                 <h1 class="logo">SuggestlyG4Plus</h1>
@@ -1762,189 +1764,74 @@ async def agents_portal():
                                     <li>10,000 Token Credits/month</li>
                                     <li>Basic Analytics Dashboard</li>
                                     <li>Email Support (24hr response)</li>
-                                    <li>Standard Security & API</li>
-                                    <li>Team Collaboration (up to 5 users)</li>
+                                    <li>Standard API Access</li>
                                 </ul>
-                                <button class="btn">Start 14-Day Trial</button>
+                                <button class="pricing-btn">Get Started</button>
                             </div>
-                            
                             <div class="pricing-card featured">
-                                <div class="pricing-badge">Most Popular</div>
                                 <div class="pricing-tier">Enterprise</div>
-                                <div class="pricing-amount">$349</div>
+                                <div class="pricing-amount">$299</div>
                                 <div class="pricing-period">per month</div>
                                 <ul class="pricing-features">
-                                    <li>All 7 AI Agents</li>
-                                    <li>100,000 Token Credits/month</li>
-                                    <li>Advanced Analytics & Reporting</li>
-                                    <li>Priority Support (2hr response)</li>
-                                    <li>Enhanced Security & Integrations</li>
-                                    <li>White-label Solution</li>
-                                    <li>Team Management (unlimited users)</li>
+                                    <li>All 7 AI Agents Access</li>
+                                    <li>Unlimited Token Credits</li>
+                                    <li>Advanced Analytics Suite</li>
+                                    <li>Priority Support (4hr response)</li>
+                                    <li>Full API Access</li>
+                                    <li>Custom Integrations</li>
                                 </ul>
-                                <button class="btn">Contact Sales</button>
+                                <button class="pricing-btn featured">Get Started</button>
                             </div>
-                            
                             <div class="pricing-card">
                                 <div class="pricing-tier">Ultra-Premium</div>
-                                <div class="pricing-amount">$2,500</div>
+                                <div class="pricing-amount">$999</div>
                                 <div class="pricing-period">per month</div>
                                 <ul class="pricing-features">
-                                    <li>Everything in Enterprise</li>
-                                    <li>1M+ Token Credits/month</li>
-                                    <li>Dedicated Account Manager</li>
-                                    <li>Custom AI Model Training</li>
-                                    <li>Private Server Deployment</li>
-                                    <li>24/7 Concierge Support</li>
-                                    <li>Executive Briefings & Analysis</li>
+                                    <li>All 7 AI Agents + NEXUS-ULTRA</li>
+                                    <li>Unlimited Everything</li>
+                                    <li>Real-time Analytics</li>
+                                    <li>24/7 Dedicated Support</li>
+                                    <li>White-label Solutions</li>
+                                    <li>Custom AI Training</li>
                                 </ul>
-                                <button class="btn">Contact Private Office</button>
+                                <button class="pricing-btn">Contact Sales</button>
                             </div>
                         </div>
-                        
-                        <div class="research-note">
-                            <strong>Pricing Research:</strong> Professional tier aligns with enterprise AI tools (GitHub Copilot Business $19/user), 
-                            Enterprise matches ServiceNow AI offerings (~$350/month), Ultra-Premium based on Goldman Sachs private wealth 
-                            management fees (equivalent to 0.43% annual fee on $7M portfolio).
-                        </div>
                     </div>
                 </section>
 
-                <!-- Portal Navigation Section -->
+                <!-- Navigation Section -->
                 <section class="section">
-                    <h2 class="section-title">Enterprise Portals</h2>
-                    <p class="section-subtitle">
-                        Access specialized portals designed for enterprise operations and ultra-premium services
-                    </p>
-                    
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon">🤖</div>
-                            <h3 class="feature-title">AI Agents Portal</h3>
-                            <p class="feature-desc">Manage and interact with all 7 specialized AI agents including LUX, QUANTUM, and CIPHER.</p>
-                            <a href="/agents" class="btn" style="margin-top: 1rem; text-decoration: none;">Access Agents →</a>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">💰</div>
-                            <h3 class="feature-title">Finance Portal</h3>
-                            <p class="feature-desc">Comprehensive financial services, market analysis, and investment management tools.</p>
-                            <a href="/finance" class="btn" style="margin-top: 1rem; text-decoration: none;">Access Finance →</a>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">👔</div>
-                            <h3 class="feature-title">Executive Portal</h3>
-                            <p class="feature-desc">Ultra-premium services for executives including market intelligence and private banking.</p>
-                            <a href="/executive" class="btn" style="margin-top: 1rem; text-decoration: none;">Access Executive →</a>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">📊</div>
-                            <h3 class="feature-title">Analytics Portal</h3>
-                            <p class="feature-desc">Advanced analytics, performance monitoring, and business intelligence dashboards.</p>
-                            <a href="/analytics" class="btn" style="margin-top: 1rem; text-decoration: none;">Access Analytics →</a>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">🎧</div>
-                            <h3 class="feature-title">Support Portal</h3>
-                            <p class="feature-desc">24/7 enterprise support, documentation, and client success management.</p>
-                            <a href="/support" class="btn" style="margin-top: 1rem; text-decoration: none;">Access Support →</a>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">⚡</div>
-                            <h3 class="feature-title">API Portal</h3>
-                            <p class="feature-desc">Complete API documentation, testing tools, and integration resources.</p>
-                            <a href="/api" class="btn" style="margin-top: 1rem; text-decoration: none;">Access API →</a>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Executive Services Section -->
-                <section class="section">
-                    <h2 class="section-title">Ultra-Premium Executive Services</h2>
-                    <p class="section-subtitle">
-                        Exclusive services for ultra-high-net-worth individuals and enterprise leaders
-                    </p>
-                    
-                    <div class="features-grid">
-                        <div class="feature-card">
-                            <div class="feature-icon">🌍</div>
-                            <h3 class="feature-title">Market Intelligence</h3>
-                            <p class="feature-desc">Global market analysis, geopolitical risk assessment, and exclusive investment insights.</p>
-                            <a href="/docs#!/executive/market-intelligence" class="btn btn-outline" style="margin-top: 1rem; text-decoration: none;">View API →</a>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">⚠️</div>
-                            <h3 class="feature-title">Risk Assessment</h3>
-                            <p class="feature-desc">Comprehensive portfolio risk analysis and hedging strategy recommendations.</p>
-                            <a href="/docs#!/executive/risk-assessment" class="btn btn-outline" style="margin-top: 1rem; text-decoration: none;">View API →</a>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">🤝</div>
-                            <h3 class="feature-title">M&A Analysis</h3>
-                            <p class="feature-desc">Merger and acquisition opportunities with due diligence and valuation insights.</p>
-                            <a href="/docs#!/executive/merger-analysis" class="btn btn-outline" style="margin-top: 1rem; text-decoration: none;">View API →</a>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">🏦</div>
-                            <h3 class="feature-title">Private Banking</h3>
-                            <p class="feature-desc">Wealth structuring, credit facilities, and family office coordination services.</p>
-                            <a href="/docs#!/executive/private-banking" class="btn btn-outline" style="margin-top: 1rem; text-decoration: none;">View API →</a>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">✈️</div>
-                            <h3 class="feature-title">Concierge Services</h3>
-                            <p class="feature-desc">Ultra-premium lifestyle management, travel coordination, and exclusive access.</p>
-                            <a href="/docs#!/executive/concierge" class="btn btn-outline" style="margin-top: 1rem; text-decoration: none;">View API →</a>
-                        </div>
-                        
-                        <div class="feature-card">
-                            <div class="feature-icon">🏛️</div>
-                            <h3 class="feature-title">Family Office</h3>
-                            <p class="feature-desc">Comprehensive family office management and multi-generational wealth planning.</p>
-                            <a href="/docs#!/executive/family-office" class="btn btn-outline" style="margin-top: 1rem; text-decoration: none;">View API →</a>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- CTA Section -->
-                <section class="cta-section">
-                    <div class="container">
-                        <h2 class="cta-title">Ready for Enterprise Deployment?</h2>
-                        <p class="cta-subtitle">
-                            Join leading Fortune 500 companies using SuggestlyG4Plus for AI-powered business solutions
-                        </p>
-                        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                            <a href="/docs" class="btn">View Documentation</a>
-                            <a href="/health" class="btn btn-outline">System Status</a>
-                        </div>
+                    <h2 class="section-title">Platform Access</h2>
+                    <div class="nav-grid">
+                        <a href="/agents" class="nav-card">
+                            <div class="nav-icon">🤖</div>
+                            <h3>AI Agents Portal</h3>
+                            <p>Access all 7 specialized AI agents</p>
+                        </a>
+                        <a href="/finance" class="nav-card">
+                            <div class="nav-icon">💰</div>
+                            <h3>Finance Portal</h3>
+                            <p>Advanced financial analysis and trading</p>
+                        </a>
+                        <a href="/executive" class="nav-card">
+                            <div class="nav-icon">👑</div>
+                            <h3>Executive Portal</h3>
+                            <p>Premium services for executives</p>
+                        </a>
+                        <a href="/analytics" class="nav-card">
+                            <div class="nav-icon">📊</div>
+                            <h3>Analytics Portal</h3>
+                            <p>Real-time performance monitoring</p>
+                        </a>
                     </div>
                 </section>
             </div>
         </main>
-        
+
         <script>
-            // Ensure all navigation buttons work properly
-            document.addEventListener('DOMContentLoaded', function() {
-                // Add click handlers to all navigation buttons
-                const buttons = document.querySelectorAll('a[href^="/"]');
-                buttons.forEach(button => {
-                    button.addEventListener('click', function(e) {
-                        const href = this.getAttribute('href');
-                        if (href && href !== '#') {
-                            window.location.href = href;
-                        }
-                    });
-                });
-                
-                // Force refresh for cached content
+            // Performance monitoring
+            window.addEventListener('load', function() {
                 if (performance.navigation.type === 1) {
                     console.log('Page refreshed - buttons ready');
                 }
@@ -1953,6 +1840,8 @@ async def agents_portal():
     </body>
     </html>
     """)
+
+
 
 # Subdomain portal functions
 async def agents_portal():
