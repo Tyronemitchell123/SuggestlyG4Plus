@@ -1,0 +1,24 @@
+{
+  "domain": "suggestlyg4plus.io",
+  "force_level": "MAXIMUM",
+  "dns_records": [
+    {
+      "type": "A",
+      "name": "@",
+      "value": "76.76.19.19",
+      "force_level": "MAXIMUM"
+    },
+    {
+      "type": "CNAME",
+      "name": "www",
+      "value": "suggestlyg4plus.io",
+      "force_level": "MAXIMUM"
+    }
+  ],
+  "verification_steps": [
+    "DNS propagation check",
+    "SSL certificate validation",
+    "Domain accessibility test",
+    "Force optimization verification"
+  ]
+}

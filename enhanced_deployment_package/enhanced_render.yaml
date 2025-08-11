@@ -1,0 +1,24 @@
+
+services:
+  - type: web
+    name: suggestlyg4plus
+    env: python
+    buildCommand: pip install -r requirements.txt && python -m pip install --upgrade pip
+    startCommand: python src/main_ultra_secure.py
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
+      - key: PORT
+        value: 8000
+      - key: ENHANCED_MODE
+        value: true
+      - key: QUANTUM_FORCE
+        value: true
+      - key: AI_OPTIMIZATION
+        value: true
+    healthCheckPath: /health
+    autoDeploy: true
+    scaling:
+      minInstances: 1
+      maxInstances: 10
+      autoScaling: true

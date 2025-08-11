@@ -1,0 +1,26 @@
+{
+  "domain": "suggestlyg4plus.io",
+  "force_level": "MAXIMUM",
+  "records": [
+    {
+      "type": "A",
+      "name": "@",
+      "value": "76.76.19.19",
+      "ttl": 3600,
+      "force": true
+    },
+    {
+      "type": "CNAME",
+      "name": "www",
+      "value": "suggestlyg4plus.io",
+      "ttl": 3600,
+      "force": true
+    }
+  ],
+  "intelligent_verification": {
+    "dns_propagation_check": true,
+    "ssl_certificate_check": true,
+    "website_accessibility_check": true,
+    "force_monitoring": true
+  }
+}

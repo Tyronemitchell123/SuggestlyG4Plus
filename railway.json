@@ -1,0 +1,12 @@
+{
+  "name": "suggestlyg4plus",
+  "description": "Quantum AI Platform with Auto-Deployment",
+  "repository": "tyronemitchell123-group/extracted",
+  "auto_deploy": true,
+  "environment": {
+    "PYTHON_VERSION": "3.11",
+    "PORT": "8000"
+  },
+  "build_command": "pip install -r requirements.txt",
+  "start_command": "python src/main_ultra_secure.py"
+}

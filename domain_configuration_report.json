@@ -1,0 +1,181 @@
+{
+  "domain_configuration_report": {
+    "title": "Domain Configuration Status Report",
+    "timestamp": "2025-08-11T23:26:56.309326",
+    "domain": "suggestlyg4plus.io",
+    "overall_status": "PARTIALLY FUNCTIONAL",
+    "functionality_score": "3/5",
+    "checks": {
+      "dns_records": {
+        "domain": "suggestlyg4plus.io",
+        "www_domain": "www.suggestlyg4plus.io",
+        "vercel_domain": "suggestlyg4plus.vercel.app",
+        "records": {
+          "A": [
+            "216.198.79.1",
+            "64.29.17.1"
+          ],
+          "CNAME": "Error: The DNS response does not contain an answer to the question: suggestlyg4plus.io. IN CNAME",
+          "MX": [
+            "0 suggestlyg4plus-io.mail.protection.outlook.com."
+          ],
+          "TXT": "Error: The DNS response does not contain an answer to the question: suggestlyg4plus.io. IN TXT"
+        }
+      },
+      "ssl_certificates": {
+        "primary_domain": {
+          "valid": true,
+          "issuer": {
+            "countryName": "US",
+            "organizationName": "Let's Encrypt",
+            "commonName": "R11"
+          },
+          "subject": {
+            "commonName": "*.suggestlyg4plus.io"
+          },
+          "expiry": "Oct 19 11:03:50 2025 GMT",
+          "version": 3
+        },
+        "www_domain": {
+          "valid": true,
+          "issuer": {
+            "countryName": "US",
+            "organizationName": "Let's Encrypt",
+            "commonName": "R11"
+          },
+          "subject": {
+            "commonName": "*.suggestlyg4plus.io"
+          },
+          "expiry": "Oct 19 11:03:50 2025 GMT",
+          "version": 3
+        },
+        "vercel_domain": {
+          "valid": true,
+          "issuer": {
+            "countryName": "US",
+            "organizationName": "Let's Encrypt",
+            "commonName": "R11"
+          },
+          "subject": {
+            "commonName": "*.vercel.app"
+          },
+          "expiry": "Sep 22 04:57:31 2025 GMT",
+          "version": 3
+        }
+      },
+      "http_responses": {
+        "https://suggestlyg4plus.io": {
+          "status_code": 401,
+          "final_url": "https://suggestlyg4plus.io/",
+          "headers": {
+            "Cache-Control": "no-store, max-age=0",
+            "Content-Length": "13284",
+            "Content-Type": "text/html; charset=utf-8",
+            "Date": "Mon, 11 Aug 2025 22:26:55 GMT",
+            "Server": "Vercel",
+            "Set-Cookie": "_vercel_sso_nonce=ly0kjSKiHAkn4DFbWRCA6w8x; Max-Age=3600; Path=/; Secure; HttpOnly; SameSite=Lax",
+            "Strict-Transport-Security": "max-age=63072000",
+            "X-Frame-Options": "DENY",
+            "X-Vercel-Id": "lhr1::fhn5d-1754951215530-ed25be84198c"
+          },
+          "content_length": 13284,
+          "response_time": 0.052748
+        },
+        "http://suggestlyg4plus.io": {
+          "status_code": 401,
+          "final_url": "https://suggestlyg4plus.io/",
+          "headers": {
+            "Cache-Control": "no-store, max-age=0",
+            "Content-Length": "13284",
+            "Content-Type": "text/html; charset=utf-8",
+            "Date": "Mon, 11 Aug 2025 22:26:55 GMT",
+            "Server": "Vercel",
+            "Set-Cookie": "_vercel_sso_nonce=vLCrhFSlXWIHUJu3gtXv4Hej; Max-Age=3600; Path=/; Secure; HttpOnly; SameSite=Lax",
+            "Strict-Transport-Security": "max-age=63072000",
+            "X-Frame-Options": "DENY",
+            "X-Vercel-Id": "lhr1::xqkks-1754951215636-17d54d80f863"
+          },
+          "content_length": 13284,
+          "response_time": 0.073331
+        },
+        "https://www.suggestlyg4plus.io": {
+          "status_code": 401,
+          "final_url": "https://suggestlyg4plus.io/",
+          "headers": {
+            "Cache-Control": "no-store, max-age=0",
+            "Content-Length": "13284",
+            "Content-Type": "text/html; charset=utf-8",
+            "Date": "Mon, 11 Aug 2025 22:26:55 GMT",
+            "Server": "Vercel",
+            "Set-Cookie": "_vercel_sso_nonce=qRJ27zu5QuQcss2HmCPOPnWR; Max-Age=3600; Path=/; Secure; HttpOnly; SameSite=Lax",
+            "Strict-Transport-Security": "max-age=63072000",
+            "X-Frame-Options": "DENY",
+            "X-Vercel-Id": "lhr1::fhn5d-1754951215743-48454eb6f444"
+          },
+          "content_length": 13284,
+          "response_time": 0.043132
+        },
+        "http://www.suggestlyg4plus.io": {
+          "status_code": 401,
+          "final_url": "https://suggestlyg4plus.io/",
+          "headers": {
+            "Cache-Control": "no-store, max-age=0",
+            "Content-Length": "13284",
+            "Content-Type": "text/html; charset=utf-8",
+            "Date": "Mon, 11 Aug 2025 22:26:55 GMT",
+            "Server": "Vercel",
+            "Set-Cookie": "_vercel_sso_nonce=2qsSl4XmaVmbXNCisIb4mM5u; Max-Age=3600; Path=/; Secure; HttpOnly; SameSite=Lax",
+            "Strict-Transport-Security": "max-age=63072000",
+            "X-Frame-Options": "DENY",
+            "X-Vercel-Id": "lhr1::fhn5d-1754951215900-f24aa62b7a89"
+          },
+          "content_length": 13284,
+          "response_time": 0.063402
+        },
+        "https://suggestlyg4plus.vercel.app": {
+          "status_code": 404,
+          "final_url": "https://suggestlyg4plus.vercel.app/",
+          "headers": {
+            "Cache-Control": "public, max-age=0, must-revalidate",
+            "Content-Length": "107",
+            "Content-Type": "text/plain; charset=utf-8",
+            "Date": "Mon, 11 Aug 2025 22:26:55 GMT",
+            "Server": "Vercel",
+            "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+            "X-Vercel-Error": "DEPLOYMENT_NOT_FOUND",
+            "X-Vercel-Id": "lhr1::8c95j-1754951215965-7e71f2d2abe0"
+          },
+          "content_length": 107,
+          "response_time": 0.05886
+        },
+        "http://suggestlyg4plus.vercel.app": {
+          "status_code": 404,
+          "final_url": "https://suggestlyg4plus.vercel.app/",
+          "headers": {
+            "Cache-Control": "public, max-age=0, must-revalidate",
+            "Content-Length": "107",
+            "Content-Type": "text/plain; charset=utf-8",
+            "Date": "Mon, 11 Aug 2025 22:26:56 GMT",
+            "Server": "Vercel",
+            "Strict-Transport-Security": "max-age=63072000; includeSubDomains; preload",
+            "X-Vercel-Error": "DEPLOYMENT_NOT_FOUND",
+            "X-Vercel-Id": "lhr1::2jsbw-1754951216040-55869b15c1ec"
+          },
+          "content_length": 107,
+          "response_time": 0.046272
+        }
+      },
+      "functionality": {
+        "dns_resolution": true,
+        "ssl_working": true,
+        "http_accessible": false,
+        "redirects_working": true,
+        "vercel_integration": false
+      }
+    },
+    "recommendations": [
+      "Check if the domain is properly deployed on Vercel",
+      "Verify Vercel project deployment and domain configuration"
+    ]
+  }
+}

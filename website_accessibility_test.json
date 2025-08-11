@@ -1,0 +1,22 @@
+{
+  "https://suggestlyg4plus.io": {
+    "status": "\ud83d\udd34 401",
+    "status_code": 401,
+    "response_time": 0.126175
+  },
+  "https://www.suggestlyg4plus.io": {
+    "status": "\ud83d\udd34 401",
+    "status_code": 401,
+    "response_time": 0.044191
+  },
+  "http://suggestlyg4plus.io": {
+    "status": "\ud83d\udd34 401",
+    "status_code": 401,
+    "response_time": 0.045853
+  },
+  "http://www.suggestlyg4plus.io": {
+    "status": "\ud83d\udd34 401",
+    "status_code": 401,
+    "response_time": 0.057967
+  }
+}

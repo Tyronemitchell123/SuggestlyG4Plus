@@ -1,0 +1,33 @@
+{
+  "project_name": "suggestlyg4plus",
+  "domain": "suggestlyg4plus.io",
+  "force_level": "MAXIMUM",
+  "deployment_steps": [
+    {
+      "step": 1,
+      "action": "Import Repository",
+      "repository": "tyronemitchell123-group/extracted",
+      "force_level": "MAXIMUM"
+    },
+    {
+      "step": 2,
+      "action": "Configure Project",
+      "framework": "Python",
+      "build_command": "pip install -r requirements.txt",
+      "output_directory": ".",
+      "force_level": "MAXIMUM"
+    },
+    {
+      "step": 3,
+      "action": "Deploy with Maximum Force",
+      "auto_deploy": true,
+      "force_level": "MAXIMUM"
+    },
+    {
+      "step": 4,
+      "action": "Configure Custom Domain",
+      "domain": "suggestlyg4plus.io",
+      "force_level": "MAXIMUM"
+    }
+  ]
+}
