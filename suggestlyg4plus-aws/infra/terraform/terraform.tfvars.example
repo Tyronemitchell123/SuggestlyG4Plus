@@ -1,0 +1,17 @@
+project         = "suggestlyg4plusv2"
+region          = "eu-west-2"
+tf_state_bucket = "YOUR-TF-STATE-BUCKET"
+tf_lock_table   = "YOUR-TF-LOCK-TABLE"
+# domain        = "suggestlyg4plus.io"
+# hosted_zone_id= "ZXXXXXXXXXXXX"
+
+# Optional variables (with defaults)
+domain = "suggestlyg4plus.io"  # Leave empty for no custom domain
+hosted_zone_id = "Z1234567890ABC"  # Route53 hosted zone ID (only if using custom domain)
+frontend_bucket = ""  # Leave empty for auto-naming
+
+# Container configuration
+container_cpu = 512
+container_mem = 1024
+desired_count = 1
+container_port = 8080
