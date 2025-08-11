@@ -11,6 +11,7 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head />
         <body>
+          <a href="#main" className="skip-link">Skip to main content</a>
           <Main />
           <NextScript />
         </body>

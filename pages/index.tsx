@@ -1,9 +1,10 @@
 import React from "react";
 import Head from "next/head";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
 export default function HomePage() {
+  const reduceMotion = useReducedMotion();
   return (
     <>
       <Head>
@@ -15,10 +16,10 @@ export default function HomePage() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="min-h-screen bg-black text-white font-sans overflow-hidden">
-        <div className="relative min-h-screen flex flex-col items-center justify-center px-4 py-16 md:py-24">
+      <main id="main" className="min-h-screen bg-black text-white font-sans overflow-hidden">
+        <div className="relative min-h-screen flex flex-col items-center justify-center px-4 py-16 md:py-24 selection:bg-yellow-500/20 selection:text-yellow-200">
           {/* Luxury gold beams background */}
-          <div className="gold-beams" />
+          {!reduceMotion && <div className="gold-beams" />}
 
           <div className="relative z-10 text-center max-w-6xl mx-auto">
             <motion.h1
@@ -50,12 +51,12 @@ export default function HomePage() {
                   <p className="text-zinc-300 mb-6">Access by invitation only</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <Link href="/aurum-private">
-                      <button className="w-full py-4 bg-yellow-500 text-black font-semibold rounded-full hover:bg-yellow-400 transition-colors">
+                      <button className="w-full py-4 bg-yellow-500 text-black font-semibold rounded-full hover:bg-yellow-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400/60">
                         Request Invitation
                       </button>
                     </Link>
                     <Link href="/suggestly-ai">
-                      <button className="w-full py-4 border border-yellow-500/40 text-yellow-300 font-semibold rounded-full hover:bg-yellow-500/10 transition-colors">
+                      <button className="w-full py-4 border border-yellow-500/40 text-yellow-300 font-semibold rounded-full hover:bg-yellow-500/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400/40">
                         Explore Platform
                       </button>
                     </Link>
@@ -101,8 +102,8 @@ export default function HomePage() {
                     Secure infrastructure
                   </div>
                 </div>
-                <Link href="/aurum-private">
-                  <button className="w-full py-4 bg-yellow-500 hover:bg-yellow-400 text-black font-semibold rounded-full transition-colors duration-200">
+                 <Link href="/aurum-private">
+                  <button className="w-full py-4 bg-yellow-500 hover:bg-yellow-400 text-black font-semibold rounded-full transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400/60">
                     Request Invitation
                   </button>
                 </Link>
@@ -140,7 +141,7 @@ export default function HomePage() {
                   </div>
                 </div>
                 <Link href="/suggestly-ai">
-                  <button className="w-full py-4 bg-yellow-500 text-black font-semibold rounded-full hover:bg-yellow-400 transition-colors">
+                  <button className="w-full py-4 bg-yellow-500 text-black font-semibold rounded-full hover:bg-yellow-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400/60">
                     Get Started
                   </button>
                 </Link>
