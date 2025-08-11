@@ -1,0 +1,26 @@
+/* Global premium utilities and accessibility */
+* { box-sizing: border-box }
+
+/* Skip link: visible on focus */
+.skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
+.skip-link:focus { left: 1rem; top: 1rem; width: auto; height: auto; padding: 0.5rem 0.75rem; background: #0b1020; color: #fff; border: 2px solid #7877c6; border-radius: 8px; z-index: 20000; }
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+/* Progressive gradient text utility */
+.gradient-text { color: #ffffff; }
+@supports (-webkit-background-clip: text) {
+  .gradient-text { background: linear-gradient(135deg, #7877c6, #ff77c6); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+}
+@supports (background-clip: text) {
+  .gradient-text { background: linear-gradient(135deg, #7877c6, #ff77c6); background-clip: text; color: transparent; }
+}
+
+/* Backdrop blur cross-browser utility */
+.backdrop-blur-10 { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.backdrop-blur-20 { backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+
+

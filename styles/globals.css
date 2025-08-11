@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #__next {
+  height: 100%;
+}
+
+body {
+  background-color: #0f172a; /* slate-900 fallback */
+  color: white;
+}
+
+/* Premium UI additions */
+.glass {
+  @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl;
+}
+
+.gradient-border {
+  position: relative;
+}
+.gradient-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, rgba(124,58,237,.7), rgba(236,72,153,.7), rgba(59,130,246,.7));
+  filter: blur(8px);
+  z-index: -1;
+}
+
+.beams {
+  position: absolute;
+  inset: -25%;
+  background: radial-gradient(60rem 60rem at 20% -10%, rgba(168,85,247,.12), transparent 40%),
+              radial-gradient(40rem 40rem at 80% 10%, rgba(236,72,153,.10), transparent 40%),
+              radial-gradient(50rem 50rem at 50% 120%, rgba(59,130,246,.10), transparent 35%);
+  filter: blur(30px);
+  transform: translateZ(0);
+}
+
+.reflection {
+  transform: scaleY(-1);
+  opacity: .35;
+}
+.fade-overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(15,23,42, .3), rgba(15,23,42, .9));
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .beams {
+    inset: -10%;
+    filter: blur(18px);
+  }
+}
+
+

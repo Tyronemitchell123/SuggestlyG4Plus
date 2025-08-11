@@ -14,6 +14,7 @@ __pycache__/
 # Node/Vercel
 node_modules/
 .vercel/
+.next/
 
 # SQLite db (keep local unless using managed disk)
 *.db
@@ -338,7 +339,8 @@ build.gradle
 !app/**
 
 # CSS/SCSS files (if any)
-*.css
+# Keep styles in repo but ignore stray compiled assets
+!styles/**
 *.scss
 *.sass
 *.less
@@ -434,5 +436,7 @@ suggestly_data.db
 *.db
 __pycache__/
 *.pyc
+
+.vercel
 
 .vercel
