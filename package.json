@@ -24,8 +24,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/suggestlyg4plus/suggestlyg4plus.io"
+    "url": "https://github.com/Tyronemitchell123/v2.git"
   },
-  "homepage": "https://suggestlyg4plus.io"
+  "homepage": "https://suggestlyg4plus.io",
+  "vercel": {
+    "alias": ["suggestlyg4plus.io"]
+  }
 }
 
