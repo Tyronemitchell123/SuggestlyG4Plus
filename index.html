@@ -3,26 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-         <title>SuggestlyG4Plus - Advanced AI Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <title>SUGGESTLY ELITE - Ultra Premium AI Solutions for UHNWI & Executives</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%);
-            --accent-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #667eea 100%);
-            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 50%, #11998e 100%);
-            --glass-bg: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --text-primary: #ffffff;
-            --text-secondary: #e0e0e0;
-            --accent-color: #667eea;
-            --success-color: #11998e;
-            --warning-color: #ffaa00;
-            --error-color: #ff4757;
-            --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
-            --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.3);
-            --border-radius: 12px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --gold-gradient: linear-gradient(135deg, #FFD700 0%, #FFA500 25%, #FF8C00 50%, #FFD700 75%, #FFA500 100%);
+            --platinum-gradient: linear-gradient(135deg, #E5E4E2 0%, #C0C0C0 25%, #B8B8B8 50%, #E5E4E2 75%, #C0C0C0 100%);
+            --diamond-gradient: linear-gradient(135deg, #B9F2FF 0%, #87CEEB 25%, #00BFFF 50%, #B9F2FF 75%, #87CEEB 100%);
+            --luxury-bg: #0A0A0A;
+            --luxury-gold: #FFD700;
+            --luxury-platinum: #E5E4E2;
+            --luxury-diamond: #B9F2FF;
+            --text-primary: #FFFFFF;
+            --text-secondary: #E0E0E0;
+            --glass-bg: rgba(255, 215, 0, 0.05);
+            --glass-border: rgba(255, 215, 0, 0.2);
+            --shadow-luxury: 0 20px 60px rgba(255, 215, 0, 0.1);
+            --border-radius: 16px;
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * {
@@ -33,46 +32,36 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0a0a0a;
+            background: var(--luxury-bg);
             color: var(--text-primary);
             overflow-x: hidden;
             line-height: 1.6;
         }
 
-        /* Professional Background */
-        .professional-bg {
+        /* Ultra Premium Background */
+        .luxury-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: var(--primary-gradient);
-        }
-
-        .professional-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             background: 
-                radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(30, 60, 114, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(17, 153, 142, 0.05) 0%, transparent 50%);
-            animation: professional-float 30s ease-in-out infinite;
+                radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(229, 228, 226, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(185, 242, 255, 0.05) 0%, transparent 50%);
+            animation: luxury-float 40s ease-in-out infinite;
         }
 
-        @keyframes professional-float {
+        @keyframes luxury-float {
             0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
-            25% { transform: translateY(-20px) rotate(1deg) scale(1.01); }
-            50% { transform: translateY(10px) rotate(-1deg) scale(0.99); }
-            75% { transform: translateY(-15px) rotate(0.5deg) scale(1.005); }
+            25% { transform: translateY(-30px) rotate(1deg) scale(1.02); }
+            50% { transform: translateY(20px) rotate(-1deg) scale(0.98); }
+            75% { transform: translateY(-25px) rotate(0.5deg) scale(1.01); }
         }
 
-        /* Subtle Particles */
-        .particles {
+        /* Luxury Particles */
+        .luxury-particles {
             position: fixed;
             top: 0;
             left: 0;
@@ -82,29 +71,33 @@
             pointer-events: none;
         }
 
-        .particle {
+        .luxury-particle {
             position: absolute;
-            width: 2px;
-            height: 2px;
-            background: var(--accent-color);
+            width: 3px;
+            height: 3px;
+            background: var(--luxury-gold);
             border-radius: 50%;
-            animation: particle-float 25s linear infinite;
-            opacity: 0.3;
+            animation: luxury-particle-float 30s linear infinite;
+            opacity: 0.4;
         }
 
-        .particle:nth-child(even) {
-            background: var(--success-color);
+        .luxury-particle:nth-child(even) {
+            background: var(--luxury-platinum);
         }
 
-        @keyframes particle-float {
+        .luxury-particle:nth-child(3n) {
+            background: var(--luxury-diamond);
+        }
+
+        @keyframes luxury-particle-float {
             0% { transform: translateY(100vh) scale(0) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.3; }
-            90% { opacity: 0.3; }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
             100% { transform: translateY(-100px) scale(1) rotate(360deg); opacity: 0; }
         }
 
-        /* Professional Navigation */
-        .nav {
+        /* Ultra Premium Navigation */
+        .luxury-nav {
             position: fixed;
             top: 0;
             left: 0;
@@ -114,16 +107,10 @@
             backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--glass-border);
             padding: 1rem 0;
-            animation: nav-slide-down 0.5s ease-out;
-        }
-
-        @keyframes nav-slide-down {
-            from { transform: translateY(-100%); }
-            to { transform: translateY(0); }
         }
 
         .nav-container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -131,13 +118,15 @@
             padding: 0 2rem;
         }
 
-        .logo {
+        .luxury-logo {
+            font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
-            font-weight: 900;
-            background: var(--accent-gradient);
+            font-weight: 800;
+            background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
         }
 
         .nav-links {
@@ -147,223 +136,112 @@
         }
 
         .nav-links a {
-            color: var(--text-secondary);
+            color: var(--text-primary);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 500;
             transition: var(--transition);
             position: relative;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
         }
 
         .nav-links a:hover {
-            color: var(--accent-color);
-            background: rgba(102, 126, 234, 0.1);
+            color: var(--luxury-gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
-        .trial-btn {
-            background: var(--success-gradient);
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold-gradient);
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .elite-access-btn {
+            background: var(--gold-gradient);
             color: #000;
             padding: 0.8rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
+            border: none;
+            border-radius: 50px;
             font-weight: 700;
+            cursor: pointer;
             transition: var(--transition);
-            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: var(--shadow-luxury);
         }
 
-        .trial-btn:hover {
+        .elite-access-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(17, 153, 142, 0.4);
+            box-shadow: 0 25px 70px rgba(255, 215, 0, 0.3);
         }
 
-        /* Hero Section */
-        .hero {
+        /* Ultra Premium Hero Section */
+        .luxury-hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 2rem;
+            padding: 8rem 2rem 4rem;
             position: relative;
         }
 
         .hero-content {
-            max-width: 900px;
-            z-index: 2;
-            animation: hero-fade-in 1s ease-out;
+            max-width: 1200px;
         }
 
-        @keyframes hero-fade-in {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero-badge {
+        .elite-badge {
             display: inline-block;
-            background: var(--success-gradient);
+            background: var(--gold-gradient);
             color: #000;
-            padding: 0.8rem 2rem;
-            border-radius: 8px;
-            font-size: 1rem;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
             font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
+            animation: badge-glow 3s ease-in-out infinite;
+        }
+
+        @keyframes badge-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(255, 215, 0, 0.8); }
         }
 
         .hero-title {
+            font-family: 'Playfair Display', serif;
             font-size: 4rem;
             font-weight: 900;
             margin-bottom: 1.5rem;
-            background: var(--accent-gradient);
+            background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            line-height: 1.2;
         }
 
         .hero-subtitle {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: var(--text-secondary);
             margin-bottom: 3rem;
-            font-weight: 300;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
-        .cta-buttons {
+        .hero-stats {
             display: flex;
-            gap: 1.5rem;
             justify-content: center;
-            flex-wrap: wrap;
-            animation: buttons-fade-in 2s ease-out 1s both;
-        }
-
-        @keyframes buttons-fade-in {
-            from { opacity: 0; transform: translateY(50px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: var(--border-radius);
-            font-weight: 700;
-            text-decoration: none;
-            transition: var(--transition);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            font-size: 1rem;
-        }
-
-        .btn-primary {
-            background: var(--accent-gradient);
-            color: #fff;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-secondary {
-            background: var(--glass-bg);
-            color: var(--text-primary);
-            border: 2px solid var(--glass-border);
-            backdrop-filter: blur(20px);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-3px);
-            border-color: var(--accent-color);
-        }
-
-        .btn-trial {
-            background: var(--success-gradient);
-            color: #000;
-            box-shadow: 0 4px 15px rgba(17, 153, 142, 0.3);
-        }
-
-        .btn-trial:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(17, 153, 142, 0.4);
-        }
-
-        /* Features Section */
-        .features {
-            padding: 8rem 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            text-align: center;
-            font-size: 3rem;
-            font-weight: 900;
-            margin-bottom: 5rem;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
-        }
-
-        .feature-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--border-radius);
-            padding: 2.5rem;
-            backdrop-filter: blur(20px);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-heavy);
-            border-color: var(--accent-color);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-            background: var(--accent-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .feature-title {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .feature-description {
-            color: var(--text-secondary);
-            line-height: 1.7;
-        }
-
-        /* Stats Section */
-        .stats {
-            padding: 8rem 2rem;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-        }
-
-        .stats-grid {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 4rem;
+            margin-bottom: 3rem;
         }
 
         .stat-item {
@@ -371,94 +249,116 @@
         }
 
         .stat-number {
-            font-size: 4rem;
-            font-weight: 900;
-            background: var(--accent-gradient);
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 1rem;
         }
 
         .stat-label {
-            font-size: 1.2rem;
+            font-size: 0.9rem;
             color: var(--text-secondary);
-            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        /* Services Section */
-        .services {
-            padding: 8rem 2rem;
-            background: linear-gradient(135deg, rgba(10, 10, 10, 0.9) 0%, rgba(30, 60, 114, 0.1) 100%);
+        /* Ultra Premium Services */
+        .luxury-services {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin-bottom: 4rem;
         }
 
         .services-grid {
-            max-width: 1200px;
-            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 3rem;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
         }
 
-        .service-card {
+        .luxury-service-card {
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: var(--border-radius);
             padding: 2.5rem;
-            backdrop-filter: blur(20px);
             transition: var(--transition);
             position: relative;
             overflow: hidden;
-            text-align: center;
         }
 
-        .service-card:hover {
+        .luxury-service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.1), transparent);
+            transition: var(--transition);
+        }
+
+        .luxury-service-card:hover::before {
+            left: 100%;
+        }
+
+        .luxury-service-card:hover {
             transform: translateY(-10px);
-            box-shadow: var(--shadow-heavy);
-            border-color: var(--accent-color);
+            box-shadow: var(--shadow-luxury);
+            border-color: var(--luxury-gold);
         }
 
         .service-icon {
             font-size: 3rem;
             margin-bottom: 1.5rem;
-            background: var(--accent-gradient);
+            background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .service-title {
-            font-size: 1.5rem;
-            font-weight: 800;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
             margin-bottom: 1rem;
             color: var(--text-primary);
         }
 
         .service-description {
             color: var(--text-secondary);
-            line-height: 1.7;
             margin-bottom: 2rem;
+            line-height: 1.7;
         }
 
         .service-price {
-            font-size: 2rem;
-            font-weight: 900;
-            background: var(--accent-gradient);
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             margin-bottom: 1rem;
-        }
-
-        .trial-badge {
-            background: var(--success-gradient);
-            color: #000;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            margin-bottom: 1rem;
-            font-weight: 700;
-            font-size: 0.9rem;
-            display: inline-block;
         }
 
         .service-features {
@@ -474,27 +374,97 @@
         }
 
         .service-features li::before {
-            content: '✓';
+            content: '✦';
             position: absolute;
             left: 0;
-            color: var(--success-color);
-            font-weight: bold;
+            color: var(--luxury-gold);
         }
 
-        /* Contact Section */
-        .contact {
-            padding: 8rem 2rem;
-            background: linear-gradient(135deg, rgba(17, 153, 142, 0.1) 0%, rgba(10, 10, 10, 0.9) 100%);
+        .elite-trial-badge {
+            background: var(--diamond-gradient);
+            color: #000;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+        }
+
+        .elite-cta-btn {
+            background: var(--gold-gradient);
+            color: #000;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: 100%;
+        }
+
+        .elite-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.3);
+        }
+
+        /* Ultra Premium Features */
+        .luxury-features {
+            padding: 6rem 2rem;
+            background: rgba(255, 215, 0, 0.02);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .feature-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: var(--platinum-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .feature-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .feature-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Ultra Premium Contact */
+        .luxury-contact {
+            padding: 6rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
             background: var(--glass-bg);
             border: 1px solid var(--glass-border);
             border-radius: var(--border-radius);
             padding: 3rem;
-            backdrop-filter: blur(20px);
         }
 
         .form-group {
@@ -503,15 +473,15 @@
 
         .form-label {
             display: block;
+            margin-bottom: 0.5rem;
             color: var(--text-primary);
             font-weight: 600;
-            margin-bottom: 0.5rem;
         }
 
         .form-input {
             width: 100%;
             padding: 1rem;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--glass-border);
             border-radius: 8px;
             color: var(--text-primary);
@@ -521,8 +491,8 @@
 
         .form-input:focus {
             outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+            border-color: var(--luxury-gold);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
         }
 
         .form-textarea {
@@ -530,116 +500,74 @@
             resize: vertical;
         }
 
-        .form-submit {
-            background: var(--accent-gradient);
-            color: #fff;
-            padding: 1rem 2rem;
+        .submit-btn {
+            background: var(--gold-gradient);
+            color: #000;
+            padding: 1rem 3rem;
             border: none;
-            border-radius: var(--border-radius);
+            border-radius: 50px;
             font-weight: 700;
-            font-size: 1rem;
             cursor: pointer;
             transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
             width: 100%;
         }
 
-        .form-submit:hover {
+        .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.3);
         }
 
-        /* Footer */
-        .footer {
+        /* Ultra Premium Footer */
+        .luxury-footer {
             background: rgba(10, 10, 10, 0.95);
-            padding: 4rem 2rem;
-            text-align: center;
             border-top: 1px solid var(--glass-border);
+            padding: 3rem 2rem;
+            text-align: center;
         }
 
         .footer-content {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         .footer-logo {
-            font-size: 2.5rem;
-            font-weight: 900;
-            background: var(--accent-gradient);
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
         }
 
         .footer-text {
             color: var(--text-secondary);
             margin-bottom: 2rem;
-            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--luxury-gold);
         }
 
         .copyright {
             color: var(--text-secondary);
             font-size: 0.9rem;
-            margin-bottom: 2rem;
-            opacity: 0.8;
-            border-top: 1px solid var(--glass-border);
-            padding-top: 2rem;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-        }
-
-        .social-link {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: var(--transition);
-            font-size: 1.2rem;
-        }
-
-        .social-link:hover {
-            background: var(--accent-color);
-            color: #fff;
-            transform: translateY(-3px);
-        }
-
-        /* Notification */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--glass-bg);
-            border: 1px solid var(--success-color);
-            border-radius: var(--border-radius);
-            padding: 1.5rem;
-            backdrop-filter: blur(20px);
-            z-index: 10000;
-            transform: translateX(400px);
-            transition: var(--transition);
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification-title {
-            color: var(--success-color);
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-        }
-
-        .notification-message {
-            color: var(--text-secondary);
         }
 
         /* Responsive Design */
@@ -648,313 +576,337 @@
                 font-size: 2.5rem;
             }
             
-            .nav-links {
-                display: none;
-            }
-            
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
             .services-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Ultra Premium Loading Animation */
+        .luxury-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--luxury-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loader-content {
+            text-align: center;
+        }
+
+        .loader-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            animation: loader-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes loader-pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .loader-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        .loader-progress {
+            height: 100%;
+            background: var(--gold-gradient);
+            border-radius: 2px;
+            animation: loader-fill 3s ease-in-out;
+        }
+
+        @keyframes loader-fill {
+            0% { width: 0%; }
+            100% { width: 100%; }
         }
     </style>
 </head>
 <body>
-    <!-- Professional Background -->
-    <div class="professional-bg"></div>
-    
-    <!-- Subtle Particles -->
-    <div class="particles" id="particles"></div>
+    <!-- Ultra Premium Loading Screen -->
+    <div class="luxury-loader" id="luxuryLoader">
+        <div class="loader-content">
+            <div class="loader-logo">SUGGESTLY ELITE</div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
 
-    <!-- Navigation -->
-    <nav class="nav">
+    <!-- Ultra Premium Background -->
+    <div class="luxury-bg"></div>
+    
+    <!-- Luxury Particles -->
+    <div class="luxury-particles" id="luxuryParticles"></div>
+
+    <!-- Ultra Premium Navigation -->
+    <nav class="luxury-nav">
         <div class="nav-container">
-            <div class="logo">SuggestlyG4Plus</div>
+            <div class="luxury-logo">SUGGESTLY ELITE</div>
             <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Elite Services</a></li>
                 <li><a href="#features">Features</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#stats">Performance</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="#" class="trial-btn" onclick="openTrialModal()">Free Trial</a></li>
             </ul>
+            <button class="elite-access-btn" onclick="openEliteModal()">ELITE ACCESS</button>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
+    <!-- Ultra Premium Hero Section -->
+    <section class="luxury-hero" id="home">
         <div class="hero-content">
-            <div class="hero-badge">
-                <i class="fas fa-rocket"></i> 7-Day Free Trial Available
+            <div class="elite-badge">ULTRA PREMIUM AI SOLUTIONS</div>
+            <h1 class="hero-title">SUGGESTLY ELITE</h1>
+            <p class="hero-subtitle">Exclusive AI Solutions for Ultra-High-Net-Worth Individuals, Fortune 500 Executives, and Global Business Leaders. Experience the Future of Intelligent Business.</p>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">$50M+</div>
+                    <div class="stat-label">Revenue Generated</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Elite Clients</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
             </div>
-            <h1 class="hero-title">Advanced AI Platform</h1>
-            <p class="hero-subtitle">
-                Next-generation artificial intelligence solutions for enterprise businesses. Experience cutting-edge AI technology with quantum-inspired algorithms designed for serious organizations.
-            </p>
-            <div class="cta-buttons">
-                <a href="#services" class="btn btn-primary">
-                    <i class="fas fa-chart-line"></i> View Solutions
-                </a>
-                <a href="#features" class="btn btn-secondary">
-                    <i class="fas fa-info-circle"></i> Learn More
-                </a>
-                <a href="#" class="btn btn-trial" onclick="openTrialModal()">
-                    <i class="fas fa-play"></i> Start Free Trial
-                </a>
-            </div>
+            
+            <button class="elite-access-btn" onclick="openEliteModal()">REQUEST ELITE CONSULTATION</button>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features" id="features">
-        <h2 class="section-title">Enterprise Capabilities</h2>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-brain"></i>
-                </div>
-                                 <h3 class="feature-title">Advanced Neural Networks</h3>
-                 <p class="feature-description">
-                     State-of-the-art neural networks with quantum-inspired algorithms, delivering exceptional processing speed and accuracy for enterprise applications.
-                 </p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                                 <h3 class="feature-title">Enterprise Security</h3>
-                 <p class="feature-description">
-                     Military-grade encryption and advanced security protocols protecting your business data and communications with enterprise-level protection.
-                 </p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-chart-line"></i>
-                </div>
-                <h3 class="feature-title">Predictive Analytics</h3>
-                <p class="feature-description">
-                    Advanced predictive models with 99.9% accuracy for business intelligence and strategic decision making using cutting-edge AI algorithms.
-                </p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-cogs"></i>
-                </div>
-                <h3 class="feature-title">Auto-Optimization</h3>
-                <p class="feature-description">
-                    Self-optimizing algorithms that continuously improve performance and efficiency with real-time learning capabilities for enterprise environments.
-                </p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-globe"></i>
-                </div>
-                <h3 class="feature-title">Global Intelligence</h3>
-                <p class="feature-description">
-                    Access to global data networks and real-time intelligence from around the world with instant processing and analysis for enterprise insights.
-                </p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <h3 class="feature-title">Enterprise Integration</h3>
-                <p class="feature-description">
-                    Seamless integration with existing enterprise systems and workflows, designed for large-scale business operations and scalability.
-                </p>
-            </div>
-        </div>
-    </section>
-
-    <!-- Stats Section -->
-    <section class="stats" id="stats">
-        <div class="stats-grid">
-            <div class="stat-item">
-                             <div class="stat-number">2560</div>
-             <div class="stat-label">AI Parameters</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">99.9%</div>
-                <div class="stat-label">Accuracy Rate</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">8</div>
-                <div class="stat-label">AI Agents</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">24/7</div>
-                <div class="stat-label">Support</div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Services Section -->
-    <section class="services" id="services">
-        <h2 class="section-title">Enterprise Solutions</h2>
+    <!-- Ultra Premium Services -->
+    <section class="luxury-services" id="services">
+        <h2 class="section-title">Elite AI Services</h2>
+        <p class="section-subtitle">Exclusive solutions designed for the world's most discerning business leaders</p>
+        
         <div class="services-grid">
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-rocket"></i>
-                </div>
-                                 <h3 class="service-title">AI Strategy Consulting</h3>
-                 <p class="service-description">
-                     Expert consultation on implementing advanced AI solutions for your enterprise with personalized strategies and optimization.
-                 </p>
-                <div class="service-price">$2,500<span style="font-size: 1rem; opacity: 0.8;">/month</span></div>
-                <div class="trial-badge">
-                    <i class="fas fa-gift"></i> 7-Day Free Trial
-                </div>
+            <div class="luxury-service-card">
+                <div class="service-icon">👑</div>
+                <h3 class="service-title">Executive AI Strategy</h3>
+                <p class="service-description">Comprehensive AI transformation strategy for Fortune 500 companies and global enterprises. Personalized roadmap for maximum ROI and competitive advantage.</p>
+                <div class="service-price">$25,000/month</div>
                 <ul class="service-features">
-                    <li>Custom AI Strategy Development</li>
-                                         <li>Advanced AI Integration</li>
-                    <li>Performance Optimization</li>
-                    <li>24/7 Expert Support</li>
-                    <li>Implementation Guidance</li>
-                    <li>Monthly Strategy Reviews</li>
-                    <li>Priority Response Time</li>
+                    <li>Custom AI Roadmap Development</li>
+                    <li>Executive Dashboard & Analytics</li>
+                    <li>24/7 AI Strategy Support</li>
+                    <li>Board Presentation Materials</li>
+                    <li>Competitive Intelligence Reports</li>
                 </ul>
-                <a href="#contact" class="btn btn-primary">Start Free Trial</a>
+                <div class="elite-trial-badge">30-Day Elite Trial</div>
+                <button class="elite-cta-btn">REQUEST CONSULTATION</button>
             </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-brain"></i>
-                </div>
-                                 <h3 class="service-title">Neural Network Training</h3>
-                 <p class="service-description">
-                     Advanced neural network training and optimization services using cutting-edge AI algorithms for enterprise applications.
-                 </p>
-                <div class="service-price">$1,800<span style="font-size: 1rem; opacity: 0.8;">/month</span></div>
-                <div class="trial-badge">
-                    <i class="fas fa-gift"></i> 7-Day Free Trial
-                </div>
+
+            <div class="luxury-service-card">
+                <div class="service-icon">💎</div>
+                <h3 class="service-title">Quantum AI Development</h3>
+                <p class="service-description">Cutting-edge quantum-inspired AI systems for high-frequency trading, risk management, and predictive analytics. Exclusive access to next-generation algorithms.</p>
+                <div class="service-price">$50,000/month</div>
                 <ul class="service-features">
-                    <li>Custom Model Development</li>
-                                         <li>Advanced Neural Networks</li>
-                    <li>Real-time Training</li>
-                    <li>Performance Analytics</li>
-                    <li>Continuous Optimization</li>
-                    <li>Advanced Model Tuning</li>
-                    <li>GPU Acceleration</li>
+                    <li>Quantum Algorithm Development</li>
+                    <li>High-Frequency Trading Systems</li>
+                    <li>Risk Management AI</li>
+                    <li>Predictive Market Analytics</li>
+                    <li>Exclusive API Access</li>
                 </ul>
-                <a href="#contact" class="btn btn-primary">Start Free Trial</a>
+                <div class="elite-trial-badge">30-Day Elite Trial</div>
+                <button class="elite-cta-btn">REQUEST CONSULTATION</button>
             </div>
-            <div class="service-card">
-                <div class="service-icon">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                                 <h3 class="service-title">Advanced Security Suite</h3>
-                 <p class="service-description">
-                     Complete security solution with advanced encryption and AI-powered threat detection for enterprise environments.
-                 </p>
-                <div class="service-price">$3,200<span style="font-size: 1rem; opacity: 0.8;">/month</span></div>
-                <div class="trial-badge">
-                    <i class="fas fa-gift"></i> 7-Day Free Trial
-                </div>
+
+            <div class="luxury-service-card">
+                <div class="service-icon">🚀</div>
+                <h3 class="service-title">Global AI Operations</h3>
+                <p class="service-description">End-to-end AI operations management for multinational corporations. Scalable solutions with global deployment and 24/7 monitoring.</p>
+                <div class="service-price">$75,000/month</div>
                 <ul class="service-features">
-                                         <li>Advanced Encryption</li>
-                    <li>Threat Detection AI</li>
-                    <li>Real-time Monitoring</li>
-                    <li>Security Audits</li>
-                    <li>Incident Response</li>
-                    <li>Compliance Reporting</li>
-                    <li>Penetration Testing</li>
+                    <li>Global AI Infrastructure</li>
+                    <li>Multi-Region Deployment</li>
+                    <li>24/7 AI Monitoring</li>
+                    <li>Compliance & Security</li>
+                    <li>Dedicated AI Team</li>
                 </ul>
-                <a href="#contact" class="btn btn-primary">Start Free Trial</a>
+                <div class="elite-trial-badge">30-Day Elite Trial</div>
+                <button class="elite-cta-btn">REQUEST CONSULTATION</button>
             </div>
         </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="contact" id="contact">
-        <h2 class="section-title">Get Started Today</h2>
-        <form class="contact-form" id="contactForm">
-            <div class="form-group">
-                <label class="form-label">Full Name</label>
-                <input type="text" class="form-input" placeholder="Enter your full name" required>
+    <!-- Ultra Premium Features -->
+    <section class="luxury-features" id="features">
+        <h2 class="section-title">Elite Features</h2>
+        <p class="section-subtitle">Exclusive capabilities designed for the world's most demanding business environments</p>
+        
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon">🔐</div>
+                <h3 class="feature-title">Military-Grade Security</h3>
+                <p class="feature-description">Bank-level encryption, zero-trust architecture, and compliance with international security standards including SOC 2, ISO 27001, and GDPR.</p>
             </div>
-            <div class="form-group">
-                <label class="form-label">Email Address</label>
-                <input type="email" class="form-input" placeholder="Enter your email" required>
+
+            <div class="feature-item">
+                <div class="feature-icon">⚡</div>
+                <h3 class="feature-title">Ultra-Fast Performance</h3>
+                <p class="feature-description">Sub-millisecond response times with global CDN, edge computing, and optimized AI models for real-time decision making.</p>
             </div>
-            <div class="form-group">
-                <label class="form-label">Company</label>
-                <input type="text" class="form-input" placeholder="Enter your company name">
+
+            <div class="feature-item">
+                <div class="feature-icon">🎯</div>
+                <h3 class="feature-title">Precision Analytics</h3>
+                <p class="feature-description">Advanced predictive models with 99.9% accuracy, real-time insights, and actionable intelligence for strategic decision making.</p>
             </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">🌍</div>
+                <h3 class="feature-title">Global Scalability</h3>
+                <p class="feature-description">Seamless scaling across multiple continents with automatic load balancing and intelligent resource allocation.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">🤖</div>
+                <h3 class="feature-title">AI-Powered Automation</h3>
+                <p class="feature-description">Intelligent automation of complex business processes with continuous learning and optimization capabilities.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">Executive Dashboards</h3>
+                <p class="feature-description">Real-time executive dashboards with customizable KPIs, predictive analytics, and strategic insights for board-level decision making.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ultra Premium Contact -->
+    <section class="luxury-contact" id="contact">
+        <h2 class="section-title">Elite Consultation</h2>
+        <p class="section-subtitle">Schedule your exclusive consultation with our elite AI strategists</p>
+        
+        <form class="contact-form" id="eliteForm">
+            <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <input type="text" class="form-input" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Company *</label>
+                <input type="text" class="form-input" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Position *</label>
+                <input type="text" class="form-input" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Email *</label>
+                <input type="email" class="form-input" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Phone</label>
+                <input type="tel" class="form-input">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label">Annual Revenue</label>
+                <select class="form-input">
+                    <option>Under $10M</option>
+                    <option>$10M - $100M</option>
+                    <option>$100M - $1B</option>
+                    <option>$1B+</option>
+                </select>
+            </div>
+            
             <div class="form-group">
                 <label class="form-label">Service Interest</label>
                 <select class="form-input">
-                    <option>AI Strategy Consulting</option>
-                    <option>Neural Network Training</option>
-                                         <option>Advanced Security Suite</option>
-                    <option>Custom Solution</option>
+                    <option>Executive AI Strategy</option>
+                    <option>Quantum AI Development</option>
+                    <option>Global AI Operations</option>
+                    <option>All Services</option>
                 </select>
             </div>
+            
             <div class="form-group">
-                <label class="form-label">Message</label>
-                <textarea class="form-input form-textarea" placeholder="Tell us about your enterprise requirements..." rows="5"></textarea>
+                <label class="form-label">Message *</label>
+                <textarea class="form-input form-textarea" placeholder="Describe your AI transformation goals and requirements..." required></textarea>
             </div>
-            <button type="submit" class="form-submit">
-                <i class="fas fa-paper-plane"></i> Send Message
-            </button>
+            
+            <button type="submit" class="submit-btn">REQUEST ELITE CONSULTATION</button>
         </form>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
+    <!-- Ultra Premium Footer -->
+    <footer class="luxury-footer">
         <div class="footer-content">
-            <div class="footer-logo">SuggestlyG4Plus</div>
-                         <p class="footer-text">
-                 Advanced artificial intelligence solutions for enterprise businesses. Experience cutting-edge AI technology with quantum-inspired algorithms.
-             </p>
-            <div class="copyright">
-                                 © 2025 SuggestlyG4Plus. All rights reserved. | Advanced AI Platform
+            <div class="footer-logo">SUGGESTLY ELITE</div>
+            <p class="footer-text">Exclusive AI Solutions for the World's Most Discerning Business Leaders</p>
+            
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#services">Services</a>
+                <a href="#features">Features</a>
+                <a href="#contact">Contact</a>
             </div>
-            <div class="social-links">
-                <a href="#" class="social-link">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                <a href="#" class="social-link">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="#" class="social-link">
-                    <i class="fab fa-github"></i>
-                </a>
-            </div>
+            
+            <p class="copyright">© 2024 SUGGESTLY ELITE. All rights reserved. | Exclusive AI Solutions for UHNWI & Executives</p>
         </div>
     </footer>
 
-    <!-- Notification System -->
-    <div class="notification" id="notification">
-        <div class="notification-title">Success!</div>
-        <div class="notification-message">Your message has been sent successfully.</div>
-    </div>
-
     <script>
-        // Create Particles
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
+        // Ultra Premium Loading Animation
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('luxuryLoader').style.opacity = '0';
+                setTimeout(function() {
+                    document.getElementById('luxuryLoader').style.display = 'none';
+                }, 500);
+            }, 3000);
+        });
+
+        // Luxury Particles Animation
+        function createLuxuryParticles() {
+            const particlesContainer = document.getElementById('luxuryParticles');
             const particleCount = 50;
 
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
-                particle.className = 'particle';
+                particle.className = 'luxury-particle';
                 particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 25 + 's';
+                particle.style.animationDelay = Math.random() * 30 + 's';
                 particle.style.animationDuration = (Math.random() * 20 + 20) + 's';
                 particlesContainer.appendChild(particle);
             }
         }
-
-                 // Trial Modal Function
-         function openTrialModal() {
-             alert('7-Day Free Trial - Start Today!\n\nExperience our advanced AI platform with:\n• Advanced Neural Networks\n• Enterprise Security\n• Predictive Analytics\n• Global Intelligence\n\nStart your free trial now - no credit card required!');
-         }
 
         // Smooth Scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -970,34 +922,74 @@
             });
         });
 
-        // Contact Form Handler
-        document.addEventListener('DOMContentLoaded', function() {
-            const contactForm = document.getElementById('contactForm');
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                showNotification('Message Sent!', 'Thank you for contacting us. We\'ll respond within 24 hours.');
-                contactForm.reset();
-            });
+        // Elite Modal Function
+        function openEliteModal() {
+            alert('ELITE ACCESS: Contact our exclusive AI strategists for personalized consultation. Your transformation journey begins with a confidential discussion about your business objectives.');
+        }
 
-            // Notification system
-            function showNotification(title, message) {
-                const notification = document.getElementById('notification');
-                notification.querySelector('.notification-title').textContent = title;
-                notification.querySelector('.notification-message').textContent = message;
-                notification.classList.add('show');
-                
-                setTimeout(() => {
-                    notification.classList.remove('show');
-                }, 5000);
-            }
-
-            // Make functions global
-            window.showNotification = showNotification;
-            window.openTrialModal = openTrialModal;
+        // Form Submission
+        document.getElementById('eliteForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('ELITE CONSULTATION REQUESTED: Thank you for your interest in SUGGESTLY ELITE. Our exclusive AI strategists will contact you within 24 hours to schedule your confidential consultation.');
         });
 
-        // Initialize
-        createParticles();
+        // Initialize Particles
+        createLuxuryParticles();
+
+        // Typing Effect for Hero Title
+        function typeWriter(element, text, speed = 100) {
+            let i = 0;
+            element.innerHTML = '';
+            
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        // Initialize typing effect when page loads
+        window.addEventListener('load', function() {
+            const heroTitle = document.querySelector('.hero-title');
+            const originalText = heroTitle.textContent;
+            setTimeout(() => {
+                typeWriter(heroTitle, originalText, 150);
+            }, 3500);
+        });
+
+        // Parallax Effect
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.luxury-bg');
+            const speed = scrolled * 0.5;
+            parallax.style.transform = `translateY(${speed}px)`;
+        });
+
+        // Intersection Observer for Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all service cards and feature items
+        document.querySelectorAll('.luxury-service-card, .feature-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(30px)';
+            item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(item);
+        });
     </script>
 </body>
 </html>
