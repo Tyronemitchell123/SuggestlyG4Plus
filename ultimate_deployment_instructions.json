@@ -3,7 +3,7 @@
     "platform": "Vercel",
     "repository": "Tyronemitchell123/v2",
     "branch": "suggestlyg4plus-v2.0",
-    "domain": "suggesterlyg4plus-a8hj",
+    "domain": "suggestlyg4plus.io",
     "force_level": "MAXIMUM"
   },
   "step_by_step_instructions": {
@@ -44,8 +44,8 @@
       "action": "Add Custom Domain",
       "details": [
         "Go to Project Settings > Domains",
-        "Add domain: suggesterlyg4plus-a8hj",
-        "Add domain: www.suggesterlyg4plus-a8hj",
+        "Add domain: suggestlyg4plus.io",
+        "Add domain: www.suggestlyg4plus.io",
         "Configure DNS records if needed",
         "Wait for domain verification"
       ],
@@ -54,8 +54,8 @@
     "step_5": {
       "action": "Verify Deployment",
       "details": [
-        "Visit: https://suggesterlyg4plus-a8hj",
-        "Visit: https://www.suggesterlyg4plus-a8hj",
+        "Visit: https://suggestlyg4plus.io",
+        "Visit: https://www.suggestlyg4plus.io",
         "Test all features and functionality",
         "Verify SSL certificate",
         "Check performance"
@@ -66,9 +66,9 @@
   "deployment_urls": {
     "vercel_new": "https://vercel.com/new",
     "vercel_dashboard": "https://vercel.com/dashboard",
-    "domain_management": "https://vercel.com/dashboard/domains/suggesterlyg4plus-a8hj",
-    "live_site": "https://suggesterlyg4plus-a8hj",
-    "www_site": "https://www.suggesterlyg4plus-a8hj",
+    "domain_management": "https://vercel.com/dashboard/domains/suggestlyg4plus.io",
+    "live_site": "https://suggestlyg4plus.io",
+    "www_site": "https://www.suggestlyg4plus.io",
     "github_repository": "https://github.com/Tyronemitchell123/v2",
     "github_pages": "https://tyronemitchell123.github.io/v2"
   },
