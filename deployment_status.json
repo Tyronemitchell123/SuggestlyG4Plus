@@ -1,31 +1,7 @@
 {
-  "timestamp": "2025-08-12T10:59:25.915416",
-  "domain_status": {
-    "primary_domain": {
-      "url": "https://suggestlyg4plus.io",
-      "status": "CONFIGURED",
-      "ssl": "VALID",
-      "dns": "PROPAGATED"
-    },
-    "www_domain": {
-      "url": "https://www.suggestlyg4plus.io",
-      "status": "CONFIGURED",
-      "ssl": "VALID",
-      "dns": "PROPAGATED"
-    },
-    "vercel_domain": {
-      "url": "https://suggestlyg4plus.vercel.app",
-      "status": "READY",
-      "ssl": "VALID"
-    }
-  },
-  "deployment_ready": true,
-  "domain_configured": true,
-  "all_issues_resolved": true,
-  "next_steps": [
-    "Deploy to Vercel",
-    "Add custom domain in Vercel dashboard",
-    "Configure DNS records",
-    "Verify domain functionality"
-  ]
+  "timestamp": "2025-08-12T12:35:47.962258",
+  "status": "READY",
+  "domain": "suggestlyg4plus.io",
+  "vercel_domain": "suggestlyg4plus.vercel.app",
+  "all_fixed": true
 }

@@ -3,59 +3,13 @@
   "builds": [
     {
       "src": "src/main_ultra_secure.py",
-      "use": "@vercel/python",
-      "config": {
-        "maxLambdaSize": "50mb"
-      }
+      "use": "@vercel/python"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "src/main_ultra_secure.py"
-    },
-    {
       "src": "/(.*)",
       "dest": "src/main_ultra_secure.py"
-    }
-  ],
-  "env": {
-    "FLASK_ENV": "production",
-    "SECRET_KEY": "suggestlyg4plus_quantum_ultra_premium_secret_2025"
-  },
-  "functions": {
-    "src/main_ultra_secure.py": {
-      "maxDuration": 30
-    }
-  },
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "Strict-Transport-Security",
-          "value": "max-age=31536000; includeSubDomains"
-        }
-      ]
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/",
-      "destination": "/",
-      "permanent": false
     }
   ]
 }
