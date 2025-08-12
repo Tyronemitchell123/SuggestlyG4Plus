@@ -1,0 +1,31 @@
+# SUGGESTLY ELITE - Domain Verification
+# This file is used to verify domain ownership for suggestlyg4plus.io
+
+Domain: suggestlyg4plus.io
+Project: suggestlyg4plus
+Team: tyrones-team
+Deployment URL: https://suggestlyg4plus-98heo95z1-tyrones-team.vercel.app
+
+Verification Status: Pending DNS Update
+
+Required DNS Records:
+- Type: A
+- Name: @
+- Value: 76.76.19.36
+- TTL: 3600
+
+- Type: A
+- Name: @
+- Value: 76.76.19.37
+- TTL: 3600
+
+Current Status: Domain pointing to 64.29.17.1 and 64.29.17.65 (not Vercel)
+
+Next Steps:
+1. Update DNS at domain registrar
+2. Wait for propagation (24-48 hours)
+3. Add domain to Vercel project
+4. Verify domain ownership
+
+Created: August 12, 2025
+Contact: tyrone.mitchell76@hotmail.com
