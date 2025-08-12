@@ -1,6 +1,6 @@
 {
-  "version": 2,
   "name": "suggestlyg4plus",
+  "version": 2,
   "builds": [
     {
       "src": "src/main_ultra_secure.py",
@@ -13,43 +13,19 @@
       "dest": "src/main_ultra_secure.py"
     }
   ],
-  "env": {
-    "PYTHONPATH": "src"
-  },
   "functions": {
     "src/main_ultra_secure.py": {
-      "runtime": "python3.11"
+      "maxDuration": 30
     }
   },
   "domains": [
     "suggestlyg4plus.io",
     "www.suggestlyg4plus.io"
   ],
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "Referrer-Policy",
-          "value": "strict-origin-when-cross-origin"
-        },
-        {
-          "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(), geolocation=()"
-        }
-      ]
-    }
-  ]
+  "regions": [
+    "iad1"
+  ],
+  "public": true,
+  "force": true,
+  "optimization": "maximum"
 }
