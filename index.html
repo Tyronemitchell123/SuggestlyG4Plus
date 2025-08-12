@@ -415,6 +415,22 @@
             overflow: hidden;
         }
 
+        .entry-level {
+            border-color: rgba(0, 255, 255, 0.3);
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(0, 150, 255, 0.1) 100%);
+        }
+
+        .mid-level {
+            border-color: rgba(255, 215, 0, 0.5);
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 165, 0, 0.1) 100%);
+        }
+
+        .ultra-premium {
+            border-color: rgba(185, 242, 255, 0.6);
+            background: linear-gradient(135deg, rgba(185, 242, 255, 0.2) 0%, rgba(0, 191, 255, 0.1) 100%);
+            box-shadow: 0 0 40px rgba(185, 242, 255, 0.3);
+        }
+
         .luxury-service-card::before {
             content: '';
             position: absolute;
@@ -880,10 +896,66 @@
     <!-- Ultra Premium Services -->
     <section class="luxury-services" id="services">
         <h2 class="section-title">Elite AI Services</h2>
-        <p class="section-subtitle">Exclusive solutions designed for the world's most discerning business leaders</p>
+        <p class="section-subtitle">Comprehensive AI solutions from entry-level to ultra-premium for businesses at every stage</p>
         
         <div class="services-grid">
-            <div class="luxury-service-card">
+            <!-- Entry Level Services -->
+            <div class="luxury-service-card entry-level">
+                <div class="service-icon">🚀</div>
+                <h3 class="service-title">AI Strategy Consulting</h3>
+                <p class="service-description">Professional AI strategy development for growing businesses. Transform your operations with proven AI methodologies and expert guidance.</p>
+                <div class="service-price">$2,500/month</div>
+                <ul class="service-features">
+                    <li>Custom AI Strategy Development</li>
+                    <li>Advanced AI Integration Planning</li>
+                    <li>Performance Optimization</li>
+                    <li>24/7 Expert Support</li>
+                    <li>Implementation Guidance</li>
+                    <li>Monthly Strategy Reviews</li>
+                    <li>Priority Response Time</li>
+                </ul>
+                <div class="elite-trial-badge">7-Day Free Trial</div>
+                <button class="elite-cta-btn">REQUEST CONSULTATION</button>
+            </div>
+
+            <div class="luxury-service-card entry-level">
+                <div class="service-icon">🧠</div>
+                <h3 class="service-title">Neural Network Training</h3>
+                <p class="service-description">Advanced neural network development and training for data-driven businesses. Custom models optimized for your specific use cases.</p>
+                <div class="service-price">$1,800/month</div>
+                <ul class="service-features">
+                    <li>Custom Model Development</li>
+                    <li>Advanced Neural Networks</li>
+                    <li>Real-time Training</li>
+                    <li>Performance Analytics</li>
+                    <li>Continuous Optimization</li>
+                    <li>Advanced Model Tuning</li>
+                    <li>GPU Acceleration</li>
+                </ul>
+                <div class="elite-trial-badge">7-Day Free Trial</div>
+                <button class="elite-cta-btn">REQUEST CONSULTATION</button>
+            </div>
+
+            <div class="luxury-service-card entry-level">
+                <div class="service-icon">🔐</div>
+                <h3 class="service-title">Advanced Security Suite</h3>
+                <p class="service-description">Comprehensive AI-powered security solutions for enterprise protection. Advanced threat detection and real-time monitoring.</p>
+                <div class="service-price">$3,200/month</div>
+                <ul class="service-features">
+                    <li>Advanced Encryption</li>
+                    <li>Threat Detection AI</li>
+                    <li>Real-time Monitoring</li>
+                    <li>Security Audits</li>
+                    <li>Incident Response</li>
+                    <li>Compliance Reporting</li>
+                    <li>Penetration Testing</li>
+                </ul>
+                <div class="elite-trial-badge">7-Day Free Trial</div>
+                <button class="elite-cta-btn">REQUEST CONSULTATION</button>
+            </div>
+
+            <!-- Mid Level Services -->
+            <div class="luxury-service-card mid-level">
                 <div class="service-icon">👑</div>
                 <h3 class="service-title">Executive AI Strategy</h3>
                 <p class="service-description">Comprehensive AI transformation strategy for Fortune 500 companies and global enterprises. Personalized roadmap for maximum ROI and competitive advantage.</p>
@@ -894,12 +966,14 @@
                     <li>24/7 AI Strategy Support</li>
                     <li>Board Presentation Materials</li>
                     <li>Competitive Intelligence Reports</li>
+                    <li>Multi-Agent AI Systems</li>
+                    <li>Quantum-Inspired Algorithms</li>
                 </ul>
                 <div class="elite-trial-badge">30-Day Elite Trial</div>
                 <button class="elite-cta-btn">REQUEST CONSULTATION</button>
             </div>
 
-            <div class="luxury-service-card">
+            <div class="luxury-service-card mid-level">
                 <div class="service-icon">💎</div>
                 <h3 class="service-title">Quantum AI Development</h3>
                 <p class="service-description">Cutting-edge quantum-inspired AI systems for high-frequency trading, risk management, and predictive analytics. Exclusive access to next-generation algorithms.</p>
@@ -910,13 +984,16 @@
                     <li>Risk Management AI</li>
                     <li>Predictive Market Analytics</li>
                     <li>Exclusive API Access</li>
+                    <li>Quantum AI Agents</li>
+                    <li>Quantum Bots Integration</li>
                 </ul>
                 <div class="elite-trial-badge">30-Day Elite Trial</div>
                 <button class="elite-cta-btn">REQUEST CONSULTATION</button>
             </div>
 
-            <div class="luxury-service-card">
-                <div class="service-icon">🚀</div>
+            <!-- Ultra Premium Services -->
+            <div class="luxury-service-card ultra-premium">
+                <div class="service-icon">🌍</div>
                 <h3 class="service-title">Global AI Operations</h3>
                 <p class="service-description">End-to-end AI operations management for multinational corporations. Scalable solutions with global deployment and 24/7 monitoring.</p>
                 <div class="service-price">$75,000/month</div>
@@ -926,6 +1003,8 @@
                     <li>24/7 AI Monitoring</li>
                     <li>Compliance & Security</li>
                     <li>Dedicated AI Team</li>
+                    <li>Global Intelligence Networks</li>
+                    <li>Enterprise Integration</li>
                 </ul>
                 <div class="elite-trial-badge">30-Day Elite Trial</div>
                 <button class="elite-cta-btn">REQUEST CONSULTATION</button>
@@ -973,6 +1052,42 @@
                 <div class="feature-icon">📊</div>
                 <h3 class="feature-title">Executive Dashboards</h3>
                 <p class="feature-description">Real-time executive dashboards with customizable KPIs, predictive analytics, and strategic insights for board-level decision making.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">🧠</div>
+                <h3 class="feature-title">Advanced Neural Networks</h3>
+                <p class="feature-description">State-of-the-art neural networks with quantum-inspired algorithms, delivering superior performance for complex AI tasks and deep learning applications.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">🔄</div>
+                <h3 class="feature-title">Auto-Optimization</h3>
+                <p class="feature-description">Self-optimizing algorithms that continuously improve performance, reduce costs, and enhance efficiency across all AI systems and business processes.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">🌐</div>
+                <h3 class="feature-title">Global Intelligence</h3>
+                <p class="feature-description">Access to global data networks and real-time intelligence, providing comprehensive market insights and competitive advantages across international markets.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">🔗</div>
+                <h3 class="feature-title">Enterprise Integration</h3>
+                <p class="feature-description">Seamless integration with existing enterprise systems, ensuring smooth deployment and maximizing ROI while minimizing disruption to operations.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">🤝</div>
+                <h3 class="feature-title">Multi-Agent AI Systems</h3>
+                <p class="feature-description">Collaborative AI agents working together to solve complex business challenges, providing comprehensive solutions through coordinated intelligence.</p>
+            </div>
+
+            <div class="feature-item">
+                <div class="feature-icon">⚛️</div>
+                <h3 class="feature-title">Quantum AI Agents</h3>
+                <p class="feature-description">Next-generation quantum-inspired AI agents capable of processing vast amounts of data simultaneously, delivering unprecedented computational power.</p>
             </div>
         </div>
     </section>
@@ -1023,9 +1138,18 @@
                 <label class="form-label">Service Interest</label>
                 <select name="service" class="form-input">
                     <option value="">Select Service</option>
-                    <option value="Executive AI Strategy">Executive AI Strategy</option>
-                    <option value="Quantum AI Development">Quantum AI Development</option>
-                    <option value="Global AI Operations">Global AI Operations</option>
+                    <optgroup label="Entry Level Services">
+                        <option value="AI Strategy Consulting">AI Strategy Consulting - $2,500/month</option>
+                        <option value="Neural Network Training">Neural Network Training - $1,800/month</option>
+                        <option value="Advanced Security Suite">Advanced Security Suite - $3,200/month</option>
+                    </optgroup>
+                    <optgroup label="Mid Level Services">
+                        <option value="Executive AI Strategy">Executive AI Strategy - $25,000/month</option>
+                        <option value="Quantum AI Development">Quantum AI Development - $50,000/month</option>
+                    </optgroup>
+                    <optgroup label="Ultra Premium Services">
+                        <option value="Global AI Operations">Global AI Operations - $75,000/month</option>
+                    </optgroup>
                     <option value="All Services">All Services</option>
                 </select>
             </div>
