@@ -51,10 +51,14 @@ class EliteAnalytics {
 
         // Send to Google Analytics
         if (typeof gtag !== 'undefined') {
-            gtag('config', 'GA_MEASUREMENT_ID', {
-                page_title: document.title,
-                page_location: window.location.href,
-                page_path: page
+            gtag('config', 'G-TEST123456', {
+                page_title: pageViewData.title,
+                page_location: pageViewData.url,
+                custom_map: {
+                    'custom_parameter_1': 'service_tier',
+                    'custom_parameter_2': 'lead_quality',
+                    'custom_parameter_3': 'user_type'
+                }
             });
         }
 
