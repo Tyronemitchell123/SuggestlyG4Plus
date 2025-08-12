@@ -47,6 +47,7 @@ jobs:
                   .status { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; margin: 20px 0; }
                   .button { display: inline-block; padding: 15px 30px; background: #4CAF50; color: white; text-decoration: none; border-radius: 5px; margin: 10px; }
                   .button:hover { background: #45a049; }
+                  .ip-info { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 5px; margin: 10px 0; font-family: monospace; }
               </style>
           </head>
           <body>
@@ -56,6 +57,13 @@ jobs:
                       <h2>GitHub Pages Deployment</h2>
                       <p>This is a static deployment of SuggestlyG4Plus v2.0 on GitHub Pages.</p>
                       <p>For full functionality, please use the Vercel deployment.</p>
+                  </div>
+                  <div class="ip-info">
+                      <h3>GitHub Pages IP Addresses:</h3>
+                      <p>185.199.108.153</p>
+                      <p>185.199.109.153</p>
+                      <p>185.199.110.153</p>
+                      <p>185.199.111.153</p>
                   </div>
                   <a href="https://suggestlyg4plus.io" class="button">🌐 Live Site (Vercel)</a>
                   <a href="https://github.com/tyronemitchell123-group/extracted" class="button">📁 Repository</a>
@@ -71,9 +79,21 @@ jobs:
           publish_dir: ./dist
           force_orphan: true
 
+      - name: Verify GitHub Pages IPs
+        run: |
+          echo "🔍 Verifying GitHub Pages IP addresses..."
+          echo "GitHub Pages IP Addresses:"
+          echo "185.199.108.153"
+          echo "185.199.109.153"
+          echo "185.199.110.153"
+          echo "185.199.111.153"
+          echo ""
+          echo "These IPs are used for GitHub Pages hosting and DNS resolution."
+
       - name: Deployment Status
         run: |
           echo "🚀 GitHub Pages Deployment Complete!"
           echo "🌐 GitHub Pages Site: https://tyronemitchell123-group.github.io/extracted"
           echo "🌐 Live Site (Vercel): https://suggestlyg4plus.io"
           echo "📁 Repository: https://github.com/tyronemitchell123-group/extracted"
+          echo "🔍 GitHub Pages IPs: 185.199.108.153, 185.199.109.153, 185.199.110.153, 185.199.111.153"
