@@ -2425,7 +2425,209 @@ This request was submitted from the SUGGESTLY ELITE website.
 
         // Elite Modal Function
         function openEliteModal() {
-            alert('ELITE ACCESS: Contact our exclusive AI strategists for personalized consultation. Your transformation journey begins with a confidential discussion about your business objectives.');
+            const modal = document.createElement('div');
+            modal.className = 'elite-modal';
+            modal.innerHTML = `
+                <div class="elite-modal-content">
+                    <span class="elite-close" onclick="closeEliteModal()">&times;</span>
+                    <div class="elite-modal-header">
+                        <h2>🌟 ELITE ACCESS</h2>
+                        <p>Exclusive AI Transformation Consultation</p>
+                    </div>
+                    <div class="elite-modal-body">
+                        <div class="elite-features">
+                            <div class="elite-feature">
+                                <span class="elite-icon">🎯</span>
+                                <h4>Personalized Strategy</h4>
+                                <p>Custom AI roadmap tailored to your business</p>
+                            </div>
+                            <div class="elite-feature">
+                                <span class="elite-icon">⚡</span>
+                                <h4>Priority Support</h4>
+                                <p>24/7 dedicated AI strategist access</p>
+                            </div>
+                            <div class="elite-feature">
+                                <span class="elite-icon">🔒</span>
+                                <h4>Confidential Consultation</h4>
+                                <p>Secure, private business transformation</p>
+                            </div>
+                        </div>
+                        <div class="elite-cta">
+                            <p>Ready to transform your business with advanced AI?</p>
+                            <button class="elite-consultation-btn" onclick="requestEliteConsultation()">REQUEST ELITE CONSULTATION</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Add styles
+            const styles = document.createElement('style');
+            styles.textContent = `
+                .elite-modal {
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.9);
+                    z-index: 10000;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    backdrop-filter: blur(10px);
+                }
+                
+                .elite-modal-content {
+                    background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%);
+                    border: 2px solid var(--luxury-gold);
+                    border-radius: 20px;
+                    padding: 2rem;
+                    max-width: 600px;
+                    width: 90%;
+                    position: relative;
+                    box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3);
+                }
+                
+                .elite-close {
+                    position: absolute;
+                    top: 15px;
+                    right: 20px;
+                    color: var(--luxury-gold);
+                    font-size: 2rem;
+                    cursor: pointer;
+                    z-index: 10001;
+                }
+                
+                .elite-modal-header {
+                    text-align: center;
+                    margin-bottom: 2rem;
+                }
+                
+                .elite-modal-header h2 {
+                    color: var(--luxury-gold);
+                    font-size: 2.5rem;
+                    margin-bottom: 0.5rem;
+                    font-family: 'Playfair Display', serif;
+                }
+                
+                .elite-modal-header p {
+                    color: #ccc;
+                    font-size: 1.1rem;
+                }
+                
+                .elite-features {
+                    display: grid;
+                    grid-template-columns: 1fr;
+                    gap: 1.5rem;
+                    margin-bottom: 2rem;
+                }
+                
+                .elite-feature {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                    padding: 1rem;
+                    background: rgba(255, 215, 0, 0.05);
+                    border: 1px solid rgba(255, 215, 0, 0.2);
+                    border-radius: 12px;
+                }
+                
+                .elite-icon {
+                    font-size: 2rem;
+                    min-width: 50px;
+                }
+                
+                .elite-feature h4 {
+                    color: var(--luxury-gold);
+                    margin: 0 0 0.3rem 0;
+                    font-size: 1.1rem;
+                }
+                
+                .elite-feature p {
+                    color: #ccc;
+                    margin: 0;
+                    font-size: 0.9rem;
+                }
+                
+                .elite-cta {
+                    text-align: center;
+                    padding: 1.5rem;
+                    background: rgba(255, 215, 0, 0.1);
+                    border-radius: 12px;
+                }
+                
+                .elite-cta p {
+                    color: #fff;
+                    margin-bottom: 1rem;
+                    font-size: 1.1rem;
+                }
+                
+                .elite-consultation-btn {
+                    background: var(--gold-gradient);
+                    color: #000;
+                    border: none;
+                    padding: 1rem 2rem;
+                    border-radius: 50px;
+                    font-size: 1.1rem;
+                    font-weight: bold;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+                }
+                
+                .elite-consultation-btn:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.5);
+                }
+                
+                @media (max-width: 768px) {
+                    .elite-modal-content {
+                        padding: 1.5rem;
+                        margin: 1rem;
+                    }
+                    
+                    .elite-modal-header h2 {
+                        font-size: 2rem;
+                    }
+                    
+                    .elite-features {
+                        gap: 1rem;
+                    }
+                }
+            `;
+            
+            document.head.appendChild(styles);
+            document.body.appendChild(modal);
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeEliteModal() {
+            const modal = document.querySelector('.elite-modal');
+            if (modal) {
+                modal.remove();
+                document.body.style.overflow = 'auto';
+            }
+        }
+        
+        function requestEliteConsultation() {
+            closeEliteModal();
+            const subject = '🌟 ELITE CONSULTATION REQUEST - SUGGESTLY ELITE';
+            const body = `
+ELITE CONSULTATION REQUEST
+
+I am interested in an exclusive AI transformation consultation with SUGGESTLY ELITE.
+
+Please contact me to schedule a confidential discussion about:
+- Personalized AI strategy development
+- Business transformation roadmap
+- Advanced AI implementation
+- Priority support and consultation
+
+---
+SUGGESTLY ELITE - Advanced AI Platform
+            `;
+            const mailtoLink = `mailto:tyrone.mitchell76@hotmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.open(mailtoLink);
         }
 
         // Form Submission
