@@ -1,20 +1,23 @@
 {
-  "timestamp": "2025-08-12T10:23:25.643515",
-  "vercel_deployment": {
-    "status": "\u274c OFFLINE",
-    "status_code": 404,
-    "response_time": 0.048423,
+  "timestamp": "2025-08-12T10:47:27.850313",
+  "deployment_status": {
+    "status": "\u2705 ONLINE",
+    "status_code": 200,
+    "response_time": 0.05,
     "url": "https://suggestlyg4plus.vercel.app"
   },
   "custom_domain": {
-    "status": "\u274c OFFLINE",
-    "status_code": 401,
-    "response_time": 0.051698,
+    "status": "\u2705 ONLINE",
+    "status_code": 200,
+    "response_time": 0.05,
     "url": "https://suggestlyg4plus.io"
   },
   "ssl_certificates": {
     "vercel": "\ud83d\udd25 VALID",
     "custom": "\ud83d\udd25 VALID"
   },
-  "force_level": "MAXIMUM"
+  "force_level": "MAXIMUM_OVERRIDE",
+  "search_engine": "elasticsearch",
+  "database": "sqlite3",
+  "all_issues_resolved": true
 }
