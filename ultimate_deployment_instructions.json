@@ -1,55 +1,40 @@
 {
-  "deployment_summary": {
-    "project": "suggestlyg4plus",
-    "domain": "suggestlyg4plus.io",
-    "repository": "Tyronemitchell123/v2",
-    "platform": "Vercel",
-    "force_level": "MAXIMUM"
+  "step_1": {
+    "action": "Import Repository",
+    "url": "https://vercel.com/new",
+    "details": [
+      "Click 'Import Git Repository'",
+      "Select repository: Tyronemitchell123/v2",
+      "Click 'Import' button",
+      "Wait for repository analysis"
+    ]
   },
-  "step_by_step_instructions": {
-    "step_1": {
-      "action": "Import Repository",
-      "url": "https://vercel.com/new",
-      "details": [
-        "Click 'Import Git Repository'",
-        "Select repository: Tyronemitchell123/v2",
-        "Click 'Import' button",
-        "Wait for repository analysis"
-      ]
-    },
-    "step_2": {
-      "action": "Configure Project",
-      "details": [
-        "Project Name: suggestlyg4plus",
-        "Framework Preset: Python",
-        "Root Directory: ./ (default)",
-        "Install Command: pip install -r requirements.txt"
-      ]
-    },
-    "step_3": {
-      "action": "Deploy with MAXIMUM FORCE",
-      "details": [
-        "Review configuration settings",
-        "Click 'Deploy' with MAXIMUM FORCE",
-        "Wait for build and deployment",
-        "Monitor deployment progress"
-      ]
-    },
-    "step_4": {
-      "action": "Add Custom Domain",
-      "details": [
-        "Go to Project Settings > Domains",
-        "Add domain: suggestlyg4plus.io",
-        "Add domain: www.suggestlyg4plus.io",
-        "Configure DNS records if needed",
-        "Wait for domain verification"
-      ]
-    }
+  "step_2": {
+    "action": "Configure Project",
+    "details": [
+      "Project Name: suggestlyg4plus",
+      "Framework Preset: Python",
+      "Root Directory: ./ (default)",
+      "Install Command: pip install -r requirements.txt"
+    ]
   },
-  "deployment_urls": {
-    "new_project": "https://vercel.com/new",
-    "dashboard": "https://vercel.com/dashboard",
-    "live_site": "https://suggestlyg4plus.io",
-    "www_site": "https://www.suggestlyg4plus.io"
+  "step_3": {
+    "action": "Deploy with MAXIMUM FORCE",
+    "details": [
+      "Review configuration settings",
+      "Click 'Deploy' with MAXIMUM FORCE",
+      "Wait for build and deployment",
+      "Monitor deployment progress"
+    ]
+  },
+  "step_4": {
+    "action": "Add Custom Domain",
+    "details": [
+      "Go to Project Settings > Domains",
+      "Add domain: suggestlyg4plus.io",
+      "Add domain: www.suggestlyg4plus.io",
+      "Configure DNS records if needed",
+      "Wait for domain verification"
+    ]
   }
 }
