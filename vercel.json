@@ -1,5 +1,4 @@
 {
-  "name": "suggestlyg4plus",
   "version": 2,
   "builds": [
     {
@@ -12,20 +11,5 @@
       "src": "/(.*)",
       "dest": "src/main_ultra_secure.py"
     }
-  ],
-  "functions": {
-    "src/main_ultra_secure.py": {
-      "maxDuration": 30
-    }
-  },
-  "domains": [
-    "suggestlyg4plus.io",
-    "www.suggestlyg4plus.io"
-  ],
-  "regions": [
-    "iad1"
-  ],
-  "public": true,
-  "force": true,
-  "optimization": "maximum"
+  ]
 }
