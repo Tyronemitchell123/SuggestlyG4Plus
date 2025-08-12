@@ -41,20 +41,20 @@ jobs:
           vercel-args: '--prod'
           working-directory: ./
           alias-domains: |
-            suggestlyg4plus.io
-            www.suggestlyg4plus.io
+            suggesterlyg4plus-a8hj
+            www.suggesterlyg4plus-a8hj
 
       - name: Verify Deployment
         run: |
           echo "🔍 Verifying deployment..."
           sleep 30
-          curl -f https://suggestlyg4plus.io || echo "Domain not ready yet"
-          curl -f https://www.suggestlyg4plus.io || echo "WWW domain not ready yet"
+          curl -f https://suggesterlyg4plus-a8hj || echo "Domain not ready yet"
+          curl -f https://www.suggesterlyg4plus-a8hj || echo "WWW domain not ready yet"
 
       - name: Deployment Status
         run: |
           echo "🚀 MAXIMUM FORCE DEPLOYMENT COMPLETE!"
-          echo "🌐 Live Site: https://suggestlyg4plus.io"
-          echo "🌐 WWW Site: https://www.suggestlyg4plus.io"
+          echo "🌐 Live Site: https://suggesterlyg4plus-a8hj"
+          echo "🌐 WWW Site: https://www.suggesterlyg4plus-a8hj"
           echo "⚡ Force Level: MAXIMUM"
           echo "✅ AI Agents: ACTIVE"
