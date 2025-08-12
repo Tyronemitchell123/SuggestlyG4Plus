@@ -46,6 +46,10 @@
     <!-- PWA Manifest -->
     <link rel="manifest" href="/manifest.json">
     
+    <!-- JavaScript Modules -->
+    <script src="payment-integration.js"></script>
+    <script src="analytics.js"></script>
+    
     <!-- Structured Data for SEO -->
     <script type="application/ld+json">
     {
@@ -1362,6 +1366,304 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+
+        /* Subscription Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%);
+            margin: 2% auto;
+            padding: 0;
+            border: 2px solid var(--luxury-gold);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 
+                0 0 50px rgba(255, 215, 0, 0.3),
+                inset 0 0 30px rgba(255, 215, 0, 0.1);
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #000;
+            padding: 2rem;
+            text-align: center;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+        }
+
+        .modal-header h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0 0 0.5rem 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-header p {
+            font-size: 1.1rem;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .subscription-form {
+            padding: 2rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--luxury-gold);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--luxury-gold);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-top: 0.2rem;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .checkbox-group a {
+            color: var(--luxury-gold);
+            text-decoration: none;
+        }
+
+        .checkbox-group a:hover {
+            text-decoration: underline;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .submit-btn {
+            flex: 1;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .cancel-btn {
+            padding: 1rem 2rem;
+            background: transparent;
+            color: var(--text-secondary);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .cancel-btn:hover {
+            border-color: var(--luxury-gold);
+            color: var(--luxury-gold);
+        }
+
+        .close {
+            position: absolute;
+            right: 1rem;
+            top: 1rem;
+            color: #000;
+            font-size: 2rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10001;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .close:hover {
+            background: #fff;
+            transform: scale(1.1);
+        }
+
+        /* Success Modal */
+        .success-content {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-content h2 {
+            color: var(--luxury-gold);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-content p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .success-details {
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .success-details ul {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0 0 0;
+        }
+
+        .success-details li {
+            padding: 0.5rem 0;
+            color: var(--text-secondary);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .success-details li:before {
+            content: "✓";
+            color: var(--luxury-gold);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .success-btn {
+            padding: 1rem 3rem;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .success-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Mobile Responsive Modal */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                margin: 5% auto;
+                max-height: 95vh;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .modal-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .modal-header p {
+                font-size: 1rem;
+            }
+
+            .subscription-form {
+                padding: 1.5rem;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .submit-btn,
+            .cancel-btn {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1479,7 +1781,7 @@
                     <li>Priority Response Time</li>
                 </ul>
                 <div class="elite-trial-badge">7-Day Free Trial</div>
-                <button class="elite-cta-btn">REQUEST CONSULTATION</button>
+                <button class="elite-cta-btn" onclick="openSubscriptionModal('strategy', 'AI Strategy Consulting', 2500, '7-Day Free Trial')">REQUEST CONSULTATION</button>
             </div>
 
             <div class="luxury-service-card entry-level">
@@ -1497,7 +1799,7 @@
                     <li>GPU Acceleration</li>
                 </ul>
                 <div class="elite-trial-badge">7-Day Free Trial</div>
-                <button class="elite-cta-btn">REQUEST CONSULTATION</button>
+                <button class="elite-cta-btn" onclick="openSubscriptionModal('neural', 'Neural Network Training', 1800, '7-Day Free Trial')">REQUEST CONSULTATION</button>
             </div>
 
             <div class="luxury-service-card entry-level">
@@ -1515,7 +1817,7 @@
                     <li>Penetration Testing</li>
                 </ul>
                 <div class="elite-trial-badge">7-Day Free Trial</div>
-                <button class="elite-cta-btn">REQUEST CONSULTATION</button>
+                <button class="elite-cta-btn" onclick="openSubscriptionModal('security', 'Advanced Security Suite', 3200, '7-Day Free Trial')">REQUEST CONSULTATION</button>
             </div>
 
             <!-- Mid Level Services -->
@@ -1534,7 +1836,7 @@
                     <li>Quantum-Inspired Algorithms</li>
                 </ul>
                 <div class="elite-trial-badge">30-Day Elite Trial</div>
-                <button class="elite-cta-btn">REQUEST CONSULTATION</button>
+                <button class="elite-cta-btn" onclick="openSubscriptionModal('executive', 'Executive AI Strategy', 25000, '30-Day Elite Trial')">REQUEST CONSULTATION</button>
             </div>
 
             <div class="luxury-service-card mid-level">
@@ -1552,7 +1854,7 @@
                     <li>Quantum Bots Integration</li>
                 </ul>
                 <div class="elite-trial-badge">30-Day Elite Trial</div>
-                <button class="elite-cta-btn">REQUEST CONSULTATION</button>
+                <button class="elite-cta-btn" onclick="openSubscriptionModal('quantum', 'Quantum AI Development', 50000, '30-Day Elite Trial')">REQUEST CONSULTATION</button>
             </div>
 
             <!-- Ultra Premium Services -->
@@ -1571,7 +1873,7 @@
                     <li>Enterprise Integration</li>
                 </ul>
                 <div class="elite-trial-badge">30-Day Elite Trial</div>
-                <button class="elite-cta-btn">REQUEST CONSULTATION</button>
+                <button class="elite-cta-btn" onclick="openSubscriptionModal('global', 'Global AI Operations', 75000, '30-Day Elite Trial')">REQUEST CONSULTATION</button>
             </div>
         </div>
     </section>
@@ -1757,6 +2059,120 @@
         </div>
     </footer>
 
+    <!-- Subscription Modal -->
+    <div id="subscriptionModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeSubscriptionModal()">&times;</span>
+            <div class="modal-header">
+                <h2 id="modalTitle">Start Your Free Trial</h2>
+                <p id="modalSubtitle">Join SUGGESTLY ELITE and transform your business with advanced AI</p>
+            </div>
+            
+            <form id="subscriptionForm" class="subscription-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email Address *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number *</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="company">Company Name *</label>
+                        <input type="text" id="company" name="company" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="position">Position *</label>
+                        <input type="text" id="position" name="position" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="revenue">Annual Revenue *</label>
+                    <select id="revenue" name="revenue" required>
+                        <option value="">Select Revenue Range</option>
+                        <option value="Under $1M">Under $1M</option>
+                        <option value="$1M - $10M">$1M - $10M</option>
+                        <option value="$10M - $50M">$10M - $50M</option>
+                        <option value="$50M - $100M">$50M - $100M</option>
+                        <option value="$100M - $500M">$100M - $500M</option>
+                        <option value="$500M - $1B">$500M - $1B</option>
+                        <option value="Over $1B">Over $1B</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subscriptionPlan">Selected Plan *</label>
+                    <input type="text" id="subscriptionPlan" name="subscriptionPlan" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subscriptionPrice">Monthly Price *</label>
+                    <input type="text" id="subscriptionPrice" name="subscriptionPrice" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="trialPeriod">Trial Period *</label>
+                    <input type="text" id="trialPeriod" name="trialPeriod" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="requirements">Business Requirements *</label>
+                    <textarea id="requirements" name="requirements" placeholder="Describe your AI transformation goals and specific requirements..." required></textarea>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">I agree to the <a href="#" onclick="showTerms()">Terms of Service</a> and <a href="#" onclick="showPrivacy()">Privacy Policy</a> *</label>
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="marketing" name="marketing">
+                    <label for="marketing">I would like to receive updates about new AI features and exclusive offers</label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn">START FREE TRIAL</button>
+                    <button type="button" class="cancel-btn" onclick="closeSubscriptionModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content success-content">
+            <div class="success-icon">✅</div>
+            <h2>Subscription Request Submitted!</h2>
+            <p>Thank you for choosing SUGGESTLY ELITE. Our team will contact you within 24 hours to begin your free trial.</p>
+            <div class="success-details">
+                <p><strong>Next Steps:</strong></p>
+                <ul>
+                    <li>Check your email for confirmation</li>
+                    <li>Our AI specialists will schedule a consultation</li>
+                    <li>Begin your free trial period</li>
+                    <li>Experience the power of advanced AI</li>
+                </ul>
+            </div>
+            <button class="success-btn" onclick="closeSuccessModal()">Continue</button>
+        </div>
+    </div>
+
     <script>
         // Mobile Menu Toggle
         function toggleMobileMenu() {
@@ -1780,6 +2196,128 @@
                 });
             });
         });
+
+        // Subscription Modal Functions
+        let currentSubscription = {};
+
+        function openSubscriptionModal(planId, planName, price, trialPeriod) {
+            currentSubscription = {
+                planId: planId,
+                planName: planName,
+                price: price,
+                trialPeriod: trialPeriod
+            };
+            
+            // Update modal content
+            document.getElementById('modalTitle').textContent = `Start Your ${trialPeriod}`;
+            document.getElementById('modalSubtitle').textContent = `Join SUGGESTLY ELITE - ${planName}`;
+            document.getElementById('subscriptionPlan').value = planName;
+            document.getElementById('subscriptionPrice').value = `$${price.toLocaleString()}/month`;
+            document.getElementById('trialPeriod').value = trialPeriod;
+            
+            // Show modal
+            document.getElementById('subscriptionModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSubscriptionModal() {
+            document.getElementById('subscriptionModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+            document.getElementById('subscriptionForm').reset();
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        function showTerms() {
+            alert('Terms of Service: By subscribing to SUGGESTLY ELITE services, you agree to our terms of service, privacy policy, and subscription terms. All services are provided on a trial basis initially, with automatic renewal unless cancelled. Full terms available upon request.');
+        }
+
+        function showPrivacy() {
+            alert('Privacy Policy: Your data is protected with enterprise-grade encryption. We collect only necessary information for service delivery and do not share your data with third parties. Full privacy policy available upon request.');
+        }
+
+        // Handle subscription form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            const subscriptionForm = document.getElementById('subscriptionForm');
+            if (subscriptionForm) {
+                subscriptionForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    
+                    // Get form data
+                    const formData = new FormData(subscriptionForm);
+                    const subscriptionData = {
+                        ...currentSubscription,
+                        firstName: formData.get('firstName'),
+                        lastName: formData.get('lastName'),
+                        email: formData.get('email'),
+                        phone: formData.get('phone'),
+                        company: formData.get('company'),
+                        position: formData.get('position'),
+                        revenue: formData.get('revenue'),
+                        requirements: formData.get('requirements'),
+                        marketing: formData.get('marketing') === 'on'
+                    };
+                    
+                    // Send email (using mailto for now)
+                    const subject = `SUGGESTLY ELITE Subscription Request - ${subscriptionData.planName}`;
+                    const body = `
+New Subscription Request:
+
+Plan: ${subscriptionData.planName}
+Price: ${subscriptionData.subscriptionPrice}
+Trial Period: ${subscriptionData.trialPeriod}
+
+Contact Information:
+Name: ${subscriptionData.firstName} ${subscriptionData.lastName}
+Email: ${subscriptionData.email}
+Phone: ${subscriptionData.phone}
+Company: ${subscriptionData.company}
+Position: ${subscriptionData.position}
+Annual Revenue: ${subscriptionData.revenue}
+
+Business Requirements:
+${subscriptionData.requirements}
+
+Marketing Opt-in: ${subscriptionData.marketing ? 'Yes' : 'No'}
+
+---
+This request was submitted from the SUGGESTLY ELITE website.
+                    `;
+                    
+                    const mailtoLink = `mailto:tyrone.mitchell76@hotmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                    window.open(mailtoLink);
+                    
+                    // Show success modal
+                    closeSubscriptionModal();
+                    document.getElementById('successModal').style.display = 'block';
+                    
+                    // Track conversion (if analytics is set up)
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'subscription_request', {
+                            'plan_name': subscriptionData.planName,
+                            'plan_price': subscriptionData.price,
+                            'trial_period': subscriptionData.trialPeriod
+                        });
+                    }
+                });
+            }
+        });
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const subscriptionModal = document.getElementById('subscriptionModal');
+            const successModal = document.getElementById('successModal');
+            
+            if (event.target === subscriptionModal) {
+                closeSubscriptionModal();
+            }
+            if (event.target === successModal) {
+                closeSuccessModal();
+            }
+        }
 
         // Contact Form Email Functionality
         function submitContactForm(event) {
