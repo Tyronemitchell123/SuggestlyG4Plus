@@ -6,9 +6,72 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="SUGGESTLY ELITE - Advanced AI Platform for UHNWI & Business Executives. Quantum-inspired AI agents, neural networks, and enterprise solutions. 7-day free trial available.">
+    <meta name="keywords" content="AI, artificial intelligence, quantum AI, neural networks, enterprise AI, business automation, UHNWI, executives, machine learning, predictive analytics">
+    <meta name="author" content="SUGGESTLY ELITE">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="SUGGESTLY ELITE - Advanced AI Platform">
+    <meta property="og:description" content="Ultra Premium AI Solutions for UHNWI & Business Executives. Quantum-inspired AI agents and enterprise solutions.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://suggestlyg4plus.io">
+    <meta property="og:image" content="https://suggestlyg4plus.io/og-image.jpg">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SUGGESTLY ELITE - Advanced AI Platform">
+    <meta name="twitter:description" content="Ultra Premium AI Solutions for UHNWI & Business Executives">
+    <meta name="twitter:image" content="https://suggestlyg4plus.io/twitter-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    
     <title>SUGGESTLY ELITE - Ultra Premium AI Solutions for UHNWI & Executives</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+    
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "SUGGESTLY ELITE",
+      "description": "Advanced AI Platform for UHNWI & Business Executives",
+      "url": "https://suggestlyg4plus.io",
+      "logo": "https://suggestlyg4plus.io/logo.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "tyrone.mitchell76@hotmail.com",
+        "contactType": "customer service"
+      },
+      "sameAs": [
+        "https://suggestlyg4plus.io"
+      ],
+      "offers": {
+        "@type": "Offer",
+        "price": "2500",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      }
+    }
+    </script>
+    
     <style>
         :root {
             --gold-gradient: linear-gradient(135deg, #FFD700 0%, #FFA500 25%, #FF8C00 50%, #FFD700 75%, #FFA500 100%);
@@ -107,6 +170,120 @@
                 justify-content: space-between;
                 align-items: center;
                 gap: 1rem;
+            }
+            
+            /* Fix text wrapping and spacing */
+            .hero-content h1 {
+                font-size: 1.8rem;
+                line-height: 1.3;
+                word-wrap: break-word;
+                hyphens: auto;
+                margin-bottom: 1rem;
+            }
+            
+            .hero-content p {
+                font-size: 0.95rem;
+                line-height: 1.5;
+                word-wrap: break-word;
+                margin: 1rem 0;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+                line-height: 1.3;
+                word-wrap: break-word;
+                margin-bottom: 1rem;
+            }
+            
+            .section-subtitle {
+                font-size: 1rem;
+                line-height: 1.5;
+                word-wrap: break-word;
+                margin-bottom: 1.5rem;
+            }
+            
+            .service-card h3 {
+                font-size: 1.3rem;
+                line-height: 1.3;
+                word-wrap: break-word;
+                margin-bottom: 0.8rem;
+            }
+            
+            .service-description {
+                font-size: 0.9rem;
+                line-height: 1.5;
+                word-wrap: break-word;
+                margin-bottom: 1rem;
+            }
+            
+            .feature-card h3 {
+                font-size: 1.2rem;
+                line-height: 1.3;
+                word-wrap: break-word;
+                margin-bottom: 0.8rem;
+            }
+            
+            .feature-description {
+                font-size: 0.9rem;
+                line-height: 1.5;
+                word-wrap: break-word;
+                margin-bottom: 1rem;
+            }
+            
+            .pricing-card h3 {
+                font-size: 1.4rem;
+                line-height: 1.3;
+                word-wrap: break-word;
+                margin-bottom: 1rem;
+            }
+            
+            .pricing-card .price {
+                font-size: 2.2rem;
+                line-height: 1.2;
+                margin-bottom: 0.5rem;
+            }
+            
+            .pricing-card .period {
+                font-size: 0.9rem;
+                margin-bottom: 1rem;
+            }
+            
+            .pricing-features {
+                font-size: 0.85rem;
+                line-height: 1.4;
+                margin-bottom: 1.5rem;
+            }
+            
+            .pricing-features li {
+                margin-bottom: 0.5rem;
+                word-wrap: break-word;
+            }
+            
+            .contact-form h3 {
+                font-size: 1.5rem;
+                line-height: 1.3;
+                word-wrap: break-word;
+                margin-bottom: 1rem;
+            }
+            
+            .contact-form p {
+                font-size: 0.95rem;
+                line-height: 1.5;
+                word-wrap: break-word;
+                margin-bottom: 1.5rem;
+            }
+            
+            .footer-section h4 {
+                font-size: 1.2rem;
+                line-height: 1.3;
+                word-wrap: break-word;
+                margin-bottom: 1rem;
+            }
+            
+            .footer-section p {
+                font-size: 0.9rem;
+                line-height: 1.5;
+                word-wrap: break-word;
             }
             
             .mobile-menu-toggle {
@@ -315,40 +492,109 @@
         
         @media (max-width: 480px) {
             .hero-content h1 {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
+                line-height: 1.2;
+                word-wrap: break-word;
+                hyphens: auto;
             }
             
             .hero-content p {
-                font-size: 0.9rem;
+                font-size: 0.85rem;
+                line-height: 1.4;
+                word-wrap: break-word;
             }
             
             .luxury-logo {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
             }
             
             .logo-icon {
-                width: 45px;
-                height: 45px;
+                width: 40px;
+                height: 40px;
             }
             
             .logo-icon::before {
-                font-size: 2rem;
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+                line-height: 1.2;
+                word-wrap: break-word;
+            }
+            
+            .section-subtitle {
+                font-size: 0.9rem;
+                line-height: 1.4;
+                word-wrap: break-word;
             }
             
             .service-card h3 {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
+                line-height: 1.2;
+                word-wrap: break-word;
+            }
+            
+            .service-description {
+                font-size: 0.8rem;
+                line-height: 1.4;
+                word-wrap: break-word;
             }
             
             .feature-card h3 {
-                font-size: 1.2rem;
+                font-size: 1.1rem;
+                line-height: 1.2;
+                word-wrap: break-word;
+            }
+            
+            .feature-description {
+                font-size: 0.8rem;
+                line-height: 1.4;
+                word-wrap: break-word;
             }
             
             .pricing-card h3 {
-                font-size: 1.3rem;
+                font-size: 1.2rem;
+                line-height: 1.2;
+                word-wrap: break-word;
             }
             
             .pricing-card .price {
-                font-size: 2rem;
+                font-size: 1.8rem;
+                line-height: 1.1;
+            }
+            
+            .pricing-card .period {
+                font-size: 0.8rem;
+            }
+            
+            .pricing-features {
+                font-size: 0.75rem;
+                line-height: 1.3;
+            }
+            
+            .contact-form h3 {
+                font-size: 1.3rem;
+                line-height: 1.2;
+                word-wrap: break-word;
+            }
+            
+            .contact-form p {
+                font-size: 0.85rem;
+                line-height: 1.4;
+                word-wrap: break-word;
+            }
+            
+            .footer-section h4 {
+                font-size: 1.1rem;
+                line-height: 1.2;
+                word-wrap: break-word;
+            }
+            
+            .footer-section p {
+                font-size: 0.8rem;
+                line-height: 1.4;
+                word-wrap: break-word;
             }
             
             /* Touch-friendly buttons */
@@ -369,6 +615,21 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+            }
+            
+            /* Additional spacing for better readability */
+            .service-card, .feature-card, .pricing-card {
+                padding: 1.2rem;
+                margin-bottom: 1rem;
+            }
+            
+            .hero-section {
+                padding: 1.5rem 1rem;
+                min-height: 70vh;
+            }
+            
+            .services-section, .features-section, .pricing-section, .contact-section {
+                padding: 1.5rem 1rem;
             }
         }
         
@@ -1635,6 +1896,19 @@ This request was submitted from the SUGGESTLY ELITE website.
 
         // Initialize Particles
         createLuxuryParticles();
+
+        // Register Service Worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
 
         // Typing Effect for Hero Title
         function typeWriter(element, text, speed = 100) {
