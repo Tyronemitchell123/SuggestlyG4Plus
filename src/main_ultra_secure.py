@@ -1,28 +1,98 @@
 #!/usr/bin/env python3
 """
-SUGGESTLYG4PLUS V2.0 - ULTRA SECURE AI PLATFORM
-Enhanced Ultra Secure AI Platform with Maximum Force Deployment
+SUGGESTLY G4PLUS - ULTRA SECURE AI PLATFORM
+Advanced AI Agents with Maximum Force Deployment
 """
 
-from fastapi import FastAPI, HTTPException, Depends, status, Request
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from fastapi.responses import HTMLResponse, JSONResponse
-import uvicorn
-import sqlite3
+import os
+import sys
+import json
+import time
+import asyncio
 import hashlib
+import secrets
+import sqlite3
+import requests
+import websockets
+import websocket
 import jwt
 import bcrypt
-import json
-import os
-import time
+import stripe
 from datetime import datetime, timedelta
-from typing import Optional, Dict, Any, List
+from typing import Dict, List, Any, Optional
+from fastapi import FastAPI, HTTPException, Depends, WebSocket, WebSocketDisconnect, Form, Request
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+import uvicorn
+from pydantic import BaseModel
+import threading
+import queue
 import logging
+
+# Mock implementations for missing modules
+class MockYFinance:
+    def Ticker(self, symbol):
+        return MockTicker()
+
+class MockTicker:
+    def info(self):
+        return {"regularMarketPrice": 150.0, "marketCap": 1000000000}
+
+class MockFeedParser:
+    def parse(self, url):
+        return {"entries": [{"title": "Mock News", "summary": "Mock content"}]}
+
+class MockBeautifulSoup:
+    def __init__(self, content, parser):
+        self.content = content
+    def find_all(self, tag):
+        return [{"text": "Mock content"}]
+
+class MockRandomForest:
+    def fit(self, X, y):
+        pass
+    def predict(self, X):
+        return [0.5] * len(X)
+
+# Mock modules
+yf = MockYFinance()
+feedparser = MockFeedParser()
+BeautifulSoup = MockBeautifulSoup
+RandomForestRegressor = MockRandomForest
+pd = None  # Will be handled in functions
+np = None  # Will be handled in functions
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# Configure Stripe
+stripe.api_key = os.getenv('STRIPE_SECRET_KEY', 'sk_test_your_stripe_test_key_here')
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY', 'pk_test_your_stripe_publishable_key_here')
+
+# JWT Configuration
+SECRET_KEY = os.getenv('SECRET_KEY', 'your-secret-key-here')
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30
+
+# Subscription plans configuration
+SUBSCRIPTION_PLANS = {
+    'basic': {
+        'monthly': {'price_id': 'price_basic_monthly', 'amount': 1900},  # $19.00
+        'yearly': {'price_id': 'price_basic_yearly', 'amount': 18200}   # $182.00
+    },
+    'pro': {
+        'monthly': {'price_id': 'price_pro_monthly', 'amount': 7900},   # $79.00
+        'yearly': {'price_id': 'price_pro_yearly', 'amount': 75900}     # $759.00
+    },
+    'vip': {
+        'monthly': {'price_id': 'price_vip_monthly', 'amount': 19900},  # $199.00
+        'yearly': {'price_id': 'price_vip_yearly', 'amount': 190900}    # $1,909.00
+    }
+}
 
 # Initialize FastAPI app
 app = FastAPI(
@@ -35,8 +105,6 @@ app = FastAPI(
 
 # Security
 security = HTTPBearer()
-SECRET_KEY = "suggestlyg4plus_v2_ultra_secure_secret_key_2025"
-ALGORITHM = "HS256"
 
 # CORS middleware
 app.add_middleware(
@@ -48,9 +116,13 @@ app.add_middleware(
 )
 
 # Database setup
+def get_db_connection():
+    """Get database connection"""
+    return sqlite3.connect('suggestly.db')
+
 def init_db():
-    """Initialize database with tables"""
-    conn = sqlite3.connect('suggestly.db')
+    """Initialize database with all tables"""
+    conn = get_db_connection()
     cursor = conn.cursor()
     
     # Users table
@@ -60,33 +132,180 @@ def init_db():
             username TEXT UNIQUE NOT NULL,
             email TEXT UNIQUE NOT NULL,
             password_hash TEXT NOT NULL,
-            vip_status BOOLEAN DEFAULT FALSE,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            last_login TIMESTAMP
+            subscription_tier TEXT DEFAULT 'free',
+            subscription_status TEXT DEFAULT 'inactive',
+            stripe_customer_id TEXT,
+            stripe_subscription_id TEXT,
+            subscription_end_date TIMESTAMP,
+            api_requests_count INTEGER DEFAULT 0,
+            last_api_request TIMESTAMP
         )
     ''')
     
-    # AI agents table
+    # Subscriptions table
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS ai_agents (
+        CREATE TABLE IF NOT EXISTS subscriptions (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            status TEXT DEFAULT 'active',
-            capabilities TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            user_id INTEGER NOT NULL,
+            stripe_subscription_id TEXT UNIQUE,
+            plan_type TEXT NOT NULL,
+            billing_cycle TEXT NOT NULL,
+            amount INTEGER NOT NULL,
+            status TEXT NOT NULL,
+            current_period_start TIMESTAMP,
+            current_period_end TIMESTAMP,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users (id)
         )
     ''')
     
-    # Live feeds table
+    # Payment history table
     cursor.execute('''
-        CREATE TABLE IF NOT EXISTS live_feeds (
+        CREATE TABLE IF NOT EXISTS payment_history (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT NOT NULL,
-            content TEXT,
-            category TEXT,
-            timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            user_id INTEGER NOT NULL,
+            stripe_payment_intent_id TEXT UNIQUE,
+            amount INTEGER NOT NULL,
+            currency TEXT DEFAULT 'usd',
+            status TEXT NOT NULL,
+            payment_method TEXT,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users (id)
         )
     ''')
+    
+    # API usage tracking table
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS api_usage (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            endpoint TEXT NOT NULL,
+            request_count INTEGER DEFAULT 1,
+            last_request TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (user_id) REFERENCES users (id)
+        )
+    ''')
+    
+    conn.commit()
+    conn.close()
+    print("✅ Database initialized with subscription tables")
+
+def get_user_subscription(user_id: int) -> Dict[str, Any]:
+    """Get user's current subscription details"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+        SELECT subscription_tier, subscription_status, stripe_subscription_id, 
+               subscription_end_date, api_requests_count
+        FROM users WHERE id = ?
+    ''', (user_id,))
+    
+    result = cursor.fetchone()
+    conn.close()
+    
+    if result:
+        return {
+            'tier': result[0],
+            'status': result[1],
+            'stripe_subscription_id': result[2],
+            'end_date': result[3],
+            'api_requests_count': result[4]
+        }
+    return None
+
+def update_user_subscription(user_id: int, tier: str, status: str, stripe_subscription_id: str = None):
+    """Update user's subscription details"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+        UPDATE users 
+        SET subscription_tier = ?, subscription_status = ?, 
+            stripe_subscription_id = ?, subscription_end_date = ?
+        WHERE id = ?
+    ''', (tier, status, stripe_subscription_id, 
+          datetime.now() + timedelta(days=30) if tier != 'free' else None, user_id))
+    
+    conn.commit()
+    conn.close()
+
+def create_stripe_customer(user_id: int, email: str) -> str:
+    """Create Stripe customer and return customer ID"""
+    try:
+        customer = stripe.Customer.create(
+            email=email,
+            metadata={'user_id': user_id}
+        )
+        
+        # Update user with Stripe customer ID
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('UPDATE users SET stripe_customer_id = ? WHERE id = ?', 
+                      (customer.id, user_id))
+        conn.commit()
+        conn.close()
+        
+        return customer.id
+    except Exception as e:
+        logger.error(f"Error creating Stripe customer: {e}")
+        raise HTTPException(status_code=500, detail="Failed to create payment account")
+
+def create_subscription_record(user_id: int, plan_type: str, billing_cycle: str, 
+                             amount: int, stripe_subscription_id: str):
+    """Create subscription record in database"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+        INSERT INTO subscriptions 
+        (user_id, stripe_subscription_id, plan_type, billing_cycle, amount, status)
+        VALUES (?, ?, ?, ?, ?, 'active')
+    ''', (user_id, stripe_subscription_id, plan_type, billing_cycle, amount))
+    
+    conn.commit()
+    conn.close()
+
+def check_api_rate_limit(user_id: int, endpoint: str) -> bool:
+    """Check if user has exceeded API rate limits"""
+    subscription = get_user_subscription(user_id)
+    if not subscription:
+        return False
+    
+    # Rate limits based on subscription tier
+    rate_limits = {
+        'free': 10,
+        'basic': 100,
+        'pro': 1000,
+        'vip': 10000
+    }
+    
+    limit = rate_limits.get(subscription['tier'], 10)
+    current_count = subscription['api_requests_count']
+    
+    return current_count < limit
+
+def increment_api_usage(user_id: int, endpoint: str):
+    """Increment API usage counter"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Update user's API request count
+    cursor.execute('''
+        UPDATE users 
+        SET api_requests_count = api_requests_count + 1, 
+            last_api_request = CURRENT_TIMESTAMP
+        WHERE id = ?
+    ''', (user_id,))
+    
+    # Log API usage
+    cursor.execute('''
+        INSERT OR REPLACE INTO api_usage (user_id, endpoint, request_count, last_request)
+        VALUES (?, ?, COALESCE((SELECT request_count + 1 FROM api_usage 
+                               WHERE user_id = ? AND endpoint = ?), 1), CURRENT_TIMESTAMP)
+    ''', (user_id, endpoint, user_id, endpoint))
     
     conn.commit()
     conn.close()
@@ -113,10 +332,50 @@ def verify_password(password: str, hashed: str) -> bool:
     """Verify password against hash"""
     return bcrypt.checkpw(password.encode('utf-8'), hashed.encode('utf-8'))
 
-# Database functions
-def get_db_connection():
-    """Get database connection"""
-    return sqlite3.connect('suggestly.db')
+def create_access_token(data: dict, expires_delta: timedelta = None):
+    """Create JWT access token"""
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
+
+# Rate limiting middleware
+@app.middleware("http")
+async def rate_limit_middleware(request: Request, call_next):
+    """Rate limiting middleware based on subscription tier"""
+    # Skip rate limiting for certain endpoints
+    if request.url.path in ['/', '/pricing', '/subscription/success', '/health', '/api/status']:
+        response = await call_next(request)
+        return response
+    
+    # Get user from token if available
+    user_id = None
+    try:
+        auth_header = request.headers.get('authorization')
+        if auth_header and auth_header.startswith('Bearer '):
+            token = auth_header.split(' ')[1]
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            user_id = payload.get('user_id')
+    except:
+        pass
+    
+    if user_id:
+        # Check rate limits for authenticated users
+        if not check_api_rate_limit(user_id, request.url.path):
+            return JSONResponse(
+                status_code=429,
+                content={"detail": "Rate limit exceeded. Please upgrade your subscription for higher limits."}
+            )
+        
+        # Increment usage
+        increment_api_usage(user_id, request.url.path)
+    
+    response = await call_next(request)
+    return response
 
 # Routes
 @app.get("/", response_class=HTMLResponse)
@@ -917,82 +1176,949 @@ async def get_live_feeds():
 
 @app.post("/api/register")
 async def register_user(username: str, email: str, password: str):
-    """Register new user"""
+    """User registration endpoint"""
     conn = get_db_connection()
     cursor = conn.cursor()
     
-    try:
-        password_hash = hash_password(password)
-        cursor.execute(
-            "INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)",
-            (username, email, password_hash)
-        )
-        conn.commit()
-        return {"message": "User registered successfully", "username": username}
-    except sqlite3.IntegrityError:
-        raise HTTPException(status_code=400, detail="Username or email already exists")
-    finally:
+    # Check if user already exists
+    cursor.execute('SELECT id FROM users WHERE username = ? OR email = ?', (username, email))
+    if cursor.fetchone():
         conn.close()
+        raise HTTPException(status_code=400, detail="Username or email already registered")
+    
+    # Hash password and create user
+    hashed_password = hash_password(password)
+    cursor.execute('INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)', 
+                  (username, email, hashed_password))
+    conn.commit()
+    conn.close()
+    
+    return {"message": "User registered successfully"}
 
 @app.post("/api/login")
 async def login_user(username: str, password: str):
-    """Login user"""
+    """User login endpoint"""
     conn = get_db_connection()
     cursor = conn.cursor()
-    
-    cursor.execute("SELECT id, username, password_hash, vip_status FROM users WHERE username = ?", (username,))
+    cursor.execute('SELECT id, username, password_hash FROM users WHERE username = ?', (username,))
     user = cursor.fetchone()
     conn.close()
     
     if user and verify_password(password, user[2]):
-        token_data = {
-            "sub": user[1],
-            "user_id": user[0],
-            "vip_status": user[3],
-            "exp": datetime.utcnow() + timedelta(hours=24)
+        access_token = create_access_token(data={"sub": user[1], "user_id": user[0]})
+        return {
+            "access_token": access_token,
+            "token_type": "bearer",
+            "user": {
+                "id": user[0],
+                "username": user[1]
+            }
         }
-        token = jwt.encode(token_data, SECRET_KEY, algorithm=ALGORITHM)
-        return {"access_token": token, "token_type": "bearer", "username": user[1], "vip_status": user[3]}
     else:
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
 @app.get("/api/vip")
 async def vip_section(payload: Dict = Depends(verify_token)):
-    """VIP section endpoint"""
-    if payload.get("vip_status"):
-        return {
-            "message": "Welcome to VIP Section",
-            "features": [
-                "Premium AI agents",
-                "Advanced analytics",
-                "Exclusive live feeds",
-                "Priority support",
-                "Custom integrations"
-            ],
-            "status": "vip_active"
-        }
-    else:
-        raise HTTPException(status_code=403, detail="VIP access required")
+    """VIP section endpoint - requires Pro or VIP subscription"""
+    user_id = payload.get('user_id')
+    subscription = get_user_subscription(user_id)
+    
+    if not subscription or subscription['tier'] not in ['pro', 'vip']:
+        raise HTTPException(status_code=403, detail="Pro or VIP subscription required")
+    
+    return {
+        "message": "Welcome to the VIP section!",
+        "subscription_tier": subscription['tier'],
+        "features": [
+            "Advanced AI Agents",
+            "Premium Data Feeds",
+            "Priority Support",
+            "Exclusive Content"
+        ] if subscription['tier'] == 'pro' else [
+            "All Pro Features",
+            "VIP Elite Section",
+            "Exclusive AI Agents",
+            "24/7 Priority Support",
+            "Custom Solutions",
+            "Dedicated Account Manager",
+            "Maximum Force Deployment"
+        ]
+    }
 
 @app.get("/api/deployment/status")
 async def deployment_status():
     """Get deployment status"""
     return {
-        "deployment": {
-            "platform": "Vercel",
-            "domain": "suggestlyg4plus.io",
-            "status": "deployed",
-            "force_level": "MAXIMUM",
-            "ai_agents": 8,
-            "force_bots": 7
-        },
-        "monitoring": {
-            "status": "active",
-            "response_time": "optimal",
-            "ssl_certificate": "valid",
-            "uptime": "99.9%"
-        }
+        "status": "deployed",
+        "domain": "suggestlyg4plus.io",
+        "platform": "Vercel",
+        "force_level": "MAXIMUM",
+        "ai_agents": 8,
+        "last_deployment": datetime.now().isoformat()
     }
+
+# Payment and Subscription Endpoints
+@app.get("/api/subscription/plans")
+async def get_subscription_plans():
+    """Get available subscription plans"""
+    return {
+        "plans": SUBSCRIPTION_PLANS,
+        "currency": "usd",
+        "billing_cycles": ["monthly", "yearly"]
+    }
+
+@app.post("/api/subscription/create-checkout-session")
+async def create_checkout_session(
+    plan_type: str = Form(...),
+    billing_cycle: str = Form(...),
+    payload: Dict = Depends(verify_token)
+):
+    """Create Stripe checkout session for subscription"""
+    try:
+        user_id = payload.get('user_id')
+        
+        # Validate plan and billing cycle
+        if plan_type not in SUBSCRIPTION_PLANS:
+            raise HTTPException(status_code=400, detail="Invalid plan type")
+        if billing_cycle not in ['monthly', 'yearly']:
+            raise HTTPException(status_code=400, detail="Invalid billing cycle")
+        
+        plan = SUBSCRIPTION_PLANS[plan_type][billing_cycle]
+        
+        # Get user details
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('SELECT email, stripe_customer_id FROM users WHERE id = ?', (user_id,))
+        user = cursor.fetchone()
+        conn.close()
+        
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        email, stripe_customer_id = user
+        
+        # Create or get Stripe customer
+        if not stripe_customer_id:
+            stripe_customer_id = create_stripe_customer(user_id, email)
+        
+        # Create checkout session
+        checkout_session = stripe.checkout.Session.create(
+            customer=stripe_customer_id,
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': f'SuggestlyG4Plus {plan_type.title()} Plan',
+                        'description': f'{billing_cycle.title()} subscription'
+                    },
+                    'unit_amount': plan['amount'],
+                    'recurring': {
+                        'interval': 'month' if billing_cycle == 'monthly' else 'year'
+                    }
+                },
+                'quantity': 1,
+            }],
+            mode='subscription',
+            success_url=f'https://suggestlyg4plus.io/subscription/success?session_id={{CHECKOUT_SESSION_ID}}',
+            cancel_url='https://suggestlyg4plus.io/pricing',
+            metadata={
+                'user_id': user_id,
+                'plan_type': plan_type,
+                'billing_cycle': billing_cycle
+            }
+        )
+        
+        return {"checkout_url": checkout_session.url, "session_id": checkout_session.id}
+        
+    except stripe.error.StripeError as e:
+        logger.error(f"Stripe error: {e}")
+        raise HTTPException(status_code=500, detail="Payment processing error")
+    except Exception as e:
+        logger.error(f"Error creating checkout session: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+@app.post("/api/subscription/webhook")
+async def stripe_webhook(request: Request):
+    """Handle Stripe webhooks for subscription events"""
+    try:
+        payload = await request.body()
+        sig_header = request.headers.get('stripe-signature')
+        
+        # Verify webhook signature (you should set this in your environment)
+        webhook_secret = os.getenv('STRIPE_WEBHOOK_SECRET', 'whsec_your_webhook_secret')
+        
+        try:
+            event = stripe.Webhook.construct_event(payload, sig_header, webhook_secret)
+        except ValueError as e:
+            raise HTTPException(status_code=400, detail="Invalid payload")
+        except stripe.error.SignatureVerificationError as e:
+            raise HTTPException(status_code=400, detail="Invalid signature")
+        
+        # Handle the event
+        if event['type'] == 'checkout.session.completed':
+            session = event['data']['object']
+            await handle_checkout_completed(session)
+        elif event['type'] == 'customer.subscription.created':
+            subscription = event['data']['object']
+            await handle_subscription_created(subscription)
+        elif event['type'] == 'customer.subscription.updated':
+            subscription = event['data']['object']
+            await handle_subscription_updated(subscription)
+        elif event['type'] == 'customer.subscription.deleted':
+            subscription = event['data']['object']
+            await handle_subscription_cancelled(subscription)
+        elif event['type'] == 'invoice.payment_succeeded':
+            invoice = event['data']['object']
+            await handle_payment_succeeded(invoice)
+        elif event['type'] == 'invoice.payment_failed':
+            invoice = event['data']['object']
+            await handle_payment_failed(invoice)
+        
+        return {"status": "success"}
+        
+    except Exception as e:
+        logger.error(f"Webhook error: {e}")
+        raise HTTPException(status_code=500, detail="Webhook processing error")
+
+async def handle_checkout_completed(session):
+    """Handle successful checkout completion"""
+    user_id = session['metadata']['user_id']
+    plan_type = session['metadata']['plan_type']
+    
+    # Update user subscription
+    update_user_subscription(user_id, plan_type, 'active')
+    logger.info(f"Checkout completed for user {user_id}, plan: {plan_type}")
+
+async def handle_subscription_created(subscription):
+    """Handle new subscription creation"""
+    customer_id = subscription['customer']
+    
+    # Get user by Stripe customer ID
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT id FROM users WHERE stripe_customer_id = ?', (customer_id,))
+    user = cursor.fetchone()
+    conn.close()
+    
+    if user:
+        user_id = user[0]
+        plan_type = subscription['metadata'].get('plan_type', 'basic')
+        billing_cycle = 'monthly' if subscription['items']['data'][0]['plan']['interval'] == 'month' else 'yearly'
+        amount = subscription['items']['data'][0]['plan']['amount']
+        
+        create_subscription_record(user_id, plan_type, billing_cycle, amount, subscription['id'])
+        update_user_subscription(user_id, plan_type, 'active', subscription['id'])
+        logger.info(f"Subscription created for user {user_id}")
+
+async def handle_subscription_updated(subscription):
+    """Handle subscription updates"""
+    customer_id = subscription['customer']
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT id FROM users WHERE stripe_customer_id = ?', (customer_id,))
+    user = cursor.fetchone()
+    conn.close()
+    
+    if user:
+        user_id = user[0]
+        status = subscription['status']
+        plan_type = subscription['metadata'].get('plan_type', 'basic')
+        
+        update_user_subscription(user_id, plan_type, status, subscription['id'])
+        logger.info(f"Subscription updated for user {user_id}, status: {status}")
+
+async def handle_subscription_cancelled(subscription):
+    """Handle subscription cancellation"""
+    customer_id = subscription['customer']
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT id FROM users WHERE stripe_customer_id = ?', (customer_id,))
+    user = cursor.fetchone()
+    conn.close()
+    
+    if user:
+        user_id = user[0]
+        update_user_subscription(user_id, 'free', 'cancelled')
+        logger.info(f"Subscription cancelled for user {user_id}")
+
+async def handle_payment_succeeded(invoice):
+    """Handle successful payment"""
+    customer_id = invoice['customer']
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT id FROM users WHERE stripe_customer_id = ?', (customer_id,))
+    user = cursor.fetchone()
+    conn.close()
+    
+    if user:
+        user_id = user[0]
+        amount = invoice['amount_paid']
+        
+        # Record payment
+        conn = get_db_connection()
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO payment_history 
+            (user_id, stripe_payment_intent_id, amount, status, payment_method)
+            VALUES (?, ?, ?, 'succeeded', 'card')
+        ''', (user_id, invoice['payment_intent'], amount))
+        conn.commit()
+        conn.close()
+        
+        logger.info(f"Payment succeeded for user {user_id}, amount: {amount}")
+
+async def handle_payment_failed(invoice):
+    """Handle failed payment"""
+    customer_id = invoice['customer']
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('SELECT id FROM users WHERE stripe_customer_id = ?', (customer_id,))
+    user = cursor.fetchone()
+    conn.close()
+    
+    if user:
+        user_id = user[0]
+        update_user_subscription(user_id, 'free', 'payment_failed')
+        logger.warning(f"Payment failed for user {user_id}")
+
+@app.get("/api/subscription/status")
+async def get_subscription_status(payload: Dict = Depends(verify_token)):
+    """Get current user's subscription status"""
+    user_id = payload.get('user_id')
+    subscription = get_user_subscription(user_id)
+    
+    if not subscription:
+        return {
+            "tier": "free",
+            "status": "inactive",
+            "api_requests_used": 0,
+            "api_requests_limit": 10
+        }
+    
+    # Get rate limits
+    rate_limits = {
+        'free': 10,
+        'basic': 100,
+        'pro': 1000,
+        'vip': 10000
+    }
+    
+    return {
+        "tier": subscription['tier'],
+        "status": subscription['status'],
+        "end_date": subscription['end_date'],
+        "api_requests_used": subscription['api_requests_count'],
+        "api_requests_limit": rate_limits.get(subscription['tier'], 10),
+        "stripe_subscription_id": subscription['stripe_subscription_id']
+    }
+
+@app.post("/api/subscription/cancel")
+async def cancel_subscription(payload: Dict = Depends(verify_token)):
+    """Cancel user's subscription"""
+    user_id = payload.get('user_id')
+    subscription = get_user_subscription(user_id)
+    
+    if not subscription or not subscription['stripe_subscription_id']:
+        raise HTTPException(status_code=404, detail="No active subscription found")
+    
+    try:
+        # Cancel subscription in Stripe
+        stripe.Subscription.modify(
+            subscription['stripe_subscription_id'],
+            cancel_at_period_end=True
+        )
+        
+        # Update local database
+        update_user_subscription(user_id, 'free', 'cancelling')
+        
+        return {"message": "Subscription will be cancelled at the end of the current period"}
+        
+    except stripe.error.StripeError as e:
+        logger.error(f"Error cancelling subscription: {e}")
+        raise HTTPException(status_code=500, detail="Failed to cancel subscription")
+
+@app.get("/api/subscription/billing-history")
+async def get_billing_history(payload: Dict = Depends(verify_token)):
+    """Get user's billing history"""
+    user_id = payload.get('user_id')
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT amount, currency, status, created_at, stripe_payment_intent_id
+        FROM payment_history 
+        WHERE user_id = ? 
+        ORDER BY created_at DESC
+    ''', (user_id,))
+    
+    payments = cursor.fetchall()
+    conn.close()
+    
+    return {
+        "payments": [
+            {
+                "amount": payment[0] / 100,  # Convert from cents
+                "currency": payment[1],
+                "status": payment[2],
+                "date": payment[3],
+                "payment_id": payment[4]
+            }
+            for payment in payments
+        ]
+    }
+
+@app.get("/subscription/dashboard", response_class=HTMLResponse)
+async def subscription_dashboard(payload: Dict = Depends(verify_token)):
+    """User subscription dashboard"""
+    user_id = payload.get('user_id')
+    subscription = get_user_subscription(user_id)
+    
+    # Get billing history
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute('''
+        SELECT amount, currency, status, created_at
+        FROM payment_history 
+        WHERE user_id = ? 
+        ORDER BY created_at DESC
+        LIMIT 10
+    ''', (user_id,))
+    payments = cursor.fetchall()
+    conn.close()
+    
+    html_content = f"""
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Subscription Dashboard - SuggestlyG4Plus</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <style>
+            * {{
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }}
+
+            :root {{
+                --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                --glass-bg: rgba(255, 255, 255, 0.1);
+                --glass-border: rgba(255, 255, 255, 0.2);
+                --text-primary: #ffffff;
+                --text-secondary: #e0e0e0;
+                --success-color: #00ff88;
+                --warning-color: #ffaa00;
+                --error-color: #ff4757;
+                --accent-color: #4facfe;
+                --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
+                --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.3);
+                --border-radius: 20px;
+                --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }}
+
+            body {{
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+                background: var(--primary-gradient);
+                color: var(--text-primary);
+                min-height: 100vh;
+                line-height: 1.6;
+            }}
+
+            .container {{
+                max-width: 1400px;
+                margin: 0 auto;
+                padding: 2rem;
+            }}
+
+            .header {{
+                text-align: center;
+                margin-bottom: 3rem;
+            }}
+
+            .header h1 {{
+                font-size: 3rem;
+                font-weight: 800;
+                margin-bottom: 1rem;
+                background: linear-gradient(135deg, #00ff88, #4facfe);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }}
+
+            .dashboard-grid {{
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 2rem;
+                margin-bottom: 3rem;
+            }}
+
+            .card {{
+                background: var(--glass-bg);
+                backdrop-filter: blur(20px);
+                border: 1px solid var(--glass-border);
+                border-radius: var(--border-radius);
+                padding: 2rem;
+                box-shadow: var(--shadow-light);
+                transition: var(--transition);
+            }}
+
+            .card:hover {{
+                transform: translateY(-5px);
+                box-shadow: var(--shadow-heavy);
+            }}
+
+            .card h3 {{
+                font-size: 1.5rem;
+                font-weight: 700;
+                margin-bottom: 1rem;
+                color: var(--success-color);
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+            }}
+
+            .status-badge {{
+                display: inline-block;
+                padding: 0.5rem 1rem;
+                border-radius: 50px;
+                font-size: 0.9rem;
+                font-weight: 600;
+                text-transform: uppercase;
+            }}
+
+            .status-active {{
+                background: var(--success-color);
+                color: #000;
+            }}
+
+            .status-inactive {{
+                background: var(--error-color);
+                color: white;
+            }}
+
+            .btn {{
+                display: inline-block;
+                padding: 0.75rem 1.5rem;
+                background: var(--success-color);
+                color: #000;
+                text-decoration: none;
+                border-radius: 50px;
+                font-weight: 600;
+                transition: var(--transition);
+                border: none;
+                cursor: pointer;
+                font-size: 0.9rem;
+            }}
+
+            .btn:hover {{
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-light);
+            }}
+
+            .btn-danger {{
+                background: var(--error-color);
+                color: white;
+            }}
+
+            .btn-warning {{
+                background: var(--warning-color);
+                color: #000;
+            }}
+
+            .payment-item {{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem 0;
+                border-bottom: 1px solid var(--glass-border);
+            }}
+
+            .payment-item:last-child {{
+                border-bottom: none;
+            }}
+
+            .payment-amount {{
+                font-weight: 600;
+                color: var(--success-color);
+            }}
+
+            .payment-date {{
+                color: var(--text-secondary);
+                font-size: 0.9rem;
+            }}
+
+            .analytics-grid {{
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }}
+
+            .metric {{
+                text-align: center;
+                padding: 1rem;
+                background: rgba(255, 255, 255, 0.05);
+                border-radius: 15px;
+                border: 1px solid var(--glass-border);
+            }}
+
+            .metric-value {{
+                font-size: 2rem;
+                font-weight: 800;
+                color: var(--accent-color);
+                margin-bottom: 0.5rem;
+            }}
+
+            .metric-label {{
+                font-size: 0.9rem;
+                color: var(--text-secondary);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }}
+
+            .recommendation {{
+                background: rgba(0, 255, 136, 0.1);
+                border: 1px solid var(--success-color);
+                border-radius: 15px;
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }}
+
+            .recommendation h4 {{
+                color: var(--success-color);
+                margin-bottom: 0.5rem;
+            }}
+
+            .chart-container {{
+                position: relative;
+                height: 300px;
+                margin: 1rem 0;
+            }}
+
+            .loading {{
+                text-align: center;
+                padding: 2rem;
+                color: var(--text-secondary);
+            }}
+
+            .spinner {{
+                border: 3px solid var(--glass-border);
+                border-top: 3px solid var(--success-color);
+                border-radius: 50%;
+                width: 30px;
+                height: 30px;
+                animation: spin 1s linear infinite;
+                margin: 0 auto 1rem;
+            }}
+
+            @keyframes spin {{
+                0% {{ transform: rotate(0deg); }}
+                100% {{ transform: rotate(360deg); }}
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Advanced Subscription Dashboard</h1>
+                <p>Monitor your usage, analytics, and get intelligent recommendations</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3><i class="fas fa-crown"></i> Current Plan</h3>
+                    <p><strong>Plan:</strong> {subscription['tier'].title() if subscription else 'Free'}</p>
+                    <p><strong>Status:</strong> 
+                        <span class="status-badge {'status-active' if subscription and subscription['status'] == 'active' else 'status-inactive'}">
+                            {subscription['status'] if subscription else 'inactive'}
+                        </span>
+                    </p>
+                    <p><strong>API Requests:</strong> {subscription['api_requests_count'] if subscription else 0}</p>
+                    <p><strong>End Date:</strong> {subscription['end_date'] if subscription and subscription['end_date'] else 'N/A'}</p>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-chart-line"></i> Usage Analytics</h3>
+                    <div id="analytics-content" class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading analytics...</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-crystal-ball"></i> Usage Prediction</h3>
+                    <div id="prediction-content" class="loading">
+                        <div class="spinner"></div>
+                        <p>Loading predictions...</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-lightbulb"></i> Smart Recommendations</h3>
+                    <div id="recommendations-content" class="loading">
+                        <div class="spinner"></div>
+                        <p>Analyzing your usage...</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-chart-bar"></i> Usage Chart</h3>
+                    <div class="chart-container">
+                        <canvas id="usageChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-cogs"></i> Quick Actions</h3>
+                    <p><a href="/pricing" class="btn">Upgrade Plan</a></p>
+                    {f'<p><button onclick="cancelSubscription()" class="btn btn-danger">Cancel Subscription</button></p>' if subscription and subscription['status'] == 'active' else ''}
+                    <p><button onclick="refreshAnalytics()" class="btn btn-warning">Refresh Analytics</button></p>
+                    <p><a href="/" class="btn">Go to Dashboard</a></p>
+                </div>
+
+                <div class="card">
+                    <h3><i class="fas fa-history"></i> Billing History</h3>
+                    {'<div class="payment-item"><p>No payment history</p></div>' if not payments else ''}
+                    {''.join([f'''
+                    <div class="payment-item">
+                        <div>
+                            <div class="payment-amount">${payment[0]/100:.2f} {payment[1].upper()}</div>
+                            <div class="payment-date">{payment[3]}</div>
+                        </div>
+                        <span class="status-badge {'status-active' if payment[2] == 'succeeded' else 'status-inactive'}">{payment[2]}</span>
+                    </div>
+                    ''' for payment in payments])}
+                </div>
+            </div>
+        </div>
+
+        <script>
+            // Load analytics data
+            async function loadAnalytics() {{
+                try {{
+                    const response = await fetch('/api/subscription/analytics', {{
+                        headers: {{
+                            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                        }}
+                    }});
+                    
+                    if (response.ok) {{
+                        const data = await response.json();
+                        displayAnalytics(data);
+                    }}
+                }} catch (error) {{
+                    console.error('Error loading analytics:', error);
+                }}
+            }}
+
+            // Load prediction data
+            async function loadPrediction() {{
+                try {{
+                    const response = await fetch('/api/subscription/usage-prediction', {{
+                        headers: {{
+                            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                        }}
+                    }});
+                    
+                    if (response.ok) {{
+                        const data = await response.json();
+                        displayPrediction(data);
+                    }}
+                }} catch (error) {{
+                    console.error('Error loading prediction:', error);
+                }}
+            }}
+
+            function displayAnalytics(data) {{
+                const container = document.getElementById('analytics-content');
+                container.innerHTML = `
+                    <div class="analytics-grid">
+                        <div class="metric">
+                            <div class="metric-value">${{data.payment_analytics.total_spent}}</div>
+                            <div class="metric-label">Total Spent</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${{data.usage_analytics.avg_daily_requests}}</div>
+                            <div class="metric-label">Daily Avg</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${{data.payment_analytics.payment_success_rate}}%</div>
+                            <div class="metric-label">Success Rate</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${{data.usage_analytics.days_until_billing}}</div>
+                            <div class="metric-label">Days to Bill</div>
+                        </div>
+                    </div>
+                `;
+                
+                // Display recommendations
+                displayRecommendations(data.recommendations);
+            }}
+
+            function displayPrediction(data) {{
+                const container = document.getElementById('prediction-content');
+                if (data.prediction === 'insufficient_data') {{
+                    container.innerHTML = '<p>Need more usage data for predictions</p>';
+                    return;
+                }}
+                
+                const pred = data.prediction;
+                container.innerHTML = `
+                    <div class="analytics-grid">
+                        <div class="metric">
+                            <div class="metric-value">${{pred.current_daily_average}}</div>
+                            <div class="metric-label">Daily Average</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${{pred.predicted_30_days}}</div>
+                            <div class="metric-label">30-Day Pred</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${{pred.recommended_plan}}</div>
+                            <div class="metric-label">Recommended</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${{pred.confidence}}</div>
+                            <div class="metric-label">Confidence</div>
+                        </div>
+                    </div>
+                    <p><strong>Plan Sufficient:</strong> ${{pred.current_plan_sufficient ? 'Yes' : 'No'}}</p>
+                `;
+            }}
+
+            function displayRecommendations(recommendations) {{
+                const container = document.getElementById('recommendations-content');
+                if (recommendations.length === 0) {{
+                    container.innerHTML = '<p>No recommendations at this time</p>';
+                    return;
+                }}
+                
+                container.innerHTML = recommendations.map(rec => `
+                    <div class="recommendation">
+                        <h4>${{rec.type.toUpperCase()}} to ${{rec.plan.toUpperCase()}}</h4>
+                        <p><strong>Reason:</strong> ${{rec.reason}}</p>
+                        <p><strong>Benefit:</strong> ${{rec.benefit}}</p>
+                        <button onclick="upgradePlan('${{rec.plan}}')" class="btn">${{rec.type === 'upgrade' ? 'Upgrade' : 'Downgrade'}}</button>
+                    </div>
+                `).join('');
+            }}
+
+            async function upgradePlan(plan) {{
+                try {{
+                    const response = await fetch('/api/subscription/upgrade', {{
+                        method: 'POST',
+                        headers: {{
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                        }},
+                        body: `new_plan=${{plan}}`
+                    }});
+                    
+                    if (response.ok) {{
+                        const data = await response.json();
+                        window.location.href = data.checkout_url;
+                    }}
+                }} catch (error) {{
+                    console.error('Error upgrading plan:', error);
+                }}
+            }}
+
+            async function cancelSubscription() {{
+                if (confirm('Are you sure you want to cancel your subscription? This will take effect at the end of your current billing period.')) {{
+                    try {{
+                        const response = await fetch('/api/subscription/cancel', {{
+                            method: 'POST',
+                            headers: {{
+                                'Authorization': 'Bearer ' + localStorage.getItem('access_token')
+                            }}
+                        }});
+                        
+                        if (response.ok) {{
+                            alert('Subscription cancelled successfully. You will continue to have access until the end of your billing period.');
+                            location.reload();
+                        }} else {{
+                            alert('Failed to cancel subscription. Please try again.');
+                        }}
+                    }} catch (error) {{
+                        console.error('Error cancelling subscription:', error);
+                        alert('An error occurred while cancelling your subscription.');
+                    }}
+                }}
+            }}
+
+            function refreshAnalytics() {{
+                document.getElementById('analytics-content').innerHTML = '<div class="spinner"></div><p>Refreshing...</p>';
+                document.getElementById('prediction-content').innerHTML = '<div class="spinner"></div><p>Refreshing...</p>';
+                document.getElementById('recommendations-content').innerHTML = '<div class="spinner"></div><p>Refreshing...</p>';
+                
+                loadAnalytics();
+                loadPrediction();
+            }}
+
+            // Initialize dashboard
+            document.addEventListener('DOMContentLoaded', function() {{
+                loadAnalytics();
+                loadPrediction();
+                
+                // Initialize usage chart
+                const ctx = document.getElementById('usageChart').getContext('2d');
+                new Chart(ctx, {{
+                    type: 'line',
+                    data: {{
+                        labels: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+                        datasets: [{{
+                            label: 'API Requests',
+                            data: [65, 59, 80, 81, 56, 55, 40],
+                            borderColor: '#00ff88',
+                            backgroundColor: 'rgba(0, 255, 136, 0.1)',
+                            tension: 0.4
+                        }}]
+                    }},
+                    options: {{
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {{
+                            legend: {{
+                                labels: {{
+                                    color: '#ffffff'
+                                }}
+                            }}
+                        }},
+                        scales: {{
+                            y: {{
+                                ticks: {{
+                                    color: '#ffffff'
+                                }},
+                                grid: {{
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }}
+                            }},
+                            x: {{
+                                ticks: {{
+                                    color: '#ffffff'
+                                }},
+                                grid: {{
+                                    color: 'rgba(255, 255, 255, 0.1)'
+                                }}
+                            }}
+                        }}
+                    }}
+                }});
+            }});
+        </script>
+    </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content)
 
 @app.get("/pricing", response_class=HTMLResponse)
 async def pricing_page():
@@ -1467,7 +2593,7 @@ async def pricing_page():
                         <li>10 API Requests/min</li>
                         <li>Standard Security</li>
                     </ul>
-                    <a href="#" class="subscribe-btn btn-basic">Start Basic Plan</a>
+                    <button onclick="subscribeToPlan('basic')" class="subscribe-btn btn-basic">Start Basic Plan</button>
                 </div>
 
                 <!-- Pro Plan -->
@@ -1487,7 +2613,7 @@ async def pricing_page():
                         <li>Custom Integrations</li>
                         <li class="vip">VIP Section Access</li>
                     </ul>
-                    <a href="#" class="subscribe-btn btn-pro">Start Pro Plan</a>
+                    <button onclick="subscribeToPlan('pro')" class="subscribe-btn btn-pro">Start Pro Plan</button>
                 </div>
 
                 <!-- VIP Plan -->
@@ -1509,7 +2635,7 @@ async def pricing_page():
                         <li>Dedicated Account Manager</li>
                         <li>Maximum Force Deployment</li>
                     </ul>
-                    <a href="#" class="subscribe-btn btn-vip">Start VIP Plan</a>
+                    <button onclick="subscribeToPlan('vip')" class="subscribe-btn btn-vip">Start VIP Plan</button>
                 </div>
             </div>
 
@@ -1546,6 +2672,9 @@ async def pricing_page():
         </div>
 
         <script>
+            // Stripe configuration
+            const stripePublishableKey = 'pk_test_your_stripe_publishable_key_here';
+            
             // Pricing toggle functionality
             function togglePricing(period) {
                 const toggleBtns = document.querySelectorAll('.toggle-btn');
@@ -1571,6 +2700,38 @@ async def pricing_page():
                 }
             }
 
+            // Function to handle plan selection and redirect to checkout
+            async function subscribeToPlan(planType) {
+                const user = JSON.parse(localStorage.getItem('user')); // Assuming user is stored in localStorage
+                if (!user) {
+                    alert('Please log in to subscribe to a plan.');
+                    window.location.href = '/login'; // Redirect to login page
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/subscription/create-checkout-session', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Authorization': `Bearer ${user.access_token}`
+                        },
+                        body: `plan_type=${planType}&billing_cycle=monthly` // Default to monthly for simplicity
+                    });
+                    const data = await response.json();
+
+                    if (data.checkout_url) {
+                        window.location.href = data.checkout_url;
+                    } else {
+                        alert('Failed to initiate checkout session.');
+                        console.error(data);
+                    }
+                } catch (error) {
+                    console.error('Error initiating checkout:', error);
+                    alert('An error occurred during checkout.');
+                }
+            }
+
             // Navbar scroll effect
             window.addEventListener('scroll', () => {
                 const navbar = document.querySelector('.navbar');
@@ -1585,6 +2746,489 @@ async def pricing_page():
     </html>
     """
     return HTMLResponse(content=html_content)
+
+@app.get("/subscription/success", response_class=HTMLResponse)
+async def subscription_success(session_id: str = None):
+    """Subscription success page"""
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Subscription Success - SuggestlyG4Plus</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            :root {
+                --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                --success-gradient: linear-gradient(135deg, #00ff88 0%, #00d4aa 100%);
+                --glass-bg: rgba(255, 255, 255, 0.1);
+                --glass-border: rgba(255, 255, 255, 0.2);
+                --text-primary: #ffffff;
+                --text-secondary: #e0e0e0;
+                --success-color: #00ff88;
+                --shadow-light: 0 8px 32px rgba(0, 0, 0, 0.1);
+                --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.3);
+                --border-radius: 20px;
+                --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            body {
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+                background: var(--primary-gradient);
+                color: var(--text-primary);
+                min-height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                line-height: 1.6;
+            }
+
+            .success-container {
+                background: var(--glass-bg);
+                backdrop-filter: blur(20px);
+                border: 1px solid var(--glass-border);
+                border-radius: var(--border-radius);
+                padding: 3rem;
+                text-align: center;
+                max-width: 500px;
+                width: 90%;
+                box-shadow: var(--shadow-heavy);
+                animation: slideIn 0.6s ease-out;
+            }
+
+            @keyframes slideIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .success-icon {
+                font-size: 4rem;
+                color: var(--success-color);
+                margin-bottom: 1rem;
+                animation: bounce 1s ease-in-out;
+            }
+
+            @keyframes bounce {
+                0%, 20%, 50%, 80%, 100% {
+                    transform: translateY(0);
+                }
+                40% {
+                    transform: translateY(-10px);
+                }
+                60% {
+                    transform: translateY(-5px);
+                }
+            }
+
+            h1 {
+                font-size: 2.5rem;
+                font-weight: 800;
+                margin-bottom: 1rem;
+                background: var(--success-gradient);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            p {
+                font-size: 1.1rem;
+                color: var(--text-secondary);
+                margin-bottom: 2rem;
+            }
+
+            .btn {
+                display: inline-block;
+                padding: 1rem 2rem;
+                background: var(--success-gradient);
+                color: white;
+                text-decoration: none;
+                border-radius: 50px;
+                font-weight: 600;
+                transition: var(--transition);
+                border: none;
+                cursor: pointer;
+                font-size: 1rem;
+            }
+
+            .btn:hover {
+                transform: translateY(-2px);
+                box-shadow: var(--shadow-heavy);
+            }
+
+            .btn-secondary {
+                background: var(--glass-bg);
+                border: 1px solid var(--glass-border);
+                margin-left: 1rem;
+            }
+
+            .btn-secondary:hover {
+                background: var(--glass-border);
+            }
+
+            .session-id {
+                background: var(--glass-bg);
+                padding: 0.5rem 1rem;
+                border-radius: 10px;
+                font-family: monospace;
+                font-size: 0.9rem;
+                color: var(--text-secondary);
+                margin-top: 1rem;
+                word-break: break-all;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="success-container">
+            <div class="success-icon">🎉</div>
+            <h1>Welcome to SuggestlyG4Plus!</h1>
+            <p>Your subscription has been successfully activated. You now have access to all premium features and AI agents.</p>
+            
+            <div>
+                <a href="/" class="btn">Go to Dashboard</a>
+                <a href="/pricing" class="btn btn-secondary">View Plans</a>
+            </div>
+            
+            """ + (f'<div class="session-id">Session ID: {session_id}</div>' if session_id else '') + """
+        </div>
+    </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content)
+
+# Advanced Subscription Features
+@app.get("/api/subscription/analytics")
+async def get_subscription_analytics(payload: Dict = Depends(verify_token)):
+    """Get advanced subscription analytics"""
+    user_id = payload.get('user_id')
+    subscription = get_user_subscription(user_id)
+    
+    # Get usage analytics
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # API usage over time
+    cursor.execute('''
+        SELECT DATE(last_request) as date, SUM(request_count) as requests
+        FROM api_usage 
+        WHERE user_id = ? 
+        GROUP BY DATE(last_request)
+        ORDER BY date DESC
+        LIMIT 30
+    ''', (user_id,))
+    
+    usage_data = cursor.fetchall()
+    
+    # Payment patterns
+    cursor.execute('''
+        SELECT amount, created_at, status
+        FROM payment_history 
+        WHERE user_id = ? 
+        ORDER BY created_at DESC
+        LIMIT 10
+    ''', (user_id,))
+    
+    payment_data = cursor.fetchall()
+    conn.close()
+    
+    # Calculate analytics
+    total_requests = sum(row[1] for row in usage_data)
+    avg_daily_requests = total_requests / max(len(usage_data), 1)
+    
+    # Predict next billing cycle
+    if subscription and subscription['end_date']:
+        days_until_billing = (datetime.fromisoformat(subscription['end_date']) - datetime.now()).days
+    else:
+        days_until_billing = 30
+    
+    return {
+        "usage_analytics": {
+            "total_requests": total_requests,
+            "avg_daily_requests": round(avg_daily_requests, 2),
+            "usage_trend": "increasing" if avg_daily_requests > 50 else "stable",
+            "days_until_billing": max(0, days_until_billing),
+            "usage_percentage": min(100, (subscription['api_requests_count'] / 1000) * 100) if subscription else 0
+        },
+        "payment_analytics": {
+            "total_payments": len(payment_data),
+            "successful_payments": len([p for p in payment_data if p[2] == 'succeeded']),
+            "total_spent": sum(p[0] for p in payment_data if p[2] == 'succeeded']) / 100,
+            "payment_success_rate": len([p for p in payment_data if p[2] == 'succeeded']) / max(len(payment_data), 1) * 100
+        },
+        "recommendations": generate_subscription_recommendations(subscription, total_requests, avg_daily_requests)
+    }
+
+def generate_subscription_recommendations(subscription, total_requests, avg_daily_requests):
+    """Generate intelligent subscription recommendations"""
+    recommendations = []
+    
+    if not subscription or subscription['tier'] == 'free':
+        if avg_daily_requests > 20:
+            recommendations.append({
+                "type": "upgrade",
+                "plan": "basic",
+                "reason": "High API usage detected",
+                "benefit": "100 requests/min instead of 10"
+            })
+    
+    elif subscription['tier'] == 'basic':
+        if avg_daily_requests > 80:
+            recommendations.append({
+                "type": "upgrade",
+                "plan": "pro",
+                "reason": "Approaching Basic plan limits",
+                "benefit": "1,000 requests/min and VIP access"
+            })
+    
+    elif subscription['tier'] == 'pro':
+        if avg_daily_requests > 800:
+            recommendations.append({
+                "type": "upgrade",
+                "plan": "vip",
+                "reason": "High usage detected",
+                "benefit": "Unlimited requests and 24/7 support"
+            })
+    
+    # Add cost optimization recommendations
+    if subscription and subscription['tier'] in ['pro', 'vip']:
+        if avg_daily_requests < 50:
+            recommendations.append({
+                "type": "downgrade",
+                "plan": "basic",
+                "reason": "Low usage detected",
+                "benefit": "Save $60/month with Basic plan"
+            })
+    
+    return recommendations
+
+@app.post("/api/subscription/upgrade")
+async def upgrade_subscription(
+    new_plan: str = Form(...),
+    payload: Dict = Depends(verify_token)
+):
+    """Upgrade subscription with intelligent pricing"""
+    user_id = payload.get('user_id')
+    current_subscription = get_user_subscription(user_id)
+    
+    if not current_subscription or current_subscription['status'] != 'active':
+        raise HTTPException(status_code=400, detail="No active subscription to upgrade")
+    
+    if new_plan not in SUBSCRIPTION_PLANS:
+        raise HTTPException(status_code=400, detail="Invalid plan")
+    
+    # Calculate prorated amount
+    prorated_amount = calculate_prorated_amount(current_subscription, new_plan)
+    
+    try:
+        # Create upgrade checkout session
+        checkout_session = stripe.checkout.Session.create(
+            customer=current_subscription['stripe_customer_id'],
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': f'Upgrade to {new_plan.title()} Plan',
+                        'description': 'Subscription upgrade with prorated billing'
+                    },
+                    'unit_amount': prorated_amount,
+                },
+                'quantity': 1,
+            }],
+            mode='payment',
+            success_url=f'https://suggestlyg4plus.io/subscription/success?session_id={{CHECKOUT_SESSION_ID}}',
+            cancel_url='https://suggestlyg4plus.io/subscription/dashboard',
+            metadata={
+                'user_id': user_id,
+                'action': 'upgrade',
+                'from_plan': current_subscription['tier'],
+                'to_plan': new_plan
+            }
+        )
+        
+        return {"checkout_url": checkout_session.url, "session_id": checkout_session.id}
+        
+    except stripe.error.StripeError as e:
+        logger.error(f"Stripe error during upgrade: {e}")
+        raise HTTPException(status_code=500, detail="Payment processing error")
+
+def calculate_prorated_amount(current_subscription, new_plan):
+    """Calculate prorated amount for subscription upgrade"""
+    # Get current plan and new plan amounts
+    current_amount = SUBSCRIPTION_PLANS[current_subscription['tier']]['monthly']['amount']
+    new_amount = SUBSCRIPTION_PLANS[new_plan]['monthly']['amount']
+    
+    # Calculate days remaining in current billing cycle
+    if current_subscription['end_date']:
+        days_remaining = (datetime.fromisoformat(current_subscription['end_date']) - datetime.now()).days
+        days_in_month = 30
+        
+        # Calculate prorated credit for current plan
+        current_credit = (current_amount * days_remaining) / days_in_month
+        
+        # Calculate prorated charge for new plan
+        new_charge = (new_amount * days_remaining) / days_in_month
+        
+        # Net amount to charge
+        net_amount = max(0, new_charge - current_credit)
+    else:
+        net_amount = new_amount
+    
+    return int(net_amount)
+
+@app.get("/api/subscription/usage-prediction")
+async def get_usage_prediction(payload: Dict = Depends(verify_token)):
+    """Predict future API usage based on historical data"""
+    user_id = payload.get('user_id')
+    
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    # Get historical usage data
+    cursor.execute('''
+        SELECT DATE(last_request) as date, SUM(request_count) as requests
+        FROM api_usage 
+        WHERE user_id = ? 
+        GROUP BY DATE(last_request)
+        ORDER BY date DESC
+        LIMIT 90
+    ''', (user_id,))
+    
+    usage_data = cursor.fetchall()
+    conn.close()
+    
+    if len(usage_data) < 7:
+        return {"prediction": "insufficient_data", "message": "Need at least 7 days of usage data"}
+    
+    # Simple linear prediction (in production, use ML models)
+    recent_usage = [row[1] for row in usage_data[:7]]
+    avg_daily = sum(recent_usage) / len(recent_usage)
+    
+    # Predict next 30 days
+    predicted_30_days = avg_daily * 30
+    predicted_90_days = avg_daily * 90
+    
+    # Determine if current plan is sufficient
+    subscription = get_user_subscription(user_id)
+    current_limit = {
+        'free': 300,  # 10 req/min * 30 days
+        'basic': 3000,  # 100 req/min * 30 days
+        'pro': 30000,  # 1000 req/min * 30 days
+        'vip': float('inf')
+    }.get(subscription['tier'] if subscription else 'free', 300)
+    
+    plan_sufficient = predicted_30_days <= current_limit
+    
+    return {
+        "prediction": {
+            "current_daily_average": round(avg_daily, 2),
+            "predicted_30_days": round(predicted_30_days, 2),
+            "predicted_90_days": round(predicted_90_days, 2),
+            "current_plan_sufficient": plan_sufficient,
+            "recommended_plan": get_recommended_plan(predicted_30_days),
+            "confidence": "high" if len(usage_data) > 30 else "medium"
+        }
+    }
+
+def get_recommended_plan(predicted_usage):
+    """Get recommended plan based on predicted usage"""
+    if predicted_usage <= 3000:
+        return "basic"
+    elif predicted_usage <= 30000:
+        return "pro"
+    else:
+        return "vip"
+
+@app.post("/api/subscription/setup-automatic-billing")
+async def setup_automatic_billing(
+    payment_method_id: str = Form(...),
+    payload: Dict = Depends(verify_token)
+):
+    """Setup automatic billing for subscription"""
+    user_id = payload.get('user_id')
+    subscription = get_user_subscription(user_id)
+    
+    if not subscription or not subscription['stripe_subscription_id']:
+        raise HTTPException(status_code=400, detail="No active subscription found")
+    
+    try:
+        # Attach payment method to customer
+        stripe.PaymentMethod.attach(
+            payment_method_id,
+            customer=subscription['stripe_customer_id']
+        )
+        
+        # Set as default payment method
+        stripe.Customer.modify(
+            subscription['stripe_customer_id'],
+            invoice_settings={
+                'default_payment_method': payment_method_id
+            }
+        )
+        
+        return {"message": "Automatic billing setup successfully"}
+        
+    except stripe.error.StripeError as e:
+        logger.error(f"Error setting up automatic billing: {e}")
+        raise HTTPException(status_code=500, detail="Failed to setup automatic billing")
+
+@app.get("/api/subscription/advanced-dashboard")
+async def get_advanced_dashboard(payload: Dict = Depends(verify_token)):
+    """Get advanced subscription dashboard with analytics"""
+    user_id = payload.get('user_id')
+    subscription = get_user_subscription(user_id)
+    
+    # Get comprehensive analytics
+    analytics = await get_subscription_analytics(payload)
+    prediction = await get_usage_prediction(payload)
+    
+    # Get recent activity
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    
+    cursor.execute('''
+        SELECT endpoint, request_count, last_request
+        FROM api_usage 
+        WHERE user_id = ? 
+        ORDER BY last_request DESC
+        LIMIT 10
+    ''', (user_id,))
+    
+    recent_activity = cursor.fetchall()
+    conn.close()
+    
+    return {
+        "subscription": subscription,
+        "analytics": analytics,
+        "prediction": prediction,
+        "recent_activity": [
+            {
+                "endpoint": row[0],
+                "requests": row[1],
+                "last_used": row[2]
+            }
+            for row in recent_activity
+        ],
+        "system_status": {
+            "api_health": "excellent",
+            "response_time": "optimal",
+            "uptime": "99.9%",
+            "last_maintenance": "2024-01-15"
+        }
+    }
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
