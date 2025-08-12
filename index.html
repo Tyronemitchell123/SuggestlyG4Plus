@@ -130,6 +130,8 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            position: relative;
+            z-index: 1000;
         }
 
         .logo-icon {
@@ -142,8 +144,8 @@
             justify-content: center;
             position: relative;
             overflow: hidden;
-            border: 2px solid var(--luxury-gold);
-            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+            border: 3px solid var(--luxury-gold);
+            box-shadow: 0 0 40px rgba(255, 215, 0, 0.8), inset 0 0 20px rgba(255, 215, 0, 0.2);
         }
 
         .logo-icon::before {
@@ -640,12 +642,16 @@
 
         .footer-logo {
             font-family: 'Playfair Display', serif;
-            font-size: 2rem;
+            font-size: 1.8rem;
             font-weight: 800;
             background: var(--gold-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
             margin-bottom: 1rem;
         }
 
