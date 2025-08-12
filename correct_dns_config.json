@@ -1,0 +1,46 @@
+{
+  "domain": "suggestlyg4plus.io",
+  "vercel_url": "suggestlyg4plus-kgmcai0id-tyrones-team.vercel.app",
+  "current_dns": {
+    "A_records": [
+      "216.198.79.1",
+      "64.29.17.1"
+    ],
+    "status": "Domain released and available"
+  },
+  "vercel_dns_settings": {
+    "A_record": "76.76.19.19",
+    "CNAME_record": "suggestlyg4plus-kgmcai0id-tyrones-team.vercel.app",
+    "description": "Vercel DNS configuration"
+  },
+  "dns_requirements": {
+    "A_record": {
+      "name": "@",
+      "value": "76.76.19.19",
+      "description": "Vercel A record for root domain"
+    },
+    "CNAME_record": {
+      "name": "www",
+      "value": "suggestlyg4plus-kgmcai0id-tyrones-team.vercel.app",
+      "description": "Vercel CNAME for www subdomain"
+    }
+  },
+  "vercel_dashboard_steps": [
+    "1. Go to: https://vercel.com/tyrones-team/suggestlyg4plus/settings/domains",
+    "2. Click 'Add Domain'",
+    "3. Enter: suggestlyg4plus.io",
+    "4. Click 'Add'",
+    "5. Vercel will automatically configure DNS",
+    "6. Wait 5-10 minutes for propagation",
+    "7. Test: https://suggestlyg4plus.io"
+  ],
+  "manual_dns_steps": [
+    "If manual DNS configuration is needed:",
+    "1. Add A record: @ \u2192 76.76.19.19",
+    "2. Add CNAME record: www \u2192 suggestlyg4plus-kgmcai0id-tyrones-team.vercel.app",
+    "3. Wait for DNS propagation (5-10 minutes)",
+    "4. Test domain functionality"
+  ],
+  "setup_time": "2025-08-13T00:46:41.522004",
+  "status": "ready_for_dns_configuration"
+}
