@@ -646,6 +646,40 @@
             0% { width: 0%; }
             100% { width: 100%; }
         }
+
+        /* Social Proof Section */
+        .social-proof {
+            padding: 6rem 2rem;
+            background: rgba(10, 10, 10, 0.95);
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+        }
+
+        .proof-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+            background: var(--gold-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .client-logos {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .logo-item {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--luxury-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
@@ -682,9 +716,9 @@
     <!-- Ultra Premium Hero Section -->
     <section class="luxury-hero" id="home">
         <div class="hero-content">
-            <div class="elite-badge">ULTRA PREMIUM AI SOLUTIONS</div>
+            <div class="elite-badge">EXCLUSIVE ACCESS ONLY</div>
             <h1 class="hero-title">SUGGESTLY ELITE</h1>
-            <p class="hero-subtitle">Exclusive AI Solutions for Ultra-High-Net-Worth Individuals, Fortune 500 Executives, and Global Business Leaders. Experience the Future of Intelligent Business.</p>
+            <p class="hero-subtitle">By invitation only. Exclusive AI Solutions for Ultra-High-Net-Worth Individuals, Fortune 500 Executives, and Global Business Leaders. Experience the Future of Intelligent Business.</p>
             
             <div class="hero-stats">
                 <div class="stat-item">
@@ -701,7 +735,20 @@
                 </div>
             </div>
             
-            <button class="elite-access-btn" onclick="openEliteModal()">REQUEST ELITE CONSULTATION</button>
+            <button class="elite-access-btn" onclick="openEliteModal()">REQUEST EXCLUSIVE ACCESS</button>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class="social-proof">
+        <div class="container">
+            <h3 class="proof-title">Trusted by Global Leaders</h3>
+            <div class="client-logos">
+                <div class="logo-item">FORTUNE 500</div>
+                <div class="logo-item">GLOBAL 2000</div>
+                <div class="logo-item">UHNWI</div>
+                <div class="logo-item">EXECUTIVES</div>
+            </div>
         </div>
     </section>
 
