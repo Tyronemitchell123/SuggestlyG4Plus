@@ -1,0 +1,28 @@
+{
+  "timestamp": "2025-08-12T14:29:21.928431",
+  "deployment_methods": {
+    "vercel": {
+      "status": "READY",
+      "url": "https://suggestlyg4plus.vercel.app",
+      "domain": "suggestlyg4plus.io"
+    },
+    "docker": {
+      "status": "READY",
+      "frontend_port": 3000,
+      "backend_port": 8080,
+      "nginx_port": 80
+    }
+  },
+  "services": {
+    "frontend": "Node.js React Application",
+    "backend": "Python Flask API",
+    "database": "SQLite with search functionality",
+    "proxy": "Nginx reverse proxy"
+  },
+  "features": {
+    "search": "Advanced search with Elasticsearch fallback",
+    "api": "RESTful API endpoints",
+    "ssl": "Automatic SSL certificate",
+    "monitoring": "Real-time health checks"
+  }
+}
