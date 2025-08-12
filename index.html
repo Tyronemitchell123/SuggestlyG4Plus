@@ -127,6 +127,65 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gold-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: 'S';
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #000;
+            z-index: 2;
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.3) 50%, transparent 70%);
+            animation: logo-shine 3s ease-in-out infinite;
+        }
+
+        @keyframes logo-shine {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .logo-main {
+            font-size: 1.8rem;
+            font-weight: 900;
+        }
+
+        .logo-tagline {
+            font-size: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0.8;
         }
 
         .nav-links {
@@ -702,7 +761,13 @@
     <!-- Ultra Premium Navigation -->
     <nav class="luxury-nav">
         <div class="nav-container">
-            <div class="luxury-logo">SUGGESTLY ELITE</div>
+            <div class="luxury-logo">
+                <div class="logo-icon"></div>
+                <div class="logo-text">
+                    <div class="logo-main">SUGGESTLY ELITE</div>
+                    <div class="logo-tagline">AI SOLUTIONS</div>
+                </div>
+            </div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#services">Elite Services</a></li>
@@ -915,7 +980,13 @@
     <!-- Ultra Premium Footer -->
     <footer class="luxury-footer">
         <div class="footer-content">
-            <div class="footer-logo">SUGGESTLY ELITE</div>
+            <div class="footer-logo">
+                <div class="logo-icon"></div>
+                <div class="logo-text">
+                    <div class="logo-main">SUGGESTLY ELITE</div>
+                    <div class="logo-tagline">AI SOLUTIONS</div>
+                </div>
+            </div>
             <p class="footer-text">Exclusive AI Solutions for the World's Most Discerning Business Leaders</p>
             
             <div class="footer-links">
