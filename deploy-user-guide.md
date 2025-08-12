@@ -164,3 +164,5 @@ If you encounter issues:
 2. Verify Docker is running: `sudo systemctl status docker`
 3. Check container status: `docker ps -a`
 4. Review the deployment script: `/home/deploy/deploy.sh`
+
+

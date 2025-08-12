@@ -116,3 +116,5 @@ echo "1. Switch to deploy user: sudo su - deploy"
 echo "2. Navigate to project: cd /home/deploy/suggestlyg4plus"
 echo "3. Run deployment: ./deploy.sh"
 echo "4. Or start service: sudo systemctl start suggestlyg4plus"
+
+
