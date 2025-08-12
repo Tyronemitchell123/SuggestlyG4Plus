@@ -2,7 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>SUGGESTLY ELITE - Ultra Premium AI Solutions for UHNWI & Executives</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
@@ -94,6 +97,286 @@
             10% { opacity: 0.4; }
             90% { opacity: 0.4; }
             100% { transform: translateY(-100px) scale(1) rotate(360deg); opacity: 0; }
+        }
+
+        /* Mobile Responsive Design */
+        @media (max-width: 768px) {
+            .luxury-nav {
+                padding: 0.5rem 1rem;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                gap: 1rem;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+                flex-direction: column;
+                gap: 4px;
+                cursor: pointer;
+                padding: 8px;
+                z-index: 1001;
+            }
+            
+            .mobile-menu-toggle span {
+                width: 25px;
+                height: 3px;
+                background: var(--luxury-gold);
+                border-radius: 2px;
+                transition: var(--transition);
+            }
+            
+            .mobile-menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            
+            .mobile-menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .mobile-menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100vh;
+                background: rgba(10, 10, 10, 0.95);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+                transition: left 0.3s ease;
+                z-index: 1000;
+            }
+            
+            .nav-links.active {
+                left: 0;
+            }
+            
+            .luxury-logo {
+                font-size: 1.4rem;
+                gap: 0.3rem;
+                min-height: 60px;
+                padding: 5px;
+            }
+            
+            .logo-icon {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .logo-icon::before {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+                width: 100%;
+            }
+            
+            .nav-links li {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .nav-links a {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .hero-section {
+                padding: 2rem 1rem;
+                min-height: 80vh;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+                margin: 1rem 0;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .cta-button {
+                width: 100%;
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            
+            .services-section {
+                padding: 2rem 1rem;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .service-card {
+                padding: 1.5rem;
+            }
+            
+            .features-section {
+                padding: 2rem 1rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .feature-card {
+                padding: 1.5rem;
+            }
+            
+            .pricing-section {
+                padding: 2rem 1rem;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .pricing-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .contact-section {
+                padding: 2rem 1rem;
+            }
+            
+            .contact-form {
+                padding: 1.5rem;
+            }
+            
+            .contact-form input,
+            .contact-form textarea {
+                padding: 1rem;
+                font-size: 1rem;
+            }
+            
+            .luxury-footer {
+                padding: 2rem 1rem;
+                text-align: center;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .footer-section {
+                width: 100%;
+            }
+            
+            .modal-content {
+                width: 95%;
+                max-width: none;
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            
+            .modal-header h2 {
+                font-size: 1.5rem;
+            }
+            
+            .modal-body {
+                padding: 1rem 0;
+            }
+            
+            .vip-dashboard {
+                padding: 1rem;
+            }
+            
+            .vip-stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .vip-features {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .hero-content p {
+                font-size: 0.9rem;
+            }
+            
+            .luxury-logo {
+                font-size: 1.2rem;
+            }
+            
+            .logo-icon {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .logo-icon::before {
+                font-size: 2rem;
+            }
+            
+            .service-card h3 {
+                font-size: 1.2rem;
+            }
+            
+            .feature-card h3 {
+                font-size: 1.2rem;
+            }
+            
+            .pricing-card h3 {
+                font-size: 1.3rem;
+            }
+            
+            .pricing-card .price {
+                font-size: 2rem;
+            }
+            
+            /* Touch-friendly buttons */
+            .cta-button, .nav-links a, .service-card, .feature-card, .pricing-card {
+                min-height: 44px;
+                touch-action: manipulation;
+            }
+            
+            /* Prevent zoom on input focus */
+            input, textarea, select {
+                font-size: 16px !important;
+            }
+            
+            /* Better touch targets */
+            .mobile-menu-toggle {
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+        
+        /* Hide mobile menu toggle on desktop */
+        @media (min-width: 769px) {
+            .mobile-menu-toggle {
+                display: none;
+            }
         }
 
         /* Ultra Premium Navigation */
@@ -856,7 +1139,15 @@
                 <!-- Fallback Logo -->
                 <div class="fallback-logo" style="display: none; font-size: 2rem; font-weight: 900; color: #FFD700; text-shadow: 0 0 20px rgba(255, 215, 0, 0.8);">SUGGESTLY ELITE</div>
             </div>
-            <ul class="nav-links">
+            
+            <!-- Mobile Menu Toggle -->
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            
+            <ul class="nav-links" id="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#services">Elite Services</a></li>
                 <li><a href="#features">Features</a></li>
@@ -1206,6 +1497,29 @@
     </footer>
 
     <script>
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('nav-links');
+            const menuToggle = document.querySelector('.mobile-menu-toggle');
+            
+            navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        }
+        
+        // Close mobile menu when clicking on a link
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-links a');
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const navMenu = document.getElementById('nav-links');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    navMenu.classList.remove('active');
+                    mobileMenuToggle.classList.remove('active');
+                });
+            });
+        });
+
         // Contact Form Email Functionality
         function submitContactForm(event) {
             event.preventDefault();
