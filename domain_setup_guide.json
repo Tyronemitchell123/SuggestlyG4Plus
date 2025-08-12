@@ -1,0 +1,47 @@
+{
+  "domain": "suggestlyg4plus.io",
+  "setup_steps": [
+    {
+      "step": 1,
+      "action": "Deploy to Vercel",
+      "description": "Deploy the application to Vercel using the vercel.json configuration",
+      "command": "vercel --prod --force --yes"
+    },
+    {
+      "step": 2,
+      "action": "Add Custom Domain",
+      "description": "In Vercel dashboard, go to Settings > Domains and add suggestlyg4plus.io",
+      "url": "https://vercel.com/dashboard/domains"
+    },
+    {
+      "step": 3,
+      "action": "Configure DNS Records",
+      "description": "Add the provided DNS records to your domain registrar",
+      "records": [
+        "A @ 76.76.19.19",
+        "CNAME www cname.vercel-dns.com"
+      ]
+    },
+    {
+      "step": 4,
+      "action": "Verify Domain",
+      "description": "Wait for DNS propagation and verify domain is working",
+      "time": "5-10 minutes"
+    },
+    {
+      "step": 5,
+      "action": "Test Functionality",
+      "description": "Test all features including search functionality",
+      "urls": [
+        "https://suggestlyg4plus.io",
+        "https://www.suggestlyg4plus.io"
+      ]
+    }
+  ],
+  "troubleshooting": {
+    "401_error": "Domain not properly configured in Vercel",
+    "404_error": "Application not deployed or routing issues",
+    "ssl_issues": "SSL certificate not provisioned",
+    "dns_issues": "DNS records not propagated"
+  }
+}

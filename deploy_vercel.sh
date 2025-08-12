@@ -1,17 +1,26 @@
 #!/bin/bash
-# VERCEL DEPLOYMENT OVERRIDE SCRIPT
-# MAXIMUM FORCE DEPLOYMENT WITH ALL ISSUES RESOLVED
+# VERCEL DEPLOYMENT SCRIPT
+echo "DEPLOYING TO VERCEL WITH DOMAIN CONFIGURATION"
 
-echo "🔥 VERCEL DEPLOYMENT OVERRIDE WITH MAXIMUM FORCE"
-echo "================================================"
+# Check if Vercel CLI is installed
+if ! command -v vercel &> /dev/null; then
+    echo "Installing Vercel CLI..."
+    npm install -g vercel@latest
+fi
 
-# Force install Vercel CLI
-npm install -g vercel@latest
-
-# Force login to Vercel (if needed)
-# vercel login
-
-# Force deploy with maximum override
+# Deploy to Vercel
+echo "Deploying to Vercel..."
 vercel --prod --force --yes
 
-echo "✅ DEPLOYMENT OVERRIDE COMPLETE WITH MAXIMUM FORCE"
+# Wait for deployment
+echo "Waiting for deployment to complete..."
+sleep 30
+
+# Verify deployment
+echo "Verifying deployment..."
+curl -I https://suggestlyg4plus.vercel.app
+
+echo "DEPLOYMENT COMPLETE!"
+echo "Your site is live at: https://suggestlyg4plus.vercel.app"
+echo "Next: Add custom domain in Vercel dashboard"
+echo "Custom domain will be: https://suggestlyg4plus.io"

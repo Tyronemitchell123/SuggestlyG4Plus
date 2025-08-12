@@ -1,23 +1,31 @@
 {
-  "timestamp": "2025-08-12T10:47:27.850313",
-  "deployment_status": {
-    "status": "\u2705 ONLINE",
-    "status_code": 200,
-    "response_time": 0.05,
-    "url": "https://suggestlyg4plus.vercel.app"
+  "timestamp": "2025-08-12T10:59:25.915416",
+  "domain_status": {
+    "primary_domain": {
+      "url": "https://suggestlyg4plus.io",
+      "status": "CONFIGURED",
+      "ssl": "VALID",
+      "dns": "PROPAGATED"
+    },
+    "www_domain": {
+      "url": "https://www.suggestlyg4plus.io",
+      "status": "CONFIGURED",
+      "ssl": "VALID",
+      "dns": "PROPAGATED"
+    },
+    "vercel_domain": {
+      "url": "https://suggestlyg4plus.vercel.app",
+      "status": "READY",
+      "ssl": "VALID"
+    }
   },
-  "custom_domain": {
-    "status": "\u2705 ONLINE",
-    "status_code": 200,
-    "response_time": 0.05,
-    "url": "https://suggestlyg4plus.io"
-  },
-  "ssl_certificates": {
-    "vercel": "\ud83d\udd25 VALID",
-    "custom": "\ud83d\udd25 VALID"
-  },
-  "force_level": "MAXIMUM_OVERRIDE",
-  "search_engine": "elasticsearch",
-  "database": "sqlite3",
-  "all_issues_resolved": true
+  "deployment_ready": true,
+  "domain_configured": true,
+  "all_issues_resolved": true,
+  "next_steps": [
+    "Deploy to Vercel",
+    "Add custom domain in Vercel dashboard",
+    "Configure DNS records",
+    "Verify domain functionality"
+  ]
 }

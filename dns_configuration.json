@@ -1,0 +1,33 @@
+{
+  "domain": "suggestlyg4plus.io",
+  "dns_records": [
+    {
+      "type": "A",
+      "name": "@",
+      "value": "76.76.19.19",
+      "description": "Vercel A record"
+    },
+    {
+      "type": "CNAME",
+      "name": "www",
+      "value": "cname.vercel-dns.com",
+      "description": "Vercel CNAME record"
+    },
+    {
+      "type": "TXT",
+      "name": "@",
+      "value": "vercel-verification=your-verification-code",
+      "description": "Vercel verification"
+    }
+  ],
+  "vercel_settings": {
+    "custom_domain": "suggestlyg4plus.io",
+    "redirects": [
+      {
+        "source": "www.suggestlyg4plus.io",
+        "destination": "https://suggestlyg4plus.io",
+        "permanent": true
+      }
+    ]
+  }
+}
