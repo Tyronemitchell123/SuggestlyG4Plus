@@ -1,9 +1,6 @@
 {
-  "version": 2,
   "name": "suggestlyg4plus",
-  "enhanced": true,
-  "quantum_force": true,
-  "ai_optimization": true,
+  "version": 2,
   "builds": [
     {
       "src": "src/main_ultra_secure.py",
@@ -18,8 +15,7 @@
   ],
   "functions": {
     "src/main_ultra_secure.py": {
-      "maxDuration": 30,
-      "memory": 1024
+      "maxDuration": 30
     }
   },
   "domains": [
@@ -27,52 +23,9 @@
     "www.suggestlyg4plus.io"
   ],
   "regions": [
-    "iad1",
-    "sfo1",
-    "hnd1",
-    "syd1",
-    "fra1"
+    "iad1"
   ],
   "public": true,
-  "enhanced_optimization": true,
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "X-Frame-Options",
-          "value": "DENY"
-        },
-        {
-          "key": "X-XSS-Protection",
-          "value": "1; mode=block"
-        },
-        {
-          "key": "X-Content-Type-Options",
-          "value": "nosniff"
-        },
-        {
-          "key": "Strict-Transport-Security",
-          "value": "max-age=31536000; includeSubDomains"
-        },
-        {
-          "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';"
-        }
-      ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/src/main_ultra_secure.py"
-    }
-  ],
-  "redirects": [
-    {
-      "source": "/home",
-      "destination": "/",
-      "permanent": true
-    }
-  ]
+  "force": true,
+  "optimization": "maximum"
 }
