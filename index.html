@@ -982,55 +982,57 @@
         <h2 class="section-title">Elite Consultation</h2>
         <p class="section-subtitle">Schedule your exclusive consultation with our elite AI strategists</p>
         
-        <form class="contact-form" id="eliteForm">
+        <form class="contact-form" id="eliteForm" action="https://formspree.io/f/tyrone.mitchell76@hotmail.com" method="POST" onsubmit="submitContactForm(event)">
             <div class="form-group">
                 <label class="form-label">Full Name *</label>
-                <input type="text" class="form-input" required>
+                <input type="text" name="name" class="form-input" required>
             </div>
             
             <div class="form-group">
                 <label class="form-label">Company *</label>
-                <input type="text" class="form-input" required>
+                <input type="text" name="company" class="form-input" required>
             </div>
             
             <div class="form-group">
                 <label class="form-label">Position *</label>
-                <input type="text" class="form-input" required>
+                <input type="text" name="position" class="form-input" required>
             </div>
             
             <div class="form-group">
                 <label class="form-label">Email *</label>
-                <input type="email" class="form-input" required>
+                <input type="email" name="email" class="form-input" required>
             </div>
             
             <div class="form-group">
                 <label class="form-label">Phone</label>
-                <input type="tel" class="form-input">
+                <input type="tel" name="phone" class="form-input">
             </div>
             
             <div class="form-group">
                 <label class="form-label">Annual Revenue</label>
-                <select class="form-input">
-                    <option>Under $10M</option>
-                    <option>$10M - $100M</option>
-                    <option>$100M - $1B</option>
-                    <option>$1B+</option>
+                <select name="revenue" class="form-input">
+                    <option value="">Select Revenue Range</option>
+                    <option value="Under $10M">Under $10M</option>
+                    <option value="$10M - $100M">$10M - $100M</option>
+                    <option value="$100M - $1B">$100M - $1B</option>
+                    <option value="$1B+">$1B+</option>
                 </select>
             </div>
             
             <div class="form-group">
                 <label class="form-label">Service Interest</label>
-                <select class="form-input">
-                    <option>Executive AI Strategy</option>
-                    <option>Quantum AI Development</option>
-                    <option>Global AI Operations</option>
-                    <option>All Services</option>
+                <select name="service" class="form-input">
+                    <option value="">Select Service</option>
+                    <option value="Executive AI Strategy">Executive AI Strategy</option>
+                    <option value="Quantum AI Development">Quantum AI Development</option>
+                    <option value="Global AI Operations">Global AI Operations</option>
+                    <option value="All Services">All Services</option>
                 </select>
             </div>
             
             <div class="form-group">
                 <label class="form-label">Message *</label>
-                <textarea class="form-input form-textarea" placeholder="Describe your AI transformation goals and requirements..." required></textarea>
+                <textarea name="message" class="form-input form-textarea" placeholder="Describe your AI transformation goals and requirements..." required></textarea>
             </div>
             
             <button type="submit" class="submit-btn">REQUEST ELITE CONSULTATION</button>
@@ -1068,6 +1070,69 @@
     </footer>
 
     <script>
+        // Contact Form Email Functionality
+        function submitContactForm(event) {
+            event.preventDefault();
+            
+            const form = document.getElementById('eliteForm');
+            const submitBtn = form.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            
+            // Get form data
+            const formData = new FormData(form);
+            const name = form.querySelector('input[type="text"]').value;
+            const company = form.querySelectorAll('input[type="text"]')[1].value;
+            const position = form.querySelectorAll('input[type="text"]')[2].value;
+            const email = form.querySelector('input[type="email"]').value;
+            const phone = form.querySelector('input[type="tel"]').value;
+            const revenue = form.querySelector('select').value;
+            const service = form.querySelectorAll('select')[1].value;
+            const message = form.querySelector('textarea').value;
+            
+            // Show loading state
+            submitBtn.textContent = 'SENDING...';
+            submitBtn.disabled = true;
+            
+            // Prepare email content
+            const emailSubject = 'SUGGESTLY ELITE - New Elite Consultation Request';
+            const emailBody = `
+NEW ELITE CONSULTATION REQUEST
+
+Contact Information:
+- Name: ${name}
+- Company: ${company}
+- Position: ${position}
+- Email: ${email}
+- Phone: ${phone}
+
+Business Information:
+- Annual Revenue: ${revenue}
+- Service Interest: ${service}
+
+Project Requirements:
+${message}
+
+---
+This request was submitted from the SUGGESTLY ELITE website.
+            `;
+            
+            // Send email using mailto link
+            const mailtoLink = `mailto:tyrone.mitchell76@hotmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
+            
+            // Open email client
+            window.open(mailtoLink);
+            
+            // Show success message
+            setTimeout(() => {
+                alert('ELITE CONSULTATION REQUESTED: Thank you for your interest in SUGGESTLY ELITE. Our exclusive AI strategists will contact you within 24 hours to schedule your confidential consultation.');
+                
+                // Reset form
+                form.reset();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 1000);
+        }
+
         // Ultra Premium Loading Animation
         window.addEventListener('load', function() {
             setTimeout(function() {
