@@ -133,27 +133,71 @@
         }
 
         .logo-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--gold-gradient);
-            border-radius: 8px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #000428 0%, #004e92 50%, #000428 100%);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
             overflow: hidden;
             border: 2px solid var(--luxury-gold);
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
         }
 
         .logo-icon::before {
-            content: 'S';
-            font-family: 'Playfair Display', serif;
-            font-size: 2rem;
-            font-weight: 900;
-            color: #000;
+            content: '🤖';
+            font-size: 2.5rem;
             z-index: 2;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.8));
+        }
+
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 30% 30%, rgba(0, 255, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(255, 215, 0, 0.3) 0%, transparent 50%);
+            animation: ai-pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes ai-pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        .logo-ai-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .ai-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--luxury-gold);
+            border-radius: 50%;
+            animation: ai-float 3s linear infinite;
+        }
+
+        .ai-particle:nth-child(1) { top: 10%; left: 20%; animation-delay: 0s; }
+        .ai-particle:nth-child(2) { top: 30%; right: 15%; animation-delay: 0.5s; }
+        .ai-particle:nth-child(3) { bottom: 20%; left: 30%; animation-delay: 1s; }
+        .ai-particle:nth-child(4) { bottom: 40%; right: 25%; animation-delay: 1.5s; }
+
+        @keyframes ai-float {
+            0% { transform: translateY(0px) scale(0); opacity: 0; }
+            50% { transform: translateY(-10px) scale(1); opacity: 1; }
+            100% { transform: translateY(-20px) scale(0); opacity: 0; }
         }
 
         .logo-icon::after {
@@ -765,10 +809,17 @@
     <nav class="luxury-nav">
         <div class="nav-container">
             <div class="luxury-logo">
-                <div class="logo-icon"></div>
+                <div class="logo-icon">
+                    <div class="logo-ai-elements">
+                        <div class="ai-particle"></div>
+                        <div class="ai-particle"></div>
+                        <div class="ai-particle"></div>
+                        <div class="ai-particle"></div>
+                    </div>
+                </div>
                 <div class="logo-text">
                     <div class="logo-main">SUGGESTLY ELITE</div>
-                    <div class="logo-tagline">AI SOLUTIONS</div>
+                    <div class="logo-tagline">AI AGENTS & BOTS</div>
                 </div>
             </div>
             <ul class="nav-links">
@@ -984,10 +1035,17 @@
     <footer class="luxury-footer">
         <div class="footer-content">
             <div class="footer-logo">
-                <div class="logo-icon"></div>
+                <div class="logo-icon">
+                    <div class="logo-ai-elements">
+                        <div class="ai-particle"></div>
+                        <div class="ai-particle"></div>
+                        <div class="ai-particle"></div>
+                        <div class="ai-particle"></div>
+                    </div>
+                </div>
                 <div class="logo-text">
                     <div class="logo-main">SUGGESTLY ELITE</div>
-                    <div class="logo-tagline">AI SOLUTIONS</div>
+                    <div class="logo-tagline">AI AGENTS & BOTS</div>
                 </div>
             </div>
             <p class="footer-text">Exclusive AI Solutions for the World's Most Discerning Business Leaders</p>
