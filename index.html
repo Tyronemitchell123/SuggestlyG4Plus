@@ -2011,7 +2011,7 @@
         <h2 class="section-title">Elite Consultation</h2>
         <p class="section-subtitle">Schedule your exclusive consultation with our elite AI strategists</p>
         
-        <form class="contact-form" id="eliteForm" action="https://formspree.io/f/tyrone.mitchell76@hotmail.com" method="POST" onsubmit="submitContactForm(event)">
+        <form class="contact-form" id="eliteForm" onsubmit="submitContactForm(event)">
             <div class="form-group">
                 <label class="form-label">Full Name *</label>
                 <input type="text" name="name" class="form-input" required>
@@ -2677,10 +2677,73 @@ SUGGESTLY ELITE - Advanced AI Platform
         }
 
         // Form Submission
-        document.getElementById('eliteForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('ELITE CONSULTATION REQUESTED: Thank you for your interest in SUGGESTLY ELITE. Our exclusive AI strategists will contact you within 24 hours to schedule your confidential consultation.');
-        });
+        function submitContactForm(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Get form values
+            const name = formData.get('name');
+            const company = formData.get('company');
+            const position = formData.get('position');
+            const email = formData.get('email');
+            const phone = formData.get('phone');
+            const revenue = formData.get('revenue');
+            const service = formData.get('service');
+            const message = formData.get('message');
+            
+            // Create email content
+            const subject = '🌟 ELITE CONSULTATION REQUEST - SUGGESTLY ELITE';
+            const body = `
+ELITE CONSULTATION REQUEST
+
+Name: ${name}
+Company: ${company}
+Position: ${position}
+Email: ${email}
+Phone: ${phone}
+Annual Revenue: ${revenue}
+Service Interest: ${service}
+
+Message:
+${message}
+
+---
+SUGGESTLY ELITE - Advanced AI Platform
+Contact: tyrone.mitchell76@hotmail.com
+            `;
+            
+            // Create mailto link
+            const mailtoLink = `mailto:tyrone.mitchell76@hotmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Show success message
+            const successMessage = `
+🎉 ELITE CONSULTATION REQUESTED!
+
+Thank you for your interest in SUGGESTLY ELITE.
+
+Your consultation request has been submitted successfully.
+Our exclusive AI strategists will contact you within 24 hours.
+
+Details Submitted:
+• Name: ${name}
+• Company: ${company}
+• Service: ${service}
+
+Opening your email client to send the request...
+            `;
+            
+            alert(successMessage);
+            
+            // Open email client
+            setTimeout(() => {
+                window.open(mailtoLink);
+            }, 1000);
+            
+            // Reset form
+            form.reset();
+        }
 
         // Initialize Particles
         createLuxuryParticles();
