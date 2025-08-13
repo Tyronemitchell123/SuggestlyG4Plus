@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Aurum Private Advanced AI Agent System
+Investment Platform Advanced AI Agent System
 Cutting-edge AI answering service with learning and automation
 """
 
@@ -79,7 +79,7 @@ class AurumAIAgent:
             "ai_name": "Aurum AI Assistant",
             "company_name": "Aurum Private",
             "forwarding_number": "+447832682418",
-            "email": "info@aurumprivate.com",
+            "email": "contact@example.com",
             "business_hours": {
                 "monday": {"start": "09:00", "end": "18:00"},
                 "tuesday": {"start": "09:00", "end": "18:00"},

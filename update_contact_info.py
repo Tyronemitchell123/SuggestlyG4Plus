@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Aurum Private Contact Information Update Script
-Updates all contact information with free phone numbers and email addresses
+Investment Platform Contact Information Update Script
+Updates all contact information with contact details
 """
 
 import re
@@ -19,15 +19,15 @@ FREE_PHONE_NUMBERS = {
     "Emergency": "+1 (877) 555-0125"     # Free toll-free number
 }
 
-# Free email addresses that forward to private email
+# Email addresses for contact forms
 FREE_EMAIL_ADDRESSES = {
-    "General Inquiries": "info@aurumprivate.com",
-    "Membership Applications": "membership@aurumprivate.com", 
-    "Investment Opportunities": "deals@aurumprivate.com",
-    "New York": "nyc@aurumprivate.com",
-    "London": "london@aurumprivate.com",
-    "Singapore": "singapore@aurumprivate.com",
-    "Dubai": "dubai@aurumprivate.com"
+    "General Inquiries": "contact@example.com",
+    "Membership Applications": "membership@example.com", 
+    "Investment Opportunities": "deals@example.com",
+    "New York": "newyork@example.com",
+    "London": "london@example.com",
+    "Singapore": "singapore@example.com",
+    "Dubai": "dubai@example.com"
 }
 
 # Private contact details (not shown on website)
@@ -45,7 +45,7 @@ def update_contact_html():
     # Update email addresses
     content = re.sub(
         r'<a href="mailto:tyrone\.mitchell76@hotmail\.com">tyrone\.mitchell76@hotmail\.com</a>',
-        '<a href="mailto:info@aurumprivate.com">info@aurumprivate.com</a>',
+        '<a href="mailto:contact@example.com">contact@example.com</a>',
         content
     )
     
@@ -77,14 +77,14 @@ def update_send_email_php():
     # Update the email recipient to use free email
     content = re.sub(
         r"\$to = 'tyrone\.mitchell76@hotmail\.com';",
-        "$to = 'info@aurumprivate.com'; // Forwards to tyrone.mitchell76@hotmail.com",
+        "$to = 'contact@example.com';",
         content
     )
     
     # Update the comment
     content = re.sub(
         r"// Configured to send emails to tyrone\.mitchell76@hotmail\.com",
-        "// Configured to send emails to info@aurumprivate.com (forwards to tyrone.mitchell76@hotmail.com)",
+        "// Email handler configured for contact@example.com",
         content
     )
     
@@ -139,7 +139,7 @@ def update_ai_agent_config():
         config = json.load(f)
     
     # Update email to use free address
-    config['ai_system']['email'] = 'info@aurumprivate.com'
+    config['ai_system']['email'] = 'contact@example.com'
     
     # Add private contact info
     config['ai_system']['private_contacts'] = {
@@ -183,15 +183,15 @@ def create_contact_setup_guide():
 ## 📧 **FREE EMAIL SETUP**
 
 ### **Domain Email Forwarding**
-1. **Purchase domain:** aurumprivate.com
+1. **Purchase domain:** example.com
 2. **Set up email forwarding:**
-   - info@aurumprivate.com → tyrone.mitchell76@hotmail.com
-   - membership@aurumprivate.com → tyrone.mitchell76@hotmail.com
-   - deals@aurumprivate.com → tyrone.mitchell76@hotmail.com
-   - nyc@aurumprivate.com → tyrone.mitchell76@hotmail.com
-   - london@aurumprivate.com → tyrone.mitchell76@hotmail.com
-   - singapore@aurumprivate.com → tyrone.mitchell76@hotmail.com
-   - dubai@aurumprivate.com → tyrone.mitchell76@hotmail.com
+   - contact@example.com → designated-email@example.com
+   - membership@example.com → designated-email@example.com
+   - deals@example.com → designated-email@example.com
+   - newyork@example.com → designated-email@example.com
+   - london@example.com → designated-email@example.com
+   - singapore@example.com → designated-email@example.com
+   - dubai@example.com → designated-email@example.com
 
 ### **Free Email Providers**
 - **Gmail:** Set up forwarding rules
@@ -201,10 +201,10 @@ def create_contact_setup_guide():
 ## 🌐 **DOMAIN & HOSTING SETUP**
 
 ### **Domain Registration**
-1. **Register:** aurumprivate.com
+1. **Register:** example.com
 2. **DNS Configuration:**
    - A Record: Point to hosting IP
-   - CNAME: www → aurumprivate.com
+   - CNAME: www → example.com
    - MX Records: For email forwarding
 
 ### **Vercel Deployment**
@@ -217,7 +217,7 @@ def create_contact_setup_guide():
 ```
 Type    Name    Value
 A       @       [Vercel IP]
-CNAME   www     aurumprivate.com
+CNAME   www     example.com
 MX      @       [Email provider]
 TXT     @       [Verification records]
 ```
@@ -225,8 +225,8 @@ TXT     @       [Verification records]
 ## 🔧 **INTEGRATION SETTINGS**
 
 ### **Email System**
-- **PHP mail()** configured to send to info@aurumprivate.com
-- **All emails forward** to tyrone.mitchell76@hotmail.com
+- **PHP mail()** configured to send to contact@example.com
+- **All emails forward** to designated recipient
 - **HTML templates** with professional branding
 - **Spam protection** and filtering
 
@@ -291,7 +291,7 @@ def create_suggestlyg4plus_update():
             "domain": "suggestlyg4plus.io",
             "hosting": "Vercel",
             "email": {
-                "public": "info@aurumprivate.com",
+                "public": "contact@example.com",
                 "private": "tyrone.mitchell76@hotmail.com",
                 "forwarding": True
             },
@@ -332,7 +332,7 @@ def create_suggestlyg4plus_update():
             }
         },
         "setup_notes": {
-            "domain_registration": "aurumprivate.com",
+            "domain_registration": "example.com",
             "hosting_provider": "Vercel",
             "email_forwarding": "All emails forward to tyrone.mitchell76@hotmail.com",
             "phone_forwarding": "All calls forward to +447832682418",
@@ -356,7 +356,7 @@ def create_vercel_deployment_guide():
 
 ## 📋 **PREREQUISITES**
 - GitHub account with repository
-- Domain name (aurumprivate.com)
+- Domain name (example.com)
 - Vercel account
 
 ## 🔗 **STEP 1: CONNECT TO VERCEL**
@@ -381,8 +381,8 @@ def create_vercel_deployment_guide():
 
 ### **Add Custom Domain**
 1. **Go to** Project Settings → Domains
-2. **Add domain:** aurumprivate.com
-3. **Add domain:** www.aurumprivate.com
+2. **Add domain:** example.com
+3. **Add domain:** www.example.com
 4. **Verify ownership** via DNS records
 
 ### **DNS Records Setup**
@@ -392,7 +392,7 @@ Add these records to your domain registrar:
 Type    Name    Value
 A       @       76.76.19.76
 CNAME   www     cname.vercel-dns.com
-TXT     @       vc-domain-verify=aurumprivate.com,abc123
+TXT     @       vc-domain-verify=example.com,abc123
 ```
 
 ## ⚙️ **STEP 3: ENVIRONMENT CONFIGURATION**
@@ -547,7 +547,7 @@ Create `vercel.json` in root directory:
 ## 🎯 **LAUNCH READY**
 
 Your Aurum Private website is now live with:
-- Professional domain (aurumprivate.com)
+- Professional domain (example.com)
 - Free contact information
 - Complete AI systems
 - Secure hosting
@@ -588,7 +588,7 @@ def main():
     print("\n🎯 Next steps:")
     print("1. Set up free phone numbers (Google Voice recommended)")
     print("2. Configure email forwarding")
-    print("3. Register domain aurumprivate.com")
+    print("3. Register domain example.com")
     print("4. Deploy to Vercel")
     print("5. Configure DNS settings")
 

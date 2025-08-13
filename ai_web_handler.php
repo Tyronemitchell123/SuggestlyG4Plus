@@ -1,5 +1,5 @@
 <?php
-// Aurum Private AI Web Handler
+// Investment Platform AI Web Handler
 // Advanced AI answering service with learning and automation
 
 header('Content-Type: application/json');
@@ -10,7 +10,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 // Load configuration
 $config = json_decode(file_get_contents('ai_agent_config.json'), true);
 
-class AurumAIWebHandler {
+class InvestmentAIWebHandler {
     private $config;
     private $conversation_db = "conversations.db";
     private $user_sessions = [];

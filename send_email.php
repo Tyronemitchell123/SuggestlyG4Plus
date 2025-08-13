@@ -1,6 +1,6 @@
 <?php
-// Aurum Private Email Handler
-// Configured to send emails to tyrone.mitchell76@hotmail.com
+// Investment Platform Email Handler
+// Configured to send emails to designated recipient
 
 // Set headers to prevent caching
 header('Cache-Control: no-cache, must-revalidate');
@@ -64,9 +64,9 @@ if (isset($input['trialName'])) {
 
      // Set email headers
      $to = 'tyrone.mitchell76@hotmail.com';
-$subject_line = "Aurum Private - $form_type Submission";
+$subject_line = "Investment Platform - $form_type Submission";
 $headers = array(
-    'From: noreply@aurumprivate.com',
+    'From: noreply@example.com',
     'Reply-To: ' . $email,
     'X-Mailer: PHP/' . phpversion(),
     'Content-Type: text/html; charset=UTF-8'
@@ -92,7 +92,7 @@ $email_body = "
 <body>
     <div class='container'>
         <div class='header'>
-            <h1>Aurum Private</h1>
+            <h1>Investment Platform</h1>
             <h2>$form_type Submission</h2>
         </div>
         <div class='content'>
@@ -164,7 +164,7 @@ $email_body .= "
             </div>
         </div>
         <div class='footer'>
-            <p>This email was sent from the Aurum Private website contact form.</p>
+            <p>This email was sent from the Investment Platform website contact form.</p>
             <p>Please respond directly to: $email</p>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <?php
-// Aurum Private AI Phone System Handler
-// Advanced AI methods for call processing and forwarding to +447832682418
+// Investment Platform AI Phone System Handler
+// Advanced AI methods for call processing and forwarding
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
@@ -10,7 +10,7 @@ header('Access-Control-Allow-Headers: Content-Type');
 // Load configuration
 $config = json_decode(file_get_contents('phone_system_config.json'), true);
 
-class AurumPhoneSystem {
+class InvestmentPhoneSystem {
     private $config;
     private $forwarding_number = '+447832682418';
     
