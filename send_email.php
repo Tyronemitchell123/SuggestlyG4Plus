@@ -1,6 +1,6 @@
 <?php
-// Aurum Private Email Handler
-// Configured to send emails to tyrone.mitchell76@hotmail.com
+// SuggestlyG4Plus Email Handler
+// Supports multiple recipients via config.php or EMAIL_RECIPIENTS env variable
 
 // Set headers to prevent caching
 header('Cache-Control: no-cache, must-revalidate');
@@ -19,9 +19,26 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+// Determine recipients
+$recipients = ['tyrone.mitchell76@hotmail.com'];
+// Load from config.php if present
+$configPath = __DIR__ . '/config.php';
+if (file_exists($configPath)) {
+    $cfg = require $configPath;
+    if (!empty($cfg['recipients']) && is_array($cfg['recipients'])) {
+        $recipients = $cfg['recipients'];
+    }
+}
+// Override with environment variable if provided
+$envRecipients = getenv('EMAIL_RECIPIENTS');
+if ($envRecipients) {
+    $recipients = array_map('trim', explode(',', $envRecipients));
+}
+// Prepare recipient string
+$to = implode(',', array_unique(array_filter($recipients)));
+
 // Get form data
 $input = json_decode(file_get_contents('php://input'), true);
-
 if (!$input) {
     $input = $_POST;
 }
@@ -62,11 +79,11 @@ if (isset($input['trialName'])) {
     $company = isset($input['trialCompany']) ? htmlspecialchars(trim($input['trialCompany'])) : '';
 }
 
-     // Set email headers
-     $to = 'tyrone.mitchell76@hotmail.com';
-$subject_line = "Aurum Private - $form_type Submission";
+// Set email headers
+$fromDomain = isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] ? $_SERVER['SERVER_NAME'] : 'example.com';
+$subject_line = "SuggestlyG4Plus - $form_type Submission";
 $headers = array(
-    'From: noreply@aurumprivate.com',
+    'From: noreply@' . $fromDomain,
     'Reply-To: ' . $email,
     'X-Mailer: PHP/' . phpversion(),
     'Content-Type: text/html; charset=UTF-8'
@@ -92,7 +109,7 @@ $email_body = "
 <body>
     <div class='container'>
         <div class='header'>
-            <h1>Aurum Private</h1>
+            <h1>SuggestlyG4Plus</h1>
             <h2>$form_type Submission</h2>
         </div>
         <div class='content'>
@@ -149,22 +166,22 @@ if ($message) {
     $email_body .= "
             <div class='field'>
                 <span class='label'>Message:</span>
-                <div class='value' style='margin-top: 10px; padding: 10px; background: #fff; border-left: 3px solid #fbbf24;'>" . nl2br($message) . "</div>
+                <div class='value' style='margin-top: 10px; padding: 10px; background: #fff; border-left: 3px solid #fbbf24;">" . nl2br($message) . "</div>
             </div>";
 }
 
 $email_body .= "
             <div class='field'>
                 <span class='label'>Submission Time:</span>
-                <span class='value'>" . date('F j, Y \a\t g:i A T') . "</span>
+                <span class='value">" . date('F j, Y \a\t g:i A T') . "</span>
             </div>
             <div class='field'>
                 <span class='label'>IP Address:</span>
-                <span class='value'>" . $_SERVER['REMOTE_ADDR'] . "</span>
+                <span class='value">" . $_SERVER['REMOTE_ADDR'] . "</span>
             </div>
         </div>
         <div class='footer'>
-            <p>This email was sent from the Aurum Private website contact form.</p>
+            <p>This email was sent from the SuggestlyG4Plus contact form.</p>
             <p>Please respond directly to: $email</p>
         </div>
     </div>
@@ -179,7 +196,7 @@ if ($mail_sent) {
     $log_entry = date('Y-m-d H:i:s') . " - $form_type from $email ($name)\n";
     file_put_contents('email_log.txt', $log_entry, FILE_APPEND | LOCK_EX);
     
-    echo json_encode([
+echo json_encode([
         'success' => true, 
         'message' => $form_type === 'Preview Access Request' 
             ? 'Preview access granted! Check your email for login credentials within 24 hours.'
