@@ -1,0 +1,246 @@
+name: Periodic Repository Reviews
+
+on:
+  schedule:
+    # Run biannually: June 1st and December 1st at 9:00 AM UTC
+    - cron: '0 9 1 6,12 *'
+  workflow_dispatch:
+    inputs:
+      review_type:
+        description: 'Type of review to perform'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - codeowners
+          - security
+          - templates
+          - dependencies
+
+jobs:
+  create-review-issue:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Get current date
+        id: date
+        run: echo "current_date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
+      
+      - name: Generate review checklist
+        id: checklist
+        run: |
+          cat << 'EOF' > review_checklist.md
+          # 🔍 Biannual Repository Review - ${{ steps.date.outputs.current_date }}
+          
+          This is an automated biannual review to ensure our repository governance, security, and contributor experience remain aligned with evolving project needs.
+          
+          ## 📋 Review Checklist
+          
+          ### 🏗️ CODEOWNERS Review
+          - [ ] Verify all CODEOWNERS entries are still active contributors
+          - [ ] Check if new areas of the codebase need ownership assignments
+          - [ ] Confirm contact information is up to date
+          - [ ] Review ownership distribution for balanced responsibility
+          - [ ] Test CODEOWNERS functionality with a test PR
+          
+          ### 🔒 SECURITY Policy Review
+          - [ ] Review and update supported versions in SECURITY.md
+          - [ ] Verify security contact information is current
+          - [ ] Check if security best practices need updates
+          - [ ] Review vulnerability disclosure process
+          - [ ] Assess if new security tools/practices should be added
+          
+          ### 📝 Template Review
+          - [ ] Review issue templates for clarity and completeness
+          - [ ] Update pull request template if needed
+          - [ ] Check if new template types are needed
+          - [ ] Verify template instructions are clear for new contributors
+          - [ ] Test templates with mock submissions
+          
+          ### 📚 Documentation Review
+          - [ ] Review CONTRIBUTING.md for accuracy and completeness
+          - [ ] Update development setup instructions
+          - [ ] Check if new contributor guidelines are needed
+          - [ ] Verify all links in documentation are working
+          - [ ] Review and update README.md if necessary
+          
+          ### 🤖 Automation Review
+          - [ ] Review GitHub Actions workflows for efficiency
+          - [ ] Check Dependabot configuration and performance
+          - [ ] Assess CodeQL results and adjust rules if needed
+          - [ ] Review CI/CD pipeline performance and reliability
+          - [ ] Update workflow dependencies and actions versions
+          
+          ### 🔧 Repository Settings Review
+          - [ ] Review branch protection rules
+          - [ ] Check required status checks configuration
+          - [ ] Verify merge requirements (reviews, up-to-date branches)
+          - [ ] Review repository access permissions
+          - [ ] Check secrets and environment variables
+          
+          ### 📊 Metrics and Performance
+          - [ ] Review dependency update frequency and success rate
+          - [ ] Check security alert resolution times
+          - [ ] Assess contribution activity and community engagement
+          - [ ] Review CI/CD performance metrics
+          - [ ] Analyze code quality trends
+          
+          ## 🎯 Action Items
+          
+          Please create separate issues for any items that need attention and link them here:
+          
+          - [ ] Issue #XXX: [Description]
+          - [ ] Issue #XXX: [Description]
+          
+          ## 📅 Next Review
+          
+          The next biannual review is scheduled for: **${{ steps.date.outputs.current_date == format('{0}-06-01', steps.date.outputs.current_date[0:4]) && format('{0}-12-01', steps.date.outputs.current_date[0:4]) || format('{0}-06-01', add(toNumber(steps.date.outputs.current_date[0:4]), 1)) }}**
+          
+          ## 🏁 Completion
+          
+          When all items are reviewed and any necessary action items are created:
+          - [ ] Mark this issue as complete
+          - [ ] Close this issue
+          - [ ] Update any relevant documentation based on findings
+          
+          ---
+          
+          *This review was automatically generated. Please assign this to the appropriate maintainers for completion.*
+          EOF
+      
+      - name: Create review issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const reviewContent = fs.readFileSync('review_checklist.md', 'utf8');
+            
+            const issue = await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `🔍 Biannual Repository Review - ${{ steps.date.outputs.current_date }}`,
+              body: reviewContent,
+              labels: ['review', 'governance', 'maintenance', 'priority:medium'],
+              assignees: ['Tyronemitchell123']
+            });
+            
+            console.log(`Created review issue #${issue.data.number}`);
+      
+      - name: Create calendar reminder
+        uses: actions/github-script@v7
+        with:
+          script: |
+            // Create a follow-up issue for the next review date
+            const nextReviewDate = new Date();
+            nextReviewDate.setMonth(nextReviewDate.getMonth() + 6);
+            const nextReviewDateStr = nextReviewDate.toISOString().split('T')[0];
+            
+            const reminderBody = `
+            # 📅 Upcoming Biannual Review Reminder
+            
+            This is a reminder that the next biannual repository review is scheduled for **${nextReviewDateStr}**.
+            
+            ## 🔄 Automated Process
+            
+            The review process will automatically trigger on ${nextReviewDateStr} at 9:00 AM UTC, creating a comprehensive review issue with all necessary checklists.
+            
+            ## 📋 What Gets Reviewed
+            
+            - CODEOWNERS file accuracy and coverage
+            - SECURITY.md policy and contact information
+            - Issue and PR templates effectiveness
+            - Documentation completeness and accuracy
+            - Automation workflows performance
+            - Repository settings and permissions
+            - Community health and engagement metrics
+            
+            ## 🎯 Preparation
+            
+            No preparation is required - the automated workflow will handle creating the review checklist.
+            
+            ---
+            
+            *This reminder will be automatically closed when the next review begins.*
+            `;
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `📅 Next Biannual Review Reminder - ${nextReviewDateStr}`,
+              body: reminderBody,
+              labels: ['review', 'reminder', 'governance'],
+              assignees: ['Tyronemitchell123']
+            });
+            
+            console.log('Created next review reminder issue');
+
+  analyze-repository-health:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+      issues: read
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Analyze repository metrics
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const sixMonthsAgo = new Date();
+            sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+            
+            // Get recent PRs
+            const prs = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: 'all',
+              per_page: 100
+            });
+            
+            // Get recent issues
+            const issues = await github.rest.issues.list({
+              owner,
+              repo,
+              state: 'all',
+              per_page: 100
+            });
+            
+            // Calculate metrics
+            const recentPRs = prs.data.filter(pr => new Date(pr.created_at) > sixMonthsAgo);
+            const recentIssues = issues.data.filter(issue => !issue.pull_request && new Date(issue.created_at) > sixMonthsAgo);
+            
+            const metrics = {
+              total_prs_6m: recentPRs.length,
+              merged_prs_6m: recentPRs.filter(pr => pr.merged_at).length,
+              total_issues_6m: recentIssues.length,
+              closed_issues_6m: recentIssues.filter(issue => issue.state === 'closed').length,
+              unique_contributors_6m: new Set([...recentPRs.map(pr => pr.user.login), ...recentIssues.map(issue => issue.user.login)]).size
+            };
+            
+            console.log('Repository Health Metrics (Last 6 Months):');
+            console.log(`Pull Requests: ${metrics.total_prs_6m} total, ${metrics.merged_prs_6m} merged`);
+            console.log(`Issues: ${metrics.total_issues_6m} total, ${metrics.closed_issues_6m} closed`);
+            console.log(`Unique Contributors: ${metrics.unique_contributors_6m}`);
+            
+            // Store metrics as step output
+            require('fs').writeFileSync('repository-metrics.json', JSON.stringify(metrics, null, 2));
+      
+      - name: Upload metrics artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: repository-health-metrics
+          path: repository-metrics.json
+          retention-days: 90
