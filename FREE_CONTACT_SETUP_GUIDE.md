@@ -58,21 +58,21 @@ This guide provides step-by-step instructions for setting up free landline numbe
 ### Step 1: Email Setup
 
 #### 1.1 Main Contact Emails
-**info@aurumprivate.com (Gmail)**
+**contact@example.com (Gmail)**
 1. Go to gmail.com
 2. Create new account: info.aurumprivate@gmail.com
 3. Set up forwarding to tyrone.mitchell76@hotmail.com
 4. Configure auto-reply for business hours
 5. Set up professional signature
 
-**membership@aurumprivate.com (Outlook)**
+**membership@example.com (Outlook)**
 1. Go to outlook.com
 2. Create new account: membership.aurumprivate@outlook.com
 3. Set up forwarding to tyrone.mitchell76@hotmail.com
 4. Configure business rules
 5. Set up professional signature
 
-**deals@aurumprivate.com (ProtonMail)**
+**deals@example.com (ProtonMail)**
 1. Go to protonmail.com
 2. Create new account: deals.aurumprivate@protonmail.com
 3. Set up forwarding to tyrone.mitchell76@hotmail.com
@@ -80,22 +80,22 @@ This guide provides step-by-step instructions for setting up free landline numbe
 5. Set up professional signature
 
 #### 1.2 Office-Specific Emails
-**newyork@aurumprivate.com (Gmail)**
+**newyork@example.com (Gmail)**
 1. Create: newyork.aurumprivate@gmail.com
 2. Forward to tyrone.mitchell76@hotmail.com
 3. Set up NYC timezone auto-replies
 
-**london@aurumprivate.com (Outlook)**
+**london@example.com (Outlook)**
 1. Create: london.aurumprivate@outlook.com
 2. Forward to tyrone.mitchell76@hotmail.com
 3. Set up UK timezone auto-replies
 
-**singapore@aurumprivate.com (ProtonMail)**
+**singapore@example.com (ProtonMail)**
 1. Create: singapore.aurumprivate@protonmail.com
 2. Forward to tyrone.mitchell76@hotmail.com
 3. Set up Singapore timezone auto-replies
 
-**dubai@aurumprivate.com (Yahoo Mail)**
+**dubai@example.com (Yahoo Mail)**
 1. Create: dubai.aurumprivate@yahoo.com
 2. Forward to tyrone.mitchell76@hotmail.com
 3. Set up UAE timezone auto-replies

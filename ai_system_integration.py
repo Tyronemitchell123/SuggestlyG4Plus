@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Aurum Private AI System Integration
+Investment Platform AI System Integration
 Complete automation and management of AI answering service
 """
 
@@ -29,7 +29,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 class AurumAISystemManager:
-    """Complete AI System Manager for Aurum Private"""
+    """Complete AI System Manager for Investment Platform"""
     
     def __init__(self):
         self.config_file = "ai_agent_config.json"
@@ -606,7 +606,7 @@ class AurumAISystemManager:
 # Main execution
 async def main():
     """Main execution function"""
-    print("🤖 Aurum Private AI System Manager")
+    print("🤖 Investment Platform AI System Manager")
     print("=" * 50)
     
     manager = AurumAISystemManager()

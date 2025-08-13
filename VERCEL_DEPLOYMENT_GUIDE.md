@@ -2,7 +2,7 @@
 
 ## 📋 **PREREQUISITES**
 - GitHub account with repository
-- Domain name (aurumprivate.com)
+- Domain name (example.com)
 - Vercel account
 
 ## 🔗 **STEP 1: CONNECT TO VERCEL**
@@ -27,8 +27,8 @@
 
 ### **Add Custom Domain**
 1. **Go to** Project Settings → Domains
-2. **Add domain:** aurumprivate.com
-3. **Add domain:** www.aurumprivate.com
+2. **Add domain:** example.com
+3. **Add domain:** www.example.com
 4. **Verify ownership** via DNS records
 
 ### **DNS Records Setup**
@@ -38,7 +38,7 @@ Add these records to your domain registrar:
 Type    Name    Value
 A       @       76.76.19.76
 CNAME   www     cname.vercel-dns.com
-TXT     @       vc-domain-verify=aurumprivate.com,abc123
+TXT     @       vc-domain-verify=example.com,abc123
 ```
 
 ## ⚙️ **STEP 3: ENVIRONMENT CONFIGURATION**
@@ -193,7 +193,7 @@ Create `vercel.json` in root directory:
 ## 🎯 **LAUNCH READY**
 
 Your Aurum Private website is now live with:
-- Professional domain (aurumprivate.com)
+- Professional domain (example.com)
 - Free contact information
 - Complete AI systems
 - Secure hosting

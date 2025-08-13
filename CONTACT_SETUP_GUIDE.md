@@ -1,4 +1,4 @@
-# 🎯 Aurum Private Free Contact Setup Guide
+# 🎯 Investment Platform Free Contact Setup Guide
 
 ## 📞 **FREE PHONE NUMBER SETUP**
 
@@ -14,7 +14,7 @@
    - **Singapore:** +65 6789 0123
    - **Dubai:** +971 4 123 4567
 
-4. **Configure forwarding** to **+447832682418**
+4. **Configure forwarding** to designated number
 5. **Set up voicemail** with professional greeting
 6. **Enable call screening** and transcription
 
@@ -26,15 +26,15 @@
 ## 📧 **FREE EMAIL SETUP**
 
 ### **Domain Email Forwarding**
-1. **Purchase domain:** aurumprivate.com
+1. **Purchase domain:** example.com
 2. **Set up email forwarding:**
-   - info@aurumprivate.com → tyrone.mitchell76@hotmail.com
-   - membership@aurumprivate.com → tyrone.mitchell76@hotmail.com
-   - deals@aurumprivate.com → tyrone.mitchell76@hotmail.com
-   - nyc@aurumprivate.com → tyrone.mitchell76@hotmail.com
-   - london@aurumprivate.com → tyrone.mitchell76@hotmail.com
-   - singapore@aurumprivate.com → tyrone.mitchell76@hotmail.com
-   - dubai@aurumprivate.com → tyrone.mitchell76@hotmail.com
+   - contact@example.com → designated-email@example.com
+   - membership@example.com → designated-email@example.com
+   - deals@example.com → designated-email@example.com
+   - newyork@example.com → designated-email@example.com
+   - london@example.com → designated-email@example.com
+   - singapore@example.com → designated-email@example.com
+   - dubai@example.com → designated-email@example.com
 
 ### **Free Email Providers**
 - **Gmail:** Set up forwarding rules
@@ -44,10 +44,10 @@
 ## 🌐 **DOMAIN & HOSTING SETUP**
 
 ### **Domain Registration**
-1. **Register:** aurumprivate.com
+1. **Register:** example.com
 2. **DNS Configuration:**
    - A Record: Point to hosting IP
-   - CNAME: www → aurumprivate.com
+   - CNAME: www → example.com
    - MX Records: For email forwarding
 
 ### **Vercel Deployment**
@@ -60,7 +60,7 @@
 ```
 Type    Name    Value
 A       @       [Vercel IP]
-CNAME   www     aurumprivate.com
+CNAME   www     example.com
 MX      @       [Email provider]
 TXT     @       [Verification records]
 ```
@@ -68,8 +68,8 @@ TXT     @       [Verification records]
 ## 🔧 **INTEGRATION SETTINGS**
 
 ### **Email System**
-- **PHP mail()** configured to send to info@aurumprivate.com
-- **All emails forward** to tyrone.mitchell76@hotmail.com
+- **PHP mail()** configured to send to contact@example.com
+- **All emails forward** to designated recipient
 - **HTML templates** with professional branding
 - **Spam protection** and filtering
 
@@ -89,14 +89,14 @@ TXT     @       [Verification records]
 
 ### **Phone Numbers**
 - [ ] All free numbers are active
-- [ ] Forwarding to +447832682418 works
+- [ ] Forwarding to designated phone works
 - [ ] Voicemail is configured
 - [ ] Call screening is enabled
 - [ ] Professional greeting is set
 
 ### **Email Addresses**
 - [ ] All email addresses are active
-- [ ] Forwarding to tyrone.mitchell76@hotmail.com works
+- [ ] Forwarding to designated email works
 - [ ] Spam filters are configured
 - [ ] Professional signatures are set
 - [ ] Auto-replies are configured

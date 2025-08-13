@@ -237,7 +237,7 @@ class InvestmentAIWebHandler {
             case 'contact_request':
                 return $templates['contact'][array_rand($templates['contact'])];
             default:
-                return "I understand your inquiry about Aurum Private. Let me provide you with relevant information about our elite investment services.";
+                return "I understand your inquiry. Let me provide you with relevant information about our elite investment services.";
         }
     }
     

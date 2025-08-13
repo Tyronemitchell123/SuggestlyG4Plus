@@ -383,12 +383,12 @@ class AdvancedAIPhoneSystem:
         
         responses = {
             "investment_inquiry": "Thank you for your investment inquiry. I'll connect you with our investment team immediately.",
-            "membership_request": "Welcome to Aurum Private. Our elite membership requires a minimum £50,000 annual commitment. Let me transfer you to our membership team.",
+            "membership_request": "Welcome to our Investment Platform. Our elite membership requires a minimum £50,000 annual commitment. Let me transfer you to our membership team.",
             "urgent_matter": "I understand this is urgent. I'm connecting you with our senior team immediately.",
-            "general_inquiry": "Welcome to Aurum Private. How may I assist you with your investment needs today?"
+            "general_inquiry": "Welcome to our Investment Platform. How may I assist you with your investment needs today?"
         }
         
-        return responses.get(intent, "Welcome to Aurum Private. How may I assist you?")
+        return responses.get(intent, "Welcome to our Investment Platform. How may I assist you?")
     
     def get_caller_profile(self, caller_number: str) -> Dict:
         """Get caller profile from database"""

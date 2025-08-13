@@ -98,7 +98,7 @@ def update_phone_system_config():
     
     config = {
         "phone_system": {
-            "name": "Aurum Private AI Phone System",
+            "name": "Investment Platform AI Phone System",
             "version": "1.0",
             "forwarding_number": "+447832682418",  # Private number
             "public_numbers": {
@@ -155,7 +155,7 @@ def update_ai_agent_config():
 def create_contact_setup_guide():
     """Create a comprehensive guide for setting up free contact services"""
     
-    guide = """# 🎯 Aurum Private Free Contact Setup Guide
+    guide = """# 🎯 Investment Platform Free Contact Setup Guide
 
 ## 📞 **FREE PHONE NUMBER SETUP**
 
@@ -546,7 +546,7 @@ Create `vercel.json` in root directory:
 
 ## 🎯 **LAUNCH READY**
 
-Your Aurum Private website is now live with:
+Your Investment Platform website is now live with:
 - Professional domain (example.com)
 - Free contact information
 - Complete AI systems
@@ -565,7 +565,7 @@ All systems are configured to forward to your private contact details while main
 def main():
     """Main function to update all contact information"""
     
-    print("🔄 Updating Aurum Private contact information...")
+    print("🔄 Updating Investment Platform contact information...")
     
     # Update all files
     update_contact_html()

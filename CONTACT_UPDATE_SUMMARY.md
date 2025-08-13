@@ -2,13 +2,13 @@
 # Aurum Private - Updated Contact Information
 
 ## Email Addresses (All forward to tyrone.mitchell76@hotmail.com)
-- **General Inquiries**: info@aurumprivate.com
-- **Membership Applications**: membership@aurumprivate.com  
-- **Investment Opportunities**: deals@aurumprivate.com
-- **New York Office**: newyork@aurumprivate.com
-- **London Office**: london@aurumprivate.com
-- **Singapore Office**: singapore@aurumprivate.com
-- **Dubai Office**: dubai@aurumprivate.com
+- **General Inquiries**: contact@example.com
+- **Membership Applications**: membership@example.com  
+- **Investment Opportunities**: deals@example.com
+- **New York Office**: newyork@example.com
+- **London Office**: london@example.com
+- **Singapore Office**: singapore@example.com
+- **Dubai Office**: dubai@example.com
 
 ## Phone Numbers (All forward to +447832682418)
 - **New York**: +1 (212) 555-0123 (Google Voice)

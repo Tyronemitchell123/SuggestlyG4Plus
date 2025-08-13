@@ -58,7 +58,7 @@ Successfully created fully functional investment tier subpages that work with th
 
 ### 4. Contact Page (`contact.html`)
 - **Features:**
-  - Email Support (info@aurumprivate.com)
+  - Email Support (contact@example.com)
   - Website Information
   - AI Support Details
   - Comprehensive Contact Form

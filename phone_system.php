@@ -56,7 +56,7 @@ class InvestmentPhoneSystem {
     // AI voicemail transcription (simulated)
     public function transcribeVoicemail($audio_file) {
         // In a real implementation, this would use OpenAI Whisper API
-        $transcription = "Thank you for calling Aurum Private. This is a simulated transcription of your voicemail message.";
+        $transcription = "Thank you for calling the Investment Platform. This is a simulated transcription of your voicemail message.";
         
         // Sentiment analysis
         $sentiment = $this->analyzeSentiment($transcription);
@@ -281,7 +281,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'success' => true,
         'data' => $result,
         'timestamp' => date('Y-m-d H:i:s'),
-        'system' => 'Aurum Private AI Phone System'
+        'system' => 'Investment Platform AI Phone System'
     ]);
     
 } else {

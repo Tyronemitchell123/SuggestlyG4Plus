@@ -256,7 +256,7 @@ Please hold while we connect you to our team."
 - **Backup systems**
 
 ### **Technical Support**
-- **Email:** info@aurumprivate.com
+- **Email:** contact@example.com
 - **Response time:** < 24 hours
 - **Documentation:** Complete setup guides
 - **Troubleshooting:** Step-by-step solutions

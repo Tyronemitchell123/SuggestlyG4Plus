@@ -141,7 +141,7 @@ pip install asyncio sqlite3 sklearn numpy
 {
   "ai_system": {
     "forwarding_number": "+447832682418",
-    "email": "info@aurumprivate.com"
+    "email": "contact@example.com"
   }
 }
 ```
@@ -402,7 +402,7 @@ crm_system.create_lead(lead_data);
 - **Backup Systems**: Automatic failover and recovery
 
 ### **Technical Support**
-- **Email**: info@aurumprivate.com
+- **Email**: contact@example.com
 - **Response Time**: < 24 hours
 - **Documentation**: Complete setup and troubleshooting guides
 - **Updates**: Regular system improvements and enhancements

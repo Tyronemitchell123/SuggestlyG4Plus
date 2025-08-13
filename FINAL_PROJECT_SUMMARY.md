@@ -31,10 +31,10 @@ Aurum Private is a premium £50,000/year elite investment platform with a comple
   - Dubai: +971 4 555 0123 (Google Voice)
 
 - **Free Email Addresses** for all departments:
-  - General: info@aurumprivate.com
-  - Membership: membership@aurumprivate.com
-  - Deals: deals@aurumprivate.com
-  - Offices: newyork@, london@, singapore@, dubai@aurumprivate.com
+  - General: contact@example.com
+  - Membership: membership@example.com
+  - Deals: deals@example.com
+  - Offices: newyork@, london@, singapore@, dubai@example.com
 
 ### 4. System Integration
 - **PHP Email Handler** with HTML templates and logging
@@ -201,7 +201,7 @@ Aurum_Private_Complete_System_Final.zip
 
 ### Technical Support
 - **24/7 AI Chat** support available
-- **Email Support** through info@aurumprivate.com
+- **Email Support** through contact@example.com
 - **Phone Support** through local numbers
 - **Documentation** for all systems
 

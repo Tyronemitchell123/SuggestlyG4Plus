@@ -50,7 +50,7 @@ class AIResponse:
     response_type: str
 
 class AurumAIAgent:
-    """Advanced AI Agent for Aurum Private"""
+    """Advanced AI Agent for Investment Platform"""
     
     def __init__(self, config_file: str = "ai_agent_config.json"):
         self.config = self.load_config(config_file)
@@ -77,7 +77,7 @@ class AurumAIAgent:
         """Load AI agent configuration"""
         default_config = {
             "ai_name": "Aurum AI Assistant",
-            "company_name": "Aurum Private",
+            "company_name": "Investment Platform",
             "forwarding_number": "+447832682418",
             "email": "contact@example.com",
             "business_hours": {
@@ -99,7 +99,7 @@ class AurumAIAgent:
                 "multilingual_support": True
             },
             "response_templates": {
-                "greeting": "Welcome to Aurum Private. I'm your AI assistant, ready to help with elite investment opportunities.",
+                "greeting": "Welcome to our Investment Platform. I'm your AI assistant, ready to help with elite investment opportunities.",
                 "membership_inquiry": "Our elite membership requires a minimum annual commitment of £50,000. Would you like to discuss your investment objectives?",
                 "investment_opportunity": "I can help you explore our exclusive investment opportunities. What type of investments interest you most?",
                 "contact_human": "I'll connect you with our team immediately. Please hold while I transfer you to +447832682418.",
@@ -118,13 +118,13 @@ class AurumAIAgent:
         """Load advanced response templates"""
         return {
             "greeting": [
-                "Welcome to Aurum Private. I'm your AI assistant, ready to help with elite investment opportunities.",
-                "Greetings from Aurum Private. I'm here to assist with your investment inquiries and membership questions.",
+                "Welcome to our Investment Platform. I'm your AI assistant, ready to help with elite investment opportunities.",
+                "Greetings from our Investment Platform. I'm here to assist with your investment inquiries and membership questions.",
                 "Welcome to the elite investment platform. How may I assist you today?"
             ],
             "membership": [
                 "Our elite membership requires a minimum annual commitment of £50,000. This provides access to exclusive opportunities.",
-                "Membership at Aurum Private starts at £50,000 annually, offering personalized investment services.",
+                "Membership at our Investment Platform starts at £50,000 annually, offering personalized investment services.",
                 "For elite membership consideration, we require a minimum £50,000 annual commitment."
             ],
             "investment": [
@@ -378,7 +378,7 @@ class AurumAIAgent:
             response_text = random.choice(self.response_templates["contact"])
             response_type = "escalation"
         else:
-            response_text = "I understand your inquiry. Let me provide you with relevant information about Aurum Private's elite investment services."
+            response_text = "I understand your inquiry. Let me provide you with relevant information about our elite investment services."
             response_type = "general"
         
         # Add personalization
