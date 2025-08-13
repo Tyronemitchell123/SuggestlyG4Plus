@@ -1,18 +1,18 @@
 # Aurum Private - Elite Investment Platform
 
-[![Deploy Backend to Render](https://github.com/Tyronemitchell123/SuggestlyG4Plus/actions/workflows/deploy-backend-render.yml/badge.svg)](https://github.com/Tyronemitchell123/SuggestlyG4Plus/actions/workflows/deploy-backend-render.yml)
-[![Manual Render Deploy](https://github.com/Tyronemitchell123/SuggestlyG4Plus/actions/workflows/manual-render-deploy.yml/badge.svg)](https://github.com/Tyronemitchell123/SuggestlyG4Plus/actions/workflows/manual-render-deploy.yml)
+[![Deploy Backend to Render](https://github.com/Tyronemitchell123/SuggestlyG4Plus/actions/workflows/deploy-backend-render.yml/badge.svg)](https://github.com/Tyronemitchell123/SuggestlyG4Plus/action[...]
+[![Manual Render Deploy](https://github.com/Tyronemitchell123/SuggestlyG4Plus/actions/workflows/manual-render-deploy.yml/badge.svg)](https://github.com/Tyronemitchell123/SuggestlyG4Plus/actions/wor[...]
 
 ## 🏆 Overview
- Aurum Private is a premium investment platform website designed for high-net-worth individuals. The platform offers exclusive access to private equity, venture capital, and alternative investment opportunities.
+ Aurum Private is a premium investment platform website designed for high-net-worth individuals. The platform offers exclusive access to private equity, venture capital, and alternative investment [...]
 
 ## 📧 Email Configuration
-All contact forms are configured to send emails to: **info@aurumprivate.com**
+All contact forms are configured to send emails to: **tyrone.mitchell76@hotmail.com**
 
 ### Email Addresses:
-- **General Inquiries:** info@aurumprivate.com
-- **Membership Applications:** info@aurumprivate.com  
-- **Investment Opportunities:** info@aurumprivate.com
+- **General Inquiries:** tyrone.mitchell76@hotmail.com
+- **Membership Applications:** tyrone.mitchell76@hotmail.com  
+- **Investment Opportunities:** tyrone.mitchell76@hotmail.com
 
 ## 🚀 Quick Setup
 
@@ -24,7 +24,7 @@ All contact forms are configured to send emails to: **info@aurumprivate.com**
 
 2. **Upload all files to your hosting directory**
 
-3. **Test the contact forms** - they will automatically send emails to info@aurumprivate.com
+3. **Test the contact forms** - they will automatically send emails to tyrone.mitchell76@hotmail.com
 
 ### Option 2: Local Development
 1. **Install XAMPP or WAMP** for local PHP server
@@ -40,7 +40,7 @@ aurum-private/
 ├── services.html           # Services page
 ├── portfolio.html          # Portfolio page
 ├── contact.html            # Contact page
-├── send_email.php          # Email handler (sends to info@aurumprivate.com)
+├── send_email.php          # Email handler (sends to tyrone.mitchell76@hotmail.com)
 ├── .htaccess               # Server configuration
 ├── email_log.txt           # Email submission log (auto-created)
 └── README.md               # This file
@@ -97,7 +97,7 @@ aurum-private/
 3. **Contact Page Form** - Send general inquiry
 
 ### Expected Results:
-- **Immediate email delivery** to info@aurumprivate.com
+- **Immediate email delivery** to tyrone.mitchell76@hotmail.com
 - **Professional HTML formatted** emails
 - **Complete form data** included in email
 - **Success confirmation** message displayed
@@ -142,7 +142,7 @@ aurum-private/
 ## 📞 Support
 
 For technical support or customization requests:
-- **Email:** info@aurumprivate.com
+- **Email:** tyrone.mitchell76@hotmail.com
 - **Response Time:** Within 24 hours
 
 ## 🏆 Ready for Production
