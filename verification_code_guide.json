@@ -1,0 +1,19 @@
+{
+  "domain": "suggestlyg4plus.io",
+  "vercel_url": "suggestlyg4plus-1j2m549jp-tyrones-team.vercel.app",
+  "target_ip": "76.76.19.19",
+  "verification_code": "BMiC4IQpTZvzhr6PFFUCiFor",
+  "verification_status": {
+    "dns_servers": "vercel-dns.com (GOOD)",
+    "verification_ready": true,
+    "code_available": true
+  },
+  "verification_steps": [
+    "1. Go to Vercel dashboard",
+    "2. Navigate to project domains",
+    "3. Add domain with verification code",
+    "4. Complete verification process"
+  ],
+  "setup_time": "2025-08-13T04:12:43.789374",
+  "status": "VERIFICATION_READY"
+}

@@ -1,0 +1,30 @@
+{
+  "domain": "suggestlyg4plus.io",
+  "account_1": {
+    "team_name": "tyrones-team",
+    "dashboard_url": "https://vercel.com/tyrones-team/suggestlyg4plus/settings/domains",
+    "project": "suggestlyg4plus",
+    "status": "active"
+  },
+  "account_2": {
+    "team_name": "unknown",
+    "status": "needs_identification"
+  },
+  "identification_methods": [
+    "Vercel dashboard team switcher",
+    "Account settings page",
+    "Email search",
+    "Browser bookmarks",
+    "Vercel CLI login"
+  ],
+  "domain_strategy": {
+    "recommended": "Add domain to chosen account",
+    "alternative": "Manual DNS configuration",
+    "dns_records": {
+      "A_record": "76.76.21.21",
+      "CNAME_record": "suggestlyg4plus-kgmcai0id-tyrones-team.vercel.app"
+    }
+  },
+  "management_time": "2025-08-13T02:24:15.493474",
+  "status": "identifying_second_account"
+}

@@ -68,3 +68,4 @@ Your website will be instantly available at:
 ---
 
 **Verification typically takes 5-10 minutes once DNS is updated!** 🚀
+

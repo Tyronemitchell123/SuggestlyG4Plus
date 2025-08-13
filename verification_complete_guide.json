@@ -1,0 +1,50 @@
+{
+  "domain": "suggestlyg4plus.io",
+  "team": "tyrones-team",
+  "verification_time": "2025-08-13T02:41:35.962801",
+  "verification_methods": {
+    "txt_record": {
+      "recommended": true,
+      "steps": [
+        "Select TXT Record verification",
+        "Copy TXT record value",
+        "Add to domain registrar",
+        "Wait for propagation",
+        "Click Verify in Vercel"
+      ]
+    },
+    "html_file": {
+      "recommended": false,
+      "steps": [
+        "Select HTML File verification",
+        "Download HTML file",
+        "Upload to domain root",
+        "Access verification URL",
+        "Click Verify in Vercel"
+      ]
+    },
+    "meta_tag": {
+      "recommended": false,
+      "steps": [
+        "Select Meta Tag verification",
+        "Copy meta tag",
+        "Add to website head",
+        "Deploy updated website",
+        "Click Verify in Vercel"
+      ]
+    }
+  },
+  "dns_records": {
+    "A_record": {
+      "name": "@",
+      "value": "76.76.21.21",
+      "ttl": 3600
+    },
+    "CNAME_record": {
+      "name": "www",
+      "value": "suggestlyg4plus-kgmcai0id-tyrones-team.vercel.app",
+      "ttl": 3600
+    }
+  },
+  "status": "verification_in_progress"
+}

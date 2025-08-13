@@ -1,0 +1,21 @@
+{
+  "domain": "suggestlyg4plus.io",
+  "team": "tyrones-team",
+  "verification_time": "2025-08-13T03:37:08.425367",
+  "method": "html_file_automatic",
+  "files_created": [
+    "vercel.html",
+    "suggestlyg4plus-verification.zip"
+  ],
+  "verification_steps": [
+    "Select HTML File verification in Vercel",
+    "Download HTML file from Vercel",
+    "Replace vercel.html with Vercel's file",
+    "Upload deployment package to Vercel",
+    "Wait for deployment",
+    "Click Verify in Vercel dashboard",
+    "Wait for verification completion"
+  ],
+  "alternative_method": "meta_tag",
+  "status": "automatic_verification_ready"
+}

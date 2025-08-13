@@ -2116,7 +2116,7 @@
                 <p id="modalSubtitle">Join SUGGESTLY ELITE and transform your business with advanced AI</p>
             </div>
             
-            <form id="subscriptionForm" class="subscription-form">
+            <form id="subscriptionForm" class="subscription-form" onsubmit="submitSubscriptionForm(event)">
                 <div class="form-row">
                     <div class="form-group">
                         <label for="firstName">First Name *</label>
@@ -2288,69 +2288,104 @@
         }
 
         // Handle subscription form submission
+        function submitSubscriptionForm(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Get form data
+            const subscriptionData = {
+                ...currentSubscription,
+                firstName: formData.get('firstName'),
+                lastName: formData.get('lastName'),
+                email: formData.get('email'),
+                phone: formData.get('phone'),
+                company: formData.get('company'),
+                position: formData.get('position'),
+                revenue: formData.get('revenue'),
+                requirements: formData.get('requirements'),
+                marketing: formData.get('marketing') === 'on'
+            };
+            
+            // Create email content
+            const subject = `🌟 SUGGESTLY ELITE Subscription Request - ${subscriptionData.planName}`;
+            const body = `
+🎯 NEW ELITE SUBSCRIPTION REQUEST
+
+PLAN DETAILS:
+• Plan: ${subscriptionData.planName}
+• Price: ${subscriptionData.subscriptionPrice}
+• Trial Period: ${subscriptionData.trialPeriod}
+
+CONTACT INFORMATION:
+• Name: ${subscriptionData.firstName} ${subscriptionData.lastName}
+• Email: ${subscriptionData.email}
+• Phone: ${subscriptionData.phone}
+• Company: ${subscriptionData.company}
+• Position: ${subscriptionData.position}
+• Annual Revenue: ${subscriptionData.revenue}
+
+BUSINESS REQUIREMENTS:
+${subscriptionData.requirements}
+
+MARKETING OPT-IN: ${subscriptionData.marketing ? 'Yes' : 'No'}
+
+---
+SUGGESTLY ELITE - Advanced AI Platform
+Contact: tyrone.mitchell76@hotmail.com
+            `;
+            
+            // Create mailto link
+            const mailtoLink = `mailto:tyrone.mitchell76@hotmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Show success message
+            const successMessage = `
+🎉 ELITE SUBSCRIPTION REQUESTED!
+
+Thank you for choosing SUGGESTLY ELITE.
+
+Your subscription request has been submitted successfully.
+Our exclusive AI strategists will contact you within 24 hours.
+
+Details Submitted:
+• Plan: ${subscriptionData.planName}
+• Name: ${subscriptionData.firstName} ${subscriptionData.lastName}
+• Company: ${subscriptionData.company}
+• Price: ${subscriptionData.subscriptionPrice}
+
+Opening your email client to send the request...
+            `;
+            
+            alert(successMessage);
+            
+            // Open email client
+            setTimeout(() => {
+                window.open(mailtoLink);
+            }, 1000);
+            
+            // Show success modal
+            closeSubscriptionModal();
+            document.getElementById('successModal').style.display = 'block';
+            
+            // Reset form
+            form.reset();
+            
+            // Track conversion (if analytics is set up)
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'subscription_request', {
+                    'plan_name': subscriptionData.planName,
+                    'plan_price': subscriptionData.price,
+                    'trial_period': subscriptionData.trialPeriod
+                });
+            }
+        }
+
+        // Initialize subscription form
         document.addEventListener('DOMContentLoaded', function() {
             const subscriptionForm = document.getElementById('subscriptionForm');
             if (subscriptionForm) {
-                subscriptionForm.addEventListener('submit', function(event) {
-                    event.preventDefault();
-                    
-                    // Get form data
-                    const formData = new FormData(subscriptionForm);
-                    const subscriptionData = {
-                        ...currentSubscription,
-                        firstName: formData.get('firstName'),
-                        lastName: formData.get('lastName'),
-                        email: formData.get('email'),
-                        phone: formData.get('phone'),
-                        company: formData.get('company'),
-                        position: formData.get('position'),
-                        revenue: formData.get('revenue'),
-                        requirements: formData.get('requirements'),
-                        marketing: formData.get('marketing') === 'on'
-                    };
-                    
-                    // Send email (using mailto for now)
-                    const subject = `SUGGESTLY ELITE Subscription Request - ${subscriptionData.planName}`;
-                    const body = `
-New Subscription Request:
-
-Plan: ${subscriptionData.planName}
-Price: ${subscriptionData.subscriptionPrice}
-Trial Period: ${subscriptionData.trialPeriod}
-
-Contact Information:
-Name: ${subscriptionData.firstName} ${subscriptionData.lastName}
-Email: ${subscriptionData.email}
-Phone: ${subscriptionData.phone}
-Company: ${subscriptionData.company}
-Position: ${subscriptionData.position}
-Annual Revenue: ${subscriptionData.revenue}
-
-Business Requirements:
-${subscriptionData.requirements}
-
-Marketing Opt-in: ${subscriptionData.marketing ? 'Yes' : 'No'}
-
----
-This request was submitted from the SUGGESTLY ELITE website.
-                    `;
-                    
-                    const mailtoLink = `mailto:tyrone.mitchell76@hotmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                    window.open(mailtoLink);
-                    
-                    // Show success modal
-                    closeSubscriptionModal();
-                    document.getElementById('successModal').style.display = 'block';
-                    
-                    // Track conversion (if analytics is set up)
-                    if (typeof gtag !== 'undefined') {
-                        gtag('event', 'subscription_request', {
-                            'plan_name': subscriptionData.planName,
-                            'plan_price': subscriptionData.price,
-                            'trial_period': subscriptionData.trialPeriod
-                        });
-                    }
-                });
+                subscriptionForm.addEventListener('submit', submitSubscriptionForm);
             }
         });
 
@@ -2367,68 +2402,7 @@ This request was submitted from the SUGGESTLY ELITE website.
             }
         }
 
-        // Contact Form Email Functionality
-        function submitContactForm(event) {
-            event.preventDefault();
-            
-            const form = document.getElementById('eliteForm');
-            const submitBtn = form.querySelector('.submit-btn');
-            const originalText = submitBtn.textContent;
-            
-            // Get form data
-            const formData = new FormData(form);
-            const name = form.querySelector('input[type="text"]').value;
-            const company = form.querySelectorAll('input[type="text"]')[1].value;
-            const position = form.querySelectorAll('input[type="text"]')[2].value;
-            const email = form.querySelector('input[type="email"]').value;
-            const phone = form.querySelector('input[type="tel"]').value;
-            const revenue = form.querySelector('select').value;
-            const service = form.querySelectorAll('select')[1].value;
-            const message = form.querySelector('textarea').value;
-            
-            // Show loading state
-            submitBtn.textContent = 'SENDING...';
-            submitBtn.disabled = true;
-            
-            // Prepare email content
-            const emailSubject = 'SUGGESTLY ELITE - New Elite Consultation Request';
-            const emailBody = `
-NEW ELITE CONSULTATION REQUEST
 
-Contact Information:
-- Name: ${name}
-- Company: ${company}
-- Position: ${position}
-- Email: ${email}
-- Phone: ${phone}
-
-Business Information:
-- Annual Revenue: ${revenue}
-- Service Interest: ${service}
-
-Project Requirements:
-${message}
-
----
-This request was submitted from the SUGGESTLY ELITE website.
-            `;
-            
-            // Send email using mailto link
-            const mailtoLink = `mailto:tyrone.mitchell76@hotmail.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-            
-            // Open email client
-            window.open(mailtoLink);
-            
-            // Show success message
-            setTimeout(() => {
-                alert('ELITE CONSULTATION REQUESTED: Thank you for your interest in SUGGESTLY ELITE. Our exclusive AI strategists will contact you within 24 hours to schedule your confidential consultation.');
-                
-                // Reset form
-                form.reset();
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }, 1000);
-        }
 
         // Ultra Premium Loading Animation
         window.addEventListener('load', function() {

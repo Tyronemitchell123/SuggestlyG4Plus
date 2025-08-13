@@ -1,0 +1,44 @@
+{
+  "domain": "suggestlyg4plus.io",
+  "setup_time": "2025-08-13T01:41:24.094763",
+  "verification_type": "TXT_RECORD",
+  "current_status": {
+    "dns_records": [
+      "216.198.79.1",
+      "64.29.17.1"
+    ],
+    "status": "Domain needs TXT record verification"
+  },
+  "txt_record_steps": {
+    "step_1": "Get TXT record from Vercel dashboard",
+    "step_2": "Log into domain registrar",
+    "step_3": "Go to DNS management",
+    "step_4": "Add TXT record with Vercel's value",
+    "step_5": "Save DNS changes",
+    "step_6": "Wait 5-10 minutes for propagation",
+    "step_7": "Vercel will auto-verify domain"
+  },
+  "vercel_dashboard_steps": [
+    "Go to Vercel dashboard",
+    "Click on suggestlyg4plus.io",
+    "Click 'Learn more' or 'Verify Domain'",
+    "Copy the TXT record value",
+    "Add TXT record in domain registrar"
+  ],
+  "domain_registrar_steps": [
+    "Log into domain registrar",
+    "Find DNS management section",
+    "Add new TXT record",
+    "Name: @ (or leave blank)",
+    "Value: [Copy from Vercel]",
+    "TTL: 3600",
+    "Save changes"
+  ],
+  "post_verification": {
+    "step_1": "Vercel will auto-verify domain",
+    "step_2": "DNS will point to Vercel automatically",
+    "step_3": "HTTPS will be enabled",
+    "step_4": "Domain will be live"
+  },
+  "status": "waiting_for_txt_record"
+}

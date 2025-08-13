@@ -1,0 +1,21 @@
+{
+  "domain": "suggestlyg4plus.io",
+  "vercel_url": "suggestlyg4plus-1j2m549jp-tyrones-team.vercel.app",
+  "target_ip": "76.76.19.19",
+  "verification_code": "BMiC4IQpTZvzhr6PFFUCiFor",
+  "account1": "tyronemitchell76-3031",
+  "account2": "tyrones-team",
+  "setup_time": "2025-08-13T04:34:15.939188",
+  "status": "BEST_FRESH_START_COMPLETE",
+  "dns_status": "old_ips",
+  "best_fresh_actions": [
+    "BEST DELETE domain from Account 1",
+    "BEST DELETE domain from Account 2",
+    "BEST CLEAR all DNS records",
+    "BEST VERIFY clean state",
+    "BEST FRESH domain setup"
+  ],
+  "working_url": "https://suggestlyg4plus-1j2m549jp-tyrones-team.vercel.app",
+  "target_url": "https://suggestlyg4plus.io",
+  "best_fresh_timeline": "27 minutes total"
+}
