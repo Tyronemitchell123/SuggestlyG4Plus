@@ -16,6 +16,13 @@ import asyncio
 from cryptography.fernet import Fernet
 import hashlib
 
+# Import premium progress meter functionality
+try:
+    from premium_ui_components import PremiumUIComponents, ProgressMeter
+    PROGRESS_METER_AVAILABLE = True
+except ImportError:
+    PROGRESS_METER_AVAILABLE = False
+
 logger = logging.getLogger(__name__)
 
 class UHNWIClientOnboarding:
@@ -494,11 +501,13 @@ class UHNWIClientOnboarding:
         logger.info(f"📋 Generating onboarding report for {onboarding_id}")
         
         # Simulate retrieving onboarding data
+        completion_percentage = 75
+        
         report = {
             "onboarding_id": onboarding_id,
             "report_generated": datetime.now().isoformat(),
             "overall_status": "in_progress",
-            "completion_percentage": 75,
+            "completion_percentage": completion_percentage,
             "estimated_completion": "2 business days",
             "verification_status": {
                 "kyc_verification": {
@@ -539,7 +548,49 @@ class UHNWIClientOnboarding:
             }
         }
         
+        # Add premium progress meter visualization if available
+        if PROGRESS_METER_AVAILABLE:
+            report["progress_meter_html"] = self.get_onboarding_progress_html(completion_percentage)
+        
         return report
+    
+    def get_onboarding_progress_html(self, completion_percentage: int) -> str:
+        """Generate premium progress meter HTML for onboarding status"""
+        if not PROGRESS_METER_AVAILABLE:
+            return ""
+        
+        # Create detailed progress meters for each verification step
+        verification_steps = [
+            {"label": "KYC Verification", "progress": 100, "style": "luxury"},
+            {"label": "AML Screening", "progress": 100, "style": "enterprise"},
+            {"label": "Background Check", "progress": 65, "style": "minimal"},
+            {"label": "Wealth Verification", "progress": 0, "style": "luxury"},
+            {"label": "Account Setup", "progress": 85, "style": "enterprise"},
+            {"label": "Final Review", "progress": 30, "style": "minimal"}
+        ]
+        
+        # Generate overall progress meter
+        overall_progress = PremiumUIComponents.get_progress_meter(
+            progress=completion_percentage,
+            label="Overall Onboarding Progress",
+            style="luxury"
+        )
+        
+        # Generate multi-progress dashboard
+        verification_dashboard = PremiumUIComponents.get_multi_progress_dashboard(verification_steps)
+        
+        # Add JavaScript functionality
+        progress_js = PremiumUIComponents.get_progress_meter_js()
+        
+        return f"""
+        <div class="onboarding-progress-report">
+            <h2>Client Onboarding Progress</h2>
+            {overall_progress}
+            <h3>Verification Steps Detail</h3>
+            {verification_dashboard}
+            {progress_js}
+        </div>
+        """
 
 # Global onboarding system instance
 client_onboarding = UHNWIClientOnboarding()
