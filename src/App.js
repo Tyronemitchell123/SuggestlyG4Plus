@@ -1,6 +1,6 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Helmet } from 'react-helmet';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { Toaster } from 'react-hot-toast';
 
 // Components
@@ -13,14 +13,18 @@ import Pricing from './components/Pricing';
 import Contact from './components/Contact';
 import Dashboard from './components/Dashboard';
 import LoadingScreen from './components/LoadingScreen';
+import SiteManager from './components/SiteManager';
+import SiteViewer from './components/SiteViewer';
 
 // Hooks
 import { useAnalytics } from './hooks/useAnalytics';
 import { usePaymentSystem } from './hooks/usePaymentSystem';
+import { useSiteManager } from './hooks/useSiteManager';
 
 function App() {
   const { initializeAnalytics } = useAnalytics();
   const { initializePaymentSystem } = usePaymentSystem();
+  const { currentSite, sites, isLoading } = useSiteManager();
 
   React.useEffect(() => {
     // Initialize all systems
@@ -28,27 +32,40 @@ function App() {
     initializePaymentSystem();
   }, [initializeAnalytics, initializePaymentSystem]);
 
+  // Determine if we're on the main platform or a hosted site
+  const isMainPlatform = !currentSite || window.location.pathname.startsWith('/admin');
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
+  // If we have a current site and we're not on admin routes, show the hosted site
+  if (currentSite && !window.location.pathname.startsWith('/admin')) {
+    return <SiteViewer site={currentSite} />;
+  }
+
+  // Main platform (original SuggestlyG4Plus)
   return (
     <Router>
       <div className="App">
         <Helmet>
-          <title>SUGGESTLY ELITE - Ultra Premium AI Solutions for UHNWI & Executives</title>
-          <meta name="description" content="SUGGESTLY ELITE - Advanced AI Platform for UHNWI & Business Executives. Quantum-inspired AI agents, neural networks, and enterprise solutions. 7-day free trial available." />
-          <meta name="keywords" content="AI, artificial intelligence, quantum AI, neural networks, enterprise AI, business automation, UHNWI, executives, machine learning, predictive analytics" />
+          <title>SUGGESTLY ELITE - Multi-Site Hosting Platform</title>
+          <meta name="description" content="SUGGESTLY ELITE - Advanced AI Platform & Multi-Site Hosting for UHNWI & Business Executives. Host multiple websites with our enterprise-grade platform." />
+          <meta name="keywords" content="AI, artificial intelligence, quantum AI, neural networks, enterprise AI, business automation, UHNWI, executives, machine learning, predictive analytics, web hosting, multi-site" />
           <meta name="author" content="SUGGESTLY ELITE" />
           <meta name="robots" content="index, follow" />
           
           {/* Open Graph */}
-          <meta property="og:title" content="SUGGESTLY ELITE - Advanced AI Platform" />
-          <meta property="og:description" content="Ultra Premium AI Solutions for UHNWI & Business Executives. Quantum-inspired AI agents and enterprise solutions." />
+          <meta property="og:title" content="SUGGESTLY ELITE - Multi-Site Hosting Platform" />
+          <meta property="og:description" content="Advanced AI Platform & Multi-Site Hosting for UHNWI & Business Executives" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://suggestlyg4plus.io" />
           <meta property="og:image" content="https://suggestlyg4plus.io/og-image.jpg" />
           
           {/* Twitter Card */}
           <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="SUGGESTLY ELITE - Advanced AI Platform" />
-          <meta name="twitter:description" content="Ultra Premium AI Solutions for UHNWI & Business Executives" />
+          <meta name="twitter:title" content="SUGGESTLY ELITE - Multi-Site Hosting Platform" />
+          <meta name="twitter:description" content="Advanced AI Platform & Multi-Site Hosting for UHNWI & Business Executives" />
           <meta name="twitter:image" content="https://suggestlyg4plus.io/twitter-image.jpg" />
           
           {/* Favicon */}
@@ -69,7 +86,7 @@ function App() {
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', 'G-TEST123456', {
-                page_title: 'SUGGESTLY ELITE - Advanced AI Platform',
+                page_title: 'SUGGESTLY ELITE - Multi-Site Hosting Platform',
                 page_location: window.location.href,
                 custom_map: {
                   'custom_parameter_1': 'service_tier',
@@ -98,6 +115,8 @@ function App() {
                 </>
               } />
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/admin" element={<SiteManager />} />
+              <Route path="/admin/*" element={<SiteManager />} />
               <Route path="/services" element={<Services />} />
               <Route path="/features" element={<Features />} />
               <Route path="/pricing" element={<Pricing />} />

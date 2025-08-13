@@ -1,48 +1,28 @@
 {
   "name": "suggestly-elite",
   "version": "2.0.0",
-  "description": "SUGGESTLY ELITE - Ultra Premium AI Solutions for UHNWI & Executives",
-  "main": "index.js",
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "deploy": "npm run build && vercel --prod",
-    "dev": "react-scripts start",
-    "lint": "eslint src/**/*.{js,jsx}",
-    "format": "prettier --write src/**/*.{js,jsx,css,md}"
-  },
+  "description": "Advanced AI Platform for UHNWIs - Elite Advisory Services",
+  "private": true,
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "react-router-dom": "^6.8.0",
-    "stripe": "^12.0.0",
-    "@stripe/stripe-js": "^1.52.0",
-    "framer-motion": "^10.0.0",
-    "react-intersection-observer": "^9.4.0",
-    "react-helmet": "^6.1.0",
-    "axios": "^1.3.0",
-    "react-hook-form": "^7.43.0",
-    "react-hot-toast": "^2.4.0",
-    "lucide-react": "^0.263.0",
-    "clsx": "^1.2.0",
-    "tailwind-merge": "^1.13.0",
-    "@react-three/fiber": "^8.15.0",
-    "@react-three/drei": "^9.88.0",
-    "@react-three/postprocessing": "^2.15.0",
-    "three": "^0.157.0"
+    "lucide-react": "^0.263.1",
+    "react-hot-toast": "^2.4.1",
+    "react-helmet-async": "^1.3.0",
+    "react-router-dom": "^6.15.0"
   },
-  "devDependencies": {
-    "@types/react": "^18.0.28",
-    "@types/react-dom": "^18.0.11",
-    "eslint": "^8.35.0",
-    "eslint-config-react-app": "^7.0.1",
-    "prettier": "^2.8.4",
-    "tailwindcss": "^3.2.7",
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.21"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -56,22 +36,25 @@
       "last 1 safari version"
     ]
   },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Tyronemitchell123/v2.git"
+    "url": "https://github.com/suggestly/elite-platform.git"
   },
   "keywords": [
     "ai",
-    "artificial-intelligence",
-    "quantum-ai",
-    "enterprise",
     "uhnwi",
-    "executives",
-    "premium",
-    "elite"
+    "wealth-management",
+    "luxury",
+    "advisory",
+    "react",
+    "typescript"
   ],
   "author": "SUGGESTLY ELITE",
   "license": "MIT",
-  "homepage": "https://suggestlyg4plus.io"
+  "homepage": "https://suggestly-elite.com"
 }
 

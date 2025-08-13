@@ -1,0 +1,27 @@
+name: Storybook QA
+on: [push, pull_request]
+jobs:
+  a11y-and-visuals:
+    runs-on: ubuntu-latest
+    env:
+      CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: npm ci
+      - name: Build Storybook
+        run: npx storybook build --quiet
+      - name: Start Storybook
+        run: npx http-server storybook-static -p 6006 & npx wait-on tcp:6006
+      - name: A11y test (axe via test-runner)
+        run: npx @storybook/test-runner --url http://localhost:6006
+      - name: Publish to Chromatic (optional)
+        if: env.CHROMATIC_PROJECT_TOKEN != ''
+        run: npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN
+      - name: Upload Storybook artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: storybook-static
+          path: storybook-static/
+          retention-days: 30
