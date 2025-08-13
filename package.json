@@ -28,7 +28,11 @@
     "react-hot-toast": "^2.4.0",
     "lucide-react": "^0.263.0",
     "clsx": "^1.2.0",
-    "tailwind-merge": "^1.13.0"
+    "tailwind-merge": "^1.13.0",
+    "@react-three/fiber": "^8.15.0",
+    "@react-three/drei": "^9.88.0",
+    "@react-three/postprocessing": "^2.15.0",
+    "three": "^0.157.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
