@@ -4,20 +4,24 @@
   "description": "Advanced AI Platform for UHNWIs - Elite Advisory Services",
   "private": true,
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "lucide-react": "^0.263.1",
-    "react-hot-toast": "^2.4.1",
-    "react-helmet-async": "^1.3.0",
-    "react-router-dom": "^6.15.0",
+    "@react-three/drei": "^9.88.0",
+    "@react-three/fiber": "^8.15.0",
+    "@react-three/postprocessing": "^2.15.0",
     "@stripe/stripe-js": "^2.1.11",
     "axios": "^1.6.2",
-    "openai": "^4.20.1",
-    "react-ga4": "^2.1.0",
     "framer-motion": "^10.16.16",
+    "lucide-react": "^0.263.1",
+    "openai": "^4.20.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-ga4": "^2.1.0",
+    "react-helmet-async": "^1.3.0",
+    "react-hook-form": "^7.48.2",
+    "react-hot-toast": "^2.4.1",
     "react-intersection-observer": "^9.5.3",
-    "react-hook-form": "^7.48.2"
+    "react-router-dom": "^6.15.0",
+    "react-scripts": "5.0.1",
+    "three": "^0.165.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -62,6 +66,12 @@
   ],
   "author": "SUGGESTLY ELITE",
   "license": "MIT",
-  "homepage": "https://suggestly-elite.com"
+  "homepage": "https://suggestly-elite.com",
+  "devDependencies": {
+    "@types/node": "^24.2.1",
+    "@types/react": "^19.1.10",
+    "@types/react-dom": "^19.1.7",
+    "gtag": "^1.0.1",
+    "typescript": "^5.9.2"
+  }
 }
-

@@ -5,6 +5,8 @@ import { OrbitControls } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 
 const HologramCard = ({ forceFallback = false }) => {
+  const [pointer, setPointer] = React.useState({ x: 0, y: 0 });
+
   if (forceFallback) {
     return (
       <div
@@ -18,8 +20,6 @@ const HologramCard = ({ forceFallback = false }) => {
       </div>
     );
   }
-
-  const [pointer, setPointer] = React.useState({ x: 0, y: 0 });
 
   return (
     <Canvas

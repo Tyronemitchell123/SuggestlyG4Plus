@@ -23,5 +23,9 @@
   "include": [
     "src",
     ".storybook"
+  ],
+  "exclude": [
+    "src/**/*.stories.*",
+    "src/**/*.story.*"
   ]
 }
