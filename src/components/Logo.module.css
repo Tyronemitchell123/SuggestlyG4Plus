@@ -1,0 +1,216 @@
+/* SuggestlyG4Plus Animated Logo CSS Module
+ * Provides elegant animations for the SVG logo component
+ * Respects user's reduced motion preferences
+ * Uses brand colors and luxury styling
+ */
+
+.suggestlyLogo {
+  display: inline-block;
+  position: relative;
+  overflow: visible;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+/* Main logo animation states */
+.suggestlyLogo.animate {
+  animation: logoFloat 6s ease-in-out infinite;
+}
+
+.suggestlyLogo.animate:hover {
+  transform: scale(1.1);
+  animation-play-state: paused;
+}
+
+/* Glow animation for the background circle */
+.suggestlyLogo.animate .logoGlow {
+  animation: pulseGlow 4s ease-in-out infinite;
+}
+
+/* Main stroke animation */
+.suggestlyLogo.animate .logoMain {
+  animation: strokeShimmer 3s ease-in-out infinite;
+}
+
+/* Secondary stroke for depth */
+.suggestlyLogo.animate .logoStroke {
+  animation: strokePulse 5s ease-in-out infinite;
+}
+
+/* Fill animation for background */
+.suggestlyLogo.animate .logoFill {
+  animation: fillFlow 8s ease-in-out infinite;
+}
+
+/* Keyframe Animations */
+
+/* Main floating animation */
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-8px) rotate(1deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(0deg);
+  }
+  75% {
+    transform: translateY(-12px) rotate(-1deg);
+  }
+}
+
+/* Glow pulsing effect */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+/* Stroke shimmer effect */
+@keyframes strokeShimmer {
+  0%, 100% {
+    stroke-width: 8;
+    opacity: 1;
+  }
+  50% {
+    stroke-width: 10;
+    opacity: 0.8;
+  }
+}
+
+/* Secondary stroke pulse */
+@keyframes strokePulse {
+  0%, 100% {
+    stroke-width: 6;
+    opacity: 0.6;
+  }
+  50% {
+    stroke-width: 8;
+    opacity: 0.9;
+  }
+}
+
+/* Fill flow animation */
+@keyframes fillFlow {
+  0%, 100% {
+    opacity: 0.1;
+    transform: scale(1);
+  }
+  33% {
+    opacity: 0.2;
+    transform: scale(1.05);
+  }
+  66% {
+    opacity: 0.15;
+    transform: scale(0.95);
+  }
+}
+
+/* Hover effects */
+.suggestlyLogo:hover .logoGlow {
+  opacity: 0.8 !important;
+  transform: scale(1.2) !important;
+  transition: all 0.3s ease;
+}
+
+.suggestlyLogo:hover .logoMain {
+  stroke-width: 12 !important;
+  filter: drop-shadow(0 0 10px #fbbf24);
+  transition: all 0.3s ease;
+}
+
+/* No animation state for accessibility */
+.suggestlyLogo.noAnimate,
+.suggestlyLogo.noAnimate * {
+  animation: none !important;
+  transition: none !important;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .suggestlyLogo,
+  .suggestlyLogo *,
+  .suggestlyLogo.animate,
+  .suggestlyLogo.animate * {
+    animation: none !important;
+    transition: transform 0.3s ease !important;
+  }
+  
+  .suggestlyLogo:hover {
+    transform: scale(1.05) !important;
+  }
+}
+
+/* Focus states for accessibility */
+.suggestlyLogo:focus {
+  outline: 2px solid #fbbf24;
+  outline-offset: 4px;
+  border-radius: 50%;
+}
+
+.suggestlyLogo:focusVisible {
+  outline: 3px solid #fde047;
+  outline-offset: 6px;
+}
+
+/* Size variants */
+.suggestlyLogo.small {
+  width: 60px;
+  height: 60px;
+}
+
+.suggestlyLogo.medium {
+  width: 120px;
+  height: 120px;
+}
+
+.suggestlyLogo.large {
+  width: 200px;
+  height: 200px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .suggestlyLogo .logoGlow {
+    opacity: 0.5;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .suggestlyLogo .logoMain {
+    stroke-width: 10;
+  }
+  
+  .suggestlyLogo .logoStroke {
+    stroke-width: 8;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  .suggestlyLogo {
+    max-width: 80px;
+    max-height: 80px;
+  }
+  
+  .suggestlyLogo.animate {
+    animation-duration: 8s; /* Slower on mobile for battery */
+  }
+}
+
+/* Print styles */
+@media print {
+  .suggestlyLogo,
+  .suggestlyLogo * {
+    animation: none !important;
+    filter: none !important;
+    opacity: 1 !important;
+  }
+}
