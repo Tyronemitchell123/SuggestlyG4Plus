@@ -15,6 +15,15 @@ import Dashboard from './components/Dashboard';
 import LoadingScreen from './components/LoadingScreen';
 import SiteManager from './components/SiteManager';
 import SiteViewer from './components/SiteViewer';
+import AudioEqualizer from './components/AudioEqualizer';
+import AudioEQLanding from './components/AudioEQLanding';
+import G4AudioEqualizer from './components/G4AudioEqualizer';
+import DAWConnector from './components/DAWConnector';
+import QuantumDAWConnector from './components/QuantumDAWConnector';
+import AIContentStudio from './components/AIContentStudio';
+import VideoProductionSuite from './components/VideoProductionSuite';
+import QuantumComputingHub from './components/QuantumComputingHub';
+import QuantumBotAutomation from './components/QuantumBotAutomation';
 
 // Hooks
 import { useAnalytics } from './hooks/useAnalytics';
@@ -118,6 +127,35 @@ function App() {
               <Route path="/features" element={<Features />} />
               <Route path="/pricing" element={<Pricing />} />
               <Route path="/contact" element={<Contact />} />
+              
+              {/* Audio Production Suite */}
+              <Route path="/audio-eq" element={<AudioEqualizer />} />
+              <Route path="/eq" element={<AudioEqualizer />} />
+              <Route path="/audio-eq-landing" element={<AudioEQLanding />} />
+              <Route path="/g4-eq" element={<G4AudioEqualizer />} />
+              <Route path="/g4" element={<G4AudioEqualizer />} />
+              
+              {/* DAW Connector */}
+              <Route path="/daw-connector" element={<DAWConnector />} />
+              <Route path="/daw" element={<DAWConnector />} />
+              <Route path="/quantum-daw" element={<QuantumDAWConnector />} />
+              <Route path="/quantum" element={<QuantumDAWConnector />} />
+              
+              {/* AI Content Studio */}
+              <Route path="/ai-studio" element={<AIContentStudio />} />
+              <Route path="/ai" element={<AIContentStudio />} />
+              
+              {/* Video Production Suite */}
+              <Route path="/video-suite" element={<VideoProductionSuite />} />
+              <Route path="/video" element={<VideoProductionSuite />} />
+              
+              {/* Quantum Computing Hub */}
+              <Route path="/quantum-hub" element={<QuantumComputingHub />} />
+              <Route path="/quantum-computing" element={<QuantumComputingHub />} />
+              
+              {/* Quantum Bot Automation */}
+              <Route path="/quantum-bots" element={<QuantumBotAutomation />} />
+              <Route path="/bots" element={<QuantumBotAutomation />} />
             </Routes>
           </main>
           

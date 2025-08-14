@@ -15,6 +15,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isQuantumDropdownOpen, setIsQuantumDropdownOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -33,6 +34,17 @@ const Header = () => {
     { name: 'Pricing', href: '/pricing' },
     { name: 'Contact', href: '/contact' },
     { name: 'Site Manager', href: '/admin' }
+  ];
+
+  const quantumFeatures = [
+    { name: 'Audio EQ', href: '/audio-eq' },
+    { name: 'G4 EQ', href: '/g4-eq' },
+    { name: 'DAW Connector', href: '/daw-connector' },
+    { name: 'Quantum DAW', href: '/quantum-daw' },
+    { name: 'AI Studio', href: '/ai-studio' },
+    { name: 'Video Suite', href: '/video-suite' },
+    { name: 'Quantum Hub', href: '/quantum-hub' },
+    { name: 'Quantum Bots', href: '/quantum-bots' }
   ];
 
   const services = [
@@ -119,6 +131,42 @@ const Header = () => {
                         >
                           <service.icon className="w-5 h-5" />
                           <span>{service.name}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Quantum Features Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setIsQuantumDropdownOpen(!isQuantumDropdownOpen)}
+                className="flex items-center space-x-1 text-luxury-light hover:text-luxury-gold transition-colors duration-300 font-medium"
+              >
+                <span>Quantum Features</span>
+                <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isQuantumDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
+              
+              <AnimatePresence>
+                {isQuantumDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute top-full left-0 mt-2 w-64 bg-luxury-darker border border-luxury-gold/20 rounded-xl shadow-xl backdrop-blur-md"
+                  >
+                    <div className="p-2">
+                      {quantumFeatures.map((feature) => (
+                        <Link
+                          key={feature.name}
+                          to={feature.href}
+                          className="flex items-center space-x-3 p-3 rounded-lg text-luxury-gray hover:text-luxury-gold hover:bg-luxury-gold/10 transition-all duration-300"
+                          onClick={() => setIsQuantumDropdownOpen(false)}
+                        >
+                          <Zap className="w-5 h-5" />
+                          <span>{feature.name}</span>
                         </Link>
                       ))}
                     </div>

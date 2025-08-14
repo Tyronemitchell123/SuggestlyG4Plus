@@ -1,5 +1,12 @@
 'use client';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+// Add gtag type declaration
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+  }
+}
 
 // Add gtag type declaration
 declare global {
