@@ -6,10 +6,15 @@ import { useState } from "react";
 
 export default function PremiumTierPage() {
   const [loading, setLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    setStatusMessage("");
+    setIsError(false);
+    
     const formData = new FormData(e.currentTarget);
     const payload = Object.fromEntries(formData.entries());
 
@@ -20,10 +25,12 @@ export default function PremiumTierPage() {
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error("Network error");
-      alert("Premium tier application submitted. A director will contact you within 24 hours.");
+      setStatusMessage("Premium tier application submitted successfully. A director will contact you within 24 hours.");
+      setIsError(false);
       e.currentTarget.reset();
     } catch (err) {
-      alert("Error submitting application. Please try again.");
+      setStatusMessage("Error submitting application. Please try again.");
+      setIsError(true);
     } finally {
       setLoading(false);
     }
@@ -41,24 +48,27 @@ export default function PremiumTierPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <main className="bg-black text-white font-sans min-h-screen">
+      <main id="main" className="bg-black text-white font-sans min-h-screen">
+      <div className="min-h-screen">
         {/* Navigation */}
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-yellow-500/20 p-4">
-          <div className="max-w-6xl mx-auto flex justify-between items-center">
-            <Link href="/" className="text-yellow-400 font-bold text-xl">Aurum Private</Link>
-            <div className="flex space-x-6">
-              <Link href="/elite-tier" className="text-zinc-300 hover:text-yellow-400 transition-colors duration-200">
-                Elite Tier
-              </Link>
-              <Link href="/ultimate-tier" className="text-zinc-300 hover:text-yellow-400 transition-colors duration-200">
-                Ultimate Tier
-              </Link>
-              <Link href="/certificates" className="text-zinc-300 hover:text-yellow-400 transition-colors duration-200">
-                Certificates
-              </Link>
+        <header>
+          <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-yellow-500/20 p-4" aria-label="Main navigation">
+            <div className="max-w-6xl mx-auto flex justify-between items-center">
+              <Link href="/" className="text-yellow-400 font-bold text-xl">Aurum Private</Link>
+              <div className="flex space-x-6" role="navigation" aria-label="Secondary navigation">
+                <Link href="/elite-tier" className="text-zinc-300 hover:text-yellow-400 transition-colors duration-200">
+                  Elite Tier
+                </Link>
+                <Link href="/ultimate-tier" className="text-zinc-300 hover:text-yellow-400 transition-colors duration-200">
+                  Ultimate Tier
+                </Link>
+                <Link href="/certificates" className="text-zinc-300 hover:text-yellow-400 transition-colors duration-200">
+                  Certificates
+                </Link>
+              </div>
             </div>
-          </div>
-        </nav>
+          </nav>
+        </header>
 
         {/* Hero Section */}
         <section className="relative pt-24 pb-16 px-4">
@@ -176,14 +186,31 @@ export default function PremiumTierPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl font-bold text-yellow-400 mb-8 text-center">
+              <h2 id="premium-form-title" className="text-3xl font-bold text-yellow-400 mb-8 text-center">
                 Apply for Premium Tier
               </h2>
               
-              <form onSubmit={handleSubmit} className="bg-zinc-800 p-8 rounded-xl border border-yellow-500/30 space-y-6">
+              {/* Status message for screen readers */}
+              <div 
+                aria-live={isError ? "assertive" : "polite"}
+                aria-atomic="true"
+                className={`mb-6 p-4 rounded-lg text-center ${
+                  statusMessage 
+                    ? isError 
+                      ? 'bg-red-900/50 text-red-200 border border-red-700/50' 
+                      : 'bg-green-900/50 text-green-200 border border-green-700/50'
+                    : 'sr-only'
+                }`}
+                role={isError ? "alert" : "status"}
+              >
+                {statusMessage && statusMessage}
+              </div>
+              
+              <form onSubmit={handleSubmit} className="bg-zinc-800 p-8 rounded-xl border border-yellow-500/30 space-y-6" aria-labelledby="premium-form-title">
                 <div>
-                  <label className="block text-yellow-400 font-semibold mb-2">Full Name</label>
+                  <label htmlFor="premium-name" className="block text-yellow-400 font-semibold mb-2">Full Name</label>
                   <input
+                    id="premium-name"
                     name="name"
                     type="text"
                     required
@@ -192,8 +219,9 @@ export default function PremiumTierPage() {
                 </div>
                 
                 <div>
-                  <label className="block text-yellow-400 font-semibold mb-2">Email Address</label>
+                  <label htmlFor="premium-email" className="block text-yellow-400 font-semibold mb-2">Email Address</label>
                   <input
+                    id="premium-email"
                     name="email"
                     type="email"
                     required
@@ -202,8 +230,9 @@ export default function PremiumTierPage() {
                 </div>
                 
                 <div>
-                  <label className="block text-yellow-400 font-semibold mb-2">Company</label>
+                  <label htmlFor="premium-company" className="block text-yellow-400 font-semibold mb-2">Company</label>
                   <input
+                    id="premium-company"
                     name="company"
                     type="text"
                     className="w-full p-3 rounded bg-zinc-900 text-white border border-yellow-500/20 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/50 outline-none transition duration-200"
@@ -211,8 +240,9 @@ export default function PremiumTierPage() {
                 </div>
                 
                 <div>
-                  <label className="block text-yellow-400 font-semibold mb-2">Investment Objectives</label>
+                  <label htmlFor="premium-objectives" className="block text-yellow-400 font-semibold mb-2">Investment Objectives</label>
                   <textarea
+                    id="premium-objectives"
                     name="objectives"
                     rows={4}
                     required
@@ -266,6 +296,7 @@ export default function PremiumTierPage() {
             </motion.div>
           </div>
         </section>
+      </div>
       </main>
     </>
   );

@@ -178,14 +178,14 @@
             class="text-xs md:text-sm rounded-lg border border-teal/30 px-3 py-2 hover:border-teal hover:shadow-glow transition"
             aria-pressed="false">Enter VIP Concierge</button>
           <a href="#" class="hidden md:inline-block text-xs md:text-sm rounded-lg bg-teal/90 text-navy px-3 py-2 font-semibold hover:bg-teal transition">Request Access</a>
-          <button id="menuBtn" class="md:hidden rounded-lg border border-white/20 px-3 py-2">Menu</button>
+          <button id="menuBtn" class="md:hidden rounded-lg border border-white/20 px-3 py-2" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileMenu">Menu</button>
         </div>
       </nav>
     </div>
   </header>
 
   <!-- Mobile menu -->
-  <div id="mobileMenu" class="fixed inset-x-4 top-20 z-30 hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur-md p-4">
+  <nav id="mobileMenu" class="fixed inset-x-4 top-20 z-30 hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur-md p-4" aria-label="Mobile navigation menu">
     <a href="#features" class="block py-2 border-b border-white/10">Features</a>
     <a href="#story" class="block py-2 border-b border-white/10">Story</a>
     <a href="#press" class="block py-2 border-b border-white/10">Press</a>
@@ -194,13 +194,13 @@
     <a href="/suggestly-ai-platform/business.html" class="local-only hidden block-on-show py-2 border-b border-white/10">Business Console</a>
     <a href="/admin" class="local-only hidden block-on-show py-2 border-b border-white/10">Admin</a>
     <a href="#contact" class="block py-2">Contact</a>
-  </div>
+  </nav>
 
   <!-- Spacer for fixed header -->
   <div class="h-24"></div>
 
   <!-- ========== Hero ========== -->
-  <section id="main" role="main" class="relative overflow-hidden">
+  <main id="main" class="relative overflow-hidden">
     <!-- animated gradient backdrop -->
     <div class="absolute inset-0 -z-10">
       <div class="absolute -inset-40 bg-[radial-gradient(60%_40%_at_20%_20%,rgba(0,255,198,0.18),transparent_60%),radial-gradient(40%_40%_at_80%_0%,rgba(255,255,255,0.15),transparent_60%)] animate-pulse"></div>
@@ -328,7 +328,7 @@
         </div>
       </div>
     </div>
-  </section>
+  </main>
 
   <!-- ========== Story Strip ========== -->
   <section id="story" class="relative overflow-hidden">
@@ -506,7 +506,9 @@
     const menuBtn = document.getElementById('menuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
     menuBtn?.addEventListener('click', () => {
+      const isHidden = mobileMenu.classList.contains('hidden');
       mobileMenu.classList.toggle('hidden');
+      menuBtn.setAttribute('aria-expanded', isHidden ? 'true' : 'false');
       track('nav_mobile_toggle', {open: !mobileMenu.classList.contains('hidden')});
     });
 

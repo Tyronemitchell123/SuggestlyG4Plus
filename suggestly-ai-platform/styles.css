@@ -5,6 +5,17 @@
 .skip-link { position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden; }
 .skip-link:focus { left: 1rem; top: 1rem; width: auto; height: auto; padding: 0.5rem 0.75rem; background: #0b1020; color: #fff; border: 2px solid #7877c6; border-radius: 8px; z-index: 20000; }
 
+/* Enhanced focus indicators for WCAG 2.1 AA compliance */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid #00ffc6;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
 /* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }

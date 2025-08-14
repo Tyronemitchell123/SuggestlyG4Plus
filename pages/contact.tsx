@@ -6,10 +6,15 @@ import { useState } from "react";
 
 export default function ContactPage() {
   const [loading, setLoading] = useState(false);
+  const [statusMessage, setStatusMessage] = useState("");
+  const [isError, setIsError] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    setStatusMessage("");
+    setIsError(false);
+    
     const formData = new FormData(e.currentTarget);
     const payload = Object.fromEntries(formData.entries());
 
@@ -20,10 +25,12 @@ export default function ContactPage() {
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error("Network error");
-      alert("Message sent successfully. We'll respond within 24 hours.");
+      setStatusMessage("Message sent successfully. We'll respond within 24 hours.");
+      setIsError(false);
       e.currentTarget.reset();
     } catch (err) {
-      alert("Error sending message. Please try again.");
+      setStatusMessage("Error sending message. Please try again.");
+      setIsError(true);
     } finally {
       setLoading(false);
     }
@@ -41,9 +48,10 @@ export default function ContactPage() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-      <main className="bg-black text-white font-sans min-h-screen">
+      <main id="main" className="bg-black text-white font-sans min-h-screen">
         {/* Navigation */}
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-yellow-500/20 p-4">
+        <header>
+          <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-yellow-500/20 p-4" aria-label="Main navigation">
           <div className="max-w-6xl mx-auto flex justify-between items-center">
             <Link href="/" className="text-yellow-400 font-bold text-xl">Aurum Private</Link>
             <div className="flex space-x-6">
@@ -62,6 +70,7 @@ export default function ContactPage() {
             </div>
           </div>
         </nav>
+        </header>
 
         {/* Hero Section */}
         <section className="relative pt-24 pb-16 px-4">
@@ -134,14 +143,31 @@ export default function ContactPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <h2 className="text-3xl font-bold text-yellow-400 mb-8 text-center">
+              <h2 id="contact-form-title" className="text-3xl font-bold text-yellow-400 mb-8 text-center">
                 Send Us a Message
               </h2>
               
-              <form onSubmit={handleSubmit} className="bg-zinc-800 p-8 rounded-xl border border-yellow-500/30 space-y-6">
+              {/* Status message for screen readers */}
+              <div 
+                aria-live={isError ? "assertive" : "polite"}
+                aria-atomic="true"
+                className={`mb-6 p-4 rounded-lg text-center ${
+                  statusMessage 
+                    ? isError 
+                      ? 'bg-red-900/50 text-red-200 border border-red-700/50' 
+                      : 'bg-green-900/50 text-green-200 border border-green-700/50'
+                    : 'sr-only'
+                }`}
+                role={isError ? "alert" : "status"}
+              >
+                {statusMessage && statusMessage}
+              </div>
+              
+              <form onSubmit={handleSubmit} className="bg-zinc-800 p-8 rounded-xl border border-yellow-500/30 space-y-6" aria-labelledby="contact-form-title">
                 <div>
-                  <label className="block text-yellow-400 font-semibold mb-2">Full Name</label>
+                  <label htmlFor="contact-name" className="block text-yellow-400 font-semibold mb-2">Full Name</label>
                   <input
+                    id="contact-name"
                     name="name"
                     type="text"
                     required
@@ -150,8 +176,9 @@ export default function ContactPage() {
                 </div>
                 
                 <div>
-                  <label className="block text-yellow-400 font-semibold mb-2">Email Address</label>
+                  <label htmlFor="contact-email" className="block text-yellow-400 font-semibold mb-2">Email Address</label>
                   <input
+                    id="contact-email"
                     name="email"
                     type="email"
                     required
@@ -160,8 +187,9 @@ export default function ContactPage() {
                 </div>
                 
                 <div>
-                  <label className="block text-yellow-400 font-semibold mb-2">Company</label>
+                  <label htmlFor="contact-company" className="block text-yellow-400 font-semibold mb-2">Company</label>
                   <input
+                    id="contact-company"
                     name="company"
                     type="text"
                     className="w-full p-3 rounded bg-zinc-900 text-white border border-yellow-500/20 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/50 outline-none transition duration-200"
@@ -169,8 +197,9 @@ export default function ContactPage() {
                 </div>
                 
                 <div>
-                  <label className="block text-yellow-400 font-semibold mb-2">Subject</label>
+                  <label htmlFor="contact-subject" className="block text-yellow-400 font-semibold mb-2">Subject</label>
                   <select
+                    id="contact-subject"
                     name="subject"
                     required
                     className="w-full p-3 rounded bg-zinc-900 text-white border border-yellow-500/20 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/50 outline-none transition duration-200"
@@ -186,8 +215,9 @@ export default function ContactPage() {
                 </div>
                 
                 <div>
-                  <label className="block text-yellow-400 font-semibold mb-2">Message</label>
+                  <label htmlFor="contact-message" className="block text-yellow-400 font-semibold mb-2">Message</label>
                   <textarea
+                    id="contact-message"
                     name="message"
                     rows={5}
                     required
