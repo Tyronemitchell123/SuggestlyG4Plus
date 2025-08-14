@@ -6,8 +6,8 @@
       "use": "@vercel/static-build",
       "config": {
         "distDir": "build",
-        "installCommand": "npm ci --prefer-offline --no-audit",
-        "buildCommand": "npm run build:clean"
+        "installCommand": "npm ci",
+        "buildCommand": "npm run build"
       }
     }
   ],
@@ -99,13 +99,5 @@
   ],
   "env": {
     "CI": "false"
-  },
-  "git": {
-    "deploymentEnabled": false
-  },
-  "functions": {
-    "api/**/*.js": {
-      "maxDuration": 30
-    }
   }
 }
