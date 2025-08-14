@@ -1,8 +1,15 @@
 # Secrets and sensitive local files
 admin_password.txt
 admin_token.txt
-*.env
-.env*
+# Environment files (but allow examples)
+.env
+.env.local
+.env.production
+.env.staging
+.env.test
+# Allow example files
+!.env.example
+!.env.local.example
 
 # Python
 __pycache__/
@@ -36,7 +43,6 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -48,6 +54,8 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+# Allow Next.js lib directory
+!lib/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
