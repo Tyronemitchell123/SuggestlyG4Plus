@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { stripe } from '../../lib/stripe';
+// import { stripe } from '../../lib/stripe';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -7,6 +7,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).end('Method Not Allowed');
   }
 
+  // Temporarily disabled for development
+  return res.status(501).json({ error: 'Meter events temporarily disabled' });
+
+  /*
   try {
     const {
       eventName,
@@ -39,6 +43,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } catch (err: any) {
     return res.status(500).json({ error: err.message || 'Stripe meter event error' });
   }
+  */
 }
 
 
