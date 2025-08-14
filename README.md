@@ -76,6 +76,16 @@ vercel domains add suggestlyg4plus.io
 3. Configure custom domain: `suggestlyg4plus.io`
 4. Deploy automatically on push
 
+### Automatic Deploys
+The repository includes GitHub Actions workflow for automated deployments to Vercel. To enable automatic deployments:
+
+**Required Repository Secrets:**
+- `VERCEL_TOKEN` - Get from [Vercel Account Tokens](https://vercel.com/account/tokens)
+- `VERCEL_ORG_ID` - Find in your Vercel project settings
+- `VERCEL_PROJECT_ID` - Find in your Vercel project settings
+
+Once configured, deployments automatically trigger on every push to the main branch. Maintainers can also manually trigger deployments via the [GitHub Actions tab](../../actions/workflows/deploy.yml).
+
 ## 🌐 Multi-Site Hosting Usage
 
 ### Accessing the Site Manager
