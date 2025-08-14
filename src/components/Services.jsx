@@ -6,12 +6,8 @@ import {
   Zap, 
   Shield, 
   Brain, 
-  Globe, 
-  Lock, 
   BarChart3, 
   Cpu,
-  Database,
-  Network,
   Rocket,
   Target
 } from 'lucide-react';

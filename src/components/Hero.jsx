@@ -23,7 +23,7 @@ const Hero = () => {
     threshold: 0.1
   });
 
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const [isVideoPlaying] = useState(false);
   const [currentStat, setCurrentStat] = useState(0);
 
   const { scrollY } = useScroll();
@@ -53,7 +53,7 @@ const Hero = () => {
   };
 
   const handleWatchDemo = () => {
-    setIsVideoPlaying(true);
+    // setIsVideoPlaying(true);
     // In a real implementation, this would open a video modal
     alert('Demo video would play here. Contact us for a live demonstration.');
   };

@@ -39,7 +39,7 @@ export const useAnalytics = () => {
         page_location: window.location.href
       });
     }
-  }, []);
+  }, [setAnalyticsData]);
 
   const trackEvent = useCallback((eventName, parameters = {}) => {
     setAnalyticsData(prev => ({

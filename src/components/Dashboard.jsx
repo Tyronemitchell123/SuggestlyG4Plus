@@ -6,26 +6,21 @@ import {
   DollarSign, 
   Target, 
   Crown, 
-  Shield, 
   Activity, 
   BarChart3, 
   PieChart, 
-  Calendar,
   Mail,
   Phone,
   MessageSquare,
   Star,
   ArrowUp,
   ArrowDown,
-  Eye,
-  Clock,
-  CheckCircle,
-  AlertCircle
+  Clock
 } from 'lucide-react';
 
 const Dashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [stats, setStats] = useState({
+  const [stats] = useState({
     totalRevenue: 2847500,
     activeSubscriptions: 47,
     conversionRate: 23.4,

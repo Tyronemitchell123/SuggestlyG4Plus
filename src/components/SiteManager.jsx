@@ -3,7 +3,6 @@ import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { 
   Plus, 
-  Settings, 
   Edit, 
   Trash2, 
   Eye, 
@@ -21,7 +20,7 @@ const SiteManager = () => {
   const { sites, addSite, updateSite, deleteSite } = useSiteManager();
   const [isAddingSite, setIsAddingSite] = useState(false);
   const [editingSite, setEditingSite] = useState(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleAddSite = (siteData) => {
     try {

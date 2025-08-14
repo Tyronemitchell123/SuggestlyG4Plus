@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Mail, Phone, MapPin, Clock, Send, Shield, Crown, MessageSquare } from 'lucide-react';
+import { Mail, Phone, Send, Shield, Crown, MessageSquare } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 

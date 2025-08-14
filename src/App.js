@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Toaster } from 'react-hot-toast';
 
@@ -24,7 +24,7 @@ import { useSiteManager } from './hooks/useSiteManager';
 function App() {
   const { initializeAnalytics } = useAnalytics();
   const { initializePaymentSystem } = usePaymentSystem();
-  const { currentSite, sites, isLoading } = useSiteManager();
+  const { currentSite, isLoading } = useSiteManager();
 
   React.useEffect(() => {
     // Initialize all systems
@@ -33,7 +33,7 @@ function App() {
   }, [initializeAnalytics, initializePaymentSystem]);
 
   // Determine if we're on the main platform or a hosted site
-  const isMainPlatform = !currentSite || window.location.pathname.startsWith('/admin');
+  // const isMainPlatform = !currentSite || window.location.pathname.startsWith('/admin');
 
   if (isLoading) {
     return <LoadingScreen />;
