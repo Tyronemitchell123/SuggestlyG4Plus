@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { stripe } from '../../lib/stripe';
+// import { stripe } from '../../lib/stripe';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
@@ -7,6 +7,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(405).end('Method Not Allowed');
   }
 
+  // Temporarily disabled for development
+  return res.status(501).json({ error: 'Payment processing temporarily disabled' });
+
+  /*
   try {
     const { amount, currency = 'gbp' } = req.body as { amount?: number; currency?: string };
     if (!amount || amount < 1) {
@@ -18,6 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   } catch (err: any) {
     return res.status(500).json({ error: err.message || 'Stripe error' });
   }
+  */
 }
 
 
