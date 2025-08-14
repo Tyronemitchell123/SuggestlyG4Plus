@@ -32,9 +32,6 @@ function App() {
     initializePaymentSystem();
   }, [initializeAnalytics, initializePaymentSystem]);
 
-  // Determine if we're on the main platform or a hosted site
-  // const isMainPlatform = !currentSite || window.location.pathname.startsWith('/admin');
-
   if (isLoading) {
     return <LoadingScreen />;
   }

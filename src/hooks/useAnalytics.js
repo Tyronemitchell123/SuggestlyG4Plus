@@ -9,6 +9,20 @@ export const useAnalytics = () => {
     leads: []
   });
 
+  const trackPageView = useCallback(() => {
+    setAnalyticsData(prev => ({
+      ...prev,
+      pageViews: prev.pageViews + 1
+    }));
+
+    if (typeof window !== 'undefined' && window.gtag) {
+      window.gtag('event', 'page_view', {
+        page_title: document.title,
+        page_location: window.location.href
+      });
+    }
+  }, [setAnalyticsData]);
+
   const initializeAnalytics = useCallback(() => {
     // Initialize Google Analytics
     if (typeof window !== 'undefined' && window.gtag) {
@@ -25,21 +39,7 @@ export const useAnalytics = () => {
 
     // Track page view
     trackPageView();
-  }, []);
-
-  const trackPageView = useCallback(() => {
-    setAnalyticsData(prev => ({
-      ...prev,
-      pageViews: prev.pageViews + 1
-    }));
-
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'page_view', {
-        page_title: document.title,
-        page_location: window.location.href
-      });
-    }
-  }, [setAnalyticsData]);
+  }, [trackPageView]);
 
   const trackEvent = useCallback((eventName, parameters = {}) => {
     setAnalyticsData(prev => ({
