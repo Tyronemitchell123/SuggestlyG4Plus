@@ -2,6 +2,7 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
+import Logo from "../src/components/Logo";
 
 export default function HomePage() {
   const reduceMotion = useReducedMotion();
@@ -115,7 +116,10 @@ export default function HomePage() {
                 transition={{ type: 'spring', stiffness: 120, damping: 12 }}
                 className="glass rounded-2xl p-8 border-yellow-500/20 hover:border-yellow-400/40 transition-all duration-500"
               >
-                <div className="text-4xl font-bold text-yellow-300 mb-4">SuggestlyG4Plus</div>
+                <div className="flex items-center space-x-4 mb-4">
+                  <Logo size="lg" />
+                  <div className="text-4xl font-bold text-yellow-300">SuggestlyG4Plus</div>
+                </div>
                 <h3 className="text-2xl font-bold mb-4 text-white">Advanced AI Platform</h3>
                 <p className="text-gray-300 mb-6 leading-relaxed">
                   Next-generation AI platform with multi-agent intelligence,
