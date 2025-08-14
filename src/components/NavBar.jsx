@@ -8,10 +8,16 @@ const NavBar = () => {
           <div className="flex items-center">
             <div className="text-xl font-bold text-gray-900">Suggestly Elite</div>
           </div>
-          <div className="flex items-center space-x-4">
-            <a href="#" className="text-gray-700 hover:text-gray-900">Home</a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">Services</a>
-            <a href="#" className="text-gray-700 hover:text-gray-900">Contact</a>
+          <div className="hidden md:flex items-center space-x-8">
+            <button className="text-luxury-light hover:text-luxury-gold transition-colors duration-300">
+              Services
+            </button>
+            <button className="text-luxury-light hover:text-luxury-gold transition-colors duration-300">
+              Features
+            </button>
+            <button className="text-luxury-light hover:text-luxury-gold transition-colors duration-300">
+              Pricing
+            </button>
           </div>
         </div>
       </div>

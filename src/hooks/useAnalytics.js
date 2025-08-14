@@ -1,4 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+
+// Google Analytics configuration
+const GA_TRACKING_ID = 'G-TEST123456';
+
+// Declare gtag function globally
+const gtag = typeof window !== 'undefined' ? window.gtag : undefined;
 
 export const useAnalytics = () => {
   const [analyticsData, setAnalyticsData] = useState({
@@ -49,7 +55,7 @@ export const useAnalytics = () => {
         value: value
       });
     }
-  }, [trackPageView]);
+  }, []);
 
   const trackConversion = useCallback((conversionData) => {
     setAnalyticsData(prev => ({

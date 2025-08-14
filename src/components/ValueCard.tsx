@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 
 interface ValueCardProps {
   icon: React.ComponentType<{ className?: string }>;
