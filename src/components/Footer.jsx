@@ -228,15 +228,17 @@ const Footer = () => {
           <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
             <div className="flex items-center space-x-6 text-sm text-luxury-gray">
               <span>&copy; 2024 SUGGESTLY ELITE. All rights reserved.</span>
-              <button className="hover:text-luxury-gold transition-colors duration-300">
-                Privacy Policy
-              </button>
-              <button className="hover:text-luxury-gold transition-colors duration-300">
-                Terms of Service
-              </button>
-              <button className="hover:text-luxury-gold transition-colors duration-300">
-                Cookie Policy
-              </button>
+              <div className="flex space-x-4">
+                  <button className="text-luxury-gray hover:text-luxury-gold transition-colors duration-300">
+                    Privacy Policy
+                  </button>
+                  <button className="text-luxury-gray hover:text-luxury-gold transition-colors duration-300">
+                    Terms of Service
+                  </button>
+                  <button className="text-luxury-gray hover:text-luxury-gold transition-colors duration-300">
+                    Cookie Policy
+                  </button>
+                </div>
             </div>
 
             <motion.button

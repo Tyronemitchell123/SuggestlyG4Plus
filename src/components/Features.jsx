@@ -2,18 +2,16 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { 
-  Brain, 
+  Crown, 
   Zap, 
   Shield, 
-  Globe, 
+  Brain, 
   BarChart3, 
-  Rocket,
+  Globe,
   Target,
-  Users,
+  Award,
   Clock,
-  Star,
-  TrendingUp,
-  Award
+  Star
 } from 'lucide-react';
 
 const Features = () => {
@@ -48,13 +46,13 @@ const Features = () => {
       benefits: ['95% accuracy', 'Real-time insights', 'Custom algorithms']
     },
     {
-      icon: Users,
+      icon: Crown,
       title: 'Elite Support Team',
       description: 'Dedicated AI strategists and engineers available 24/7 for your success.',
       benefits: ['24/7 availability', 'Expert strategists', 'Priority response']
     },
     {
-      icon: Rocket,
+      icon: Zap,
       title: 'Rapid Deployment',
       description: 'Quick implementation of AI solutions with minimal disruption to your operations.',
       benefits: ['30-day deployment', 'Zero downtime', 'Seamless integration']
@@ -64,19 +62,13 @@ const Features = () => {
       title: 'Precision Targeting',
       description: 'Laser-focused AI models designed for your specific industry and use case.',
       benefits: ['Industry-specific', 'Custom training', 'Optimized performance']
-    },
-    {
-      icon: TrendingUp,
-      title: 'Scalable Growth',
-      description: 'AI infrastructure that grows with your business, from startup to enterprise.',
-      benefits: ['Auto-scaling', 'Performance monitoring', 'Cost optimization']
     }
   ];
 
   const stats = [
     { number: '99.9%', label: 'Uptime Guarantee', icon: Clock },
     { number: '1000x', label: 'Faster Processing', icon: Zap },
-    { number: '24/7', label: 'Expert Support', icon: Users },
+    { number: '24/7', label: 'Expert Support', icon: Crown },
     { number: '95%', label: 'Accuracy Rate', icon: Target }
   ];
 

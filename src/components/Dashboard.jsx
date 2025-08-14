@@ -1,34 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import { 
+  Crown, 
   TrendingUp, 
   Users, 
   DollarSign, 
-  Target, 
-  Crown, 
-  Activity, 
-  BarChart3, 
-  PieChart, 
+  Activity,
+  BarChart3,
+  PieChart,
+  ArrowUp,
+  ArrowDown,
+  Clock,
   Mail,
   Phone,
   MessageSquare,
-  Star,
-  ArrowUp,
-  ArrowDown,
-  Clock
+  Star
 } from 'lucide-react';
 
 const Dashboard = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [stats] = useState({
-    totalRevenue: 2847500,
-    activeSubscriptions: 47,
-    conversionRate: 23.4,
-    hotLeads: 12,
-    monthlyGrowth: 18.7,
-    avgDealSize: 60500,
-    responseTime: 1.2,
-    satisfactionScore: 98.5
+    totalRevenue: 2500000,
+    activeUsers: 500,
+    successRate: 99.9,
+    responseTime: 0.2
   });
 
   useEffect(() => {
@@ -214,7 +210,7 @@ const Dashboard = () => {
             title="Conversion Rate"
             value={`${stats.conversionRate}%`}
             change={5.2}
-            icon={Target}
+            icon={Star}
             color="from-purple-600 to-pink-500"
           />
           <StatCard

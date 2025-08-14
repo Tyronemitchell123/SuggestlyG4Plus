@@ -9,19 +9,19 @@ export const useAnalytics = () => {
     leads: []
   });
 
-  const trackPageView = useCallback(() => {
-    setAnalyticsData(prev => ({
-      ...prev,
-      pageViews: prev.pageViews + 1
-    }));
-
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', 'page_view', {
-        page_title: document.title,
-        page_location: window.location.href
+  const trackPageView = useCallback((pageTitle, pagePath) => {
+    if (typeof gtag !== 'undefined') {
+      gtag('config', GA_TRACKING_ID, {
+        page_title: pageTitle,
+        page_location: pagePath,
+        custom_map: {
+          'custom_parameter_1': 'service_tier',
+          'custom_parameter_2': 'lead_quality',
+          'custom_parameter_3': 'user_type'
+        }
       });
     }
-  }, [setAnalyticsData]);
+  }, []);
 
   const initializeAnalytics = useCallback(() => {
     // Initialize Google Analytics
@@ -41,19 +41,15 @@ export const useAnalytics = () => {
     trackPageView();
   }, [trackPageView]);
 
-  const trackEvent = useCallback((eventName, parameters = {}) => {
-    setAnalyticsData(prev => ({
-      ...prev,
-      interactions: prev.interactions + 1
-    }));
-
-    if (typeof window !== 'undefined' && window.gtag) {
-      window.gtag('event', eventName, {
-        ...parameters,
-        timestamp: new Date().toISOString()
+  const trackEvent = useCallback((action, category, label, value) => {
+    if (typeof gtag !== 'undefined') {
+      gtag('event', action, {
+        event_category: category,
+        event_label: label,
+        value: value
       });
     }
-  }, []);
+  }, [trackPageView]);
 
   const trackConversion = useCallback((conversionData) => {
     setAnalyticsData(prev => ({

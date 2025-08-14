@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import { 
+  Crown, 
+  Zap, 
   Plus, 
   Edit, 
   Trash2, 
-  Eye, 
-  Globe, 
-  Palette, 
-  FileText,
-  ArrowLeft,
-  Save,
-  X
+  Eye,
+  Globe,
+  Lock,
+  Users,
+  Activity
 } from 'lucide-react';
 import { useSiteManager } from '../hooks/useSiteManager';
 import toast from 'react-hot-toast';

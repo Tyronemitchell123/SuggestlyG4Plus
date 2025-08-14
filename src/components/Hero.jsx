@@ -23,7 +23,6 @@ const Hero = () => {
     threshold: 0.1
   });
 
-  // const [isVideoPlaying] = useState(false);
   const [currentStat, setCurrentStat] = useState(0);
 
   const { scrollY } = useScroll();

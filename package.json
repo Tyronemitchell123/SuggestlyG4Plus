@@ -34,6 +34,7 @@
     "@types/node": "^24.2.1",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
+    "prettier": "^3.0.0",
     "typescript": "^5.9.2"
   },
   "scripts": {
@@ -41,9 +42,16 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
+    "lint:check": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,md}",
+    "format:check": "prettier --check src/**/*.{js,jsx,ts,tsx,css,md}",
+    "type-check": "tsc --noEmit",
     "security-check": "npm audit",
     "security-fix": "npm audit fix",
-    "security-fix-force": "npm audit fix --force"
+    "security-fix-force": "npm audit fix --force",
+    "build:clean": "rm -rf build && npm run build",
+    "prebuild": "npm run lint:check && npm run type-check"
   },
   "eslintConfig": {
     "extends": [

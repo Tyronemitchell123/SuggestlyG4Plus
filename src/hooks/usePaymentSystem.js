@@ -127,7 +127,7 @@ export const usePaymentSystem = () => {
   const validatePaymentMethod = useCallback((paymentMethod) => {
     const errors = [];
 
-    if (paymentMethod.type === 'card') {
+    if ((paymentMethod && paymentMethod.type === 'card') || (paymentMethod && paymentMethod.type === 'bank_account')) {
       if (!paymentMethod.cardNumber || paymentMethod.cardNumber.replace(/\s/g, '').length < 13) {
         errors.push('Invalid card number');
       }

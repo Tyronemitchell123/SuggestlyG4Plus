@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Mail, Phone, Send, Shield, Crown, MessageSquare } from 'lucide-react';
+import { Mail, Phone, Send, CheckCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
@@ -37,7 +37,7 @@ const Contact = () => {
       color: "from-green-600 to-emerald-500"
     },
     {
-      icon: MessageSquare,
+      icon: CheckCircle,
       title: "Secure Portal",
       description: "Confidential client portal access",
       contact: "portal.suggestlyelite.io",
@@ -163,7 +163,7 @@ Contact: tyrone.mitchell76@hotmail.com
           <div className="bg-glass backdrop-blur-md border border-luxury-gold/20 rounded-2xl p-8">
             <div className="text-center mb-8">
               <div className="w-16 h-16 bg-gradient-to-r from-luxury-gold to-yellow-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <Crown className="w-8 h-8 text-black" />
+                <CheckCircle className="w-8 h-8 text-black" />
               </div>
               <h3 className="text-3xl font-display font-bold text-luxury-light mb-2">
                 Request Elite Consultation
@@ -379,7 +379,7 @@ Contact: tyrone.mitchell76@hotmail.com
               </div>
 
               <div className="flex items-center justify-center space-x-4 pt-6">
-                <Shield className="w-5 h-5 text-luxury-gold" />
+                <CheckCircle className="w-5 h-5 text-luxury-gold" />
                 <span className="text-luxury-gray text-sm">
                   All information is encrypted and protected by bank-grade security protocols
                 </span>

@@ -8,7 +8,7 @@ import {
   Brain, 
   BarChart3, 
   Cpu,
-
+  Target
 } from 'lucide-react';
 
 const Services = () => {
