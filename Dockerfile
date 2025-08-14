@@ -16,8 +16,11 @@ COPY . .
 # Build the app
 RUN npm run build
 
-# Expose port
+# Make start script executable
+RUN chmod +x start.sh
+
+# Expose port (Railway will override this)
 EXPOSE 3000
 
-# Start the app using npx serve (no need to install globally)
-CMD ["npx", "serve", "-s", "build", "-l", "3000"]
+# Start the app using the start script
+CMD ["./start.sh"]
