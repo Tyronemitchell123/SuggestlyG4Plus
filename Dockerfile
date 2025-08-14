@@ -16,11 +16,8 @@ COPY . .
 # Build the app
 RUN npm run build
 
-# Install serve globally
-RUN npm install -g serve
-
 # Expose port
 EXPOSE 3000
 
-# Start the app
-CMD ["serve", "-s", "build", "-l", "3000"]
+# Start the app using npx serve (no need to install globally)
+CMD ["npx", "serve", "-s", "build", "-l", "3000"]

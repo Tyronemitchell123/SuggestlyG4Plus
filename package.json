@@ -21,7 +21,6 @@
     "react-intersection-observer": "^9.5.3",
     "react-router-dom": "^6.15.0",
     "react-scripts": "^5.0.1",
-    "serve": "^14.2.1",
     "three": "^0.179.1",
     "workbox-webpack-plugin": "^7.3.0"
   },
@@ -45,9 +44,7 @@
     "security-check": "npm audit",
     "security-fix": "npm audit fix",
     "security-fix-force": "npm audit fix --force",
-    "build:clean": "rm -rf build && npm run build",
-    "serve": "serve -s build -l 3000",
-    "railway:start": "npm run build && serve -s build -l $PORT"
+    "build:clean": "rm -rf build"
   },
   "eslintConfig": {
     "extends": [
