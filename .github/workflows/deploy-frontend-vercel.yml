@@ -26,10 +26,35 @@ jobs:
         with:
           node-version: 22
 
+      - name: Sync Environment Variables to Vercel
+        if: ${{ secrets.VERCEL_TOKEN && secrets.VERCEL_ORG_ID && secrets.VERCEL_PROJECT_ID_FRONTEND }}
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID_FRONTEND }}
+          # API Keys and Secrets
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_WEBHOOK_SECRET: ${{ secrets.STRIPE_WEBHOOK_SECRET }}
+          ALPHA_VANTAGE_API_KEY: ${{ secrets.ALPHA_VANTAGE_API_KEY }}
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
+          POLYGON_API_KEY: ${{ secrets.POLYGON_API_KEY }}
+          COINGECKO_API_KEY: ${{ secrets.COINGECKO_API_KEY }}
+          TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          HUBSPOT_PRIVATE_APP_TOKEN: ${{ secrets.HUBSPOT_PRIVATE_APP_TOKEN }}
+          HUBSPOT_API_KEY: ${{ secrets.HUBSPOT_API_KEY }}
+          CALENDLY_SCHEDULING_LINK: ${{ secrets.CALENDLY_SCHEDULING_LINK }}
+          BUSINESS_SUCCESS_URL: ${{ secrets.BUSINESS_SUCCESS_URL }}
+          BUSINESS_CANCEL_URL: ${{ secrets.BUSINESS_CANCEL_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          npm i -g @vercel/cli
+          chmod +x ./scripts/vercel_sync_envs.sh
+          ./scripts/vercel_sync_envs.sh production
+
       - name: Deploy via Vercel CLI (token-based)
         if: ${{ secrets.VERCEL_TOKEN && secrets.VERCEL_ORG_ID && secrets.VERCEL_PROJECT_ID_FRONTEND }}
         run: |
-          npm i -g vercel@latest
           vercel pull --yes --environment=production --token "${{ secrets.VERCEL_TOKEN }}"
           echo "No build step needed for static site"
           vercel deploy --prod --token "${{ secrets.VERCEL_TOKEN }}" --yes

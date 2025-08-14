@@ -21,9 +21,41 @@ SuggestlyG4Plus is a modern, user-friendly platform that helps you collect, anal
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/Tyronemitchell123/SuggestlyG4Plus.git
+   cd SuggestlyG4Plus
    ```
-2. **Deploy on your preferred hosting platform.**
-3. **Integrate the widget into your site and start collecting suggestions.**
+
+2. **Set up environment variables:**
+   ```bash
+   # For Next.js development
+   cp .env.local.example .env.local
+   
+   # For Python scripts
+   cp .env.example .env
+   ```
+   
+   Fill in your API keys following the [FREE_DEV_KEYS.md](FREE_DEV_KEYS.md) guide.
+
+3. **Install dependencies:**
+   ```bash
+   npm install
+   pip install -r requirements.txt
+   ```
+
+4. **Start development:**
+   ```bash
+   # Next.js development server
+   npm run dev
+   
+   # Python integrations (in separate terminal)
+   export $(cat .env | xargs)
+   python real_world_integration.py
+   ```
+
+5. **Deploy on your preferred hosting platform.**
+
+6. **Integrate the widget into your site and start collecting suggestions.**
+
+**📖 For detailed API key setup instructions, see [FREE_DEV_KEYS.md](FREE_DEV_KEYS.md)**
 
 ---
 

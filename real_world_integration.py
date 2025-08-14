@@ -40,7 +40,14 @@ class RealWorldTechIntegrator:
             'twilio': os.getenv('TWILIO_API_KEY'),
             'sendgrid': os.getenv('SENDGRID_API_KEY')
         }
-        logger.info("✅ API keys loaded successfully")
+        
+        # Count loaded and missing keys for secure logging
+        loaded_keys = [k for k, v in self.api_keys.items() if v]
+        missing_keys = [k for k, v in self.api_keys.items() if not v]
+        
+        logger.info(f"✅ API keys loaded: {len(loaded_keys)} found, {len(missing_keys)} missing")
+        if missing_keys:
+            logger.warning(f"⚠️ Missing API keys for: {', '.join(missing_keys)} - related features will be disabled")
 
     async def integrate_financial_apis(self):
         """Integrate real-time financial data APIs"""
