@@ -1,0 +1,208 @@
+/**
+ * Logo.module.css - Styles for the Animated SVG Logo Component
+ * 
+ * Features:
+ * - CSS gradient animations for smooth color transitions
+ * - Glow effects for premium feel
+ * - Responsive hover states
+ * - Performance-optimized animations using transform and opacity
+ * - Brand color integration (purple-400, pink-400, blue-400)
+ * - Accessibility-friendly reduced motion support
+ */
+
+/* Logo container base styles */
+.logoContainer {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* SVG logo styles */
+.logoSvg {
+  z-index: 2;
+  position: relative;
+  filter: drop-shadow(0 4px 6px rgba(139, 92, 246, 0.25));
+  transition: filter 0.3s ease;
+}
+
+/* Logo container hover effects */
+.logoContainer:hover .logoSvg {
+  filter: drop-shadow(0 8px 25px rgba(139, 92, 246, 0.4));
+}
+
+/* Main logo path styling */
+.logoPath {
+  transition: all 0.3s ease;
+}
+
+/* Gradient color definitions for brand consistency */
+.logoGradientStart {
+  stop-color: #a855f7; /* purple-500 */
+  animation: gradientShift 4s ease-in-out infinite;
+}
+
+.logoGradientMiddle {
+  stop-color: #ec4899; /* pink-500 */
+  animation: gradientShift 4s ease-in-out infinite 0.5s;
+}
+
+.logoGradientEnd {
+  stop-color: #3b82f6; /* blue-500 */
+  animation: gradientShift 4s ease-in-out infinite 1s;
+}
+
+/* Hover state gradient colors */
+.logoGradientHoverStart {
+  stop-color: #8b5cf6; /* purple-400 */
+}
+
+.logoGradientHoverMiddle {
+  stop-color: #f472b6; /* pink-400 */
+}
+
+.logoGradientHoverEnd {
+  stop-color: #60a5fa; /* blue-400 */
+}
+
+/* Background glow effect */
+.logoGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(
+    circle,
+    rgba(139, 92, 246, 0.1) 0%,
+    rgba(236, 72, 153, 0.1) 50%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+/* Show glow on hover */
+.logoContainer:hover .logoGlow {
+  opacity: 1;
+}
+
+/* Focus styles for accessibility */
+.logoContainer:focus {
+  outline: 2px solid #a855f7;
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.logoContainer:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Click animation */
+.logoContainer:active {
+  transform: scale(0.95);
+}
+
+/* Keyframe animations */
+@keyframes gradientShift {
+  0%, 100% {
+    stop-color: currentColor;
+  }
+  25% {
+    stop-color: #a855f7; /* purple-500 */
+  }
+  50% {
+    stop-color: #ec4899; /* pink-500 */
+  }
+  75% {
+    stop-color: #3b82f6; /* blue-500 */
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    opacity: 0.2;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+/* Reduced motion support for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .logoContainer,
+  .logoSvg,
+  .logoPath,
+  .logoGlow {
+    animation: none;
+    transition: none;
+  }
+  
+  .logoContainer:hover .logoSvg {
+    filter: drop-shadow(0 4px 6px rgba(139, 92, 246, 0.25));
+  }
+  
+  .logoGlow {
+    opacity: 0.1;
+  }
+  
+  .logoContainer:hover .logoGlow {
+    opacity: 0.2;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .logoGradientStart,
+  .logoGradientMiddle,
+  .logoGradientEnd {
+    stop-color: currentColor;
+  }
+  
+  .logoSvg {
+    filter: none;
+  }
+  
+  .logoGlow {
+    display: none;
+  }
+}
+
+/* Dark mode considerations */
+@media (prefers-color-scheme: dark) {
+  .logoSvg {
+    filter: drop-shadow(0 4px 6px rgba(139, 92, 246, 0.35));
+  }
+  
+  .logoContainer:hover .logoSvg {
+    filter: drop-shadow(0 8px 25px rgba(139, 92, 246, 0.5));
+  }
+}
+
+/* Print styles */
+@media print {
+  .logoContainer {
+    filter: none !important;
+  }
+  
+  .logoSvg {
+    filter: none !important;
+  }
+  
+  .logoGlow {
+    display: none !important;
+  }
+  
+  .logoGradientStart,
+  .logoGradientMiddle,
+  .logoGradientEnd {
+    stop-color: #000 !important;
+  }
+}
