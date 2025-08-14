@@ -2,6 +2,7 @@ import React from "react";
 import Head from "next/head";
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
+import Logo from "../src/components";
 
 export default function HomePage() {
   const reduceMotion = useReducedMotion();
@@ -22,6 +23,16 @@ export default function HomePage() {
           {!reduceMotion && <div className="gold-beams" />}
 
           <div className="relative z-10 text-center max-w-6xl mx-auto">
+            {/* Animated Logo */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="mb-8 flex justify-center"
+            >
+              <Logo size={160} animate={!reduceMotion} />
+            </motion.div>
+            
             <motion.h1
               initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
