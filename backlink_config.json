@@ -1,0 +1,224 @@
+{
+  "project": {
+    "name": "SuggestlyG4Plus",
+    "url": "https://suggestlyg4plus.io/",
+    "description": "AI-Powered Feedback & Suggestions for Smarter Product Growth",
+    "keywords": [
+      "ai feedback tool",
+      "user suggestion platform",
+      "website feedback widget",
+      "customer feedback software",
+      "product improvement tool",
+      "real-time feedback analysis"
+    ],
+    "contact_email": "tyrone.mitchell76@hotmail.com"
+  },
+  "directories": [
+    {
+      "name": "Product Hunt",
+      "url": "https://www.producthunt.com/",
+      "submit_url": "https://www.producthunt.com/posts/new",
+      "type": "product_directory",
+      "enabled": true,
+      "simulation_mode": true,
+      "description": "Launch products and get early user feedback"
+    },
+    {
+      "name": "G2",
+      "url": "https://www.g2.com/",
+      "submit_url": "https://www.g2.com/products/new",
+      "type": "review_platform",
+      "enabled": true,
+      "simulation_mode": true,
+      "description": "Business software reviews and comparisons"
+    },
+    {
+      "name": "Capterra",
+      "url": "https://www.capterra.com/",
+      "submit_url": "https://www.capterra.com/vendors/sign-up",
+      "type": "software_directory",
+      "enabled": true,
+      "simulation_mode": true,
+      "description": "Business software discovery platform"
+    },
+    {
+      "name": "AlternativeTo",
+      "url": "https://alternativeto.net/",
+      "submit_url": "https://alternativeto.net/software/new/",
+      "type": "alternatives_directory",
+      "enabled": true,
+      "simulation_mode": true,
+      "description": "Find alternatives to software and web services"
+    },
+    {
+      "name": "GetApp",
+      "url": "https://www.getapp.com/",
+      "submit_url": "https://www.getapp.com/vendors/",
+      "type": "software_marketplace",
+      "enabled": true,
+      "simulation_mode": true,
+      "description": "Business app discovery and reviews"
+    },
+    {
+      "name": "SourceForge",
+      "url": "https://sourceforge.net/",
+      "submit_url": "https://sourceforge.net/projects/new/",
+      "type": "open_source_directory",
+      "enabled": false,
+      "simulation_mode": true,
+      "description": "Open source software directory"
+    }
+  ],
+  "email_outreach": {
+    "smtp_server": "smtp.gmail.com",
+    "smtp_port": 587,
+    "sender_email": "",
+    "sender_password": "",
+    "sender_name": "SuggestlyG4Plus Team",
+    "templates": {
+      "initial_outreach": {
+        "subject": "Partnership Opportunity - {project_name} AI Platform",
+        "body": "Hi {contact_name},\n\nI hope this email finds you well. I'm reaching out regarding a potential partnership opportunity with {project_name}, an innovative AI-powered feedback platform.\n\nOur platform helps businesses collect, analyze, and act on user feedback using advanced AI automation. We believe your audience would find great value in our solution.\n\nWould you be interested in:\n- A guest post collaboration\n- A product feature on your site  \n- A mutual backlink partnership\n- An exclusive review opportunity\n\nI'd be happy to provide more details or arrange a brief call at your convenience.\n\nBest regards,\n{sender_name}\n{project_name} Team\n{contact_email}\n\nP.S. You can check out our platform at: {project_url}"
+      },
+      "follow_up": {
+        "subject": "Re: Partnership Opportunity - {project_name}",
+        "body": "Hi {contact_name},\n\nI wanted to follow up on my previous email about a potential partnership with {project_name}.\n\nI understand you're likely busy, but I thought you might be interested in our latest developments:\n\n- We've recently integrated advanced AI capabilities\n- Our user base has grown significantly\n- We're offering exclusive partnership benefits\n\nIf you have just 5 minutes, I'd love to discuss how we could mutually benefit each other.\n\nLet me know if you're interested!\n\nBest,\n{sender_name}"
+      },
+      "guest_post_pitch": {
+        "subject": "Guest Post Proposal: AI-Powered User Feedback Strategies",
+        "body": "Hi {contact_name},\n\nI've been following your content on {website_name} and really appreciate your insights on product development and user experience.\n\nI'd like to contribute a guest post about \"Leveraging AI for Better User Feedback Collection\" - a topic I believe would resonate with your audience.\n\nThe article would cover:\n- How AI transforms feedback analysis\n- Practical implementation strategies\n- Real-world case studies and results\n- Future trends in automated user insights\n\nI can provide samples of my previous writing and would naturally include a brief mention of our platform as a case study.\n\nWould this be of interest to your readers?\n\nBest regards,\n{sender_name}\n{project_name}"
+      }
+    },
+    "contacts": [
+      {
+        "name": "Tech Blog Editor",
+        "email": "example@techblog.com",
+        "website": "https://techblog.com",
+        "category": "tech_blog",
+        "status": "sent",
+        "last_contacted": "2025-08-14T01:05:36.394215",
+        "notes": "Covers AI and SaaS tools"
+      },
+      {
+        "name": "Product Manager",
+        "email": "pm@startup.com",
+        "website": "https://startup.com",
+        "category": "potential_partner",
+        "status": "sent",
+        "last_contacted": "2025-08-14T01:05:40.396814",
+        "notes": "Uses feedback tools, potential integration partner"
+      }
+    ]
+  },
+  "content_platforms": [
+    {
+      "name": "Medium",
+      "api_endpoint": "https://api.medium.com/v1/",
+      "enabled": true,
+      "simulation_mode": true,
+      "rate_limit": {
+        "requests_per_hour": 10,
+        "requests_per_day": 50
+      },
+      "content_types": [
+        "article",
+        "story"
+      ],
+      "required_auth": "oauth_token"
+    },
+    {
+      "name": "Dev.to",
+      "api_endpoint": "https://dev.to/api/",
+      "enabled": true,
+      "simulation_mode": true,
+      "rate_limit": {
+        "requests_per_hour": 30,
+        "requests_per_day": 100
+      },
+      "content_types": [
+        "article"
+      ],
+      "required_auth": "api_key"
+    },
+    {
+      "name": "Hashnode",
+      "api_endpoint": "https://api.hashnode.com/",
+      "enabled": false,
+      "simulation_mode": true,
+      "rate_limit": {
+        "requests_per_hour": 20,
+        "requests_per_day": 80
+      },
+      "content_types": [
+        "article"
+      ],
+      "required_auth": "api_key"
+    },
+    {
+      "name": "LinkedIn",
+      "api_endpoint": "https://api.linkedin.com/v2/",
+      "enabled": false,
+      "simulation_mode": true,
+      "rate_limit": {
+        "requests_per_hour": 15,
+        "requests_per_day": 60
+      },
+      "content_types": [
+        "post",
+        "article"
+      ],
+      "required_auth": "oauth_token"
+    }
+  ],
+  "content_templates": {
+    "ai_feedback_article": {
+      "title": "How AI is Revolutionizing User Feedback Collection and Analysis",
+      "body": "# How AI is Revolutionizing User Feedback Collection and Analysis\n\nUser feedback is the lifeblood of product development. But traditional feedback collection methods are often manual, time-consuming, and difficult to scale. Enter AI-powered feedback systems.\n\n## The Challenge with Traditional Feedback\n\n- Manual categorization takes hours\n- Important insights get buried in noise\n- Response rates are declining\n- Analysis is subjective and inconsistent\n\n## How AI Changes Everything\n\n### Automated Categorization\nAI can instantly categorize feedback by:\n- Feature requests\n- Bug reports  \n- User experience issues\n- Sentiment analysis\n\n### Real-time Insights\nInstead of waiting weeks for reports, AI provides:\n- Instant trend detection\n- Priority scoring\n- Actionable recommendations\n- Predictive analytics\n\n### Scale Without Limits\nAI systems can process:\n- Thousands of feedback items per minute\n- Multiple languages simultaneously\n- Various input formats (text, voice, video)\n- Cross-platform data integration\n\n## Real-World Implementation\n\nAt {project_name}, we've seen incredible results:\n- 90% reduction in feedback processing time\n- 3x increase in actionable insights\n- 40% improvement in user satisfaction\n- 50% faster feature prioritization\n\n## Getting Started\n\n1. **Identify Your Feedback Sources**: Websites, apps, surveys, support tickets\n2. **Choose the Right AI Tools**: Look for platforms that offer real-time processing\n3. **Set Up Automated Workflows**: Create rules for routing and prioritization\n4. **Monitor and Optimize**: Continuously improve your AI models\n\n## The Future of Feedback\n\nWe're moving toward a world where:\n- Feedback collection is completely seamless\n- Analysis happens in real-time\n- Insights drive automatic product improvements\n- User satisfaction becomes predictable\n\n## Conclusion\n\nAI-powered feedback systems aren't just an upgrade—they're a complete transformation of how we understand and respond to users. The companies that adopt these technologies now will have a significant competitive advantage.\n\n*Want to see AI feedback analysis in action? Check out {project_name} at {project_url}*\n\n---\n\n**Tags**: #AI #ProductManagement #UserFeedback #SaaS #MachineLearning #CustomerExperience",
+      "tags": [
+        "ai",
+        "feedback",
+        "product-management",
+        "saas",
+        "user-experience"
+      ]
+    },
+    "product_announcement": {
+      "title": "Introducing {project_name}: The Future of AI-Powered Feedback",
+      "body": "# Introducing {project_name}: The Future of AI-Powered Feedback\n\nWe're excited to announce the launch of {project_name}, a revolutionary platform that transforms how businesses collect, analyze, and act on user feedback.\n\n## What Makes Us Different\n\n🤖 **AI-First Approach**: Every piece of feedback is automatically analyzed and categorized\n⚡ **Real-Time Processing**: Get insights as feedback comes in, not days later\n🎯 **Smart Prioritization**: AI ranks feedback by impact and urgency\n📊 **Actionable Analytics**: Turn feedback into concrete product decisions\n\n## Key Features\n\n- **Seamless Integration**: Works with any website or application\n- **Multi-Language Support**: Understand global user feedback\n- **Custom Workflows**: Automated routing and follow-up\n- **Advanced Analytics**: Trend analysis and predictive insights\n\n## Early Results\n\nOur beta users have seen:\n- 85% faster feedback processing\n- 3x more actionable insights\n- 50% improvement in user satisfaction scores\n- 40% reduction in feature development time\n\n## Perfect For\n\n- **Product Teams**: Prioritize features based on real user needs\n- **Customer Success**: Identify and resolve issues proactively  \n- **Marketing Teams**: Understand user sentiment and preferences\n- **Executives**: Get high-level insights for strategic decisions\n\n## Get Started Today\n\nReady to transform your feedback process? Visit us at {project_url} and see the difference AI can make.\n\n*Limited time: Free setup and onboarding for early adopters!*\n\n---\n\n**Tags**: #ProductLaunch #AI #Feedback #SaaS #ProductManagement",
+      "tags": [
+        "product-launch",
+        "ai",
+        "feedback",
+        "saas",
+        "announcement"
+      ]
+    }
+  },
+  "rate_limits": {
+    "directory_submissions_per_day": 10,
+    "emails_per_day": 25,
+    "content_posts_per_day": 5,
+    "delay_between_requests": 3,
+    "max_retries": 3
+  },
+  "security": {
+    "respect_robots_txt": true,
+    "max_retries": 3,
+    "timeout_seconds": 30,
+    "user_agent": "SuggestlyG4Plus-BacklinkBuilder/1.0 (Automated Tool)",
+    "enable_ssl_verification": true
+  },
+  "notifications": {
+    "email_notifications": false,
+    "webhook_url": "",
+    "slack_webhook": "",
+    "notify_on_completion": true,
+    "notify_on_errors": true
+  },
+  "logging": {
+    "log_file": "backlink_builder.log",
+    "log_level": "INFO",
+    "max_log_size_mb": 10,
+    "backup_count": 5
+  }
+}
