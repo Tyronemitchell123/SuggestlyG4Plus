@@ -1,34 +1,58 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Toaster } from 'react-hot-toast';
 
-// Components
+// Core Components (eagerly loaded)
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Hero from './components/Hero';
-import Services from './components/Services';
-import Features from './components/Features';
-import Pricing from './components/Pricing';
-import Contact from './components/Contact';
-import Dashboard from './components/Dashboard';
 import LoadingScreen from './components/LoadingScreen';
-import SiteManager from './components/SiteManager';
-import SiteViewer from './components/SiteViewer';
-import AudioEqualizer from './components/AudioEqualizer';
-import AudioEQLanding from './components/AudioEQLanding';
-import G4AudioEqualizer from './components/G4AudioEqualizer';
-import DAWConnector from './components/DAWConnector';
-import QuantumDAWConnector from './components/QuantumDAWConnector';
-import AIContentStudio from './components/AIContentStudio';
-import VideoProductionSuite from './components/VideoProductionSuite';
-import QuantumComputingHub from './components/QuantumComputingHub';
-import QuantumBotAutomation from './components/QuantumBotAutomation';
+
+// Lazy-loaded Components (cutting-edge code splitting)
+const Hero = lazy(() => import('./components/Hero'));
+const Services = lazy(() => import('./components/Services'));
+const Features = lazy(() => import('./components/Features'));
+const Pricing = lazy(() => import('./components/Pricing'));
+const Contact = lazy(() => import('./components/Contact'));
+const Dashboard = lazy(() => import('./components/Dashboard'));
+const SiteManager = lazy(() => import('./components/SiteManager'));
+const SiteViewer = lazy(() => import('./components/SiteViewer'));
+
+// Audio Production Suite (lazy loaded)
+const AudioEqualizer = lazy(() => import('./components/AudioEqualizer'));
+const AudioEQLanding = lazy(() => import('./components/AudioEQLanding'));
+const G4AudioEqualizer = lazy(() => import('./components/G4AudioEqualizer'));
+
+// DAW Connector (lazy loaded)
+const DAWConnector = lazy(() => import('./components/DAWConnector'));
+const QuantumDAWConnector = lazy(() => import('./components/QuantumDAWConnector'));
+
+// AI Content Studio (lazy loaded)
+const AIContentStudio = lazy(() => import('./components/AIContentStudio'));
+
+// Video Production Suite (lazy loaded)
+const VideoProductionSuite = lazy(() => import('./components/VideoProductionSuite'));
+
+// Quantum Computing Hub (lazy loaded)
+const QuantumComputingHub = lazy(() => import('./components/QuantumComputingHub'));
+const QuantumBotAutomation = lazy(() => import('./components/QuantumBotAutomation'));
 
 // Hooks
 import { useAnalytics } from './hooks/useAnalytics';
 import { usePaymentSystem } from './hooks/usePaymentSystem';
 import { useSiteManager } from './hooks/useSiteManager';
+
+// Modern Loading Component with Suspense
+const SuspenseFallback = () => (
+  <div className="min-h-screen bg-luxury-gradient flex items-center justify-center">
+    <div className="text-center">
+      <div className="w-16 h-16 bg-gradient-to-r from-luxury-gold to-yellow-500 rounded-xl flex items-center justify-center mx-auto mb-4 animate-pulse">
+        <div className="w-8 h-8 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
+      </div>
+      <p className="text-luxury-gold font-medium">Loading Elite Experience...</p>
+    </div>
+  </div>
+);
 
 function App() {
   const { initializeAnalytics } = useAnalytics();
@@ -36,9 +60,13 @@ function App() {
   const { currentSite, isLoading } = useSiteManager();
 
   React.useEffect(() => {
-    // Initialize all systems
-    initializeAnalytics();
-    initializePaymentSystem();
+    // Initialize all systems with error boundaries
+    try {
+      initializeAnalytics();
+      initializePaymentSystem();
+    } catch (error) {
+      console.error('System initialization error:', error);
+    }
   }, [initializeAnalytics, initializePaymentSystem]);
 
   if (isLoading) {
@@ -47,10 +75,14 @@ function App() {
 
   // If we have a current site and we're not on admin routes, show the hosted site
   if (currentSite && !window.location.pathname.startsWith('/admin')) {
-    return <SiteViewer site={currentSite} />;
+    return (
+      <Suspense fallback={<SuspenseFallback />}>
+        <SiteViewer site={currentSite} />
+      </Suspense>
+    );
   }
 
-  // Main platform (original SuggestlyG4Plus)
+  // Main platform (original SuggestlyG4Plus) with modern React 18 features
   return (
     <Router>
       <div className="App">
@@ -78,13 +110,15 @@ function App() {
           <link rel="icon" type="image/x-icon" href="/favicon.ico" />
           <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
           
-          {/* Fonts */}
+          {/* Fonts with preload for performance */}
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
           <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
           
           {/* PWA Manifest */}
           <link rel="manifest" href="/manifest.json" />
           
-          {/* Google Analytics */}
+          {/* Google Analytics with modern loading */}
           <script async src="https://www.googletagmanager.com/gtag/js?id=G-TEST123456"></script>
           <script>
             {`
@@ -110,53 +144,55 @@ function App() {
           <Header />
           
           <main>
-            <Routes>
-              <Route path="/" element={
-                <>
-                  <Hero />
-                  <Services />
-                  <Features />
-                  <Pricing />
-                  <Contact />
-                </>
-              } />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/admin" element={<SiteManager />} />
-              <Route path="/admin/*" element={<SiteManager />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/features" element={<Features />} />
-              <Route path="/pricing" element={<Pricing />} />
-              <Route path="/contact" element={<Contact />} />
-              
-              {/* Audio Production Suite */}
-              <Route path="/audio-eq" element={<AudioEqualizer />} />
-              <Route path="/eq" element={<AudioEqualizer />} />
-              <Route path="/audio-eq-landing" element={<AudioEQLanding />} />
-              <Route path="/g4-eq" element={<G4AudioEqualizer />} />
-              <Route path="/g4" element={<G4AudioEqualizer />} />
-              
-              {/* DAW Connector */}
-              <Route path="/daw-connector" element={<DAWConnector />} />
-              <Route path="/daw" element={<DAWConnector />} />
-              <Route path="/quantum-daw" element={<QuantumDAWConnector />} />
-              <Route path="/quantum" element={<QuantumDAWConnector />} />
-              
-              {/* AI Content Studio */}
-              <Route path="/ai-studio" element={<AIContentStudio />} />
-              <Route path="/ai" element={<AIContentStudio />} />
-              
-              {/* Video Production Suite */}
-              <Route path="/video-suite" element={<VideoProductionSuite />} />
-              <Route path="/video" element={<VideoProductionSuite />} />
-              
-              {/* Quantum Computing Hub */}
-              <Route path="/quantum-hub" element={<QuantumComputingHub />} />
-              <Route path="/quantum-computing" element={<QuantumComputingHub />} />
-              
-              {/* Quantum Bot Automation */}
-              <Route path="/quantum-bots" element={<QuantumBotAutomation />} />
-              <Route path="/bots" element={<QuantumBotAutomation />} />
-            </Routes>
+            <Suspense fallback={<SuspenseFallback />}>
+              <Routes>
+                <Route path="/" element={
+                  <>
+                    <Hero />
+                    <Services />
+                    <Features />
+                    <Pricing />
+                    <Contact />
+                  </>
+                } />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/admin" element={<SiteManager />} />
+                <Route path="/admin/*" element={<SiteManager />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/features" element={<Features />} />
+                <Route path="/pricing" element={<Pricing />} />
+                <Route path="/contact" element={<Contact />} />
+                
+                {/* Audio Production Suite */}
+                <Route path="/audio-eq" element={<AudioEqualizer />} />
+                <Route path="/eq" element={<AudioEqualizer />} />
+                <Route path="/audio-eq-landing" element={<AudioEQLanding />} />
+                <Route path="/g4-eq" element={<G4AudioEqualizer />} />
+                <Route path="/g4" element={<G4AudioEqualizer />} />
+                
+                {/* DAW Connector */}
+                <Route path="/daw-connector" element={<DAWConnector />} />
+                <Route path="/daw" element={<DAWConnector />} />
+                <Route path="/quantum-daw" element={<QuantumDAWConnector />} />
+                <Route path="/quantum" element={<QuantumDAWConnector />} />
+                
+                {/* AI Content Studio */}
+                <Route path="/ai-studio" element={<AIContentStudio />} />
+                <Route path="/ai" element={<AIContentStudio />} />
+                
+                {/* Video Production Suite */}
+                <Route path="/video-suite" element={<VideoProductionSuite />} />
+                <Route path="/video" element={<VideoProductionSuite />} />
+                
+                {/* Quantum Computing Hub */}
+                <Route path="/quantum-hub" element={<QuantumComputingHub />} />
+                <Route path="/quantum-computing" element={<QuantumComputingHub />} />
+                
+                {/* Quantum Bot Automation */}
+                <Route path="/quantum-bots" element={<QuantumBotAutomation />} />
+                <Route path="/bots" element={<QuantumBotAutomation />} />
+              </Routes>
+            </Suspense>
           </main>
           
           <Footer />

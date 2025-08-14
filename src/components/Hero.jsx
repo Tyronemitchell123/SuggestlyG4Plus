@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import { 
@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import HologramCard from './HologramCard';
 
-const Hero = () => {
+const Hero = React.memo(() => {
   const [ref, inView] = useInView({
     triggerOnce: true,
     threshold: 0.1
@@ -29,14 +29,14 @@ const Hero = () => {
   const y = useTransform(scrollY, [0, 300], [0, 100]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
-  const stats = [
+  const stats = useMemo(() => [
     { number: '500+', label: 'Global Clients', icon: Users, color: 'text-blue-400' },
     { number: '$2.5B+', label: 'Revenue Generated', icon: TrendingUp, color: 'text-green-400' },
     { number: '99.9%', label: 'Success Rate', icon: Award, color: 'text-purple-400' },
     { number: '24/7', label: 'Elite Support', icon: Crown, color: 'text-luxury-gold' }
-  ];
+  ], []);
 
-  // Auto-rotate stats
+  // Auto-rotate stats with useCallback for performance
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentStat((prev) => (prev + 1) % stats.length);
@@ -44,30 +44,30 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, [stats.length]);
 
-  const handleGetStarted = () => {
+  const handleGetStarted = useCallback(() => {
     const contactSection = document.getElementById('contact');
     if (contactSection) {
       contactSection.scrollIntoView({ behavior: 'smooth' });
     }
-  };
+  }, []);
 
-  const handleWatchDemo = () => {
+  const handleWatchDemo = useCallback(() => {
     // setIsVideoPlaying(true);
     // In a real implementation, this would open a video modal
     alert('Demo video would play here. Contact us for a live demonstration.');
-  };
+  }, []);
 
-  const handleViewDashboard = () => {
+  const handleViewDashboard = useCallback(() => {
     window.open('/dashboard', '_blank');
-  };
+  }, []);
 
-  const handleFreeTrial = () => {
+  const handleFreeTrial = useCallback(() => {
     // Navigate to pricing section with trial focus
     const pricingSection = document.getElementById('pricing');
     if (pricingSection) {
       pricingSection.scrollIntoView({ behavior: 'smooth' });
     }
-  };
+  }, []);
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-luxury-gradient">

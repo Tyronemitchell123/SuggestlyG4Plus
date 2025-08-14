@@ -24,7 +24,6 @@ import {
   Save,
   FolderOpen,
   Music,
-  Piano,
   Disc,
   Radio,
   Wifi,

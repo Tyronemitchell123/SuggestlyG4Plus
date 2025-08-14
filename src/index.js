@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Initialize analytics and payment systems
 const initializeApp = () => {
@@ -31,12 +32,41 @@ const initializeApp = () => {
   }
 };
 
+// Register Service Worker for offline functionality
+const registerServiceWorker = async () => {
+  if ('serviceWorker' in navigator) {
+    try {
+      const registration = await navigator.serviceWorker.register('/sw.js');
+      console.log('🚀 Service Worker registered successfully:', registration);
+      
+      // Handle service worker updates
+      registration.addEventListener('updatefound', () => {
+        const newWorker = registration.installing;
+        newWorker.addEventListener('statechange', () => {
+          if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+            // New service worker available
+            console.log('🔄 New service worker available');
+            if (confirm('New version available! Reload to update?')) {
+              window.location.reload();
+            }
+          }
+        });
+      });
+    } catch (error) {
+      console.error('❌ Service Worker registration failed:', error);
+    }
+  }
+};
+
 // Initialize the app
 initializeApp();
+registerServiceWorker();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>
 );

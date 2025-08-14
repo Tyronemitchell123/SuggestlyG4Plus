@@ -4,20 +4,16 @@ import toast from 'react-hot-toast';
 import {
   Play, Pause, Settings, Zap, Crown, Shield, Brain, Sparkles, Layers, Target,
   Waveform, Mic, Headphones, Monitor, Smartphone, Link, Unlink, Download, Upload,
-  Save, FolderOpen, Music, Piano, Disc, Radio, Wifi, WifiOff, CheckCircle, AlertCircle,
-  Clock, Database, Server, Cpu, HardDrive, Cable, Bluetooth, Usb, Midi, Search, Sync,
+  Save, FolderOpen, Music, Disc, Radio, Wifi, WifiOff, CheckCircle, AlertCircle,
+  Clock, Database, Server, Cpu, HardDrive, Cable, Bluetooth, Usb, Search, Sync,
   Video, Film, Edit3, Scissors, RotateCw, Volume2, VolumeX, Eye, EyeOff, Sliders,
-  Palette, Type, Image, Camera, SparklesIcon, Wand2, BrainCircuit, AI, MachineLearning,
-  DeepLearning, Copy, Share2, Grid, List, Maximize, Minimize, Square, Circle, Triangle,
-  Atom, Rocket, Eye, EyeOff, CpuIcon, Network, Satellite, Globe, WifiIcon, ZapIcon,
-  Star, Award, Trophy, Diamond, Infinity, Lightning, SparklesIcon, BrainCircuit,
-  Quantum, Hologram, Neural, AI, MachineLearning, DeepLearning, Blockchain,
-  Cloud, Edge, Fog, Mesh, Grid, Cluster, Swarm, Hive, Colony, Ecosystem, Bot, Robot,
-  Circuit, Chip, Microchip, Cpu, Memory, Storage, Database, Server, Cloud, Api,
-  TrendingUp, TrendingDown, DollarSign, BarChart3, PieChart, Activity, Target,
-  Zap, Shield, Lock, Key, Eye, EyeOff, AlertTriangle, CheckCircle, XCircle,
-  PlayCircle, PauseCircle, StopCircle, RotateCcw, Settings, Cog, Wrench,
-  MessageSquare, Mail, Phone, Calendar, Clock, Timer, CalendarDays
+  Palette, Type, Image, Camera, Wand2, Copy, Share2, Grid, List, Maximize, Minimize, Square, Circle, Triangle,
+  Atom, Rocket, Network, Globe, Star, Award, Trophy, Diamond, Infinity, Lightning,
+  Cloud, Bot, Circuit, Chip, Microchip, Memory, Storage, Api,
+  TrendingUp, TrendingDown, DollarSign, BarChart3, PieChart, Activity,
+  Lock, Key, AlertTriangle, XCircle,
+  PlayCircle, PauseCircle, StopCircle, RotateCcw, Cog, Wrench,
+  MessageSquare, Mail, Phone, Calendar, Timer, CalendarDays
 } from 'lucide-react';
 
 const QuantumBotAutomation = () => {
