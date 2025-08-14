@@ -2,6 +2,7 @@ import React from "react";
 import Head from "next/head";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { Logo } from "../src/components/Logo";
 
 export default function SuggestlyG4PlusSite() {
   const [loading, setLoading] = useState(false);
@@ -141,9 +142,12 @@ export default function SuggestlyG4PlusSite() {
               <motion.div
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+                className="flex items-center space-x-3"
               >
-                SuggestlyG4Plus
+                <Logo size={36} clickable />
+                <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                  SuggestlyG4Plus
+                </span>
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
@@ -445,8 +449,11 @@ export default function SuggestlyG4PlusSite() {
         {/* Footer */}
         <footer className="py-12 px-4 border-t border-purple-500/20">
           <div className="max-w-7xl mx-auto text-center">
-            <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-4">
-              SuggestlyG4Plus
+            <div className="flex items-center justify-center space-x-3 mb-4">
+              <Logo size={32} />
+              <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+                SuggestlyG4Plus
+              </span>
             </div>
             <p className="text-gray-400">
               © 2024 SuggestlyG4Plus. All rights reserved.
