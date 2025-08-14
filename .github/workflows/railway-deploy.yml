@@ -1,0 +1,71 @@
+# Railway Deployment Workflow
+# 
+# This workflow deploys the application to Railway when:
+# - Code is pushed to the main branch
+# - Manually triggered via workflow_dispatch
+#
+# REQUIRED SECRETS (configure in GitHub repository settings):
+# - RAILWAY_TOKEN or RAILWAY_API_TOKEN: Your Railway API token (create at Railway > Account > API Tokens)
+# - RAILWAY_PROJECT_ID: Your Railway project ID (found in project settings/URL)
+# - RAILWAY_SERVICE_ID: Your Railway service ID (found in service settings)
+#
+# NOTE: This workflow will fail until the above secrets are properly configured.
+# To change the trigger branch, modify the 'branches' array below.
+
+name: Deploy to Railway
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+# Prevent multiple Railway deployments for the same branch from running simultaneously
+concurrency:
+  group: railway-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Railway CLI
+        run: |
+          curl -fsSL https://railway.app/install.sh | sh
+          echo "$HOME/.railway/bin" >> $GITHUB_PATH
+
+      - name: Verify required secrets
+        env:
+          TOKEN_A: ${{ secrets.RAILWAY_TOKEN }}
+          TOKEN_B: ${{ secrets.RAILWAY_API_TOKEN }}
+          PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
+          SERVICE_ID: ${{ secrets.RAILWAY_SERVICE_ID }}
+        run: |
+          if [ -z "${TOKEN_A}" ] && [ -z "${TOKEN_B}" ]; then
+            echo "Error: Please add RAILWAY_TOKEN or RAILWAY_API_TOKEN to your repository secrets." >&2
+            exit 1
+          fi
+          if [ -z "${PROJECT_ID}" ]; then
+            echo "Error: Please add RAILWAY_PROJECT_ID to your repository secrets." >&2
+            exit 1
+          fi
+          if [ -z "${SERVICE_ID}" ]; then
+            echo "Error: Please add RAILWAY_SERVICE_ID to your repository secrets." >&2
+            exit 1
+          fi
+
+      - name: Link project/service
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN || secrets.RAILWAY_API_TOKEN }}
+          RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_TOKEN || secrets.RAILWAY_API_TOKEN }}
+        run: |
+          railway link -p "${{ secrets.RAILWAY_PROJECT_ID }}" -s "${{ secrets.RAILWAY_SERVICE_ID }}"
+
+      - name: Deploy to Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN || secrets.RAILWAY_API_TOKEN }}
+          RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_TOKEN || secrets.RAILWAY_API_TOKEN }}
+        run: |
+          railway up --ci
