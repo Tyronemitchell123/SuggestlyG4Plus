@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 """
-🌟 REAL-WORLD TECHNOLOGY INTEGRATION SCRIPT
-SuggestlyG4Plus v2.0 - Production-Ready Integrations
-
 This script integrates cutting-edge real-world technologies into your AI system.
 """
 
@@ -20,82 +17,107 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
+def is_prod() -> bool:
+    env = (os.getenv("NODE_ENV") or os.getenv("ENV") or os.getenv("VERCEL_ENV") or "").lower()
+    return env == "production"
+
+
+def is_placeholder(val: Optional[str]) -> bool:
+    if not val:
+        return True
+    v = val.strip().lower()
+    return v in {"demo", "sk_test_xxx", "whsec_xxx", "placeholder", "your-key-here"}
+
 class RealWorldTechIntegrator:
     """Integrates real-world technologies into SuggestlyG4Plus"""
-    
+
     def __init__(self):
-        self.api_keys = {}
-        self.services = {}
-        self.connections = {}
-        
+        self.api_keys: Dict[str, Optional[str]] = {}
+        self.services: Dict = {}
+        self.connections: Dict = {}
+
     def load_api_keys(self):
         """Load API keys from environment variables"""
+        # Alpha Vantage: allow vendor demo key for dev
+        alpha_key = os.getenv("ALPHA_VANTAGE_API_KEY") or "demo"
         self.api_keys = {
-            'alpha_vantage': os.getenv('ALPHA_VANTAGE_API_KEY'),
-            'openai': os.getenv('OPENAI_API_KEY'),
-            'stripe': os.getenv('STRIPE_SECRET_KEY'),
-            'finnhub': os.getenv('FINNHUB_API_KEY'),
-            'polygon': os.getenv('POLYGON_API_KEY'),
-            'coingecko': os.getenv('COINGECKO_API_KEY'),
-            'twilio': os.getenv('TWILIO_API_KEY'),
-            'sendgrid': os.getenv('SENDGRID_API_KEY')
+            "alpha_vantage": alpha_key,
+            "openai": os.getenv("OPENAI_API_KEY"),
+            "stripe": os.getenv("STRIPE_SECRET_KEY"),
+            "finnhub": os.getenv("FINNHUB_API_KEY"),
+            "polygon": os.getenv("POLYGON_API_KEY"),
+            "coingecko": os.getenv("COINGECKO_API_KEY"),
+            "twilio": os.getenv("TWILIO_API_KEY"),
+            "sendgrid": os.getenv("SENDGRID_API_KEY"),
         }
-        logger.info("✅ API keys loaded successfully")
+        logger.info("✅ API keys loaded (placeholders may be present; see logs during integration)")
+
+    def _require_prod_key(self, name: str):
+        if is_prod() and is_placeholder(self.api_keys.get(name)):
+            raise RuntimeError(f"Missing or placeholder key for '{name}' in production. Set a real secret in environment.")
 
     async def integrate_financial_apis(self):
         """Integrate real-time financial data APIs"""
         logger.info("🔄 Integrating financial APIs...")
-        
+
         # Alpha Vantage Integration
-        if self.api_keys.get('alpha_vantage'):
-            try:
+        try:
+            self._require_prod_key("alpha_vantage")
+            key = self.api_keys.get("alpha_vantage")
+            if is_placeholder(key):
+                logger.warning("⚠️ Alpha Vantage key is placeholder/demo. Skipping network call (dev only).")
+            else:
                 async with aiohttp.ClientSession() as session:
-                    # Get real-time stock data
-                    url = f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=AAPL&apikey={self.api_keys['alpha_vantage']}"
+                    url = f"https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=AAPL&apikey={key}"
                     async with session.get(url) as response:
                         data = await response.json()
                         logger.info(f"✅ Alpha Vantage: AAPL price ${data.get('Global Quote', {}).get('05. price', 'N/A')}")
-            except Exception as e:
-                logger.error(f"❌ Alpha Vantage error: {e}")
+        except Exception as e:
+            logger.error(f"❌ Alpha Vantage error: {e}")
 
         # Finnhub Integration
-        if self.api_keys.get('finnhub'):
-            try:
+        try:
+            self._require_prod_key("finnhub")
+            key = self.api_keys.get("finnhub")
+            if is_placeholder(key):
+                logger.warning("⚠️ Finnhub key missing. Skipping in dev.")
+            else:
                 async with aiohttp.ClientSession() as session:
-                    url = f"https://finnhub.io/api/v1/quote?symbol=AAPL&token={self.api_keys['finnhub']}"
+                    url = f"https://finnhub.io/api/v1/quote?symbol=AAPL&token={key}"
                     async with session.get(url) as response:
                         data = await response.json()
                         logger.info(f"✅ Finnhub: AAPL current price ${data.get('c', 'N/A')}")
-            except Exception as e:
-                logger.error(f"❌ Finnhub error: {e}")
+        except Exception as e:
+            logger.error(f"❌ Finnhub error: {e}")
 
     async def integrate_ai_services(self):
         """Integrate advanced AI services"""
         logger.info("🤖 Integrating AI services...")
-        
-        if self.api_keys.get('openai'):
-            try:
-                # OpenAI GPT-4 Integration
-                headers = {
-                    'Authorization': f'Bearer {self.api_keys["openai"]}',
-                    'Content-Type': 'application/json'
-                }
-                
-                data = {
-                    'model': 'gpt-4',
-                    'messages': [{'role': 'user', 'content': 'Analyze the current market trends for technology stocks.'}],
-                    'max_tokens': 150
-                }
-                
-                async with aiohttp.ClientSession() as session:
-                    async with session.post('https://api.openai.com/v1/chat/completions', 
-                                          headers=headers, json=data) as response:
-                        result = await response.json()
-                        if 'choices' in result:
-                            analysis = result['choices'][0]['message']['content']
-                            logger.info(f"✅ OpenAI GPT-4 Analysis: {analysis[:100]}...")
-            except Exception as e:
-                logger.error(f"❌ OpenAI error: {e}")
+
+        # OpenAI GPT integration (skip in dev without real key)
+        try:
+            self._require_prod_key("openai")
+            key = self.api_keys.get("openai")
+            if is_placeholder(key):
+                logger.warning("⚠️ OpenAI key missing. Skipping in dev.")
+                return
+
+            headers = {
+                "Authorization": f"Bearer {key}",
+                "Content-Type": "application/json",
+            }
+            data = {
+                "model": "gpt-4o-mini",
+                "messages": [{"role": "user", "content": "Analyze current market trends for technology stocks."}],
+                "max_tokens": 150,
+            }
+            async with aiohttp.ClientSession() as session:
+                async with session.post("https://api.openai.com/v1/chat/completions", headers=headers, json=data) as response:
+                    result = await response.json()
+                    logger.info("✅ OpenAI integration call completed")
+        except Exception as e:
+            logger.error(f"❌ OpenAI error: {e}")
 
     async def integrate_crypto_apis(self):
         """Integrate cryptocurrency data"""

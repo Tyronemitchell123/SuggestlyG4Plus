@@ -22,8 +22,12 @@ SuggestlyG4Plus is a modern, user-friendly platform that helps you collect, anal
    ```bash
    git clone https://github.com/Tyronemitchell123/SuggestlyG4Plus.git
    ```
-2. **Deploy on your preferred hosting platform.**
-3. **Integrate the widget into your site and start collecting suggestions.**
+2. **Set up environment variables:**
+   - Copy `.env.example` to `.env` and configure your API keys
+   - See `DEV_KEYS.md` for instructions on obtaining free-tier keys
+   - Use vendor demo keys for local development (placeholders are safe for dev)
+3. **Deploy on your preferred hosting platform.**
+4. **Integrate the widget into your site and start collecting suggestions.**
 
 ---
 
