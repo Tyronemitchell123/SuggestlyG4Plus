@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ValueCard } from './ValueCard';
+import ValueCard from './ValueCard';
 import { Crown, Shield, Zap, Users, Target, Globe } from 'lucide-react';
 
 const meta: Meta<typeof ValueCard> = {
