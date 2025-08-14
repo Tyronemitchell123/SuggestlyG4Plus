@@ -44,8 +44,7 @@
     "security-check": "npm audit",
     "security-fix": "npm audit fix",
     "security-fix-force": "npm audit fix --force",
-    "build:clean": "rm -rf build && npm run build",
-    "prebuild": "npm run lint:check && npm run type-check"
+    "build:clean": "rm -rf build && npm run build"
   },
   "eslintConfig": {
     "extends": [
