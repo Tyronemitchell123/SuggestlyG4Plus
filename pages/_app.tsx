@@ -2,10 +2,10 @@ import type { AppProps } from 'next/app';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import '../styles/globals.css';
-import { Inter } from 'next/font/google';
+// import { Inter } from 'next/font/google';
 
 const SITE_URL = 'https://suggestlyg4plus.io';
-const inter = Inter({ subsets: ['latin'], display: 'swap' });
+// const inter = Inter({ subsets: ['latin'], display: 'swap' });
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="canonical" href={canonical} />
         <meta name="theme-color" content="#0B2348" />
       </Head>
-      <div className={inter.className}>
+      <div>
         <Component {...pageProps} />
       </div>
     </>
