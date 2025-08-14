@@ -20,7 +20,7 @@ import {
   Sparkles,
   Layers,
   Target,
-  Waveform,
+  BarChart3,
   Mic,
   Headphones,
   Monitor,
@@ -681,7 +681,7 @@ const G4AudioEqualizer = () => {
                 {/* Phase Correction */}
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <Waveform className="w-4 h-4 text-luxury-gold" />
+                    <BarChart3 className="w-4 h-4 text-luxury-gold" />
                     <span className="text-sm font-medium">
                       Phase Correction
                     </span>

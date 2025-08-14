@@ -12,7 +12,7 @@ import {
   Sparkles,
   Layers,
   Target,
-  Waveform,
+  BarChart3,
   Mic,
   Headphones,
   Monitor,
@@ -39,7 +39,6 @@ import {
   Bluetooth,
   Usb,
   Search,
-  Sync,
 } from 'lucide-react';
 
 const DAWConnector = () => {
@@ -167,7 +166,7 @@ const DAWConnector = () => {
     {
       id: 'midi',
       name: 'MIDI Bridge',
-      icon: Midi,
+      icon: Cable,
       description: 'MIDI control integration',
     },
     {
@@ -582,7 +581,7 @@ const DAWConnector = () => {
                   onClick={syncSettings}
                   className="w-full flex items-center justify-center space-x-2 bg-luxury-gold/20 border border-luxury-gold/30 rounded-lg px-3 py-2 text-sm hover:bg-luxury-gold/30 transition-colors"
                 >
-                  <Sync className="w-4 h-4" />
+                  <Search className="w-4 h-4" />
                   <span>Sync Settings</span>
                 </button>
 

@@ -15,14 +15,14 @@ class ErrorBoundary extends React.Component {
   componentDidCatch(error, errorInfo) {
     this.setState({
       error: error,
-      errorInfo: errorInfo
+      errorInfo: errorInfo,
     });
 
     // Log error to analytics service
     if (window.gtag) {
       window.gtag('event', 'exception', {
         description: error.toString(),
-        fatal: true
+        fatal: true,
       });
     }
 
@@ -52,7 +52,7 @@ class ErrorBoundary extends React.Component {
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
               className="w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6"
             >
               <AlertTriangle className="w-8 h-8 text-red-400" />
@@ -74,7 +74,8 @@ class ErrorBoundary extends React.Component {
               transition={{ delay: 0.4 }}
               className="text-luxury-gray mb-8"
             >
-              We encountered an unexpected error. Our team has been notified and is working to fix this issue.
+              We encountered an unexpected error. Our team has been notified and
+              is working to fix this issue.
             </motion.p>
 
             {/* Action Buttons */}
@@ -114,7 +115,9 @@ class ErrorBoundary extends React.Component {
                 </summary>
                 <div className="bg-luxury-dark rounded-lg p-4 text-xs text-luxury-gray overflow-auto max-h-40">
                   <pre>{this.state.error.toString()}</pre>
-                  <pre className="mt-2">{this.state.errorInfo.componentStack}</pre>
+                  <pre className="mt-2">
+                    {this.state.errorInfo.componentStack}
+                  </pre>
                 </div>
               </motion.details>
             )}

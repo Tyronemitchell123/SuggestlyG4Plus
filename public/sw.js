@@ -14,23 +14,20 @@ const STATIC_ASSETS = [
   '/manifest.json',
   '/favicon.ico',
   '/apple-touch-icon.png',
-  'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap'
+  'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap',
 ];
 
 // API endpoints to cache
-const API_CACHE = [
-  '/api/analytics',
-  '/api/payments',
-  '/api/ai-services'
-];
+const API_CACHE = ['/api/analytics', '/api/payments', '/api/ai-services'];
 
 // Install event - cache core assets
-self.addEventListener('install', (event) => {
+self.addEventListener('install', event => {
   console.log('🔄 Service Worker installing...');
-  
+
   event.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then((cache) => {
+    caches
+      .open(STATIC_CACHE)
+      .then(cache => {
         console.log('📦 Caching static assets');
         return cache.addAll(STATIC_ASSETS);
       })
@@ -38,21 +35,22 @@ self.addEventListener('install', (event) => {
         console.log('✅ Static assets cached successfully');
         return self.skipWaiting();
       })
-      .catch((error) => {
+      .catch(error => {
         console.error('❌ Cache installation failed:', error);
       })
   );
 });
 
 // Activate event - clean up old caches
-self.addEventListener('activate', (event) => {
+self.addEventListener('activate', event => {
   console.log('🚀 Service Worker activating...');
-  
+
   event.waitUntil(
-    caches.keys()
-      .then((cacheNames) => {
+    caches
+      .keys()
+      .then(cacheNames => {
         return Promise.all(
-          cacheNames.map((cacheName) => {
+          cacheNames.map(cacheName => {
             if (cacheName !== STATIC_CACHE && cacheName !== DYNAMIC_CACHE) {
               console.log('🗑️ Deleting old cache:', cacheName);
               return caches.delete(cacheName);
@@ -68,7 +66,7 @@ self.addEventListener('activate', (event) => {
 });
 
 // Fetch event - serve from cache or network
-self.addEventListener('fetch', (event) => {
+self.addEventListener('fetch', event => {
   const { request } = event;
   const url = new URL(request.url);
 
@@ -93,15 +91,15 @@ function isStaticAsset(request) {
   return (
     url.origin === self.location.origin &&
     (url.pathname.startsWith('/static/') ||
-     url.pathname.startsWith('/assets/') ||
-     url.pathname === '/' ||
-     url.pathname === '/index.html' ||
-     url.pathname.endsWith('.css') ||
-     url.pathname.endsWith('.js') ||
-     url.pathname.endsWith('.ico') ||
-     url.pathname.endsWith('.png') ||
-     url.pathname.endsWith('.jpg') ||
-     url.pathname.endsWith('.svg'))
+      url.pathname.startsWith('/assets/') ||
+      url.pathname === '/' ||
+      url.pathname === '/index.html' ||
+      url.pathname.endsWith('.css') ||
+      url.pathname.endsWith('.js') ||
+      url.pathname.endsWith('.ico') ||
+      url.pathname.endsWith('.png') ||
+      url.pathname.endsWith('.jpg') ||
+      url.pathname.endsWith('.svg'))
   );
 }
 
@@ -127,7 +125,9 @@ async function handleStaticAsset(request) {
     return networkResponse;
   } catch (error) {
     console.error('Static asset fetch failed:', error);
-    return new Response('Offline - Static asset not available', { status: 503 });
+    return new Response('Offline - Static asset not available', {
+      status: 503,
+    });
   }
 }
 
@@ -156,7 +156,7 @@ async function handleDynamicRequest(request) {
     const cache = await caches.open(DYNAMIC_CACHE);
     const cachedResponse = await cache.match(request);
 
-    const networkPromise = fetch(request).then((response) => {
+    const networkPromise = fetch(request).then(response => {
       if (response.ok) {
         cache.put(request, response.clone());
       }
@@ -179,9 +179,9 @@ async function handleDynamicRequest(request) {
 }
 
 // Background sync for offline actions
-self.addEventListener('sync', (event) => {
+self.addEventListener('sync', event => {
   console.log('🔄 Background sync triggered:', event.tag);
-  
+
   if (event.tag === 'background-sync') {
     event.waitUntil(performBackgroundSync());
   }
@@ -192,10 +192,10 @@ async function performBackgroundSync() {
   try {
     // Sync analytics data
     await syncAnalyticsData();
-    
+
     // Sync payment data
     await syncPaymentData();
-    
+
     console.log('✅ Background sync completed');
   } catch (error) {
     console.error('❌ Background sync failed:', error);
@@ -211,7 +211,7 @@ async function syncAnalyticsData() {
         await fetch('/api/analytics', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
+          body: JSON.stringify(data),
         });
         await removeStoredAnalyticsData(data.id);
       } catch (error) {
@@ -230,7 +230,7 @@ async function syncPaymentData() {
         await fetch('/api/payments', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
+          body: JSON.stringify(data),
         });
         await removeStoredPaymentData(data.id);
       } catch (error) {
@@ -262,9 +262,9 @@ async function removeStoredPaymentData(id) {
 }
 
 // Push notification handling
-self.addEventListener('push', (event) => {
+self.addEventListener('push', event => {
   console.log('📱 Push notification received');
-  
+
   const options = {
     body: event.data ? event.data.text() : 'New update from SUGGESTLY ELITE',
     icon: '/apple-touch-icon.png',
@@ -272,20 +272,20 @@ self.addEventListener('push', (event) => {
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
-      primaryKey: 1
+      primaryKey: 1,
     },
     actions: [
       {
         action: 'explore',
         title: 'View Details',
-        icon: '/favicon.ico'
+        icon: '/favicon.ico',
       },
       {
         action: 'close',
         title: 'Close',
-        icon: '/favicon.ico'
-      }
-    ]
+        icon: '/favicon.ico',
+      },
+    ],
   };
 
   event.waitUntil(
@@ -294,30 +294,27 @@ self.addEventListener('push', (event) => {
 });
 
 // Notification click handling
-self.addEventListener('notificationclick', (event) => {
+self.addEventListener('notificationclick', event => {
   console.log('🔔 Notification clicked');
-  
+
   event.notification.close();
 
   if (event.action === 'explore') {
-    event.waitUntil(
-      clients.openWindow('/')
-    );
+    event.waitUntil(clients.openWindow('/'));
   }
 });
 
 // Message handling for communication with main thread
-self.addEventListener('message', (event) => {
+self.addEventListener('message', event => {
   console.log('💬 Message received:', event.data);
-  
+
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
   }
-  
+
   if (event.data && event.data.type === 'CACHE_URLS') {
     event.waitUntil(
-      caches.open(STATIC_CACHE)
-        .then((cache) => cache.addAll(event.data.urls))
+      caches.open(STATIC_CACHE).then(cache => cache.addAll(event.data.urls))
     );
   }
 });
