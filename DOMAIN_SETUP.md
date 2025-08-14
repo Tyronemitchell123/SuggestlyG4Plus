@@ -1,167 +1,132 @@
-# Domain Setup Guide for Your Websites
+# Domain Setup Guide for SUGGESTLY ELITE
 
-## 🌐 Your Websites on SuggestlyG4Plus
+## 🎯 **Priority 1: Custom Domain Setup**
 
-Your three websites are now configured and ready to be hosted on the SuggestlyG4Plus platform:
+### **Recommended Domain Options:**
+- `suggestlyelite.com`
+- `suggestly-elite.com`
+- `suggestly.ai`
+- `eliteadvisory.com`
 
-### 1. OnTarget Couriers
-- **Current Path**: `suggestlyg4plus.io/ontargetcouriers`
-- **Target Domain**: `www.ontargetcouriers.co.uk`
-- **Theme**: Modern with red branding
-- **Business Type**: Courier and delivery services
+### **Setup Steps:**
 
-### 2. OnTarget Designs
-- **Current Path**: `suggestlyg4plus.io/ontargetdesigns`
-- **Target Domain**: `www.ontargetdesigns.com`
-- **Theme**: Minimal with purple branding
-- **Business Type**: Web design and digital marketing
+#### **Vercel Domain Setup:**
+1. Go to Vercel Dashboard → Your Project → Settings → Domains
+2. Add your custom domain
+3. Update DNS records (A record to 76.76.19.19)
+4. Enable HTTPS automatically
 
-### 3. Velocities Ltd
-- **Current Path**: `suggestlyg4plus.io/velocities`
-- **Target Domain**: `www.velocities.ltd`
-- **Theme**: Dark with cyan branding
-- **Business Type**: Technology consultancy
+#### **Railway Domain Setup:**
+1. Go to Railway Dashboard → Your Project → Settings → Domains
+2. Add custom domain
+3. Update DNS records as instructed
 
-## 🚀 Setting Up Custom Domains
-
-### Option 1: DNS Configuration (Recommended)
-
-1. **Access your domain registrar** (where you bought the domains)
-2. **Update DNS settings** for each domain:
-
-#### For www.ontargetcouriers.co.uk:
+### **DNS Configuration:**
 ```
+Type: A
+Name: @
+Value: 76.76.19.19 (Vercel)
+TTL: 3600
+
 Type: CNAME
 Name: www
-Value: suggestlyg4plus.io
-TTL: 3600 (or default)
+Value: your-domain.com
+TTL: 3600
 ```
 
-#### For www.ontargetdesigns.com:
-```
-Type: CNAME
-Name: www
-Value: suggestlyg4plus.io
-TTL: 3600 (or default)
-```
+## 🎨 **Priority 2: Branding & Design**
 
-#### For www.velocities.ltd:
-```
-Type: CNAME
-Name: www
-Value: suggestlyg4plus.io
-TTL: 3600 (or default)
-```
+### **Logo & Assets:**
+- Create professional logo
+- Design favicon
+- Prepare social media images
+- Create brand guidelines
 
-### Option 2: Vercel Domain Configuration
+### **Color Scheme:**
+- Primary: Deep Blue (#1a365d)
+- Secondary: Gold (#d69e2e)
+- Accent: Emerald (#059669)
+- Background: Light Gray (#f7fafc)
 
-If you're using Vercel for hosting:
+## 📊 **Priority 3: Analytics & SEO**
 
-```bash
-# Add custom domains to your Vercel project
-vercel domains add www.ontargetcouriers.co.uk
-vercel domains add www.ontargetdesigns.com
-vercel domains add www.velocities.ltd
-```
+### **Google Analytics Setup:**
+1. Create GA4 property
+2. Add tracking code to app
+3. Set up conversion goals
+4. Configure e-commerce tracking
 
-### Option 3: Subdomain Routing (Alternative)
+### **SEO Optimization:**
+- Meta tags optimization
+- Open Graph tags
+- Twitter Cards
+- Sitemap generation
+- robots.txt setup
 
-You can also access your sites via subdomains:
+## 🔒 **Priority 4: Security & Compliance**
 
-- `ontargetcouriers.suggestlyg4plus.io`
-- `ontargetdesigns.suggestlyg4plus.io`
-- `velocities.suggestlyg4plus.io`
+### **Security Headers:**
+- Content Security Policy
+- HSTS
+- X-Frame-Options
+- X-Content-Type-Options
 
-## 🔧 Advanced Configuration
+### **Privacy Compliance:**
+- GDPR compliance
+- Privacy policy
+- Terms of service
+- Cookie consent
 
-### Custom Domain Detection
+## 💰 **Priority 5: Payment Integration**
 
-The platform automatically detects which site to show based on the domain. You can enhance this by updating the `useSiteManager.js` hook:
+### **Stripe Setup:**
+1. Create Stripe account
+2. Add payment methods
+3. Test transactions
+4. Set up webhooks
 
-```javascript
-// Add domain mapping
-const DOMAIN_MAPPING = {
-  'www.ontargetcouriers.co.uk': 'ontargetcouriers',
-  'www.ontargetdesigns.com': 'ontargetdesigns',
-  'www.velocities.ltd': 'velocities'
-};
-```
+### **Pricing Tiers:**
+- Basic: $99/month
+- Professional: $299/month
+- Enterprise: Custom pricing
 
-### SSL Certificates
+## 📱 **Priority 6: Mobile Optimization**
 
-Ensure SSL certificates are configured for each domain:
-- Automatic SSL with Let's Encrypt (Vercel)
-- Manual SSL certificate installation
-- Wildcard certificates for subdomains
+### **Progressive Web App:**
+- Service worker setup
+- Offline functionality
+- App manifest
+- Push notifications
 
-## 📊 Analytics Setup
+## 🔄 **Priority 7: Additional Deployments**
 
-Each site has analytics enabled. Configure Google Analytics:
+### **Backup Platforms:**
+- Netlify deployment
+- Firebase hosting
+- GitHub Pages
+- AWS Amplify
 
-1. **OnTarget Couriers**: GA4 property for courier services
-2. **OnTarget Designs**: GA4 property for design services
-3. **Velocities Ltd**: GA4 property for technology services
+## 📈 **Priority 8: Performance Optimization**
 
-## 🔄 Content Management
+### **Performance Metrics:**
+- Lighthouse score optimization
+- Core Web Vitals
+- Image optimization
+- Code splitting
+- Lazy loading
 
-### Access Site Manager
-- **URL**: `suggestlyg4plus.io/admin`
-- **Features**: Edit content, change themes, update colors
-- **Real-time**: See changes instantly
+## 🎯 **Immediate Next Steps:**
 
-### Custom Content Updates
+1. **Choose and register domain name**
+2. **Set up custom domain on Vercel**
+3. **Configure Google Analytics**
+4. **Create professional logo**
+5. **Set up Stripe payments**
 
-Each site can be customized with:
-- **Hero sections**: Main messaging and calls-to-action
-- **About sections**: Company information and services
-- **Services/Portfolio**: Showcase your work
-- **Contact forms**: Lead generation and inquiries
+## 📞 **Support & Maintenance:**
 
-## 🎨 Branding Customization
-
-### OnTarget Couriers
-- **Primary Color**: #dc2626 (Red)
-- **Secondary Color**: #991b1b (Dark Red)
-- **Theme**: Modern with gradient backgrounds
-
-### OnTarget Designs
-- **Primary Color**: #7c3aed (Purple)
-- **Secondary Color**: #5b21b6 (Dark Purple)
-- **Theme**: Minimal with clean design
-
-### Velocities Ltd
-- **Primary Color**: #06b6d4 (Cyan)
-- **Secondary Color**: #0891b2 (Dark Cyan)
-- **Theme**: Dark with high contrast
-
-## 📱 Mobile Optimization
-
-All sites are fully responsive and optimized for:
-- Mobile phones
-- Tablets
-- Desktop computers
-- All modern browsers
-
-## 🚀 Deployment Checklist
-
-- [ ] DNS records updated
-- [ ] SSL certificates configured
-- [ ] Analytics tracking set up
-- [ ] Content reviewed and updated
-- [ ] Contact forms tested
-- [ ] Mobile responsiveness verified
-- [ ] SEO meta tags optimized
-
-## 📞 Support
-
-For domain setup assistance:
-1. Check your domain registrar's documentation
-2. Contact your hosting provider
-3. Review Vercel's domain configuration guide
-4. Test domains before going live
-
----
-
-**Your websites are ready to go live!** 🎉
-
-Access the Site Manager at `/admin` to make any final adjustments before launching your domains.
+- Set up monitoring (UptimeRobot)
+- Error tracking (Sentry)
+- Performance monitoring
+- Regular backups
+- Security audits
