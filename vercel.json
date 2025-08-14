@@ -99,5 +99,8 @@
   ],
   "env": {
     "CI": "false"
+  },
+  "git": {
+    "deploymentEnabled": false
   }
 }
