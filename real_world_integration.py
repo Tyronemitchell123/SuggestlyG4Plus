@@ -47,7 +47,7 @@ class RealWorldTechIntegrator:
         
         logger.info(f"✅ API keys loaded: {len(loaded_keys)} found, {len(missing_keys)} missing")
         if missing_keys:
-            logger.warning(f"⚠️ Missing API keys for: {', '.join(missing_keys)} - related features will be disabled")
+            logger.warning(f"⚠️ {len(missing_keys)} API keys are missing - related features will be disabled")
 
     async def integrate_financial_apis(self):
         """Integrate real-time financial data APIs"""
