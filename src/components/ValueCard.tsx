@@ -1,5 +1,5 @@
 import React from 'react';
-import { Crown, Shield, Zap, Users, Target, Globe } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 interface ValueCardProps {
   icon: React.ComponentType<{ className?: string }>;

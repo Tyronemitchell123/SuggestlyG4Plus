@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
 import { 
-  CreditCard, 
-  Lock, 
+  Crown, 
+  Zap, 
   Shield, 
-  CheckCircle, 
-  AlertCircle, 
-  Crown,
-  DollarSign,
-  Calendar,
-  User,
-  Building
+  CreditCard, 
+  Lock,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 

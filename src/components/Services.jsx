@@ -7,8 +7,7 @@ import {
   Shield, 
   Brain, 
   BarChart3, 
-  Cpu,
-  Target
+  Cpu
 } from 'lucide-react';
 
 const Services = () => {

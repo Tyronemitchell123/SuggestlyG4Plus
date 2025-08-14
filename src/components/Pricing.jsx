@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Crown, Check, Star, ArrowRight } from 'lucide-react';
+import { Crown, Check, Star, ArrowRight, Shield, Diamond, Globe, Lock } from 'lucide-react';
 import ConsultationModal from "./ConsultationModal";
 
 const Pricing = () => {
