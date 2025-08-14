@@ -1,27 +1,58 @@
 name: Storybook QA
-on: [push, pull_request]
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+permissions:
+  contents: read
+  actions: read  # For uploading artifacts
+
+concurrency:
+  group: storybook-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   a11y-and-visuals:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
     env:
       CHROMATIC_PROJECT_TOKEN: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+      
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 20 }
-      - run: npm ci
+      
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: yarn
+          
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+        
       - name: Build Storybook
         run: npx storybook build --quiet
-      - name: Start Storybook
-        run: npx http-server storybook-static -p 6006 & npx wait-on tcp:6006
-      - name: A11y test (axe via test-runner)
+        
+      - name: Start Storybook server
+        run: |
+          npx http-server storybook-static -p 6006 &
+          npx wait-on tcp:6006
+        
+      - name: Run accessibility tests
         run: npx @storybook/test-runner --url http://localhost:6006
+        
       - name: Publish to Chromatic (optional)
         if: env.CHROMATIC_PROJECT_TOKEN != ''
         run: npx chromatic --project-token=$CHROMATIC_PROJECT_TOKEN
+        
       - name: Upload Storybook artifacts
         uses: actions/upload-artifact@v4
+        if: always()
         with:
-          name: storybook-static
+          name: storybook-static-${{ github.sha }}
           path: storybook-static/
           retention-days: 30
