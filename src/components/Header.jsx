@@ -62,6 +62,18 @@ const Header = () => {
     setIsMobileMenuOpen(false);
   };
 
+  const handleProblemsClick = () => {
+    // Scroll to Problems section if present
+    const problemsSection = document.getElementById('problems');
+    if (problemsSection) {
+      problemsSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      // Navigate home with hash; browser will attempt to jump after render
+      window.location.href = '/#problems';
+    }
+    setIsMobileMenuOpen(false);
+  };
+
   const handleDashboardClick = () => {
     window.open('/dashboard', '_blank');
     setIsMobileMenuOpen(false);
@@ -102,6 +114,13 @@ const Header = () => {
                 {item.name}
               </Link>
             ))}
+            {/* Problems anchor scroll */}
+            <button
+              onClick={handleProblemsClick}
+              className="text-luxury-light hover:text-luxury-gold transition-colors duration-300 font-medium"
+            >
+              Problems
+            </button>
             
             {/* Services Dropdown */}
             <div className="relative">
@@ -226,6 +245,14 @@ const Header = () => {
                   {item.name}
                 </Link>
               ))}
+
+              {/* Problems anchor (mobile) */}
+              <button
+                onClick={handleProblemsClick}
+                className="block w-full text-left py-3 text-lg font-medium text-luxury-light hover:text-luxury-gold transition-colors duration-300"
+              >
+                Problems
+              </button>
               
               {/* Mobile Services */}
               <div className="border-t border-luxury-gold/20 pt-4">
