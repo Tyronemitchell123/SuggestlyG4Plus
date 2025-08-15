@@ -83,7 +83,7 @@
     "install:ultra": "npm run clean:ultra && npm install --prefer-offline --no-audit",
     "fix-deps": "npm run clean:ultra && npm install --legacy-peer-deps",
     "deploy:clean": "npm run clean:ultra && npm install --legacy-peer-deps --production=false",
-    "vercel-build": "npm ci --legacy-peer-deps && npm run build",
+    "vercel-build": "npm ci --legacy-peer-deps && CI=false npm run build",
     "build:simple": "node build-simple.js"
   },
   "eslintConfig": {
@@ -91,6 +91,9 @@
       "react-app",
       "react-app/jest"
     ]
+  },
+  "engines": {
+    "node": "22.x"
   },
   "browserslist": {
     "production": [
