@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SUGGESTLY ELITE - Homepage Preview</title>
+    <title>SUGGESTLY ELITE - Premium Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,668 +14,627 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
-            color: #ffffff;
-            line-height: 1.6;
+            background: #ffffff;
+            color: #000000;
+            line-height: 1.5;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
-        .header {
-            background: rgba(15, 15, 35, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        /* Premium Navigation */
+        .premium-nav {
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .nav {
+        .nav-left {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
+            gap: 16px;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #ffd700;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            color: #ffffff;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: #ffd700;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
+        .premium-logo {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            padding: 120px 0 80px;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 14px;
         }
 
-        .hero-content h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .brand-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1f2937;
         }
 
-        .hero-content p {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
-            color: #b0b0b0;
-            max-width: 600px;
+        .nav-tabs {
+            display: flex;
+            gap: 32px;
+            margin-left: 48px;
+        }
+
+        .nav-tab {
+            padding: 8px 0;
+            font-size: 14px;
+            font-weight: 500;
+            color: #6b7280;
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .nav-tab.active {
+            color: #1f2937;
+            border-bottom-color: #667eea;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .premium-search {
+            display: flex;
+            align-items: center;
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 8px 12px;
+            gap: 8px;
+            width: 240px;
+        }
+
+        .premium-search input {
+            border: none;
+            background: transparent;
+            outline: none;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .premium-search input::placeholder {
+            color: #9ca3af;
+        }
+
+        .nav-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .nav-icon:hover {
+            background: #f3f4f6;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 64px;
+            padding: 32px 24px;
+            max-width: 1400px;
             margin-left: auto;
             margin-right: auto;
         }
 
-        .cta-buttons {
+        .dashboard-header {
             display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
         }
 
-        .btn {
-            padding: 12px 24px;
-            border: none;
+        .dashboard-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .dashboard-subtitle {
+            font-size: 16px;
+            color: #6b7280;
+        }
+
+        .dashboard-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .premium-btn {
+            padding: 10px 20px;
             border-radius: 8px;
-            font-weight: 600;
+            font-size: 14px;
+            font-weight: 500;
             text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #ffd700, #ffed4e);
-            color: #000;
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
         }
 
         .btn-secondary {
-            background: transparent;
-            color: #ffd700;
-            border: 2px solid #ffd700;
+            background: #ffffff;
+            color: #374151;
+            border: 1px solid #d1d5db;
         }
 
         .btn-secondary:hover {
-            background: #ffd700;
-            color: #000;
+            background: #f9fafb;
+            border-color: #9ca3af;
         }
 
-        /* Sections */
-        .section {
-            padding: 80px 0;
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #ffffff;
+            border: none;
         }
 
-        .section-title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            text-align: center;
-            margin-bottom: 3rem;
-            color: #ffd700;
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
 
-        .section-subtitle {
-            text-align: center;
-            font-size: 1.1rem;
-            color: #b0b0b0;
-            margin-bottom: 4rem;
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        /* Services Grid */
-        .services-grid {
+        /* Premium Cards Grid */
+        .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+            gap: 24px;
+            margin-bottom: 32px;
         }
 
-        .service-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 16px;
-            padding: 2rem;
-            text-align: center;
+        .premium-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 24px;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .service-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.1);
-            border-color: #ffd700;
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
 
-        .service-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            color: #ffd700;
+        .premium-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
-        .service-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-
-        .service-card p {
-            color: #b0b0b0;
-            margin-bottom: 1.5rem;
-        }
-
-        /* Features */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-
-        .feature-item {
+        .card-header {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            background: rgba(255, 255, 255, 0.05);
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
         }
 
-        .feature-icon {
-            color: #ffd700;
-            font-size: 1.5rem;
+        .card-content {
+            color: #6b7280;
+            line-height: 1.6;
         }
 
-        /* Pricing */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+        .card-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #f3f4f6;
         }
 
-        .pricing-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 16px;
-            padding: 2rem;
+        .stat {
             text-align: center;
-            position: relative;
         }
 
-        .pricing-card.featured {
-            border-color: #ffd700;
-            transform: scale(1.05);
-        }
-
-        .pricing-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #ffd700;
-        }
-
-        .price {
-            font-size: 3rem;
+        .stat-value {
+            font-size: 24px;
             font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 1rem;
+            color: #1f2937;
         }
 
-        .price small {
-            font-size: 1rem;
-            color: #b0b0b0;
+        .stat-label {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        /* Contact */
-        .contact-form {
-            max-width: 600px;
-            margin: 0 auto;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2rem;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 215, 0, 0.2);
+        /* Live Data Section */
+        .live-data-section {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 32px;
         }
 
-        .form-group {
-            margin-bottom: 1.5rem;
+        .live-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
         }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #ffffff;
+        .live-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #1f2937;
         }
 
-        .form-group input,
-        .form-group textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid rgba(255, 215, 0, 0.3);
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #059669;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #059669;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .data-item {
+            padding: 16px;
+            background: #f9fafb;
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            font-size: 1rem;
+            border-left: 4px solid #667eea;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: #ffd700;
+        .data-label {
+            font-size: 12px;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 4px;
         }
 
-        /* Footer */
-        .footer {
-            background: rgba(15, 15, 35, 0.95);
-            border-top: 1px solid rgba(255, 215, 0, 0.2);
-            padding: 2rem 0;
-            text-align: center;
-            color: #b0b0b0;
+        .data-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
         }
 
-        /* Responsive */
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 2.5rem;
-            }
-
-            .nav-links {
+            .nav-tabs {
                 display: none;
             }
-
-            .cta-buttons {
-                flex-direction: column;
-                align-items: center;
+            
+            .premium-search {
+                width: 180px;
             }
-
-            .services-grid,
-            .pricing-grid {
+            
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .data-grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Premium Animations */
+        .fade-in {
+            animation: fadeIn 0.6s ease-in;
         }
 
-        .fade-in-up {
-            animation: fadeInUp 0.6s ease-out;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        /* WhatsApp Optimization Section */
-        .whatsapp-section {
-            background: linear-gradient(135deg, #25d366, #128c7e);
-            margin: 2rem 0;
-            padding: 3rem 0;
-            border-radius: 16px;
+        .slide-in {
+            animation: slideIn 0.8s ease-out;
         }
 
-        .whatsapp-content {
-            text-align: center;
-            color: #ffffff;
-        }
-
-        .whatsapp-content h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .whatsapp-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .whatsapp-feature {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 1.5rem;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .whatsapp-feature h4 {
-            color: #ffffff;
-            margin-bottom: 0.5rem;
-        }
-
-        .whatsapp-feature p {
-            color: rgba(255, 255, 255, 0.8);
-            font-size: 0.9rem;
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav container">
-            <a href="#" class="logo">SUGGESTLY ELITE</a>
-            <ul class="nav-links">
-                <li><a href="#services">Services</a></li>
-                <li><a href="#features">Features</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="/dashboard">Dashboard</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content fade-in-up">
-                <h1>SUGGESTLY ELITE</h1>
-                <p>Advanced AI Platform & Multi-Site Hosting for UHNWI & Business Executives. Transform your digital presence with our enterprise-grade platform.</p>
-                <div class="cta-buttons">
-                    <a href="#contact" class="btn btn-primary">Get Started</a>
-                    <a href="#features" class="btn btn-secondary">Learn More</a>
-                </div>
+    <!-- Premium Navigation -->
+    <nav class="premium-nav">
+        <div class="nav-left">
+            <div class="premium-logo">S</div>
+            <div class="brand-name">SUGGESTLY ELITE</div>
+            <div class="nav-tabs">
+                <a href="#" class="nav-tab active">Dashboard</a>
+                <a href="#" class="nav-tab">Analytics</a>
+                <a href="#" class="nav-tab">Projects</a>
+                <a href="#" class="nav-tab">Reports</a>
+                <a href="#" class="nav-tab">Settings</a>
             </div>
         </div>
-    </section>
-
-    <!-- Services Section -->
-    <section id="services" class="section">
-        <div class="container">
-            <h2 class="section-title">Our Services</h2>
-            <p class="section-subtitle">Comprehensive solutions for modern businesses</p>
-            
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">🎵</div>
-                    <h3>Audio Production Suite</h3>
-                    <p>Professional audio equalizer, G4 EQ, and DAW connector for music production and audio engineering.</p>
-                    <a href="/audio-eq" class="btn btn-secondary">Explore</a>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">🤖</div>
-                    <h3>AI Content Studio</h3>
-                    <p>Advanced AI-powered content generation, video production, and creative automation tools.</p>
-                    <a href="/ai-studio" class="btn btn-secondary">Explore</a>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">🌐</div>
-                    <h3>Multi-Site Hosting</h3>
-                    <p>Enterprise-grade hosting platform for managing multiple websites with advanced analytics.</p>
-                    <a href="/dashboard" class="btn btn-secondary">Explore</a>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">💳</div>
-                    <h3>Payment System</h3>
-                    <p>Advanced payment processing, subscription management, and financial analytics.</p>
-                    <a href="/payment-system" class="btn btn-secondary">Explore</a>
-                </div>
+        <div class="nav-right">
+            <div class="premium-search">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <path d="m21 21-4.35-4.35"></path>
+                </svg>
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="nav-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                    <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                </svg>
+            </div>
+            <div class="nav-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <circle cx="12" cy="10" r="3"></circle>
+                    <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"></path>
+                </svg>
             </div>
         </div>
-    </section>
+    </nav>
 
-    <!-- WhatsApp Optimization Section -->
-    <section class="whatsapp-section">
-        <div class="container">
-            <div class="whatsapp-content">
-                <h2>🚀 WhatsApp Optimization Suite</h2>
-                <p>Maximize your WhatsApp potential with our comprehensive optimization tools</p>
-                
-                <div class="whatsapp-features">
-                    <div class="whatsapp-feature">
-                        <h4>📱 Performance</h4>
-                        <p>85% efficiency increase with optimized storage and battery usage</p>
-                    </div>
-                    <div class="whatsapp-feature">
-                        <h4>🤖 Automation</h4>
-                        <p>Business automation with customer service bots and lead generation</p>
-                    </div>
-                    <div class="whatsapp-feature">
-                        <h4>🔒 Security</h4>
-                        <p>Enhanced security with 2FA, encryption, and privacy controls</p>
-                    </div>
-                    <div class="whatsapp-feature">
-                        <h4>🔗 Integration</h4>
-                        <p>Seamless integration with CRM, calendar, and business tools</p>
-                    </div>
-                </div>
-                
-                <div style="margin-top: 2rem;">
-                    <a href="WHATSAPP_OPTIMIZATION_GUIDE.md" class="btn btn-primary">View Optimization Guide</a>
-                </div>
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Header -->
+        <div class="dashboard-header fade-in">
+            <div>
+                <h1 class="dashboard-title">Premium Dashboard</h1>
+                <p class="dashboard-subtitle">Real-time analytics and performance metrics</p>
+            </div>
+            <div class="dashboard-actions">
+                <a href="#" class="premium-btn btn-secondary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7,10 12,15 17,10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    Export
+                </a>
+                <a href="#" class="premium-btn btn-primary">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    Generate Report
+                </a>
             </div>
         </div>
-    </section>
 
-    <!-- Features Section -->
-    <section id="features" class="section">
-        <div class="container">
-            <h2 class="section-title">Key Features</h2>
-            <p class="section-subtitle">Cutting-edge technology for elite performance</p>
-            
-            <div class="features-grid">
-                <div class="feature-item">
-                    <span class="feature-icon">⚡</span>
-                    <div>
-                        <h4>Quantum AI</h4>
-                        <p>Advanced quantum computing integration</p>
+        <!-- Premium Cards Grid -->
+        <div class="cards-grid">
+            <div class="premium-card slide-in">
+                <div class="card-header">
+                    <h3 class="card-title">Performance Metrics</h3>
+                    <div class="card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"></polyline>
+                        </svg>
                     </div>
                 </div>
-                
-                <div class="feature-item">
-                    <span class="feature-icon">🔐</span>
-                    <div>
-                        <h4>Enterprise Security</h4>
-                        <p>Military-grade encryption and security</p>
-                    </div>
+                <div class="card-content">
+                    Advanced performance analytics with real-time monitoring and predictive insights.
                 </div>
-                
-                <div class="feature-item">
-                    <span class="feature-icon">📊</span>
-                    <div>
-                        <h4>Advanced Analytics</h4>
-                        <p>Real-time business intelligence</p>
+                <div class="card-stats">
+                    <div class="stat">
+                        <div class="stat-value">99.9%</div>
+                        <div class="stat-label">Uptime</div>
                     </div>
-                </div>
-                
-                <div class="feature-item">
-                    <span class="feature-icon">🌍</span>
-                    <div>
-                        <h4>Global CDN</h4>
-                        <p>Lightning-fast global delivery</p>
+                    <div class="stat">
+                        <div class="stat-value">2.1s</div>
+                        <div class="stat-label">Load Time</div>
                     </div>
-                </div>
-                
-                <div class="feature-item">
-                    <span class="feature-icon">🎨</span>
-                    <div>
-                        <h4>AI Design</h4>
-                        <p>Intelligent design automation</p>
-                    </div>
-                </div>
-                
-                <div class="feature-item">
-                    <span class="feature-icon">📱</span>
-                    <div>
-                        <h4>Mobile First</h4>
-                        <p>Optimized for all devices</p>
+                    <div class="stat">
+                        <div class="stat-value">1.2M</div>
+                        <div class="stat-label">Requests</div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Pricing Section -->
-    <section id="pricing" class="section">
-        <div class="container">
-            <h2 class="section-title">Pricing Plans</h2>
-            <p class="section-subtitle">Choose the perfect plan for your business needs</p>
-            
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <h3>Starter</h3>
-                    <div class="price">$99<span>/month</span></div>
-                    <ul style="list-style: none; margin: 1.5rem 0; color: #b0b0b0;">
-                        <li>✓ Basic AI Tools</li>
-                        <li>✓ Single Site Hosting</li>
-                        <li>✓ Email Support</li>
-                        <li>✓ Basic Analytics</li>
-                    </ul>
-                    <a href="#contact" class="btn btn-secondary">Get Started</a>
+            <div class="premium-card slide-in">
+                <div class="card-header">
+                    <h3 class="card-title">AI Analytics</h3>
+                    <div class="card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2a3 3 0 0 0-3 3c0 1.4 1.1 2.5 2.5 2.5H12c1.4 0 2.5-1.1 2.5-2.5a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 3v4a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V3"></path>
+                            <path d="M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7"></path>
+                            <path d="M8 12h8"></path>
+                        </svg>
+                    </div>
                 </div>
-                
-                <div class="pricing-card featured">
-                    <h3>Professional</h3>
-                    <div class="price">$299<span>/month</span></div>
-                    <ul style="list-style: none; margin: 1.5rem 0; color: #b0b0b0;">
-                        <li>✓ Advanced AI Suite</li>
-                        <li>✓ Multi-Site Hosting</li>
-                        <li>✓ Priority Support</li>
-                        <li>✓ Advanced Analytics</li>
-                        <li>✓ WhatsApp Optimization</li>
-                    </ul>
-                    <a href="#contact" class="btn btn-primary">Get Started</a>
+                <div class="card-content">
+                    Machine learning powered insights with automated pattern recognition and trend analysis.
                 </div>
-                
-                <div class="pricing-card">
-                    <h3>Enterprise</h3>
-                    <div class="price">Custom</div>
-                    <ul style="list-style: none; margin: 1.5rem 0; color: #b0b0b0;">
-                        <li>✓ Full Platform Access</li>
-                        <li>✓ Unlimited Sites</li>
-                        <li>✓ 24/7 Support</li>
-                        <li>✓ Custom Integration</li>
-                        <li>✓ White Label</li>
-                    </ul>
-                    <a href="#contact" class="btn btn-secondary">Contact Sales</a>
+                <div class="card-stats">
+                    <div class="stat">
+                        <div class="stat-value">87%</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">24/7</div>
+                        <div class="stat-label">Monitoring</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">5.2K</div>
+                        <div class="stat-label">Predictions</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="premium-card slide-in">
+                <div class="card-header">
+                    <h3 class="card-title">Security Status</h3>
+                    <div class="card-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
+                </div>
+                <div class="card-content">
+                    Enterprise-grade security with advanced threat detection and real-time protection.
+                </div>
+                <div class="card-stats">
+                    <div class="stat">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Protected</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">Threats</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">256-bit</div>
+                        <div class="stat-label">Encryption</div>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
 
-    <!-- Contact Section -->
-    <section id="contact" class="section">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <p class="section-subtitle">Ready to transform your business? Let's talk.</p>
-            
-            <div class="contact-form">
-                <form>
-                    <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" id="name" name="name" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="company">Company</label>
-                        <input type="text" id="company" name="company">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" rows="5" required></textarea>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
-                </form>
+        <!-- Live Data Section -->
+        <div class="live-data-section fade-in">
+            <div class="live-header">
+                <h2 class="live-title">Live System Data</h2>
+                <div class="live-indicator">
+                    <div class="live-dot"></div>
+                    Live
+                </div>
+            </div>
+            <div class="data-grid">
+                <div class="data-item">
+                    <div class="data-label">CPU Usage</div>
+                    <div class="data-value">23%</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Memory</div>
+                    <div class="data-value">4.2GB</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Network</div>
+                    <div class="data-value">1.8Gbps</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Active Users</div>
+                    <div class="data-value">2,847</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Response Time</div>
+                    <div class="data-value">45ms</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Error Rate</div>
+                    <div class="data-value">0.01%</div>
+                </div>
             </div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 SUGGESTLY ELITE. All rights reserved.</p>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;">
-                Advanced AI Platform & Multi-Site Hosting for UHNWI & Business Executives
-            </p>
-        </div>
-    </footer>
+    </main>
 
     <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
+        // Add interactive functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate cards on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.premium-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
             });
-        });
 
-        // Form submission
-        document.querySelector('form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for your message! We will get back to you soon.');
-        });
-
-        // Add fade-in animation to sections
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
+            // Add click handlers for navigation
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                });
             });
-        }, observerOptions);
 
-        // Observe all sections
-        document.querySelectorAll('.section').forEach(section => {
-            section.style.opacity = '0';
-            section.style.transform = 'translateY(30px)';
-            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(section);
+            // Simulate live data updates
+            setInterval(() => {
+                const dataValues = document.querySelectorAll('.data-value');
+                dataValues.forEach(value => {
+                    if (value.textContent.includes('%')) {
+                        const currentValue = parseInt(value.textContent);
+                        const newValue = Math.max(0, Math.min(100, currentValue + (Math.random() - 0.5) * 10));
+                        value.textContent = Math.round(newValue) + '%';
+                    }
+                });
+            }, 5000);
         });
     </script>
 </body>
