@@ -1,4 +1,5 @@
 import OpenAI from 'openai';
+import advancedAIService from './advancedAIService';
 
 const openai = new OpenAI({
   apiKey: process.env.REACT_APP_OPENAI_API_KEY,
@@ -85,5 +86,77 @@ Create a professional, personalized response that:
 5. Maintains luxury brand voice`;
 
     return await this.generateContent(prompt, 'general', 'gpt-4');
+  },
+
+  // Advanced AI Analysis with Quantum and Predictive Features
+  async performAdvancedAnalysis(prompt, options = {}) {
+    try {
+      return await advancedAIService.performAdvancedAnalysis(prompt, {
+        includeQuantum: true,
+        includePredictive: true,
+        ...options
+      });
+    } catch (error) {
+      console.error('Advanced AI Analysis Error:', error);
+      return this.generateContent(prompt, 'general', 'gpt-4');
+    }
+  },
+
+  // Quantum-Inspired Analysis
+  async performQuantumAnalysis(data) {
+    try {
+      return await advancedAIService.performQuantumAnalysis(data);
+    } catch (error) {
+      console.error('Quantum Analysis Error:', error);
+      return {
+        success: false,
+        error: 'Quantum analysis unavailable',
+        fallback: await this.generateContent('Analyze this data: ' + JSON.stringify(data), 'general', 'gpt-4')
+      };
+    }
+  },
+
+  // Predictive Modeling
+  async performPredictiveModeling(historicalData, timeframe = '1y') {
+    try {
+      return await advancedAIService.performPredictiveModeling(historicalData, timeframe);
+    } catch (error) {
+      console.error('Predictive Modeling Error:', error);
+      return {
+        success: false,
+        error: 'Predictive modeling unavailable',
+        fallback: await this.generateContent('Analyze historical trends: ' + JSON.stringify(historicalData), 'general', 'gpt-4')
+      };
+    }
+  },
+
+  // AI Health Check
+  async healthCheck() {
+    try {
+      return await advancedAIService.healthCheck();
+    } catch (error) {
+      return { status: 'unhealthy', error: error.message };
+    }
+  },
+
+  // Enhanced Content Generation with Advanced Features
+  async generateAdvancedContent(prompt, type = 'general', options = {}) {
+    try {
+      const enhancedPrompt = `Generate advanced ${type} content with quantum-inspired insights and predictive analysis:
+
+${prompt}
+
+Apply:
+- Multi-dimensional analysis
+- Future scenario modeling
+- Risk assessment
+- Confidence metrics
+- Actionable recommendations`;
+
+      return await this.performAdvancedAnalysis(enhancedPrompt, options);
+    } catch (error) {
+      console.error('Advanced Content Generation Error:', error);
+      return this.generateContent(prompt, type, 'gpt-4');
+    }
   }
 };
