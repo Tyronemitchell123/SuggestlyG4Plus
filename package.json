@@ -4,21 +4,51 @@
   "description": "Advanced AI Platform for UHNWIs - Elite Advisory Services",
   "private": true,
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.470.0",
+    "@react-three/drei": "^9.102.6",
+    "@react-three/fiber": "^8.15.19",
+    "@react-three/postprocessing": "^2.8.1",
+    "@stripe/stripe-js": "^2.1.11",
+    "axios": "^1.6.2",
+    "compression": "^1.7.4",
+    "connect-redis": "^7.1.0",
+    "cors": "^2.8.5",
+    "express-rate-limit": "^7.1.5",
+    "express-session": "^1.17.3",
+    "express-validator": "^7.0.1",
     "framer-motion": "^10.16.16",
+    "helmet": "^7.1.0",
     "lucide-react": "^0.263.1",
+    "mongoose": "^8.0.3",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "openai": "^4.20.1",
+    "prom-client": "^15.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-ga4": "^2.1.0",
+    "react-helmet-async": "^1.3.0",
     "react-hook-form": "^7.48.2",
     "react-hot-toast": "^2.4.1",
     "react-intersection-observer": "^9.5.3",
     "react-router-dom": "^6.15.0",
-    "react-scripts": "^5.0.1",
-    "react-helmet-async": "^1.3.0",
-    "ajv": "^8.12.0"
+    "react-scripts": "5.0.1",
+    "redis": "^4.6.10",
+    "sharp": "^0.33.0",
+    "socket.io": "^4.7.4",
+    "swagger-ui-express": "^5.0.0",
+    "three": "^0.179.1",
+    "uuid": "^9.0.1",
+    "winston": "^3.11.0",
+    "workbox-webpack-plugin": "^7.3.0",
+    "xss-clean": "^0.1.4"
   },
   "devDependencies": {
+    "@types/node": "^24.2.1",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
+    "ajv": "^8.12.0",
+    "express": "^5.1.0",
     "prettier": "^3.0.0",
     "typescript": "^4.9.5"
   },
@@ -27,11 +57,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint src --ext .js,.jsx,.ts,.tsx --fix",
-    "lint:check": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "format": "prettier --write src/**/*.{js,jsx,ts,tsx,css,md}",
-    "format:check": "prettier --check src/**/*.{js,jsx,ts,tsx,css,md}",
-    "vercel-build": "CI=false npm run build"
+    "vercel-build": "node build.js"
   },
   "eslintConfig": {
     "extends": [
@@ -40,8 +66,7 @@
     ]
   },
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=8.0.0"
+    "node": "18.x"
   },
   "browserslist": {
     "production": [
@@ -57,7 +82,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/suggestly/elite-platform.git"
+    "url": "https://github.com/tyronemitchell123/suggestlyg4plus.git"
   },
   "keywords": [
     "ai",
@@ -65,8 +90,7 @@
     "wealth-management",
     "luxury",
     "advisory",
-    "react",
-    "typescript"
+    "react"
   ],
   "author": "SUGGESTLY ELITE",
   "license": "MIT",
