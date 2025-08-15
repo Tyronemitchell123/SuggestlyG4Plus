@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -22,7 +22,18 @@ import {
   Sparkles,
   Sun,
   Wifi,
+  Zap,
+  Mic,
+  Eye,
+  MousePointer,
+  Smartphone,
+  Monitor,
+  Tablet,
+  Command,
+  TrendingUp,
+  Users,
 } from "lucide-react";
+import "../styles/UltraPremiumUX.css";
 import {
   LineChart,
   Line,
@@ -51,6 +62,143 @@ function useDarkMode() {
     }
   }, [theme]);
   return { theme, setTheme };
+}
+
+// Ultra-Premium UX State Management
+function useUltraPremiumUX() {
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [voiceNavigation, setVoiceNavigation] = useState(false);
+  const [screenSize, setScreenSize] = useState('desktop');
+  const [aiSuggestions, setAiSuggestions] = useState([]);
+  const [accessibilityMode, setAccessibilityMode] = useState('standard');
+  
+  const parallaxRef = useRef(null);
+  const commandPaletteRef = useRef(null);
+
+  // Micro-interactions and animations
+  const microInteractions = {
+    button: {
+      hover: { scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" },
+      tap: { scale: 0.95 },
+      transition: { type: "spring", stiffness: 400, damping: 17 }
+    },
+    card: {
+      hover: { y: -10, rotateY: 5 },
+      transition: { duration: 0.3 }
+    },
+    gradient: {
+      animate: {
+        background: [
+          "linear-gradient(45deg, #667eea 0%, #764ba2 100%)",
+          "linear-gradient(45deg, #f093fb 0%, #f5576c 100%)",
+          "linear-gradient(45deg, #4facfe 0%, #00f2fe 100%)",
+          "linear-gradient(45deg, #667eea 0%, #764ba2 100%)"
+        ]
+      },
+      transition: { duration: 8, repeat: Infinity, ease: "linear" }
+    }
+  };
+
+  // AI-Powered Suggestions System
+  useEffect(() => {
+    const generateAISuggestions = () => {
+      const suggestions = [
+        { id: 1, type: 'optimization', message: 'Portfolio rebalancing recommended based on market trends', priority: 'high' },
+        { id: 2, type: 'insight', message: 'New investment opportunity detected in emerging markets', priority: 'medium' },
+        { id: 3, type: 'alert', message: 'Risk assessment update available for your holdings', priority: 'low' }
+      ];
+      setAiSuggestions(suggestions);
+    };
+
+    generateAISuggestions();
+    const interval = setInterval(generateAISuggestions, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Responsive Design Detection
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width >= 1920) setScreenSize('ultra-wide');
+      else if (width >= 1200) setScreenSize('desktop');
+      else if (width >= 768) setScreenSize('tablet');
+      else setScreenSize('mobile');
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Command Palette System
+  useEffect(() => {
+    const handleKeyPress = (e) => {
+      if (e.ctrlKey && e.key === 'k') {
+        e.preventDefault();
+        setIsCommandPaletteOpen(true);
+      }
+      if (e.key === 'Escape') {
+        setIsCommandPaletteOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, []);
+
+  // Voice Navigation System
+  useEffect(() => {
+    if (voiceNavigation) {
+      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      
+      recognition.onresult = (event) => {
+        const transcript = Array.from(event.results)
+          .map(result => result[0])
+          .map(result => result.transcript)
+          .join('');
+        
+        if (transcript.includes('navigate')) {
+          // Handle navigation commands
+        }
+        if (transcript.includes('analyze')) {
+          // Handle analysis commands
+        }
+      };
+
+      recognition.start();
+      return () => recognition.stop();
+    }
+  }, [voiceNavigation]);
+
+  // Parallax Effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (parallaxRef.current) {
+        const scrolled = window.pageYOffset;
+        const rate = scrolled * -0.5;
+        parallaxRef.current.style.transform = `translateY(${rate}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return {
+    isCommandPaletteOpen,
+    setIsCommandPaletteOpen,
+    voiceNavigation,
+    setVoiceNavigation,
+    screenSize,
+    aiSuggestions,
+    accessibilityMode,
+    setAccessibilityMode,
+    parallaxRef,
+    commandPaletteRef,
+    microInteractions
+  };
 }
 
 // ---------- Live Feed Hook (WebSocket + Fallback) ----------
@@ -152,14 +300,212 @@ function useLiveFeed({ url, topic = "suggestly/stream", simulate = true }) {
   return { connected, events, series };
 }
 
-// ---------- Decorative Gradients ----------
-function Gradients() {
+// ---------- Ultra-Premium Parallax Background ----------
+function UltraPremiumBackground({ parallaxRef, microInteractions }) {
   return (
-    <>
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-24 left-1/2 h-[480px] w-[480px] -translate-x-1/2 rounded-full bg-gradient-to-br from-indigo-500/20 via-fuchsia-500/20 to-emerald-500/20 blur-3xl" />
+    <div ref={parallaxRef} className="parallax-layers">
+      <motion.div 
+        className="gradient-layer"
+        animate={microInteractions.gradient.animate}
+        transition={microInteractions.gradient.transition}
+      />
+      <div className="particle-layer">
+        {[...Array(50)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="particle"
+            animate={{
+              x: [0, 100, 0],
+              y: [0, -100, 0],
+              opacity: [0, 1, 0]
+            }}
+            transition={{
+              duration: Math.random() * 3 + 2,
+              repeat: Infinity,
+              delay: Math.random() * 2
+            }}
+          />
+        ))}
       </div>
-    </>
+    </div>
+  );
+}
+
+// ---------- AI-Powered Suggestions Panel ----------
+function AISuggestionsPanel({ aiSuggestions, microInteractions }) {
+  return (
+    <AnimatePresence>
+      {aiSuggestions.length > 0 && (
+        <motion.div
+          className="ai-suggestions-panel"
+          initial={{ x: -400, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: -400, opacity: 0 }}
+          transition={{ type: "spring", stiffness: 100 }}
+        >
+          <div className="panel-header">
+            <Sparkles className="ai-icon" />
+            <h3>AI Insights</h3>
+          </div>
+          {aiSuggestions.map(suggestion => (
+            <motion.div
+              key={suggestion.id}
+              className={`suggestion-item ${suggestion.priority}`}
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+            >
+              <div className="suggestion-content">
+                <span className="suggestion-type">{suggestion.type}</span>
+                <p>{suggestion.message}</p>
+              </div>
+              <motion.button
+                className="action-button"
+                whileHover={microInteractions.button.hover}
+                whileTap={microInteractions.button.tap}
+                transition={microInteractions.button.transition}
+              >
+                <Zap size={16} />
+              </motion.button>
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+// ---------- Command Palette ----------
+function CommandPalette({ isCommandPaletteOpen, setIsCommandPaletteOpen, commandPaletteRef }) {
+  return (
+    <AnimatePresence>
+      {isCommandPaletteOpen && (
+        <motion.div
+          className="command-palette-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={() => setIsCommandPaletteOpen(false)}
+        >
+          <motion.div
+            ref={commandPaletteRef}
+            className="command-palette"
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="palette-header">
+              <Command size={20} />
+              <input 
+                type="text" 
+                placeholder="Search commands, navigate, or ask AI..."
+                autoFocus
+              />
+            </div>
+            <div className="command-suggestions">
+              <div className="command-group">
+                <h4>Navigation</h4>
+                <div className="command-item">Dashboard</div>
+                <div className="command-item">Portfolio</div>
+                <div className="command-item">Analytics</div>
+              </div>
+              <div className="command-group">
+                <h4>Actions</h4>
+                <div className="command-item">Rebalance Portfolio</div>
+                <div className="command-item">Generate Report</div>
+                <div className="command-item">AI Analysis</div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+// ---------- Accessibility Controls ----------
+function AccessibilityControls({ voiceNavigation, setVoiceNavigation, accessibilityMode, setAccessibilityMode, setIsCommandPaletteOpen, microInteractions }) {
+  return (
+    <motion.div 
+      className="accessibility-controls"
+      initial={{ x: 100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      transition={{ delay: 0.4 }}
+    >
+      <motion.button
+        className={`control-button ${voiceNavigation ? 'active' : ''}`}
+        onClick={() => setVoiceNavigation(!voiceNavigation)}
+        whileHover={microInteractions.button.hover}
+        whileTap={microInteractions.button.tap}
+        transition={microInteractions.button.transition}
+        title="Voice Navigation"
+      >
+        <Mic size={20} />
+      </motion.button>
+      
+      <motion.button
+        className="control-button"
+        onClick={() => setAccessibilityMode(accessibilityMode === 'aaa' ? 'standard' : 'aaa')}
+        whileHover={microInteractions.button.hover}
+        whileTap={microInteractions.button.tap}
+        transition={microInteractions.button.transition}
+        title="Accessibility Mode"
+      >
+        <Eye size={20} />
+      </motion.button>
+
+      <motion.button
+        className="control-button"
+        onClick={() => setIsCommandPaletteOpen(true)}
+        whileHover={microInteractions.button.hover}
+        whileTap={microInteractions.button.tap}
+        transition={microInteractions.button.transition}
+        title="Command Palette (Ctrl+K)"
+      >
+        <Command size={20} />
+      </motion.button>
+    </motion.div>
+  );
+}
+
+// ---------- Device Indicators ----------
+function DeviceIndicators({ screenSize }) {
+  return (
+    <div className="device-indicators">
+      <div className={`indicator ${screenSize === 'ultra-wide' ? 'active' : ''}`}>
+        <Monitor size={16} />
+        <span>Ultra-Wide</span>
+      </div>
+      <div className={`indicator ${screenSize === 'desktop' ? 'active' : ''}`}>
+        <Monitor size={16} />
+        <span>Desktop</span>
+      </div>
+      <div className={`indicator ${screenSize === 'tablet' ? 'active' : ''}`}>
+        <Tablet size={16} />
+        <span>Tablet</span>
+      </div>
+      <div className={`indicator ${screenSize === 'mobile' ? 'active' : ''}`}>
+        <Smartphone size={16} />
+        <span>Mobile</span>
+      </div>
+    </div>
+  );
+}
+
+// ---------- Contextual Tooltips ----------
+function ContextualTooltips() {
+  return (
+    <div className="contextual-tooltips">
+      <motion.div
+        className="tooltip"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 1 }}
+      >
+        <MousePointer size={16} />
+        <span>Hover for micro-interactions</span>
+      </motion.div>
+    </div>
   );
 }
 
@@ -172,9 +518,51 @@ export default function SuggestlyG4PlusSite() {
     simulate: !LIVE_FEED_URL,
   });
 
+  // Ultra-Premium UX Integration
+  const {
+    isCommandPaletteOpen,
+    setIsCommandPaletteOpen,
+    voiceNavigation,
+    setVoiceNavigation,
+    screenSize,
+    aiSuggestions,
+    accessibilityMode,
+    setAccessibilityMode,
+    parallaxRef,
+    commandPaletteRef,
+    microInteractions
+  } = useUltraPremiumUX();
+
   return (
     <div className="min-h-screen bg-white text-zinc-900 antialiased transition-colors duration-300 dark:bg-zinc-950 dark:text-zinc-50">
-      <Gradients />
+      {/* Ultra-Premium Background */}
+      <UltraPremiumBackground parallaxRef={parallaxRef} microInteractions={microInteractions} />
+      
+      {/* AI-Powered Suggestions Panel */}
+      <AISuggestionsPanel aiSuggestions={aiSuggestions} microInteractions={microInteractions} />
+      
+      {/* Command Palette */}
+      <CommandPalette 
+        isCommandPaletteOpen={isCommandPaletteOpen} 
+        setIsCommandPaletteOpen={setIsCommandPaletteOpen} 
+        commandPaletteRef={commandPaletteRef} 
+      />
+      
+      {/* Accessibility Controls */}
+      <AccessibilityControls 
+        voiceNavigation={voiceNavigation}
+        setVoiceNavigation={setVoiceNavigation}
+        accessibilityMode={accessibilityMode}
+        setAccessibilityMode={setAccessibilityMode}
+        setIsCommandPaletteOpen={setIsCommandPaletteOpen}
+        microInteractions={microInteractions}
+      />
+      
+      {/* Device Indicators */}
+      <DeviceIndicators screenSize={screenSize} />
+      
+      {/* Contextual Tooltips */}
+      <ContextualTooltips />
       {/* Header */}
       <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/50 dark:supports-[backdrop-filter]:bg-zinc-950/50 border-b border-zinc-200/50 dark:border-zinc-800/50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -197,6 +585,16 @@ export default function SuggestlyG4PlusSite() {
                   className="pl-9 w-64"
                 />
               </div>
+              <motion.button
+                className="p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                onClick={() => setIsCommandPaletteOpen(true)}
+                whileHover={microInteractions.button.hover}
+                whileTap={microInteractions.button.tap}
+                transition={microInteractions.button.transition}
+                title="Command Palette (Ctrl+K)"
+              >
+                <Command className="h-4 w-4" />
+              </motion.button>
               <Button
                 variant="ghost"
                 className="gap-2"
@@ -210,10 +608,16 @@ export default function SuggestlyG4PlusSite() {
                 )}
                 <span className="hidden lg:inline">Theme</span>
               </Button>
-              <Button className="gap-2">
-                <Play className="h-4 w-4" />
-                Launch
-              </Button>
+              <motion.div
+                whileHover={microInteractions.button.hover}
+                whileTap={microInteractions.button.tap}
+                transition={microInteractions.button.transition}
+              >
+                <Button className="gap-2">
+                  <Play className="h-4 w-4" />
+                  Launch
+                </Button>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -241,12 +645,24 @@ export default function SuggestlyG4PlusSite() {
                 visualize instantly, and deploy to the edge in minutes.
               </p>
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <Button className="h-11 gap-2 text-base">
-                  <Globe2 className="h-4 w-4" /> Explore Console
-                </Button>
-                <Button variant="secondary" className="h-11 gap-2 text-base">
-                  <ShieldCheck className="h-4 w-4" /> Secure Demo
-                </Button>
+                <motion.div
+                  whileHover={microInteractions.button.hover}
+                  whileTap={microInteractions.button.tap}
+                  transition={microInteractions.button.transition}
+                >
+                  <Button className="h-11 gap-2 text-base">
+                    <Globe2 className="h-4 w-4" /> Explore Console
+                  </Button>
+                </motion.div>
+                <motion.div
+                  whileHover={microInteractions.button.hover}
+                  whileTap={microInteractions.button.tap}
+                  transition={microInteractions.button.transition}
+                >
+                  <Button variant="secondary" className="h-11 gap-2 text-base">
+                    <ShieldCheck className="h-4 w-4" /> Secure Demo
+                  </Button>
+                </motion.div>
               </div>
               <div className="mt-6 flex items-center gap-4 text-sm text-zinc-500 dark:text-zinc-400">
                 <div className="flex items-center gap-2">
@@ -267,7 +683,11 @@ export default function SuggestlyG4PlusSite() {
             </div>
 
             {/* Chart Card */}
-            <Card className="border-0 bg-gradient-to-br from-zinc-50 to-white shadow-xl ring-1 ring-black/5 dark:from-zinc-900 dark:to-zinc-900/60 dark:ring-white/10">
+            <motion.div
+              whileHover={microInteractions.card.hover}
+              transition={microInteractions.card.transition}
+            >
+              <Card className="border-0 bg-gradient-to-br from-zinc-50 to-white shadow-xl ring-1 ring-black/5 dark:from-zinc-900 dark:to-zinc-900/60 dark:ring-white/10">
               <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle className="flex items-center gap-2">
                   <LineChartIcon className="h-5 w-5" /> Live Metrics
@@ -352,6 +772,7 @@ export default function SuggestlyG4PlusSite() {
                 </div>
               </CardContent>
             </Card>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -393,10 +814,14 @@ export default function SuggestlyG4PlusSite() {
                     text: "Semantic landmarks, reduced‑motion support, and Lighthouse 95+ targets.",
                   },
                 ].map((f, i) => (
-                  <Card
+                  <motion.div
                     key={i}
-                    className="border-0 shadow-lg ring-1 ring-black/5 dark:ring-white/10"
+                    whileHover={microInteractions.card.hover}
+                    transition={microInteractions.card.transition}
                   >
+                    <Card
+                      className="border-0 shadow-lg ring-1 ring-black/5 dark:ring-white/10"
+                    >
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
                         {f.icon}
@@ -407,6 +832,7 @@ export default function SuggestlyG4PlusSite() {
                       {f.text}
                     </CardContent>
                   </Card>
+                  </motion.div>
                 ))}
               </div>
             </TabsContent>
@@ -530,6 +956,8 @@ VITE_API_ORIGIN=https://api.suggestlyg4plus.io
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25 }}
+                whileHover={microInteractions.card.hover}
+                transition={microInteractions.card.transition}
               >
                 <Card className="border-0 shadow-lg ring-1 ring-black/5 dark:ring-white/10">
                   <CardHeader className="pb-2">

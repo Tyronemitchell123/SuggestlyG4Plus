@@ -1,30 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Sparkles, 
-  Zap, 
-  TrendingUp, 
-  Users, 
-  Settings, 
+import React, { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Sparkles,
+  Zap,
+  TrendingUp,
+  Users,
+  Settings,
   Command,
   Mic,
   Eye,
   MousePointer,
   Smartphone,
   Monitor,
-  Tablet
-} from 'lucide-react';
+  Tablet,
+} from "lucide-react";
 
 // Ultra-Premium UX Component
 const UltraPremiumUX = () => {
-  const [activeTheme, setActiveTheme] = useState('luxury');
+  const [activeTheme, setActiveTheme] = useState("luxury");
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [voiceNavigation, setVoiceNavigation] = useState(false);
-  const [screenSize, setScreenSize] = useState('desktop');
+  const [screenSize, setScreenSize] = useState("desktop");
   const [aiSuggestions, setAiSuggestions] = useState([]);
   const [liveData, setLiveData] = useState({});
-  const [accessibilityMode, setAccessibilityMode] = useState('standard');
-  
+  const [accessibilityMode, setAccessibilityMode] = useState("standard");
+
   const parallaxRef = useRef(null);
   const commandPaletteRef = useRef(null);
 
@@ -33,11 +33,11 @@ const UltraPremiumUX = () => {
     button: {
       hover: { scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" },
       tap: { scale: 0.95 },
-      transition: { type: "spring", stiffness: 400, damping: 17 }
+      transition: { type: "spring", stiffness: 400, damping: 17 },
     },
     card: {
       hover: { y: -10, rotateY: 5 },
-      transition: { duration: 0.3 }
+      transition: { duration: 0.3 },
     },
     gradient: {
       animate: {
@@ -45,20 +45,35 @@ const UltraPremiumUX = () => {
           "linear-gradient(45deg, #667eea 0%, #764ba2 100%)",
           "linear-gradient(45deg, #f093fb 0%, #f5576c 100%)",
           "linear-gradient(45deg, #4facfe 0%, #00f2fe 100%)",
-          "linear-gradient(45deg, #667eea 0%, #764ba2 100%)"
-        ]
+          "linear-gradient(45deg, #667eea 0%, #764ba2 100%)",
+        ],
       },
-      transition: { duration: 8, repeat: Infinity, ease: "linear" }
-    }
+      transition: { duration: 8, repeat: Infinity, ease: "linear" },
+    },
   };
 
   // AI-Powered Suggestions System
   useEffect(() => {
     const generateAISuggestions = () => {
       const suggestions = [
-        { id: 1, type: 'optimization', message: 'Portfolio rebalancing recommended based on market trends', priority: 'high' },
-        { id: 2, type: 'insight', message: 'New investment opportunity detected in emerging markets', priority: 'medium' },
-        { id: 3, type: 'alert', message: 'Risk assessment update available for your holdings', priority: 'low' }
+        {
+          id: 1,
+          type: "optimization",
+          message: "Portfolio rebalancing recommended based on market trends",
+          priority: "high",
+        },
+        {
+          id: 2,
+          type: "insight",
+          message: "New investment opportunity detected in emerging markets",
+          priority: "medium",
+        },
+        {
+          id: 3,
+          type: "alert",
+          message: "Risk assessment update available for your holdings",
+          priority: "low",
+        },
       ];
       setAiSuggestions(suggestions);
     };
@@ -74,16 +89,16 @@ const UltraPremiumUX = () => {
       const mockLiveData = {
         portfolioValue: 12500000,
         dailyChange: 2.3,
-        trendDirection: 'up',
+        trendDirection: "up",
         anomalies: [
-          { asset: 'AAPL', change: 5.2, type: 'positive' },
-          { asset: 'TSLA', change: -2.1, type: 'negative' }
+          { asset: "AAPL", change: 5.2, type: "positive" },
+          { asset: "TSLA", change: -2.1, type: "negative" },
         ],
         predictions: [
-          { timeframe: '1d', confidence: 0.87, direction: 'up' },
-          { timeframe: '1w', confidence: 0.73, direction: 'up' },
-          { timeframe: '1m', confidence: 0.65, direction: 'sideways' }
-        ]
+          { timeframe: "1d", confidence: 0.87, direction: "up" },
+          { timeframe: "1w", confidence: 0.73, direction: "up" },
+          { timeframe: "1m", confidence: 0.65, direction: "sideways" },
+        ],
       };
       setLiveData(mockLiveData);
     };
@@ -97,51 +112,52 @@ const UltraPremiumUX = () => {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width >= 1920) setScreenSize('ultra-wide');
-      else if (width >= 1200) setScreenSize('desktop');
-      else if (width >= 768) setScreenSize('tablet');
-      else setScreenSize('mobile');
+      if (width >= 1920) setScreenSize("ultra-wide");
+      else if (width >= 1200) setScreenSize("desktop");
+      else if (width >= 768) setScreenSize("tablet");
+      else setScreenSize("mobile");
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Command Palette System
   useEffect(() => {
     const handleKeyPress = (e) => {
-      if (e.ctrlKey && e.key === 'k') {
+      if (e.ctrlKey && e.key === "k") {
         e.preventDefault();
         setIsCommandPaletteOpen(true);
       }
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setIsCommandPaletteOpen(false);
       }
     };
 
-    document.addEventListener('keydown', handleKeyPress);
-    return () => document.removeEventListener('keydown', handleKeyPress);
+    document.addEventListener("keydown", handleKeyPress);
+    return () => document.removeEventListener("keydown", handleKeyPress);
   }, []);
 
   // Voice Navigation System
   useEffect(() => {
     if (voiceNavigation) {
-      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      const recognition = new (window.SpeechRecognition ||
+        window.webkitSpeechRecognition)();
       recognition.continuous = true;
       recognition.interimResults = true;
-      
+
       recognition.onresult = (event) => {
         const transcript = Array.from(event.results)
-          .map(result => result[0])
-          .map(result => result.transcript)
-          .join('');
-        
+          .map((result) => result[0])
+          .map((result) => result.transcript)
+          .join("");
+
         // Process voice commands
-        if (transcript.includes('navigate')) {
+        if (transcript.includes("navigate")) {
           // Handle navigation commands
         }
-        if (transcript.includes('analyze')) {
+        if (transcript.includes("analyze")) {
           // Handle analysis commands
         }
       };
@@ -161,8 +177,8 @@ const UltraPremiumUX = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Accessibility Enhancements
@@ -172,22 +188,22 @@ const UltraPremiumUX = () => {
       keyboardNavigation: true,
       screenReaderOptimized: true,
       voiceCommands: true,
-      highContrastMode: true
+      highContrastMode: true,
     },
     standard: {
       contrastRatio: 4.5,
       keyboardNavigation: true,
       screenReaderOptimized: false,
       voiceCommands: false,
-      highContrastMode: false
-    }
+      highContrastMode: false,
+    },
   };
 
   return (
     <div className="ultra-premium-ux">
       {/* Multi-Layer Parallax Background */}
       <div ref={parallaxRef} className="parallax-layers">
-        <motion.div 
+        <motion.div
           className="gradient-layer"
           animate={microInteractions.gradient.animate}
           transition={microInteractions.gradient.transition}
@@ -200,12 +216,12 @@ const UltraPremiumUX = () => {
               animate={{
                 x: [0, 100, 0],
                 y: [0, -100, 0],
-                opacity: [0, 1, 0]
+                opacity: [0, 1, 0],
               }}
               transition={{
                 duration: Math.random() * 3 + 2,
                 repeat: Infinity,
-                delay: Math.random() * 2
+                delay: Math.random() * 2,
               }}
             />
           ))}
@@ -226,7 +242,7 @@ const UltraPremiumUX = () => {
               <Sparkles className="ai-icon" />
               <h3>AI Insights</h3>
             </div>
-            {aiSuggestions.map(suggestion => (
+            {aiSuggestions.map((suggestion) => (
               <motion.div
                 key={suggestion.id}
                 className={`suggestion-item ${suggestion.priority}`}
@@ -252,7 +268,7 @@ const UltraPremiumUX = () => {
       </AnimatePresence>
 
       {/* Live Data Dashboard */}
-      <motion.div 
+      <motion.div
         className="live-data-dashboard"
         initial={{ y: 50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
@@ -271,13 +287,13 @@ const UltraPremiumUX = () => {
         </div>
 
         <div className="data-grid">
-          <motion.div 
+          <motion.div
             className="data-card portfolio-value"
             whileHover={microInteractions.card.hover}
             transition={microInteractions.card.transition}
           >
             <h3>Portfolio Value</h3>
-            <motion.div 
+            <motion.div
               className="value"
               key={liveData.portfolioValue}
               initial={{ scale: 1.2 }}
@@ -287,11 +303,12 @@ const UltraPremiumUX = () => {
               ${liveData.portfolioValue?.toLocaleString()}
             </motion.div>
             <div className={`change ${liveData.trendDirection}`}>
-              {liveData.dailyChange > 0 ? '+' : ''}{liveData.dailyChange}%
+              {liveData.dailyChange > 0 ? "+" : ""}
+              {liveData.dailyChange}%
             </div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="data-card predictions"
             whileHover={microInteractions.card.hover}
             transition={microInteractions.card.transition}
@@ -329,8 +346,8 @@ const UltraPremiumUX = () => {
             >
               <div className="palette-header">
                 <Command size={20} />
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   placeholder="Search commands, navigate, or ask AI..."
                   autoFocus
                 />
@@ -355,14 +372,14 @@ const UltraPremiumUX = () => {
       </AnimatePresence>
 
       {/* Accessibility Controls */}
-      <motion.div 
+      <motion.div
         className="accessibility-controls"
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{ delay: 0.4 }}
       >
         <motion.button
-          className={`control-button ${voiceNavigation ? 'active' : ''}`}
+          className={`control-button ${voiceNavigation ? "active" : ""}`}
           onClick={() => setVoiceNavigation(!voiceNavigation)}
           whileHover={microInteractions.button.hover}
           whileTap={microInteractions.button.tap}
@@ -371,10 +388,14 @@ const UltraPremiumUX = () => {
         >
           <Mic size={20} />
         </motion.button>
-        
+
         <motion.button
           className="control-button"
-          onClick={() => setAccessibilityMode(accessibilityMode === 'aaa' ? 'standard' : 'aaa')}
+          onClick={() =>
+            setAccessibilityMode(
+              accessibilityMode === "aaa" ? "standard" : "aaa"
+            )
+          }
           whileHover={microInteractions.button.hover}
           whileTap={microInteractions.button.tap}
           transition={microInteractions.button.transition}
@@ -397,19 +418,23 @@ const UltraPremiumUX = () => {
 
       {/* Device-Aware Layout Indicators */}
       <div className="device-indicators">
-        <div className={`indicator ${screenSize === 'ultra-wide' ? 'active' : ''}`}>
+        <div
+          className={`indicator ${screenSize === "ultra-wide" ? "active" : ""}`}
+        >
           <Monitor size={16} />
           <span>Ultra-Wide</span>
         </div>
-        <div className={`indicator ${screenSize === 'desktop' ? 'active' : ''}`}>
+        <div
+          className={`indicator ${screenSize === "desktop" ? "active" : ""}`}
+        >
           <Monitor size={16} />
           <span>Desktop</span>
         </div>
-        <div className={`indicator ${screenSize === 'tablet' ? 'active' : ''}`}>
+        <div className={`indicator ${screenSize === "tablet" ? "active" : ""}`}>
           <Tablet size={16} />
           <span>Tablet</span>
         </div>
-        <div className={`indicator ${screenSize === 'mobile' ? 'active' : ''}`}>
+        <div className={`indicator ${screenSize === "mobile" ? "active" : ""}`}>
           <Smartphone size={16} />
           <span>Mobile</span>
         </div>
