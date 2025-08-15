@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUGGESTLY ELITE - Live Data Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        .status-online { background-color: #10b981; }
+        .status-warning { background-color: #f59e0b; }
+        .status-offline { background-color: #ef4444; }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .metric-card-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+        }
+        
+        .metric-card-success {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+        
+        .metric-card-warning {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            color: white;
+        }
+        
+        .live-pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .data-stream {
+            background: rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #667eea;
+            padding: 12px;
+            margin: 8px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 16px 24px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification.success { background-color: #10b981; }
+        .notification.info { background-color: #3b82f6; }
+        .notification.warning { background-color: #f59e0b; }
+        .notification.error { background-color: #ef4444; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold text-gray-900">
+                            <i class="fas fa-chart-line text-blue-600 mr-2"></i>
+                            SUGGESTLY ELITE
+                        </h1>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-500">
+                        <i class="fas fa-circle text-green-500 mr-1"></i>
+                        Live Data Active
+                    </span>
+                    <a href="../homepage-preview.html" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-home mr-2"></i>
+                        Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- Header -->
+        <div class="mb-8">
+            <h1 class="text-4xl font-bold text-gray-900 mb-2">
+                <i class="fas fa-chart-line text-blue-600 mr-3"></i>
+                Live Data Dashboard
+            </h1>
+            <p class="text-gray-600 text-lg">
+                Real-time monitoring and analytics for SUGGESTLY ELITE platform
+            </p>
+            <div class="mt-4 flex items-center space-x-4">
+                <span class="text-sm text-gray-500">
+                    <i class="fas fa-clock mr-1"></i>
+                    Last Updated: <span id="lastUpdate" class="font-semibold">Just now</span>
+                </span>
+                <span class="text-sm text-gray-500">
+                    <i class="fas fa-users mr-1"></i>
+                    Active Users: <span id="activeUsers" class="font-semibold">0</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Live Metrics Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- AI Models -->
+            <div class="metric-card rounded-xl p-6 card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-blue-100 text-sm font-medium">Active AI Models</p>
+                        <p class="text-3xl font-bold" id="activeModels">0</p>
+                        <p class="text-blue-100 text-sm mt-1">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            <span id="modelsGrowth">0</span>% this week
+                        </p>
+                    </div>
+                    <div class="text-4xl text-blue-100">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quantum Circuits -->
+            <div class="metric-card-secondary rounded-xl p-6 card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-purple-100 text-sm font-medium">Quantum Circuits</p>
+                        <p class="text-3xl font-bold" id="quantumCircuits">0</p>
+                        <p class="text-purple-100 text-sm mt-1">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            <span id="quantumGrowth">0</span>% this week
+                        </p>
+                    </div>
+                    <div class="text-4xl text-purple-100">
+                        <i class="fas fa-atom"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Revenue -->
+            <div class="metric-card-success rounded-xl p-6 card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-cyan-100 text-sm font-medium">Monthly Revenue</p>
+                        <p class="text-3xl font-bold" id="monthlyRevenue">$0</p>
+                        <p class="text-cyan-100 text-sm mt-1">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            <span id="revenueGrowth">0</span>% this month
+                        </p>
+                    </div>
+                    <div class="text-4xl text-cyan-100">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Clients -->
+            <div class="metric-card-warning rounded-xl p-6 card-hover">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-green-100 text-sm font-medium">Active Clients</p>
+                        <p class="text-3xl font-bold" id="activeClients">0</p>
+                        <p class="text-green-100 text-sm mt-1">
+                            <i class="fas fa-arrow-up mr-1"></i>
+                            <span id="clientsGrowth">0</span>% this month
+                        </p>
+                    </div>
+                    <div class="text-4xl text-green-100">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Status -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <!-- System Health -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                    <i class="fas fa-heartbeat text-red-500 mr-2"></i>
+                    System Health
+                </h3>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">System Uptime</span>
+                        <span class="text-sm font-semibold" id="systemUptime">99.99%</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Security Score</span>
+                        <span class="text-sm font-semibold" id="securityScore">98.5/100</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">CPU Usage</span>
+                        <span class="text-sm font-semibold" id="cpuUsage">67%</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Memory Usage</span>
+                        <span class="text-sm font-semibold" id="memoryUsage">82%</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-600">Network Latency</span>
+                        <span class="text-sm font-semibold" id="networkLatency">12ms</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Activity Feed -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                    <i class="fas fa-stream text-blue-500 mr-2"></i>
+                    Live Activity Feed
+                </h3>
+                <div id="activityFeed" class="space-y-3 max-h-64 overflow-y-auto">
+                    <!-- Activity items will be populated here -->
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                    <i class="fas fa-bolt text-yellow-500 mr-2"></i>
+                    Quick Actions
+                </h3>
+                <div class="space-y-3">
+                    <button onclick="refreshData()" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fas fa-sync-alt mr-2"></i>
+                        Refresh Data
+                    </button>
+                    <button onclick="exportData()" class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors">
+                        <i class="fas fa-download mr-2"></i>
+                        Export Data
+                    </button>
+                    <button onclick="showSettings()" class="w-full bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 transition-colors">
+                        <i class="fas fa-cog mr-2"></i>
+                        Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Revenue Trend -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                    <i class="fas fa-chart-line text-green-500 mr-2"></i>
+                    Revenue Trend
+                </h3>
+                <canvas id="revenueChart" width="400" height="200"></canvas>
+            </div>
+
+            <!-- AI Model Performance -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                    <i class="fas fa-chart-bar text-blue-500 mr-2"></i>
+                    AI Model Performance
+                </h3>
+                <canvas id="aiPerformanceChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- Live Data Stream -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                <i class="fas fa-database text-purple-500 mr-2"></i>
+                Live Data Stream
+            </h3>
+            <div id="dataStream" class="space-y-2 max-h-48 overflow-y-auto">
+                <!-- Data stream items will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer"></div>
+
+    <script>
+        // Global variables
+        let revenueChart, aiPerformanceChart;
+        let updateInterval;
+        let dataStreamInterval;
+
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeCharts();
+            startLiveUpdates();
+            initializeDataStream();
+            showNotification('🚀 Live Data Dashboard initialized successfully!', 'success');
+        });
+
+        // Initialize charts
+        function initializeCharts() {
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            revenueChart = new Chart(revenueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Revenue ($M)',
+                        data: [2.1, 2.3, 2.4, 2.6, 2.5, 2.7],
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value + 'M';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // AI Performance Chart
+            const aiCtx = document.getElementById('aiPerformanceChart').getContext('2d');
+            aiPerformanceChart = new Chart(aiCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['GPT-4', 'Claude', 'Gemini', 'Custom', 'Quantum'],
+                    datasets: [{
+                        label: 'Accuracy (%)',
+                        data: [99.2, 97.8, 89.4, 96.1, 98.9],
+                        backgroundColor: [
+                            '#3b82f6',
+                            '#8b5cf6',
+                            '#f59e0b',
+                            '#10b981',
+                            '#ef4444'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Start live updates
+        function startLiveUpdates() {
+            updateInterval = setInterval(() => {
+                updateMetrics();
+                updateCharts();
+                updateActivityFeed();
+                updateLastUpdate();
+            }, 3000);
+        }
+
+        // Update metrics
+        function updateMetrics() {
+            // Generate random but realistic data
+            const activeModels = Math.floor(Math.random() * 50) + 240;
+            const quantumCircuits = Math.floor(Math.random() * 100) + 1800;
+            const monthlyRevenue = (Math.random() * 0.5 + 2.2).toFixed(1);
+            const activeClients = Math.floor(Math.random() * 50) + 1220;
+            const systemUptime = (99.95 + Math.random() * 0.04).toFixed(2);
+            const securityScore = (97.5 + Math.random() * 2).toFixed(1);
+            const cpuUsage = Math.floor(Math.random() * 30) + 40;
+            const memoryUsage = Math.floor(Math.random() * 20) + 70;
+            const networkLatency = Math.floor(Math.random() * 10) + 8;
+            const activeUsers = Math.floor(Math.random() * 100) + 200;
+
+            // Update DOM elements
+            document.getElementById('activeModels').textContent = activeModels;
+            document.getElementById('quantumCircuits').textContent = quantumCircuits;
+            document.getElementById('monthlyRevenue').textContent = '$' + monthlyRevenue + 'M';
+            document.getElementById('activeClients').textContent = activeClients.toLocaleString();
+            document.getElementById('systemUptime').textContent = systemUptime + '%';
+            document.getElementById('securityScore').textContent = securityScore + '/100';
+            document.getElementById('cpuUsage').textContent = cpuUsage + '%';
+            document.getElementById('memoryUsage').textContent = memoryUsage + '%';
+            document.getElementById('networkLatency').textContent = networkLatency + 'ms';
+            document.getElementById('activeUsers').textContent = activeUsers;
+
+            // Update growth percentages
+            document.getElementById('modelsGrowth').textContent = Math.floor(Math.random() * 10) + 5;
+            document.getElementById('quantumGrowth').textContent = Math.floor(Math.random() * 15) + 8;
+            document.getElementById('revenueGrowth').textContent = Math.floor(Math.random() * 20) + 10;
+            document.getElementById('clientsGrowth').textContent = Math.floor(Math.random() * 8) + 3;
+        }
+
+        // Update charts
+        function updateCharts() {
+            // Update revenue chart
+            const newRevenueData = revenueChart.data.datasets[0].data.map(value => 
+                value + (Math.random() - 0.5) * 0.1
+            );
+            revenueChart.data.datasets[0].data = newRevenueData;
+            revenueChart.update('none');
+
+            // Update AI performance chart
+            const newPerformanceData = aiPerformanceChart.data.datasets[0].data.map(value => 
+                Math.max(85, Math.min(100, value + (Math.random() - 0.5) * 2))
+            );
+            aiPerformanceChart.data.datasets[0].data = newPerformanceData;
+            aiPerformanceChart.update('none');
+        }
+
+        // Update activity feed
+        function updateActivityFeed() {
+            const activities = [
+                '🆕 New AI model deployed successfully',
+                '⚡ System performance optimized',
+                '🔒 Security scan completed - All systems secure',
+                '📊 Analytics data updated',
+                '🤖 Quantum circuit execution completed',
+                '💼 New client onboarded',
+                '🔄 Database backup completed',
+                '🎯 Machine learning model training finished',
+                '🌐 Network optimization applied',
+                '📈 Revenue milestone achieved'
+            ];
+
+            const activityFeed = document.getElementById('activityFeed');
+            const newActivity = document.createElement('div');
+            newActivity.className = 'data-stream';
+            newActivity.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <span class="text-sm text-gray-700">${activities[Math.floor(Math.random() * activities.length)]}</span>
+                    <span class="text-xs text-gray-500">${new Date().toLocaleTimeString()}</span>
+                </div>
+            `;
+
+            activityFeed.insertBefore(newActivity, activityFeed.firstChild);
+
+            // Keep only last 10 activities
+            while (activityFeed.children.length > 10) {
+                activityFeed.removeChild(activityFeed.lastChild);
+            }
+        }
+
+        // Initialize data stream
+        function initializeDataStream() {
+            dataStreamInterval = setInterval(() => {
+                updateDataStream();
+            }, 2000);
+        }
+
+        // Update data stream
+        function updateDataStream() {
+            const dataTypes = [
+                'AI Model Training Data',
+                'Quantum Circuit Metrics',
+                'User Interaction Logs',
+                'System Performance Data',
+                'Security Event Logs',
+                'Revenue Transaction Data',
+                'Client Activity Metrics',
+                'Network Traffic Data'
+            ];
+
+            const dataStream = document.getElementById('dataStream');
+            const newDataItem = document.createElement('div');
+            newDataItem.className = 'data-stream';
+            newDataItem.innerHTML = `
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center">
+                        <span class="status-indicator status-online"></span>
+                        <span class="text-sm text-gray-700">${dataTypes[Math.floor(Math.random() * dataTypes.length)]}</span>
+                    </div>
+                    <span class="text-xs text-gray-500">${new Date().toLocaleTimeString()}</span>
+                </div>
+            `;
+
+            dataStream.insertBefore(newDataItem, dataStream.firstChild);
+
+            // Keep only last 15 items
+            while (dataStream.children.length > 15) {
+                dataStream.removeChild(dataStream.lastChild);
+            }
+        }
+
+        // Update last update time
+        function updateLastUpdate() {
+            document.getElementById('lastUpdate').textContent = new Date().toLocaleTimeString();
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const container = document.getElementById('notificationContainer');
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+
+            container.appendChild(notification);
+
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('show');
+            }, 100);
+
+            // Hide and remove notification
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    container.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Quick action functions
+        function refreshData() {
+            updateMetrics();
+            updateCharts();
+            showNotification('🔄 Data refreshed successfully!', 'success');
+        }
+
+        function exportData() {
+            const data = {
+                timestamp: new Date().toISOString(),
+                metrics: {
+                    activeModels: document.getElementById('activeModels').textContent,
+                    quantumCircuits: document.getElementById('quantumCircuits').textContent,
+                    monthlyRevenue: document.getElementById('monthlyRevenue').textContent,
+                    activeClients: document.getElementById('activeClients').textContent
+                }
+            };
+
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `suggestly-live-data-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+
+            showNotification('📥 Data exported successfully!', 'success');
+        }
+
+        function showSettings() {
+            showNotification('⚙️ Settings panel coming soon!', 'info');
+        }
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (updateInterval) clearInterval(updateInterval);
+            if (dataStreamInterval) clearInterval(dataStreamInterval);
+        });
+    </script>
+</body>
+</html>
+
+

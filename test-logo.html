@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SUGGESTLY ELITE - Logo Test</title>
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        color: #ffd700;
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .logo-test {
+        margin: 40px 0;
+        padding: 20px;
+        border: 2px solid #ffd700;
+        border-radius: 15px;
+        background: rgba(255, 215, 0, 0.1);
+      }
+      .cache-clear-btn {
+        background: linear-gradient(45deg, #ffd700, #ffed4e);
+        color: #000;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin: 10px;
+        transition: transform 0.3s ease;
+      }
+      .cache-clear-btn:hover {
+        transform: scale(1.05);
+      }
+      .status {
+        margin: 20px 0;
+        padding: 15px;
+        border-radius: 10px;
+        background: rgba(255, 215, 0, 0.1);
+      }
+      .success {
+        background: rgba(0, 255, 0, 0.1);
+        border: 1px solid #00ff00;
+      }
+      .info {
+        background: rgba(0, 150, 255, 0.1);
+        border: 1px solid #0096ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🧪 SUGGESTLY ELITE - Logo Test</h1>
+
+      <div class="status info">
+        <h3>🔄 Cache Clearing Instructions:</h3>
+        <p>
+          If you don't see the new ultra premium animated logo, try these steps:
+        </p>
+        <ol style="text-align: left; max-width: 500px; margin: 0 auto">
+          <li>Click the "Clear Cache & Reload" button below</li>
+          <li>
+            Or press <strong>Ctrl+Shift+R</strong> (Windows) /
+            <strong>Cmd+Shift+R</strong> (Mac)
+          </li>
+          <li>
+            Or open Developer Tools (F12) → Network tab → check "Disable cache"
+          </li>
+          <li>Or run the cache clearing script in browser console</li>
+        </ol>
+      </div>
+
+      <button class="cache-clear-btn" onclick="clearCacheAndReload()">
+        🧹 Clear Cache & Reload
+      </button>
+
+      <button class="cache-clear-btn" onclick="runCacheScript()">
+        📜 Run Cache Script
+      </button>
+
+      <div class="logo-test">
+        <h2>🎯 Expected Logo Features:</h2>
+        <ul style="text-align: left; max-width: 600px; margin: 0 auto">
+          <li>✅ Crown icon with gradient background</li>
+          <li>✅ Floating sparkles and stars</li>
+          <li>✅ Glowing effects and animations</li>
+          <li>✅ Premium badge with shield</li>
+          <li>✅ Particle effects around the logo</li>
+          <li>✅ Hover animations and interactions</li>
+          <li>✅ "SUGGESTLY ELITE" text with gradient</li>
+        </ul>
+      </div>
+
+      <div class="status success">
+        <h3>✅ If you see the animated logo above, it's working!</h3>
+        <p>
+          The ultra premium animated logo should be visible in the header
+          navigation.
+        </p>
+      </div>
+
+      <div class="logo-test">
+        <h2>🔗 Quick Links:</h2>
+        <a
+          href="/"
+          style="
+            color: #ffd700;
+            text-decoration: none;
+            margin: 10px;
+            padding: 10px 20px;
+            border: 1px solid #ffd700;
+            border-radius: 5px;
+          "
+          >🏠 Go to Homepage</a
+        >
+        <a
+          href="/homepage-preview.html"
+          style="
+            color: #ffd700;
+            text-decoration: none;
+            margin: 10px;
+            padding: 10px 20px;
+            border: 1px solid #ffd700;
+            border-radius: 5px;
+          "
+          >📄 HTML Version</a
+        >
+      </div>
+    </div>
+
+    <script>
+      function clearCacheAndReload() {
+        console.log('🧹 Clearing cache and reloading...');
+
+        // Clear localStorage
+        localStorage.clear();
+
+        // Clear sessionStorage
+        sessionStorage.clear();
+
+        // Force reload without cache
+        window.location.reload(true);
+      }
+
+      function runCacheScript() {
+        console.log('📜 Running cache clearing script...');
+
+        // Clear localStorage
+        localStorage.clear();
+        console.log('✅ localStorage cleared');
+
+        // Clear sessionStorage
+        sessionStorage.clear();
+        console.log('✅ sessionStorage cleared');
+
+        // Clear all caches
+        if ('caches' in window) {
+          caches.keys().then(function (names) {
+            for (let name of names) {
+              caches.delete(name);
+            }
+            console.log('✅ Service worker caches cleared');
+          });
+        }
+
+        // Force reload without cache
+        console.log('🔄 Reloading page without cache...');
+        window.location.reload(true);
+      }
+
+      // Auto-detect if logo is loaded
+      window.addEventListener('load', function () {
+        setTimeout(() => {
+          const logoElements = document.querySelectorAll(
+            '[class*="logo"], [class*="Logo"]'
+          );
+          console.log('🔍 Found logo elements:', logoElements.length);
+
+          if (logoElements.length > 0) {
+            console.log('✅ Logo elements detected');
+          } else {
+            console.log('⚠️ No logo elements found - may need cache clear');
+          }
+        }, 2000);
+      });
+    </script>
+  </body>
+</html>
+
+

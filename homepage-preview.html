@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUGGESTLY ELITE - Homepage Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #ffd700;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 0 80px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: #b0b0b0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ffd700;
+            border: 2px solid #ffd700;
+        }
+
+        .btn-secondary:hover {
+            background: #ffd700;
+            color: #000;
+        }
+
+        /* Sections */
+        .section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #ffd700;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Services Grid */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #ffd700;
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .service-card p {
+            color: #b0b0b0;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .feature-icon {
+            color: #ffd700;
+            font-size: 1.5rem;
+        }
+
+        /* Pricing */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: #ffd700;
+            transform: scale(1.05);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffd700;
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 1rem;
+        }
+
+        .price small {
+            font-size: 1rem;
+            color: #b0b0b0;
+        }
+
+        /* Contact */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #ffd700;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(15, 15, 35, 0.95);
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 2rem 0;
+            text-align: center;
+            color: #b0b0b0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .services-grid,
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        /* WhatsApp Optimization Section */
+        .whatsapp-section {
+            background: linear-gradient(135deg, #25d366, #128c7e);
+            margin: 2rem 0;
+            padding: 3rem 0;
+            border-radius: 16px;
+        }
+
+        .whatsapp-content {
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .whatsapp-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .whatsapp-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .whatsapp-feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .whatsapp-feature h4 {
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .whatsapp-feature p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav container">
+            <a href="#" class="logo">SUGGESTLY ELITE</a>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content fade-in-up">
+                <h1>SUGGESTLY ELITE</h1>
+                <p>Advanced AI Platform & Multi-Site Hosting for UHNWI & Business Executives. Transform your digital presence with our enterprise-grade platform.</p>
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">Get Started</a>
+                    <a href="#features" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="section">
+        <div class="container">
+            <h2 class="section-title">Our Services</h2>
+            <p class="section-subtitle">Comprehensive solutions for modern businesses</p>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🎵</div>
+                    <h3>Audio Production Suite</h3>
+                    <p>Professional audio equalizer, G4 EQ, and DAW connector for music production and audio engineering.</p>
+                    <a href="/audio-eq" class="btn btn-secondary">Explore</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🤖</div>
+                    <h3>AI Content Studio</h3>
+                    <p>Advanced AI-powered content generation, video production, and creative automation tools.</p>
+                    <a href="/ai-studio" class="btn btn-secondary">Explore</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🌐</div>
+                    <h3>Multi-Site Hosting</h3>
+                    <p>Enterprise-grade hosting platform for managing multiple websites with advanced analytics.</p>
+                    <a href="/dashboard" class="btn btn-secondary">Explore</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">💳</div>
+                    <h3>Payment System</h3>
+                    <p>Advanced payment processing, subscription management, and financial analytics.</p>
+                    <a href="/payment-system" class="btn btn-secondary">Explore</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Optimization Section -->
+    <section class="whatsapp-section">
+        <div class="container">
+            <div class="whatsapp-content">
+                <h2>🚀 WhatsApp Optimization Suite</h2>
+                <p>Maximize your WhatsApp potential with our comprehensive optimization tools</p>
+                
+                <div class="whatsapp-features">
+                    <div class="whatsapp-feature">
+                        <h4>📱 Performance</h4>
+                        <p>85% efficiency increase with optimized storage and battery usage</p>
+                    </div>
+                    <div class="whatsapp-feature">
+                        <h4>🤖 Automation</h4>
+                        <p>Business automation with customer service bots and lead generation</p>
+                    </div>
+                    <div class="whatsapp-feature">
+                        <h4>🔒 Security</h4>
+                        <p>Enhanced security with 2FA, encryption, and privacy controls</p>
+                    </div>
+                    <div class="whatsapp-feature">
+                        <h4>🔗 Integration</h4>
+                        <p>Seamless integration with CRM, calendar, and business tools</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 2rem;">
+                    <a href="WHATSAPP_OPTIMIZATION_GUIDE.md" class="btn btn-primary">View Optimization Guide</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section">
+        <div class="container">
+            <h2 class="section-title">Key Features</h2>
+            <p class="section-subtitle">Cutting-edge technology for elite performance</p>
+            
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="feature-icon">⚡</span>
+                    <div>
+                        <h4>Quantum AI</h4>
+                        <p>Advanced quantum computing integration</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-icon">🔐</span>
+                    <div>
+                        <h4>Enterprise Security</h4>
+                        <p>Military-grade encryption and security</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-icon">📊</span>
+                    <div>
+                        <h4>Advanced Analytics</h4>
+                        <p>Real-time business intelligence</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-icon">🌍</span>
+                    <div>
+                        <h4>Global CDN</h4>
+                        <p>Lightning-fast global delivery</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-icon">🎨</span>
+                    <div>
+                        <h4>AI Design</h4>
+                        <p>Intelligent design automation</p>
+                    </div>
+                </div>
+                
+                <div class="feature-item">
+                    <span class="feature-icon">📱</span>
+                    <div>
+                        <h4>Mobile First</h4>
+                        <p>Optimized for all devices</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="section">
+        <div class="container">
+            <h2 class="section-title">Pricing Plans</h2>
+            <p class="section-subtitle">Choose the perfect plan for your business needs</p>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Starter</h3>
+                    <div class="price">$99<span>/month</span></div>
+                    <ul style="list-style: none; margin: 1.5rem 0; color: #b0b0b0;">
+                        <li>✓ Basic AI Tools</li>
+                        <li>✓ Single Site Hosting</li>
+                        <li>✓ Email Support</li>
+                        <li>✓ Basic Analytics</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-secondary">Get Started</a>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <h3>Professional</h3>
+                    <div class="price">$299<span>/month</span></div>
+                    <ul style="list-style: none; margin: 1.5rem 0; color: #b0b0b0;">
+                        <li>✓ Advanced AI Suite</li>
+                        <li>✓ Multi-Site Hosting</li>
+                        <li>✓ Priority Support</li>
+                        <li>✓ Advanced Analytics</li>
+                        <li>✓ WhatsApp Optimization</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Get Started</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <h3>Enterprise</h3>
+                    <div class="price">Custom</div>
+                    <ul style="list-style: none; margin: 1.5rem 0; color: #b0b0b0;">
+                        <li>✓ Full Platform Access</li>
+                        <li>✓ Unlimited Sites</li>
+                        <li>✓ 24/7 Support</li>
+                        <li>✓ Custom Integration</li>
+                        <li>✓ White Label</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-secondary">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <p class="section-subtitle">Ready to transform your business? Let's talk.</p>
+            
+            <div class="contact-form">
+                <form>
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company">Company</label>
+                        <input type="text" id="company" name="company">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 SUGGESTLY ELITE. All rights reserved.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.9rem;">
+                Advanced AI Platform & Multi-Site Hosting for UHNWI & Business Executives
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Thank you for your message! We will get back to you soon.');
+        });
+
+        // Add fade-in animation to sections
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(30px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>

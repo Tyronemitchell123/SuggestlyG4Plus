@@ -1,0 +1,1066 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SUGGESTLY ELITE - Quantum Status</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      :root {
+        --luxury-gold: #ffd700;
+        --luxury-dark: #0a0a0a;
+        --luxury-light: #ffffff;
+        --luxury-gray: #a0a0a0;
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --info: #3b82f6;
+        --quantum-blue: #00d4ff;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(
+          135deg,
+          #0a0a0a 0%,
+          #1a1a1a 50%,
+          #0a0a0a 100%
+        );
+        color: var(--luxury-light);
+        overflow-x: hidden;
+      }
+
+      .dashboard-container {
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        min-height: 100vh;
+      }
+
+      .sidebar {
+        background: rgba(255, 255, 255, 0.03);
+        border-right: 1px solid rgba(255, 215, 0, 0.2);
+        padding: 2rem 1rem;
+        position: fixed;
+        height: 100vh;
+        width: 250px;
+        overflow-y: auto;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--luxury-gold);
+        margin-bottom: 2rem;
+        text-align: center;
+      }
+
+      .nav-menu {
+        list-style: none;
+      }
+
+      .nav-item {
+        margin-bottom: 0.5rem;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        color: var(--luxury-light);
+        text-decoration: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link:hover,
+      .nav-link.active {
+        background: rgba(255, 215, 0, 0.1);
+        color: var(--luxury-gold);
+      }
+
+      .back-home {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(255, 215, 0, 0.1);
+        color: var(--luxury-gold);
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+      }
+
+      .back-home:hover {
+        background: rgba(255, 215, 0, 0.2);
+      }
+
+      .main-content {
+        margin-left: 250px;
+        padding: 2rem;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      .page-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--luxury-gold);
+      }
+
+      .quantum-status {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        background: rgba(0, 212, 255, 0.1);
+        border: 1px solid var(--quantum-blue);
+        border-radius: 8px;
+        color: var(--quantum-blue);
+      }
+
+      .quantum-metrics {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .metric-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        border-radius: 12px;
+        padding: 1.5rem;
+        text-align: center;
+        transition: all 0.3s ease;
+      }
+
+      .metric-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--quantum-blue);
+        box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1);
+      }
+
+      .metric-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--quantum-blue);
+        margin-bottom: 0.5rem;
+      }
+
+      .metric-label {
+        font-size: 0.875rem;
+        color: var(--luxury-gray);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .quantum-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .quantum-chart {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        border-radius: 12px;
+        padding: 1.5rem;
+      }
+
+      .chart-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--luxury-gold);
+        margin-bottom: 1rem;
+      }
+
+      .quantum-processors {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        border-radius: 12px;
+        padding: 1.5rem;
+      }
+
+      .processor-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .processor-item:last-child {
+        border-bottom: none;
+      }
+
+      .processor-info h4 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--luxury-light);
+        margin-bottom: 0.25rem;
+      }
+
+      .processor-info p {
+        font-size: 0.875rem;
+        color: var(--luxury-gray);
+      }
+
+      .processor-status {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+      }
+
+      .status-dot.online {
+        background: var(--success);
+      }
+
+      .status-dot.offline {
+        background: var(--danger);
+      }
+
+      .status-dot.maintenance {
+        background: var(--warning);
+      }
+
+      .quantum-circuits {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .circuit-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        border-radius: 12px;
+        padding: 1.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .circuit-card:hover {
+        transform: translateY(-2px);
+        border-color: var(--quantum-blue);
+        box-shadow: 0 10px 30px rgba(0, 212, 255, 0.1);
+      }
+
+      .circuit-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .circuit-name {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--luxury-light);
+      }
+
+      .circuit-type {
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        background: rgba(0, 212, 255, 0.2);
+        color: var(--quantum-blue);
+      }
+
+      .circuit-metrics {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .circuit-metric {
+        text-align: center;
+      }
+
+      .circuit-metric-value {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--quantum-blue);
+      }
+
+      .circuit-metric-label {
+        font-size: 0.75rem;
+        color: var(--luxury-gray);
+      }
+
+      .circuit-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .btn {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 6px;
+        font-size: 0.875rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary {
+        background: var(--quantum-blue);
+        color: var(--luxury-dark);
+      }
+
+      .btn-secondary {
+        background: transparent;
+        border: 1px solid var(--quantum-blue);
+        color: var(--quantum-blue);
+      }
+
+      .btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .quantum-alerts {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        border-radius: 12px;
+        padding: 1.5rem;
+      }
+
+      .alert-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .alert-item:last-child {
+        border-bottom: none;
+      }
+
+      .alert-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+      }
+
+      .alert-icon.info {
+        background: rgba(0, 212, 255, 0.2);
+        color: var(--quantum-blue);
+      }
+
+      .alert-icon.warning {
+        background: rgba(245, 158, 11, 0.2);
+        color: var(--warning);
+      }
+
+      .alert-icon.success {
+        background: rgba(16, 185, 129, 0.2);
+        color: var(--success);
+      }
+
+      .alert-content h4 {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--luxury-light);
+        margin-bottom: 0.25rem;
+      }
+
+      .alert-content p {
+        font-size: 0.75rem;
+        color: var(--luxury-gray);
+      }
+
+      .alert-time {
+        font-size: 0.75rem;
+        color: var(--luxury-gray);
+        margin-left: auto;
+      }
+
+      @media (max-width: 1024px) {
+        .quantum-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .dashboard-container {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          display: none;
+        }
+
+        .main-content {
+          margin-left: 0;
+        }
+
+        .quantum-circuits {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @keyframes quantum-pulse {
+        0%,
+        100% {
+          box-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+        50% {
+          box-shadow: 0 0 40px rgba(0, 212, 255, 0.6);
+        }
+      }
+
+      .quantum-pulse {
+        animation: quantum-pulse 2s ease-in-out infinite;
+      }
+
+      .chart-container {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1.5rem;
+        border: 1px solid rgba(255, 215, 0, 0.1);
+        height: 300px;
+        position: relative;
+      }
+
+      .chart-container h3 {
+        margin-bottom: 1rem;
+        color: #ffd700;
+        font-size: 1.1rem;
+      }
+
+      /* Gauge Styles */
+      .gauge-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .gauge-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1.5rem;
+        border: 1px solid rgba(255, 215, 0, 0.1);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .gauge-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
+      }
+
+      .gauge-title {
+        font-size: 0.9rem;
+        color: #a0a0a0;
+        margin-bottom: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .gauge-value {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #ffd700;
+        margin-bottom: 0.5rem;
+      }
+
+      .gauge-label {
+        font-size: 0.8rem;
+        color: #666;
+      }
+
+      .gauge-progress {
+        width: 100%;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        margin-top: 1rem;
+        overflow: hidden;
+      }
+
+      .gauge-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #10b981, #f59e0b, #ef4444);
+        border-radius: 4px;
+        transition: width 0.5s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <aside class="sidebar">
+        <div class="logo">SUGGESTLY ELITE</div>
+        <a href="../homepage-preview.html" class="back-home">
+          <i class="fas fa-arrow-left"></i>
+          Back to Home
+        </a>
+        <nav>
+          <ul class="nav-menu">
+            <li class="nav-item">
+              <a href="dashboard.html" class="nav-link">
+                <i class="fas fa-tachometer-alt"></i>
+                Dashboard
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="ai-models.html" class="nav-link">
+                <i class="fas fa-brain"></i>
+                AI Models
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="quantum-status.html" class="nav-link active">
+                <i class="fas fa-atom"></i>
+                Quantum Status
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="clients.html" class="nav-link">
+                <i class="fas fa-users"></i>
+                Clients
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="live-data.html" class="nav-link">
+                <i class="fas fa-chart-line"></i>
+                Live Data
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <main class="main-content">
+        <header class="header">
+          <h1 class="page-title">Quantum Status</h1>
+          <div class="quantum-status">
+            <i class="fas fa-circle quantum-pulse"></i>
+            <span>Quantum Systems Operational</span>
+          </div>
+        </header>
+
+        <div class="quantum-metrics">
+          <div class="metric-card">
+            <div class="metric-value" id="quantumBits">1,024</div>
+            <div class="metric-label">Active Qubits</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" id="quantumCircuits">1,847</div>
+            <div class="metric-label">Quantum Circuits</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" id="quantumSpeed">1.2M</div>
+            <div class="metric-label">Operations/sec</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" id="quantumAccuracy">99.97%</div>
+            <div class="metric-label">Quantum Accuracy</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" id="quantumTemperature">0.015K</div>
+            <div class="metric-label">System Temperature</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-value" id="quantumCoherence">2.8ms</div>
+            <div class="metric-label">Coherence Time</div>
+          </div>
+        </div>
+
+        <div class="quantum-grid">
+          <div class="quantum-chart">
+            <h3 class="chart-title">Quantum Performance Metrics</h3>
+            <canvas id="quantumChart" width="400" height="200"></canvas>
+          </div>
+          <div class="quantum-processors">
+            <h3 class="chart-title">Quantum Processors</h3>
+            <div class="processor-item">
+              <div class="processor-info">
+                <h4>IBM Quantum Q1</h4>
+                <p>65 Qubits • 99.9% Fidelity</p>
+              </div>
+              <div class="processor-status">
+                <div class="status-dot online"></div>
+                <span>Online</span>
+              </div>
+            </div>
+            <div class="processor-item">
+              <div class="processor-info">
+                <h4>Google Sycamore</h4>
+                <p>53 Qubits • 99.8% Fidelity</p>
+              </div>
+              <div class="processor-status">
+                <div class="status-dot online"></div>
+                <span>Online</span>
+              </div>
+            </div>
+            <div class="processor-item">
+              <div class="processor-info">
+                <h4>Rigetti Aspen</h4>
+                <p>32 Qubits • 99.7% Fidelity</p>
+              </div>
+              <div class="processor-status">
+                <div class="status-dot maintenance"></div>
+                <span>Maintenance</span>
+              </div>
+            </div>
+            <div class="processor-item">
+              <div class="processor-info">
+                <h4>IonQ Aria</h4>
+                <p>25 Qubits • 99.9% Fidelity</p>
+              </div>
+              <div class="processor-status">
+                <div class="status-dot online"></div>
+                <span>Online</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gauge-container">
+          <div class="gauge-card">
+            <h3 class="gauge-title">Quantum Coherence</h3>
+            <div class="gauge-value" id="coherenceGauge">2.8ms</div>
+            <div class="gauge-label">Coherence Time</div>
+            <div class="gauge-progress">
+              <div class="gauge-fill" style="width: 85%"></div>
+            </div>
+          </div>
+          <div class="gauge-card">
+            <h3 class="gauge-title">Quantum Accuracy</h3>
+            <div class="gauge-value" id="accuracyGauge">99.97%</div>
+            <div class="gauge-label">Success Rate</div>
+            <div class="gauge-progress">
+              <div class="gauge-fill" style="width: 99.97%"></div>
+            </div>
+          </div>
+          <div class="gauge-card">
+            <h3 class="gauge-title">Temperature</h3>
+            <div class="gauge-value" id="temperatureGauge">0.015K</div>
+            <div class="gauge-label">Quantum State</div>
+            <div class="gauge-progress">
+              <div class="gauge-fill" style="width: 95%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="quantum-circuits">
+          <div class="circuit-card">
+            <div class="circuit-header">
+              <div class="circuit-name">Quantum Fourier Transform</div>
+              <div class="circuit-type">Algorithm</div>
+            </div>
+            <div class="circuit-metrics">
+              <div class="circuit-metric">
+                <div class="circuit-metric-value">99.8%</div>
+                <div class="circuit-metric-label">Success Rate</div>
+              </div>
+              <div class="circuit-metric">
+                <div class="circuit-metric-value">2.3ms</div>
+                <div class="circuit-metric-label">Execution Time</div>
+              </div>
+              <div class="circuit-metric">
+                <div class="circuit-metric-value">256</div>
+                <div class="circuit-metric-label">Qubits Used</div>
+              </div>
+              <div class="circuit-metric">
+                <div class="circuit-metric-value">Active</div>
+                <div class="circuit-metric-label">Status</div>
+              </div>
+            </div>
+            <div class="circuit-actions">
+              <button
+                class="btn btn-secondary"
+                onclick="viewCircuitDetails('qft-001')"
+              >
+                Details
+              </button>
+              <button
+                class="btn btn-primary"
+                onclick="optimizeCircuit('qft-001')"
+              >
+                Optimize
+              </button>
+            </div>
+          </div>
+
+          <div class="circuit-card">
+            <div class="circuit-header">
+              <div class="circuit-name">Grover's Search</div>
+              <div class="circuit-type">Search</div>
+            </div>
+            <div class="circuit-metrics">
+              <div class="circuit-metric">
+                <div class="circuit-metric-value">99.5%</div>
+                <div class="circuit-metric-label">Success Rate</div>
+              </div>
+              <div class="circuit-metric">
+                <div class="circuit-metric-value">1.8ms</div>
+                <div class="circuit-metric-label">Execution Time</div>
+              </div>
+              <div class="circuit-metric">
+                <div class="circuit-metric-value">128</div>
+                <div class="circuit-metric-label">Qubits Used</div>
+              </div>
+              <div class="circuit-metric">
+                <div class="circuit-metric-value">Active</div>
+                <div class="circuit-metric-label">Status</div>
+              </div>
+            </div>
+            <div class="circuit-actions">
+              <button
+                class="btn btn-secondary"
+                onclick="viewCircuitDetails('grover-002')"
+              >
+                Details
+              </button>
+              <button
+                class="btn btn-primary"
+                onclick="optimizeCircuit('grover-002')"
+              >
+                Optimize
+              </button>
+            </div>
+          </div>
+
+          <div class="circuit-card">
+            <div class="circuit-header">
+              <div class="circuit-name">Quantum Machine Learning</div>
+              <div class="circuit-type">ML</div>
+            </div>
+            <div class="circuit-metrics">
+              <div class="circuit-metric">
+                <div class="circuit-metric-value">99.2%</div>
+                <div class="circuit-metric-label">Success Rate</div>
+              </div>
+              <div class="circuit-metric">
+                <div class="circuit-metric-value">5.7ms</div>
+                <div class="circuit-metric-label">Execution Time</div>
+              </div>
+              <div class="circuit-metric">
+                <div class="circuit-metric-value">512</div>
+                <div class="circuit-metric-label">Qubits Used</div>
+              </div>
+              <div class="circuit-metric">
+                <div class="circuit-metric-value">Training</div>
+                <div class="circuit-metric-label">Status</div>
+              </div>
+            </div>
+            <div class="circuit-actions">
+              <button
+                class="btn btn-secondary"
+                onclick="viewCircuitDetails('qml-003')"
+              >
+                Details
+              </button>
+              <button
+                class="btn btn-primary"
+                onclick="pauseTraining('qml-003')"
+              >
+                Pause
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="quantum-alerts">
+          <h3 class="chart-title">Quantum System Alerts</h3>
+          <div class="alert-item">
+            <div class="alert-icon success">
+              <i class="fas fa-check"></i>
+            </div>
+            <div class="alert-content">
+              <h4>Quantum Supremacy Achieved</h4>
+              <p>
+                Successfully completed computation in 200 seconds vs 10,000
+                years
+              </p>
+            </div>
+            <span class="alert-time">5 min ago</span>
+          </div>
+          <div class="alert-item">
+            <div class="alert-icon info">
+              <i class="fas fa-info-circle"></i>
+            </div>
+            <div class="alert-content">
+              <h4>New Quantum Circuit Deployed</h4>
+              <p>Advanced quantum error correction circuit activated</p>
+            </div>
+            <span class="alert-time">15 min ago</span>
+          </div>
+          <div class="alert-item">
+            <div class="alert-icon warning">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="alert-content">
+              <h4>Temperature Fluctuation Detected</h4>
+              <p>Minor temperature variation in quantum processor Q1</p>
+            </div>
+            <span class="alert-time">1 hour ago</span>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // Live quantum data simulation
+      function updateQuantumMetrics() {
+        const metrics = {
+          quantumBits: Math.floor(Math.random() * 50) + 1000,
+          quantumCircuits: Math.floor(Math.random() * 100) + 1800,
+          quantumSpeed: (Math.random() * 0.3 + 1.1).toFixed(1) + 'M',
+          quantumAccuracy: (99.95 + Math.random() * 0.05).toFixed(2) + '%',
+          quantumTemperature: (0.01 + Math.random() * 0.01).toFixed(3) + 'K',
+          quantumCoherence: (2.5 + Math.random() * 0.6).toFixed(1) + 'ms',
+        };
+
+        Object.keys(metrics).forEach(key => {
+          const element = document.getElementById(key);
+          if (element) {
+            element.textContent = metrics[key];
+          }
+        });
+
+        // Update gauges
+        const coherence = parseFloat(metrics.quantumCoherence);
+        const accuracy = parseFloat(metrics.quantumAccuracy);
+        const temperature = parseFloat(metrics.quantumTemperature);
+
+        document.getElementById('coherenceGauge').textContent =
+          metrics.quantumCoherence;
+        const coherencePercentage = Math.min(100, (coherence / 3.0) * 100);
+        document
+          .querySelector('#coherenceGauge')
+          .nextElementSibling.nextElementSibling.querySelector(
+            '.gauge-fill'
+          ).style.width = coherencePercentage + '%';
+
+        document.getElementById('accuracyGauge').textContent =
+          metrics.quantumAccuracy;
+        document
+          .querySelector('#accuracyGauge')
+          .nextElementSibling.nextElementSibling.querySelector(
+            '.gauge-fill'
+          ).style.width = accuracy + '%';
+
+        document.getElementById('temperatureGauge').textContent =
+          metrics.quantumTemperature;
+        const tempPercentage = Math.max(50, 100 - temperature * 1000);
+        document
+          .querySelector('#temperatureGauge')
+          .nextElementSibling.nextElementSibling.querySelector(
+            '.gauge-fill'
+          ).style.width = tempPercentage + '%';
+      }
+
+      // Quantum circuit management functions
+      function viewCircuitDetails(circuitId) {
+        showNotification(
+          `🔍 Loading quantum circuit details for ${circuitId}...`,
+          'info'
+        );
+        setTimeout(() => {
+          showNotification(
+            `📊 Circuit details loaded for ${circuitId}`,
+            'success'
+          );
+        }, 1000);
+      }
+
+      function optimizeCircuit(circuitId) {
+        showNotification(
+          `⚡ Optimizing quantum circuit ${circuitId}...`,
+          'info'
+        );
+        setTimeout(() => {
+          showNotification(
+            `✅ Quantum circuit ${circuitId} optimization completed!`,
+            'success'
+          );
+        }, 3000);
+      }
+
+      function pauseTraining(circuitId) {
+        showNotification(
+          `⏸️ Pausing quantum training for ${circuitId}...`,
+          'info'
+        );
+        setTimeout(() => {
+          showNotification(
+            `✅ Quantum training paused for ${circuitId}`,
+            'success'
+          );
+        }, 1000);
+      }
+
+      // Initialize quantum performance chart
+      function initQuantumChart() {
+        const ctx = document.getElementById('quantumChart').getContext('2d');
+        new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            datasets: [
+              {
+                label: 'Quantum Accuracy (%)',
+                data: [99.5, 99.6, 99.7, 99.8, 99.9, 99.97],
+                borderColor: '#00d4ff',
+                backgroundColor: 'rgba(0, 212, 255, 0.1)',
+                tension: 0.4,
+                fill: true,
+              },
+              {
+                label: 'Operations/sec (M)',
+                data: [0.8, 0.9, 1.0, 1.1, 1.15, 1.2],
+                borderColor: '#ffd700',
+                backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                tension: 0.4,
+                fill: true,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                labels: {
+                  color: '#ffffff',
+                },
+              },
+            },
+            scales: {
+              y: {
+                ticks: {
+                  color: '#a0a0a0',
+                },
+                grid: {
+                  color: 'rgba(255, 255, 255, 0.1)',
+                },
+              },
+              x: {
+                ticks: {
+                  color: '#a0a0a0',
+                },
+                grid: {
+                  color: 'rgba(255, 255, 255, 0.1)',
+                },
+              },
+            },
+          },
+        });
+      }
+
+      // Notification system
+      function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+                <div class="notification-content">
+                    <span class="notification-message">${message}</span>
+                    <button onclick="this.parentElement.parentElement.remove()" class="notification-close">×</button>
+                </div>
+            `;
+
+        // Add notification styles if not already present
+        if (!document.getElementById('notification-styles')) {
+          const style = document.createElement('style');
+          style.id = 'notification-styles';
+          style.textContent = `
+                    .notification {
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+                        color: white;
+                        padding: 1rem 1.5rem;
+                        border-radius: 8px;
+                        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+                        z-index: 10000;
+                        animation: slideIn 0.3s ease-out;
+                        max-width: 400px;
+                    }
+                    .notification-content {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        gap: 1rem;
+                    }
+                    .notification-close {
+                        background: none;
+                        border: none;
+                        color: white;
+                        font-size: 1.5rem;
+                        cursor: pointer;
+                        padding: 0;
+                        line-height: 1;
+                    }
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                `;
+          document.head.appendChild(style);
+        }
+
+        document.body.appendChild(notification);
+
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+          if (notification.parentElement) {
+            notification.remove();
+          }
+        }, 5000);
+      }
+
+      // Real-time updates
+      setInterval(updateQuantumMetrics, 8000); // Update every 8 seconds
+
+      // Initialize page
+      document.addEventListener('DOMContentLoaded', function () {
+        initQuantumChart();
+        updateQuantumMetrics();
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suggestly Elite Demo Video</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 20px;
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+        color: #ffffff;
+        font-family: 'Arial', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .demo-container {
+        text-align: center;
+        max-width: 1280px;
+        width: 100%;
+      }
+
+      .demo-title {
+        color: #ffd700;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        font-weight: bold;
+      }
+
+      .demo-subtitle {
+        color: #a0a0a0;
+        margin-bottom: 2rem;
+      }
+
+      canvas {
+        border: 2px solid #ffd700;
+        border-radius: 8px;
+        max-width: 100%;
+        height: auto;
+        background: #000;
+      }
+
+      .video-controls {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+        padding: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .control-btn {
+        background: #ffd700;
+        color: #000;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .control-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+      }
+
+      .control-btn.secondary {
+        background: #333;
+        color: #fff;
+      }
+
+      .control-btn.secondary:hover {
+        background: #444;
+      }
+
+      .time-display {
+        color: #fff;
+        font-family: monospace;
+        font-size: 1.1rem;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+      }
+
+      .video-info {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #a0a0a0;
+        font-size: 0.9rem;
+      }
+
+      .feature-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-top: 2rem;
+        padding: 1rem;
+      }
+
+      .feature-item {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 215, 0, 0.2);
+        border-radius: 8px;
+        padding: 1rem;
+        text-align: center;
+      }
+
+      .feature-icon {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .feature-title {
+        color: #ffd700;
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+
+      .feature-desc {
+        color: #a0a0a0;
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        .demo-title {
+          font-size: 1.5rem;
+        }
+
+        .video-controls {
+          flex-direction: column;
+        }
+
+        .control-btn {
+          width: 100%;
+          max-width: 200px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo-container">
+      <h1 class="demo-title">🎬 SUGGESTLY ELITE Demo Video</h1>
+      <p class="demo-subtitle">
+        Experience the future of AI-powered business automation
+      </p>
+
+      <canvas id="demoCanvas" width="1280" height="720"></canvas>
+
+      <div class="video-controls">
+        <button class="control-btn" id="playBtn">▶️ Play Demo</button>
+        <button class="control-btn secondary" id="restartBtn">
+          🔄 Restart
+        </button>
+        <div class="time-display" id="timeDisplay">0:00 / 0:38</div>
+      </div>
+
+      <div class="video-info">
+        <p>🎬 Custom Animated Demo - No external dependencies</p>
+        <p>Showcasing AI, Quantum Computing, Automation & Analytics</p>
+      </div>
+
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-icon">🧠</div>
+          <div class="feature-title">AI Content Generation</div>
+          <div class="feature-desc">Advanced neural networks</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">⚛️</div>
+          <div class="feature-title">Quantum Computing</div>
+          <div class="feature-desc">Exponential processing power</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🤖</div>
+          <div class="feature-title">Workflow Automation</div>
+          <div class="feature-desc">Intelligent process management</div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">📊</div>
+          <div class="feature-title">Real-time Analytics</div>
+          <div class="feature-desc">Live performance insights</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      class SuggestlyDemoVideo {
+        constructor() {
+          this.canvas = document.getElementById('demoCanvas');
+          this.ctx = this.canvas.getContext('2d');
+          this.isPlaying = false;
+          this.currentTime = 0;
+          this.duration = 38; // Updated duration for longer clips
+          this.startTime = null;
+          this.animationId = null;
+          this.ctaButton = null;
+
+          this.setupEventListeners();
+          this.setupDemoContent();
+        }
+
+        setupEventListeners() {
+          document
+            .getElementById('playBtn')
+            .addEventListener('click', () => this.togglePlay());
+          document
+            .getElementById('restartBtn')
+            .addEventListener('click', () => this.restart());
+
+          // Add canvas click event for CTA button
+          this.canvas.addEventListener('click', e => this.handleCanvasClick(e));
+        }
+
+        setupDemoContent() {
+          this.demoContent = [
+            {
+              time: 0,
+              duration: 4,
+              type: 'intro',
+              title: 'SUGGESTLY ELITE',
+              subtitle: 'Quantum AI Platform',
+              color: '#ffd700',
+            },
+            {
+              time: 4,
+              duration: 5,
+              type: 'feature',
+              title: 'AI-Powered Content Generation',
+              description: 'Advanced neural networks create compelling content',
+              icon: '🧠',
+              color: '#3b82f6',
+            },
+            {
+              time: 9,
+              duration: 5,
+              type: 'feature',
+              title: 'Quantum Computing Integration',
+              description: 'Exponential processing power for complex tasks',
+              icon: '⚛️',
+              color: '#10b981',
+            },
+            {
+              time: 14,
+              duration: 5,
+              type: 'feature',
+              title: 'Automated Workflow Management',
+              description: 'Streamline operations with intelligent automation',
+              icon: '🤖',
+              color: '#f59e0b',
+            },
+            {
+              time: 19,
+              duration: 5,
+              type: 'feature',
+              title: 'Real-time Analytics Dashboard',
+              description: 'Monitor performance with live insights',
+              icon: '📊',
+              color: '#8b5cf6',
+            },
+            {
+              time: 24,
+              duration: 5,
+              type: 'feature',
+              title: 'Enterprise Security',
+              description: 'Bank-grade security for Fortune 500 companies',
+              icon: '🔒',
+              color: '#ef4444',
+            },
+            {
+              time: 29,
+              duration: 5,
+              type: 'feature',
+              title: 'Advanced Payment Processing',
+              description:
+                'Seamless transactions with multiple payment methods',
+              icon: '💳',
+              color: '#06b6d4',
+            },
+            {
+              time: 34,
+              duration: 4,
+              type: 'outro',
+              title: 'Ready to Transform Your Business?',
+              subtitle: 'Join the Elite',
+              color: '#ffd700',
+            },
+          ];
+        }
+
+        // Animation easing functions
+        easeInOut(t) {
+          return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+        }
+
+        drawBackground(time) {
+          // Animated gradient background
+          const gradient = this.ctx.createLinearGradient(
+            0,
+            0,
+            this.canvas.width,
+            this.canvas.height
+          );
+          const hue = (time * 0.1) % 360;
+          gradient.addColorStop(0, `hsl(${hue}, 70%, 5%)`);
+          gradient.addColorStop(0.5, `hsl(${hue + 30}, 60%, 8%)`);
+          gradient.addColorStop(1, `hsl(${hue + 60}, 70%, 5%)`);
+
+          this.ctx.fillStyle = gradient;
+          this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+          // Animated particles
+          for (let i = 0; i < 50; i++) {
+            const x = ((time * 50 + i * 100) % (this.canvas.width + 100)) - 50;
+            const y = ((time * 30 + i * 70) % (this.canvas.height + 100)) - 50;
+            const size = Math.sin(time + i) * 2 + 3;
+            const opacity = Math.sin(time * 0.5 + i) * 0.3 + 0.1;
+
+            this.ctx.fillStyle = `rgba(255, 215, 0, ${opacity})`;
+            this.ctx.beginPath();
+            this.ctx.arc(x, y, size, 0, Math.PI * 2);
+            this.ctx.fill();
+          }
+        }
+
+        drawIntro(content, progress) {
+          const centerX = this.canvas.width / 2;
+          const centerY = this.canvas.height / 2;
+
+          // Main title
+          this.ctx.font = 'bold 72px Arial, sans-serif';
+          this.ctx.fillStyle = content.color;
+          this.ctx.textAlign = 'center';
+          this.ctx.globalAlpha = this.easeInOut(progress);
+          this.ctx.fillText(content.title, centerX, centerY - 50);
+
+          // Subtitle
+          this.ctx.font = '36px Arial, sans-serif';
+          this.ctx.fillStyle = '#ffffff';
+          this.ctx.globalAlpha = this.easeInOut(
+            Math.max(0, (progress - 0.3) / 0.7)
+          );
+          this.ctx.fillText(content.subtitle, centerX, centerY + 50);
+
+          // Animated border
+          const borderProgress = (progress * 4) % 1;
+          this.ctx.strokeStyle = content.color;
+          this.ctx.lineWidth = 4;
+          this.ctx.globalAlpha = 0.8;
+          this.ctx.beginPath();
+          this.ctx.rect(
+            100,
+            100,
+            this.canvas.width - 200,
+            this.canvas.height - 200
+          );
+          this.ctx.stroke();
+
+          this.ctx.globalAlpha = 1;
+        }
+
+        drawFeature(content, progress) {
+          const centerX = this.canvas.width / 2;
+          const centerY = this.canvas.height / 2;
+
+          // Background card
+          const cardWidth = 600;
+          const cardHeight = 300;
+          const cardX = centerX - cardWidth / 2;
+          const cardY = centerY - cardHeight / 2;
+
+          this.ctx.fillStyle = 'rgba(0, 0, 0, 0.8)';
+          this.ctx.strokeStyle = content.color;
+          this.ctx.lineWidth = 2;
+          this.ctx.globalAlpha = this.easeInOut(progress);
+          this.ctx.fillRect(cardX, cardY, cardWidth, cardHeight);
+          this.ctx.strokeRect(cardX, cardY, cardWidth, cardHeight);
+
+          // Icon
+          this.ctx.font = '64px Arial, sans-serif';
+          this.ctx.fillStyle = content.color;
+          this.ctx.textAlign = 'center';
+          this.ctx.globalAlpha = this.easeInOut(
+            Math.max(0, (progress - 0.2) / 0.8)
+          );
+          this.ctx.fillText(content.icon, centerX, centerY - 80);
+
+          // Title
+          this.ctx.font = 'bold 32px Arial, sans-serif';
+          this.ctx.fillStyle = '#ffffff';
+          this.ctx.globalAlpha = this.easeInOut(
+            Math.max(0, (progress - 0.4) / 0.6)
+          );
+          this.ctx.fillText(content.title, centerX, centerY);
+
+          // Description
+          this.ctx.font = '18px Arial, sans-serif';
+          this.ctx.fillStyle = '#a0a0a0';
+          this.ctx.globalAlpha = this.easeInOut(
+            Math.max(0, (progress - 0.6) / 0.4)
+          );
+          this.ctx.fillText(content.description, centerX, centerY + 40);
+
+          this.ctx.globalAlpha = 1;
+        }
+
+        drawOutro(content, progress) {
+          const centerX = this.canvas.width / 2;
+          const centerY = this.canvas.height / 2;
+
+          // Main title
+          this.ctx.font = 'bold 48px Arial, sans-serif';
+          this.ctx.fillStyle = content.color;
+          this.ctx.textAlign = 'center';
+          this.ctx.globalAlpha = this.easeInOut(progress);
+          this.ctx.fillText(content.title, centerX, centerY - 30);
+
+          // Subtitle
+          this.ctx.font = '24px Arial, sans-serif';
+          this.ctx.fillStyle = '#ffffff';
+          this.ctx.globalAlpha = this.easeInOut(
+            Math.max(0, (progress - 0.3) / 0.7)
+          );
+          this.ctx.fillText(content.subtitle, centerX, centerY + 30);
+
+          // Call to action button
+          const buttonWidth = 220;
+          const buttonHeight = 55;
+          const buttonX = centerX - buttonWidth / 2;
+          const buttonY = centerY + 60;
+
+          // Button background with gradient
+          const buttonGradient = this.ctx.createLinearGradient(
+            buttonX,
+            buttonY,
+            buttonX,
+            buttonY + buttonHeight
+          );
+          buttonGradient.addColorStop(0, content.color);
+          buttonGradient.addColorStop(1, '#e6c200');
+
+          this.ctx.fillStyle = buttonGradient;
+          this.ctx.globalAlpha = this.easeInOut(
+            Math.max(0, (progress - 0.5) / 0.5)
+          );
+          this.ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
+
+          // Button border
+          this.ctx.strokeStyle = '#ffffff';
+          this.ctx.lineWidth = 2;
+          this.ctx.strokeRect(buttonX, buttonY, buttonWidth, buttonHeight);
+
+          // Button text
+          this.ctx.fillStyle = '#000000';
+          this.ctx.font = 'bold 18px Arial, sans-serif';
+          this.ctx.textAlign = 'center';
+          this.ctx.fillText('Get Started Now', centerX, buttonY + 35);
+
+          // Add a subtle glow effect
+          this.ctx.shadowColor = content.color;
+          this.ctx.shadowBlur = 10;
+          this.ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
+          this.ctx.shadowBlur = 0;
+
+          this.ctx.globalAlpha = 1;
+
+          // Store button coordinates for click detection
+          this.ctaButton = {
+            x: buttonX,
+            y: buttonY,
+            width: buttonWidth,
+            height: buttonHeight,
+          };
+        }
+
+        animate() {
+          const elapsed = (Date.now() - this.startTime) / 1000;
+          this.currentTime = Math.min(elapsed, this.duration);
+
+          this.updateTimeDisplay();
+
+          // Find current content
+          const currentContent = this.demoContent.find(
+            content =>
+              this.currentTime >= content.time &&
+              this.currentTime < content.time + content.duration
+          );
+
+          if (currentContent) {
+            const segmentProgress =
+              (this.currentTime - currentContent.time) /
+              currentContent.duration;
+
+            // Draw background
+            this.drawBackground(this.currentTime);
+
+            // Draw content based on type
+            switch (currentContent.type) {
+              case 'intro':
+                this.drawIntro(currentContent, segmentProgress);
+                break;
+              case 'feature':
+                this.drawFeature(currentContent, segmentProgress);
+                break;
+              case 'outro':
+                this.drawOutro(currentContent, segmentProgress);
+                break;
+            }
+          }
+
+          if (this.currentTime < this.duration && this.isPlaying) {
+            this.animationId = requestAnimationFrame(() => this.animate());
+          } else if (this.currentTime >= this.duration) {
+            this.stop();
+          }
+        }
+
+        updateTimeDisplay() {
+          const formatTime = time => {
+            const minutes = Math.floor(time / 60);
+            const seconds = Math.floor(time % 60);
+            return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+          };
+
+          document.getElementById('timeDisplay').textContent =
+            `${formatTime(this.currentTime)} / ${formatTime(this.duration)}`;
+        }
+
+        handleCanvasClick(e) {
+          const rect = this.canvas.getBoundingClientRect();
+          const scaleX = this.canvas.width / rect.width;
+          const scaleY = this.canvas.height / rect.height;
+
+          const x = (e.clientX - rect.left) * scaleX;
+          const y = (e.clientY - rect.top) * scaleY;
+
+          // Check if we're in the outro phase and button is available
+          if (this.ctaButton && this.currentTime >= 34) {
+            if (
+              x >= this.ctaButton.x &&
+              x <= this.ctaButton.x + this.ctaButton.width &&
+              y >= this.ctaButton.y &&
+              y <= this.ctaButton.y + this.ctaButton.height
+            ) {
+              // CTA button clicked - redirect to homepage
+              alert('🚀 Redirecting to SUGGESTLY ELITE...');
+              setTimeout(() => {
+                window.location.href = 'homepage-preview.html';
+              }, 500);
+            }
+          } else {
+            // Show feedback when clicking outside button during outro
+            if (this.currentTime >= 34) {
+              alert('💡 Click the "Get Started Now" button to continue!');
+            }
+          }
+        }
+
+        togglePlay() {
+          if (this.isPlaying) {
+            this.stop();
+          } else {
+            this.play();
+          }
+        }
+
+        play() {
+          if (!this.isPlaying) {
+            this.isPlaying = true;
+            this.startTime = Date.now() - this.currentTime * 1000;
+            document.getElementById('playBtn').textContent = '⏸️ Pause';
+            this.animate();
+          }
+        }
+
+        stop() {
+          this.isPlaying = false;
+          document.getElementById('playBtn').textContent = '▶️ Play Demo';
+          if (this.animationId) {
+            cancelAnimationFrame(this.animationId);
+            this.animationId = null;
+          }
+        }
+
+        restart() {
+          this.stop();
+          this.currentTime = 0;
+          this.updateTimeDisplay();
+          this.play();
+        }
+      }
+
+      // Initialize the demo video when page loads
+      document.addEventListener('DOMContentLoaded', () => {
+        const demoVideo = new SuggestlyDemoVideo();
+
+        // Auto-start the demo after a short delay
+        setTimeout(() => {
+          demoVideo.play();
+        }, 1000);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+# SUGGESTLY ELITE - GitHub Repository Verification
+# This file verifies ownership of the suggestlyg4plus repository
+
+Repository: suggestly/elite-platform
+Owner: Tyrone Mitchell
+Email: tyrone.mitchell76@hotmail.com
+Project: SUGGESTLY ELITE Platform
+Version: v2.0
+
+Verification Code: SUGGESTLY-ELITE-2024-VERIFY
+
+This file serves as proof of ownership for the GitHub repository
+https://github.com/suggestly/elite-platform.git
+
+Created: December 2024
+Purpose: Repository ownership verification
