@@ -8,7 +8,12 @@
     "build": "echo 'Static site - no build required'",
     "start": "npx serve ."
   },
-  "keywords": ["suggestly", "elite", "web", "static"],
+  "keywords": [
+    "suggestly",
+    "elite",
+    "web",
+    "static"
+  ],
   "author": "Tyron Mitchell",
   "license": "MIT",
   "devDependencies": {
