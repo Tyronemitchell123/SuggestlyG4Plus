@@ -32,8 +32,43 @@ import {
   Command,
   TrendingUp,
   Users,
+  AlertCircle,
+  TrendingDown,
+  DollarSign,
+  BarChart3,
+  Target,
+  Zap,
+  Brain,
+  Cpu,
+  Database,
+  Network,
+  Shield,
+  Settings,
+  HelpCircle,
+  MessageSquare,
+  Download,
+  Upload,
+  RotateCcw,
+  Maximize2,
+  Minimize2,
+  X,
+  Plus,
+  Minus,
+  ArrowUp,
+  ArrowDown,
+  ChevronRight,
+  ChevronLeft,
+  Star,
+  Clock,
+  Calendar,
+  Filter,
+  SortAsc,
+  SortDesc,
 } from "lucide-react";
 import "../styles/UltraPremiumUX.css";
+import liveDataService from "../services/LiveDataService.js";
+import aiService from "../services/AIService.js";
+import commandPaletteService from "../services/CommandPaletteService.js";
 import {
   LineChart,
   Line,
@@ -68,10 +103,10 @@ function useDarkMode() {
 function useUltraPremiumUX() {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [voiceNavigation, setVoiceNavigation] = useState(false);
-  const [screenSize, setScreenSize] = useState('desktop');
+  const [screenSize, setScreenSize] = useState("desktop");
   const [aiSuggestions, setAiSuggestions] = useState([]);
-  const [accessibilityMode, setAccessibilityMode] = useState('standard');
-  
+  const [accessibilityMode, setAccessibilityMode] = useState("standard");
+
   const parallaxRef = useRef(null);
   const commandPaletteRef = useRef(null);
 
@@ -80,11 +115,11 @@ function useUltraPremiumUX() {
     button: {
       hover: { scale: 1.05, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" },
       tap: { scale: 0.95 },
-      transition: { type: "spring", stiffness: 400, damping: 17 }
+      transition: { type: "spring", stiffness: 400, damping: 17 },
     },
     card: {
       hover: { y: -10, rotateY: 5 },
-      transition: { duration: 0.3 }
+      transition: { duration: 0.3 },
     },
     gradient: {
       animate: {
@@ -92,20 +127,35 @@ function useUltraPremiumUX() {
           "linear-gradient(45deg, #667eea 0%, #764ba2 100%)",
           "linear-gradient(45deg, #f093fb 0%, #f5576c 100%)",
           "linear-gradient(45deg, #4facfe 0%, #00f2fe 100%)",
-          "linear-gradient(45deg, #667eea 0%, #764ba2 100%)"
-        ]
+          "linear-gradient(45deg, #667eea 0%, #764ba2 100%)",
+        ],
       },
-      transition: { duration: 8, repeat: Infinity, ease: "linear" }
-    }
+      transition: { duration: 8, repeat: Infinity, ease: "linear" },
+    },
   };
 
   // AI-Powered Suggestions System
   useEffect(() => {
     const generateAISuggestions = () => {
       const suggestions = [
-        { id: 1, type: 'optimization', message: 'Portfolio rebalancing recommended based on market trends', priority: 'high' },
-        { id: 2, type: 'insight', message: 'New investment opportunity detected in emerging markets', priority: 'medium' },
-        { id: 3, type: 'alert', message: 'Risk assessment update available for your holdings', priority: 'low' }
+        {
+          id: 1,
+          type: "optimization",
+          message: "Portfolio rebalancing recommended based on market trends",
+          priority: "high",
+        },
+        {
+          id: 2,
+          type: "insight",
+          message: "New investment opportunity detected in emerging markets",
+          priority: "medium",
+        },
+        {
+          id: 3,
+          type: "alert",
+          message: "Risk assessment update available for your holdings",
+          priority: "low",
+        },
       ];
       setAiSuggestions(suggestions);
     };
@@ -119,50 +169,51 @@ function useUltraPremiumUX() {
   useEffect(() => {
     const handleResize = () => {
       const width = window.innerWidth;
-      if (width >= 1920) setScreenSize('ultra-wide');
-      else if (width >= 1200) setScreenSize('desktop');
-      else if (width >= 768) setScreenSize('tablet');
-      else setScreenSize('mobile');
+      if (width >= 1920) setScreenSize("ultra-wide");
+      else if (width >= 1200) setScreenSize("desktop");
+      else if (width >= 768) setScreenSize("tablet");
+      else setScreenSize("mobile");
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // Command Palette System
   useEffect(() => {
     const handleKeyPress = (e) => {
-      if (e.ctrlKey && e.key === 'k') {
+      if (e.ctrlKey && e.key === "k") {
         e.preventDefault();
         setIsCommandPaletteOpen(true);
       }
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setIsCommandPaletteOpen(false);
       }
     };
 
-    document.addEventListener('keydown', handleKeyPress);
-    return () => document.removeEventListener('keydown', handleKeyPress);
+    document.addEventListener("keydown", handleKeyPress);
+    return () => document.removeEventListener("keydown", handleKeyPress);
   }, []);
 
   // Voice Navigation System
   useEffect(() => {
     if (voiceNavigation) {
-      const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+      const recognition = new (window.SpeechRecognition ||
+        window.webkitSpeechRecognition)();
       recognition.continuous = true;
       recognition.interimResults = true;
-      
+
       recognition.onresult = (event) => {
         const transcript = Array.from(event.results)
-          .map(result => result[0])
-          .map(result => result.transcript)
-          .join('');
-        
-        if (transcript.includes('navigate')) {
+          .map((result) => result[0])
+          .map((result) => result.transcript)
+          .join("");
+
+        if (transcript.includes("navigate")) {
           // Handle navigation commands
         }
-        if (transcript.includes('analyze')) {
+        if (transcript.includes("analyze")) {
           // Handle analysis commands
         }
       };
@@ -182,8 +233,8 @@ function useUltraPremiumUX() {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return {
@@ -197,114 +248,106 @@ function useUltraPremiumUX() {
     setAccessibilityMode,
     parallaxRef,
     commandPaletteRef,
-    microInteractions
+    microInteractions,
   };
 }
 
-// ---------- Live Feed Hook (WebSocket + Fallback) ----------
-function useLiveFeed({ url, topic = "suggestly/stream", simulate = true }) {
+// ---------- Enhanced Live Data Hook ----------
+function useLiveData() {
   const [connected, setConnected] = useState(false);
-  const [events, setEvents] = useState([]);
-  const wsRef = useRef(null);
-  const idRef = useRef(1);
+  const [portfolioData, setPortfolioData] = useState(null);
+  const [marketData, setMarketData] = useState(null);
+  const [analyticsData, setAnalyticsData] = useState(null);
+  const [performanceData, setPerformanceData] = useState(null);
+  const [aiInsights, setAiInsights] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    let interval;
+    // Initialize live data service
+    liveDataService.connect();
 
-    if (url) {
-      try {
-        const ws = new WebSocket(url);
-        wsRef.current = ws;
-        ws.addEventListener("open", () => setConnected(true));
-        ws.addEventListener("close", () => setConnected(false));
-        ws.addEventListener("error", () => setConnected(false));
-        ws.addEventListener("message", (e) => {
-          try {
-            const data = JSON.parse(e.data);
-            setEvents((prev) =>
-              [
-                {
-                  id: data.id ?? idRef.current++,
-                  ts: data.ts ?? Date.now(),
-                  kind: data.kind ?? "update",
-                  message: data.message ?? "New event",
-                  value: data.value ?? Math.random() * 100,
-                },
-                ...prev,
-              ].slice(0, 150)
-            );
-          } catch {
-            // Non‑JSON payloads
-            setEvents((prev) =>
-              [
-                {
-                  id: idRef.current++,
-                  ts: Date.now(),
-                  kind: "raw",
-                  message: String(e.data).slice(0, 200),
-                  value: Math.random() * 100,
-                },
-                ...prev,
-              ].slice(0, 150)
-            );
-          }
-        });
-      } catch {
-        /* if browser blocks WS, fallback to simulation */
-      }
-    }
+    // Subscribe to data streams
+    const portfolioCallback = (data) => {
+      setPortfolioData(data);
+      setConnected(liveDataService.isConnected);
+    };
 
-    if (simulate && !url) {
-      interval = setInterval(() => {
-        const kinds = ["ingest", "score", "deploy", "notify", "heartbeat"];
-        const kind = kinds[Math.floor(Math.random() * kinds.length)];
-        setEvents((prev) =>
-          [
-            {
-              id: idRef.current++,
-              ts: Date.now(),
-              kind,
-              message:
-                kind === "deploy"
-                  ? "CI/CD: SuggestlyG4+ rolled out to edge."
-                  : kind === "score"
-                  ? `Model score ${(80 + Math.random() * 20).toFixed(2)}%`
-                  : kind === "ingest"
-                  ? "Data pipeline ingested 10k rows."
-                  : kind === "heartbeat"
-                  ? "Service heartbeat"
-                  : "User notification broadcast",
-              value: 70 + Math.random() * 30,
-            },
-            ...prev,
-          ].slice(0, 150)
-        );
-      }, 1500);
-    }
+    const marketCallback = (data) => {
+      setMarketData(data);
+    };
+
+    const analyticsCallback = (data) => {
+      setAnalyticsData(data);
+    };
+
+    const performanceCallback = (data) => {
+      setPerformanceData(data);
+    };
+
+    const aiInsightsCallback = (data) => {
+      setAiInsights(prev => [data, ...prev].slice(0, 10));
+    };
+
+    const notificationsCallback = (data) => {
+      setNotifications(prev => [data, ...prev].slice(0, 20));
+    };
+
+    liveDataService.subscribe('portfolio', portfolioCallback);
+    liveDataService.subscribe('market', marketCallback);
+    liveDataService.subscribe('analytics', analyticsCallback);
+    liveDataService.subscribe('performance', performanceCallback);
+    liveDataService.subscribe('aiInsights', aiInsightsCallback);
+    liveDataService.subscribe('notifications', notificationsCallback);
+
+    // Update connection status
+    const updateConnectionStatus = () => {
+      setConnected(liveDataService.isConnected);
+    };
+
+    const interval = setInterval(updateConnectionStatus, 1000);
 
     return () => {
-      if (interval) clearInterval(interval);
-      if (wsRef.current) wsRef.current.close();
+      clearInterval(interval);
+      liveDataService.unsubscribe('portfolio', portfolioCallback);
+      liveDataService.unsubscribe('market', marketCallback);
+      liveDataService.unsubscribe('analytics', analyticsCallback);
+      liveDataService.unsubscribe('performance', performanceCallback);
+      liveDataService.unsubscribe('aiInsights', aiInsightsCallback);
+      liveDataService.unsubscribe('notifications', notificationsCallback);
     };
-  }, [url, simulate]);
+  }, []);
 
   const series = useMemo(() => {
-    // Build a last‑N chart series (latest first → reverse for chart)
-    const last = [...events]
-      .slice(0, 50)
-      .reverse()
-      .map((e) => ({ t: new Date(e.ts).toLocaleTimeString(), v: e.value }));
-    return last;
-  }, [events]);
+    if (!performanceData) return [];
+    
+    // Create time series data for charts
+    const data = liveDataService.getStreamData('performance');
+    return data.slice(-50).reverse().map((item, index) => ({
+      t: new Date(item.timestamp).toLocaleTimeString(),
+      v: item.latency || Math.random() * 100,
+      throughput: item.throughput || Math.random() * 1000,
+      uptime: item.uptime || 99.9
+    }));
+  }, [performanceData]);
 
-  return { connected, events, series };
+  return {
+    connected,
+    portfolioData,
+    marketData,
+    analyticsData,
+    performanceData,
+    aiInsights,
+    notifications,
+    series,
+    liveDataService
+  };
 }
 
 // ---------- Ultra-Premium Parallax Background ----------
 function UltraPremiumBackground({ parallaxRef, microInteractions }) {
   return (
     <div ref={parallaxRef} className="parallax-layers">
-      <motion.div 
+      <motion.div
         className="gradient-layer"
         animate={microInteractions.gradient.animate}
         transition={microInteractions.gradient.transition}
@@ -317,12 +360,12 @@ function UltraPremiumBackground({ parallaxRef, microInteractions }) {
             animate={{
               x: [0, 100, 0],
               y: [0, -100, 0],
-              opacity: [0, 1, 0]
+              opacity: [0, 1, 0],
             }}
             transition={{
               duration: Math.random() * 3 + 2,
               repeat: Infinity,
-              delay: Math.random() * 2
+              delay: Math.random() * 2,
             }}
           />
         ))}
@@ -347,7 +390,7 @@ function AISuggestionsPanel({ aiSuggestions, microInteractions }) {
             <Sparkles className="ai-icon" />
             <h3>AI Insights</h3>
           </div>
-          {aiSuggestions.map(suggestion => (
+          {aiSuggestions.map((suggestion) => (
             <motion.div
               key={suggestion.id}
               className={`suggestion-item ${suggestion.priority}`}
@@ -374,8 +417,16 @@ function AISuggestionsPanel({ aiSuggestions, microInteractions }) {
   );
 }
 
-// ---------- Command Palette ----------
-function CommandPalette({ isCommandPaletteOpen, setIsCommandPaletteOpen, commandPaletteRef }) {
+// ---------- Enhanced Command Palette ----------
+function CommandPalette({
+  isCommandPaletteOpen,
+  setIsCommandPaletteOpen,
+  commandPaletteRef,
+  commandQuery,
+  setCommandQuery,
+  commandResults,
+  executeCommand
+}) {
   return (
     <AnimatePresence>
       {isCommandPaletteOpen && (
@@ -396,25 +447,78 @@ function CommandPalette({ isCommandPaletteOpen, setIsCommandPaletteOpen, command
           >
             <div className="palette-header">
               <Command size={20} />
-              <input 
-                type="text" 
+              <input
+                type="text"
                 placeholder="Search commands, navigate, or ask AI..."
+                value={commandQuery}
+                onChange={(e) => setCommandQuery(e.target.value)}
                 autoFocus
               />
             </div>
             <div className="command-suggestions">
-              <div className="command-group">
-                <h4>Navigation</h4>
-                <div className="command-item">Dashboard</div>
-                <div className="command-item">Portfolio</div>
-                <div className="command-item">Analytics</div>
-              </div>
-              <div className="command-group">
-                <h4>Actions</h4>
-                <div className="command-item">Rebalance Portfolio</div>
-                <div className="command-item">Generate Report</div>
-                <div className="command-item">AI Analysis</div>
-              </div>
+              {commandResults.length > 0 ? (
+                commandResults.map((command) => (
+                  <div 
+                    key={command.id}
+                    className="command-item"
+                    onClick={() => executeCommand(command.id)}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <div className="font-medium">{command.title}</div>
+                        <div className="text-sm text-gray-500">{command.description}</div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs bg-gray-100 px-2 py-1 rounded">
+                          {command.category}
+                        </span>
+                        {command.shortcut && (
+                          <span className="text-xs text-gray-400">
+                            {command.shortcut}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : commandQuery ? (
+                <div className="p-4 text-center text-gray-500">
+                  No commands found for "{commandQuery}"
+                </div>
+              ) : (
+                <>
+                  <div className="command-group">
+                    <h4>Quick Actions</h4>
+                    <div className="command-item" onClick={() => executeCommand('ai_analysis')}>
+                      <Brain className="h-4 w-4 mr-2" />
+                      AI Analysis
+                    </div>
+                    <div className="command-item" onClick={() => executeCommand('generate_report')}>
+                      <BarChart3 className="h-4 w-4 mr-2" />
+                      Generate Report
+                    </div>
+                    <div className="command-item" onClick={() => executeCommand('optimize_portfolio')}>
+                      <Target className="h-4 w-4 mr-2" />
+                      Optimize Portfolio
+                    </div>
+                  </div>
+                  <div className="command-group">
+                    <h4>Navigation</h4>
+                    <div className="command-item" onClick={() => executeCommand('dashboard')}>
+                      <Activity className="h-4 w-4 mr-2" />
+                      Dashboard
+                    </div>
+                    <div className="command-item" onClick={() => executeCommand('portfolio')}>
+                      <DollarSign className="h-4 w-4 mr-2" />
+                      Portfolio
+                    </div>
+                    <div className="command-item" onClick={() => executeCommand('analytics')}>
+                      <LineChartIcon className="h-4 w-4 mr-2" />
+                      Analytics
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </motion.div>
         </motion.div>
@@ -424,16 +528,23 @@ function CommandPalette({ isCommandPaletteOpen, setIsCommandPaletteOpen, command
 }
 
 // ---------- Accessibility Controls ----------
-function AccessibilityControls({ voiceNavigation, setVoiceNavigation, accessibilityMode, setAccessibilityMode, setIsCommandPaletteOpen, microInteractions }) {
+function AccessibilityControls({
+  voiceNavigation,
+  setVoiceNavigation,
+  accessibilityMode,
+  setAccessibilityMode,
+  setIsCommandPaletteOpen,
+  microInteractions,
+}) {
   return (
-    <motion.div 
+    <motion.div
       className="accessibility-controls"
       initial={{ x: 100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ delay: 0.4 }}
     >
       <motion.button
-        className={`control-button ${voiceNavigation ? 'active' : ''}`}
+        className={`control-button ${voiceNavigation ? "active" : ""}`}
         onClick={() => setVoiceNavigation(!voiceNavigation)}
         whileHover={microInteractions.button.hover}
         whileTap={microInteractions.button.tap}
@@ -442,10 +553,12 @@ function AccessibilityControls({ voiceNavigation, setVoiceNavigation, accessibil
       >
         <Mic size={20} />
       </motion.button>
-      
+
       <motion.button
         className="control-button"
-        onClick={() => setAccessibilityMode(accessibilityMode === 'aaa' ? 'standard' : 'aaa')}
+        onClick={() =>
+          setAccessibilityMode(accessibilityMode === "aaa" ? "standard" : "aaa")
+        }
         whileHover={microInteractions.button.hover}
         whileTap={microInteractions.button.tap}
         transition={microInteractions.button.transition}
@@ -472,19 +585,21 @@ function AccessibilityControls({ voiceNavigation, setVoiceNavigation, accessibil
 function DeviceIndicators({ screenSize }) {
   return (
     <div className="device-indicators">
-      <div className={`indicator ${screenSize === 'ultra-wide' ? 'active' : ''}`}>
+      <div
+        className={`indicator ${screenSize === "ultra-wide" ? "active" : ""}`}
+      >
         <Monitor size={16} />
         <span>Ultra-Wide</span>
       </div>
-      <div className={`indicator ${screenSize === 'desktop' ? 'active' : ''}`}>
+      <div className={`indicator ${screenSize === "desktop" ? "active" : ""}`}>
         <Monitor size={16} />
         <span>Desktop</span>
       </div>
-      <div className={`indicator ${screenSize === 'tablet' ? 'active' : ''}`}>
+      <div className={`indicator ${screenSize === "tablet" ? "active" : ""}`}>
         <Tablet size={16} />
         <span>Tablet</span>
       </div>
-      <div className={`indicator ${screenSize === 'mobile' ? 'active' : ''}`}>
+      <div className={`indicator ${screenSize === "mobile" ? "active" : ""}`}>
         <Smartphone size={16} />
         <span>Mobile</span>
       </div>
@@ -512,11 +627,19 @@ function ContextualTooltips() {
 // ---------- Layout ----------
 export default function SuggestlyG4PlusSite() {
   const { theme, setTheme } = useDarkMode();
-  const LIVE_FEED_URL = import.meta?.env?.VITE_LIVE_FEED_URL || ""; // set to wss://your-feed
-  const { connected, events, series } = useLiveFeed({
-    url: LIVE_FEED_URL,
-    simulate: !LIVE_FEED_URL,
-  });
+  
+  // Enhanced Live Data Integration
+  const {
+    connected,
+    portfolioData,
+    marketData,
+    analyticsData,
+    performanceData,
+    aiInsights,
+    notifications,
+    series,
+    liveDataService
+  } = useLiveData();
 
   // Ultra-Premium UX Integration
   const {
@@ -530,26 +653,107 @@ export default function SuggestlyG4PlusSite() {
     setAccessibilityMode,
     parallaxRef,
     commandPaletteRef,
-    microInteractions
+    microInteractions,
   } = useUltraPremiumUX();
+
+  // Command Palette Integration
+  const [commandQuery, setCommandQuery] = useState('');
+  const [commandResults, setCommandResults] = useState([]);
+  const [selectedCommand, setSelectedCommand] = useState(null);
+
+  // Enhanced AI Integration
+  const [aiAnalysisRunning, setAiAnalysisRunning] = useState(false);
+  const [aiResults, setAiResults] = useState(null);
+
+  // Handle command palette search
+  const handleCommandSearch = (query) => {
+    setCommandQuery(query);
+    if (query.trim()) {
+      const results = commandPaletteService.searchCommands(query);
+      setCommandResults(results);
+    } else {
+      setCommandResults([]);
+    }
+  };
+
+  // Execute command
+  const executeCommand = async (commandId) => {
+    try {
+      const result = await commandPaletteService.executeCommand(commandId);
+      if (result.success) {
+        console.log('Command executed successfully:', result);
+        setIsCommandPaletteOpen(false);
+        setCommandQuery('');
+        setCommandResults([]);
+      } else {
+        console.error('Command failed:', result.error);
+      }
+    } catch (error) {
+      console.error('Error executing command:', error);
+    }
+  };
+
+  // Run AI Analysis
+  const runAIAnalysis = async () => {
+    setAiAnalysisRunning(true);
+    try {
+      const data = {
+        portfolio: portfolioData,
+        market: marketData,
+        performance: performanceData
+      };
+      const insights = await aiService.generateInsights(data);
+      setAiResults(insights);
+    } catch (error) {
+      console.error('AI Analysis failed:', error);
+    } finally {
+      setAiAnalysisRunning(false);
+    }
+  };
+
+  // Effect for command search
+  useEffect(() => {
+    handleCommandSearch(commandQuery);
+  }, [commandQuery]);
+
+  // Initialize command palette service
+  useEffect(() => {
+    // Set up global keyboard shortcuts
+    const handleKeyPress = (event) => {
+      commandPaletteService.handleKeyPress(event);
+    };
+
+    document.addEventListener('keydown', handleKeyPress);
+    return () => document.removeEventListener('keydown', handleKeyPress);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white text-zinc-900 antialiased transition-colors duration-300 dark:bg-zinc-950 dark:text-zinc-50">
       {/* Ultra-Premium Background */}
-      <UltraPremiumBackground parallaxRef={parallaxRef} microInteractions={microInteractions} />
-      
+      <UltraPremiumBackground
+        parallaxRef={parallaxRef}
+        microInteractions={microInteractions}
+      />
+
       {/* AI-Powered Suggestions Panel */}
-      <AISuggestionsPanel aiSuggestions={aiSuggestions} microInteractions={microInteractions} />
-      
-      {/* Command Palette */}
+      <AISuggestionsPanel
+        aiSuggestions={aiSuggestions}
+        microInteractions={microInteractions}
+      />
+
+            {/* Command Palette */}
       <CommandPalette 
         isCommandPaletteOpen={isCommandPaletteOpen} 
         setIsCommandPaletteOpen={setIsCommandPaletteOpen} 
-        commandPaletteRef={commandPaletteRef} 
+        commandPaletteRef={commandPaletteRef}
+        commandQuery={commandQuery}
+        setCommandQuery={setCommandQuery}
+        commandResults={commandResults}
+        executeCommand={executeCommand}
       />
-      
+
       {/* Accessibility Controls */}
-      <AccessibilityControls 
+      <AccessibilityControls
         voiceNavigation={voiceNavigation}
         setVoiceNavigation={setVoiceNavigation}
         accessibilityMode={accessibilityMode}
@@ -557,10 +761,10 @@ export default function SuggestlyG4PlusSite() {
         setIsCommandPaletteOpen={setIsCommandPaletteOpen}
         microInteractions={microInteractions}
       />
-      
+
       {/* Device Indicators */}
       <DeviceIndicators screenSize={screenSize} />
-      
+
       {/* Contextual Tooltips */}
       <ContextualTooltips />
       {/* Header */}
@@ -688,90 +892,90 @@ export default function SuggestlyG4PlusSite() {
               transition={microInteractions.card.transition}
             >
               <Card className="border-0 bg-gradient-to-br from-zinc-50 to-white shadow-xl ring-1 ring-black/5 dark:from-zinc-900 dark:to-zinc-900/60 dark:ring-white/10">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <CardTitle className="flex items-center gap-2">
-                  <LineChartIcon className="h-5 w-5" /> Live Metrics
-                </CardTitle>
-                <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-                  <RefreshCcw
-                    className={cn(
-                      "h-4 w-4",
-                      connected ? "animate-spin-slow" : ""
-                    )}
-                  />
-                  {connected ? "realtime" : "simulated"}
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="h-56 w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart
-                      data={series}
-                      margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
-                    >
-                      <defs>
-                        <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
-                          <stop
-                            offset="5%"
-                            stopColor="currentColor"
-                            stopOpacity={0.35}
-                          />
-                          <stop
-                            offset="95%"
-                            stopColor="currentColor"
-                            stopOpacity={0.02}
-                          />
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid strokeDasharray="3 3" opacity={0.25} />
-                      <XAxis dataKey="t" tick={{ fontSize: 12 }} />
-                      <YAxis tick={{ fontSize: 12 }} domain={[0, 110]} />
-                      <Tooltip
-                        contentStyle={{
-                          background: "hsl(0 0% 100% / 0.9)",
-                          borderRadius: 12,
-                          border: "1px solid hsl(240 5% 84%)",
-                        }}
-                        labelStyle={{ fontWeight: 600 }}
-                      />
-                      <Area
-                        type="monotone"
-                        dataKey="v"
-                        stroke="currentColor"
-                        fillOpacity={1}
-                        fill="url(#g)"
-                      />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </div>
-                <div className="mt-3 grid grid-cols-2 gap-2 text-sm text-zinc-600 dark:text-zinc-300 sm:grid-cols-4">
-                  <div className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-800">
-                    <div className="text-xs">Latency</div>
-                    <div className="text-lg font-semibold">
-                      {(Math.random() * 40 + 20).toFixed(0)} ms
+                <CardHeader className="flex flex-row items-center justify-between">
+                  <CardTitle className="flex items-center gap-2">
+                    <LineChartIcon className="h-5 w-5" /> Live Metrics
+                  </CardTitle>
+                  <div className="flex items-center gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+                    <RefreshCcw
+                      className={cn(
+                        "h-4 w-4",
+                        connected ? "animate-spin-slow" : ""
+                      )}
+                    />
+                    {connected ? "realtime" : "simulated"}
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-56 w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart
+                        data={series}
+                        margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                      >
+                        <defs>
+                          <linearGradient id="g" x1="0" y1="0" x2="0" y2="1">
+                            <stop
+                              offset="5%"
+                              stopColor="currentColor"
+                              stopOpacity={0.35}
+                            />
+                            <stop
+                              offset="95%"
+                              stopColor="currentColor"
+                              stopOpacity={0.02}
+                            />
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" opacity={0.25} />
+                        <XAxis dataKey="t" tick={{ fontSize: 12 }} />
+                        <YAxis tick={{ fontSize: 12 }} domain={[0, 110]} />
+                        <Tooltip
+                          contentStyle={{
+                            background: "hsl(0 0% 100% / 0.9)",
+                            borderRadius: 12,
+                            border: "1px solid hsl(240 5% 84%)",
+                          }}
+                          labelStyle={{ fontWeight: 600 }}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="v"
+                          stroke="currentColor"
+                          fillOpacity={1}
+                          fill="url(#g)"
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <div className="mt-3 grid grid-cols-2 gap-2 text-sm text-zinc-600 dark:text-zinc-300 sm:grid-cols-4">
+                    <div className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-800">
+                      <div className="text-xs">Latency</div>
+                      <div className="text-lg font-semibold">
+                        {(Math.random() * 40 + 20).toFixed(0)} ms
+                      </div>
+                    </div>
+                    <div className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-800">
+                      <div className="text-xs">Throughput</div>
+                      <div className="text-lg font-semibold">
+                        {(Math.random() * 500 + 500).toFixed(0)}/s
+                      </div>
+                    </div>
+                    <div className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-800">
+                      <div className="text-xs">Users</div>
+                      <div className="text-lg font-semibold">
+                        {(Math.random() * 900 + 100).toFixed(0)}
+                      </div>
+                    </div>
+                    <div className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-800">
+                      <div className="text-xs">Model score</div>
+                      <div className="text-lg font-semibold">
+                        {(80 + Math.random() * 20).toFixed(2)}%
+                      </div>
                     </div>
                   </div>
-                  <div className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-800">
-                    <div className="text-xs">Throughput</div>
-                    <div className="text-lg font-semibold">
-                      {(Math.random() * 500 + 500).toFixed(0)}/s
-                    </div>
-                  </div>
-                  <div className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-800">
-                    <div className="text-xs">Users</div>
-                    <div className="text-lg font-semibold">
-                      {(Math.random() * 900 + 100).toFixed(0)}
-                    </div>
-                  </div>
-                  <div className="rounded-xl border border-zinc-200 p-3 dark:border-zinc-800">
-                    <div className="text-xs">Model score</div>
-                    <div className="text-lg font-semibold">
-                      {(80 + Math.random() * 20).toFixed(2)}%
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
             </motion.div>
           </div>
         </div>
@@ -819,19 +1023,17 @@ export default function SuggestlyG4PlusSite() {
                     whileHover={microInteractions.card.hover}
                     transition={microInteractions.card.transition}
                   >
-                    <Card
-                      className="border-0 shadow-lg ring-1 ring-black/5 dark:ring-white/10"
-                    >
-                    <CardHeader>
-                      <CardTitle className="flex items-center gap-2">
-                        {f.icon}
-                        {f.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="text-zinc-600 dark:text-zinc-300">
-                      {f.text}
-                    </CardContent>
-                  </Card>
+                    <Card className="border-0 shadow-lg ring-1 ring-black/5 dark:ring-white/10">
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          {f.icon}
+                          {f.title}
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="text-zinc-600 dark:text-zinc-300">
+                        {f.text}
+                      </CardContent>
+                    </Card>
                   </motion.div>
                 ))}
               </div>
@@ -936,9 +1138,9 @@ VITE_API_ORIGIN=https://api.suggestlyg4plus.io
       <section className="py-8 md:py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-2xl font-bold tracking-tight">Live Feed</h2>
+            <h2 className="text-2xl font-bold tracking-tight">Live Data Feed</h2>
             <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-              <span className="hidden sm:inline">{events.length} events</span>
+              <span className="hidden sm:inline">{notifications.length} notifications</span>
               {connected ? (
                 <Badge className="bg-emerald-600 hover:bg-emerald-600">
                   Connected
@@ -950,12 +1152,11 @@ VITE_API_ORIGIN=https://api.suggestlyg4plus.io
           </div>
 
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {events.slice(0, 9).map((ev) => (
+            {notifications.slice(0, 9).map((ev) => (
               <motion.div
                 key={ev.id}
                 initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.25 }}
                 whileHover={microInteractions.card.hover}
                 transition={microInteractions.card.transition}
               >
@@ -968,10 +1169,10 @@ VITE_API_ORIGIN=https://api.suggestlyg4plus.io
                   </CardHeader>
                   <CardContent className="space-y-2">
                     <div className="text-sm text-zinc-600 dark:text-zinc-300">
-                      {ev.message}
+                      {ev.message || ev.title}
                     </div>
                     <div className="text-xs text-zinc-400">
-                      {new Date(ev.ts).toLocaleString()}
+                      {new Date(ev.timestamp || ev.ts).toLocaleString()}
                     </div>
                   </CardContent>
                 </Card>
