@@ -37,7 +37,6 @@ import {
   DollarSign,
   BarChart3,
   Target,
-  Zap,
   Brain,
   Cpu,
   Database,
@@ -285,19 +284,19 @@ function useLiveData() {
     };
 
     const aiInsightsCallback = (data) => {
-      setAiInsights(prev => [data, ...prev].slice(0, 10));
+      setAiInsights((prev) => [data, ...prev].slice(0, 10));
     };
 
     const notificationsCallback = (data) => {
-      setNotifications(prev => [data, ...prev].slice(0, 20));
+      setNotifications((prev) => [data, ...prev].slice(0, 20));
     };
 
-    liveDataService.subscribe('portfolio', portfolioCallback);
-    liveDataService.subscribe('market', marketCallback);
-    liveDataService.subscribe('analytics', analyticsCallback);
-    liveDataService.subscribe('performance', performanceCallback);
-    liveDataService.subscribe('aiInsights', aiInsightsCallback);
-    liveDataService.subscribe('notifications', notificationsCallback);
+    liveDataService.subscribe("portfolio", portfolioCallback);
+    liveDataService.subscribe("market", marketCallback);
+    liveDataService.subscribe("analytics", analyticsCallback);
+    liveDataService.subscribe("performance", performanceCallback);
+    liveDataService.subscribe("aiInsights", aiInsightsCallback);
+    liveDataService.subscribe("notifications", notificationsCallback);
 
     // Update connection status
     const updateConnectionStatus = () => {
@@ -308,26 +307,29 @@ function useLiveData() {
 
     return () => {
       clearInterval(interval);
-      liveDataService.unsubscribe('portfolio', portfolioCallback);
-      liveDataService.unsubscribe('market', marketCallback);
-      liveDataService.unsubscribe('analytics', analyticsCallback);
-      liveDataService.unsubscribe('performance', performanceCallback);
-      liveDataService.unsubscribe('aiInsights', aiInsightsCallback);
-      liveDataService.unsubscribe('notifications', notificationsCallback);
+      liveDataService.unsubscribe("portfolio", portfolioCallback);
+      liveDataService.unsubscribe("market", marketCallback);
+      liveDataService.unsubscribe("analytics", analyticsCallback);
+      liveDataService.unsubscribe("performance", performanceCallback);
+      liveDataService.unsubscribe("aiInsights", aiInsightsCallback);
+      liveDataService.unsubscribe("notifications", notificationsCallback);
     };
   }, []);
 
   const series = useMemo(() => {
     if (!performanceData) return [];
-    
+
     // Create time series data for charts
-    const data = liveDataService.getStreamData('performance');
-    return data.slice(-50).reverse().map((item, index) => ({
-      t: new Date(item.timestamp).toLocaleTimeString(),
-      v: item.latency || Math.random() * 100,
-      throughput: item.throughput || Math.random() * 1000,
-      uptime: item.uptime || 99.9
-    }));
+    const data = liveDataService.getStreamData("performance");
+    return data
+      .slice(-50)
+      .reverse()
+      .map((item, index) => ({
+        t: new Date(item.timestamp).toLocaleTimeString(),
+        v: item.latency || Math.random() * 100,
+        throughput: item.throughput || Math.random() * 1000,
+        uptime: item.uptime || 99.9,
+      }));
   }, [performanceData]);
 
   return {
@@ -339,7 +341,7 @@ function useLiveData() {
     aiInsights,
     notifications,
     series,
-    liveDataService
+    liveDataService,
   };
 }
 
@@ -425,7 +427,7 @@ function CommandPalette({
   commandQuery,
   setCommandQuery,
   commandResults,
-  executeCommand
+  executeCommand,
 }) {
   return (
     <AnimatePresence>
@@ -458,7 +460,7 @@ function CommandPalette({
             <div className="command-suggestions">
               {commandResults.length > 0 ? (
                 commandResults.map((command) => (
-                  <div 
+                  <div
                     key={command.id}
                     className="command-item"
                     onClick={() => executeCommand(command.id)}
@@ -466,7 +468,9 @@ function CommandPalette({
                     <div className="flex items-center justify-between">
                       <div>
                         <div className="font-medium">{command.title}</div>
-                        <div className="text-sm text-gray-500">{command.description}</div>
+                        <div className="text-sm text-gray-500">
+                          {command.description}
+                        </div>
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="text-xs bg-gray-100 px-2 py-1 rounded">
@@ -489,30 +493,48 @@ function CommandPalette({
                 <>
                   <div className="command-group">
                     <h4>Quick Actions</h4>
-                    <div className="command-item" onClick={() => executeCommand('ai_analysis')}>
+                    <div
+                      className="command-item"
+                      onClick={() => executeCommand("ai_analysis")}
+                    >
                       <Brain className="h-4 w-4 mr-2" />
                       AI Analysis
                     </div>
-                    <div className="command-item" onClick={() => executeCommand('generate_report')}>
+                    <div
+                      className="command-item"
+                      onClick={() => executeCommand("generate_report")}
+                    >
                       <BarChart3 className="h-4 w-4 mr-2" />
                       Generate Report
                     </div>
-                    <div className="command-item" onClick={() => executeCommand('optimize_portfolio')}>
+                    <div
+                      className="command-item"
+                      onClick={() => executeCommand("optimize_portfolio")}
+                    >
                       <Target className="h-4 w-4 mr-2" />
                       Optimize Portfolio
                     </div>
                   </div>
                   <div className="command-group">
                     <h4>Navigation</h4>
-                    <div className="command-item" onClick={() => executeCommand('dashboard')}>
+                    <div
+                      className="command-item"
+                      onClick={() => executeCommand("dashboard")}
+                    >
                       <Activity className="h-4 w-4 mr-2" />
                       Dashboard
                     </div>
-                    <div className="command-item" onClick={() => executeCommand('portfolio')}>
+                    <div
+                      className="command-item"
+                      onClick={() => executeCommand("portfolio")}
+                    >
                       <DollarSign className="h-4 w-4 mr-2" />
                       Portfolio
                     </div>
-                    <div className="command-item" onClick={() => executeCommand('analytics')}>
+                    <div
+                      className="command-item"
+                      onClick={() => executeCommand("analytics")}
+                    >
                       <LineChartIcon className="h-4 w-4 mr-2" />
                       Analytics
                     </div>
@@ -627,7 +649,7 @@ function ContextualTooltips() {
 // ---------- Layout ----------
 export default function SuggestlyG4PlusSite() {
   const { theme, setTheme } = useDarkMode();
-  
+
   // Enhanced Live Data Integration
   const {
     connected,
@@ -638,7 +660,7 @@ export default function SuggestlyG4PlusSite() {
     aiInsights,
     notifications,
     series,
-    liveDataService
+    liveDataService,
   } = useLiveData();
 
   // Ultra-Premium UX Integration
@@ -657,7 +679,7 @@ export default function SuggestlyG4PlusSite() {
   } = useUltraPremiumUX();
 
   // Command Palette Integration
-  const [commandQuery, setCommandQuery] = useState('');
+  const [commandQuery, setCommandQuery] = useState("");
   const [commandResults, setCommandResults] = useState([]);
   const [selectedCommand, setSelectedCommand] = useState(null);
 
@@ -681,15 +703,15 @@ export default function SuggestlyG4PlusSite() {
     try {
       const result = await commandPaletteService.executeCommand(commandId);
       if (result.success) {
-        console.log('Command executed successfully:', result);
+        console.log("Command executed successfully:", result);
         setIsCommandPaletteOpen(false);
-        setCommandQuery('');
+        setCommandQuery("");
         setCommandResults([]);
       } else {
-        console.error('Command failed:', result.error);
+        console.error("Command failed:", result.error);
       }
     } catch (error) {
-      console.error('Error executing command:', error);
+      console.error("Error executing command:", error);
     }
   };
 
@@ -700,12 +722,12 @@ export default function SuggestlyG4PlusSite() {
       const data = {
         portfolio: portfolioData,
         market: marketData,
-        performance: performanceData
+        performance: performanceData,
       };
       const insights = await aiService.generateInsights(data);
       setAiResults(insights);
     } catch (error) {
-      console.error('AI Analysis failed:', error);
+      console.error("AI Analysis failed:", error);
     } finally {
       setAiAnalysisRunning(false);
     }
@@ -723,8 +745,8 @@ export default function SuggestlyG4PlusSite() {
       commandPaletteService.handleKeyPress(event);
     };
 
-    document.addEventListener('keydown', handleKeyPress);
-    return () => document.removeEventListener('keydown', handleKeyPress);
+    document.addEventListener("keydown", handleKeyPress);
+    return () => document.removeEventListener("keydown", handleKeyPress);
   }, []);
 
   return (
@@ -741,10 +763,10 @@ export default function SuggestlyG4PlusSite() {
         microInteractions={microInteractions}
       />
 
-            {/* Command Palette */}
-      <CommandPalette 
-        isCommandPaletteOpen={isCommandPaletteOpen} 
-        setIsCommandPaletteOpen={setIsCommandPaletteOpen} 
+      {/* Command Palette */}
+      <CommandPalette
+        isCommandPaletteOpen={isCommandPaletteOpen}
+        setIsCommandPaletteOpen={setIsCommandPaletteOpen}
         commandPaletteRef={commandPaletteRef}
         commandQuery={commandQuery}
         setCommandQuery={setCommandQuery}
@@ -1138,9 +1160,13 @@ VITE_API_ORIGIN=https://api.suggestlyg4plus.io
       <section className="py-8 md:py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-2xl font-bold tracking-tight">Live Data Feed</h2>
+            <h2 className="text-2xl font-bold tracking-tight">
+              Live Data Feed
+            </h2>
             <div className="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-              <span className="hidden sm:inline">{notifications.length} notifications</span>
+              <span className="hidden sm:inline">
+                {notifications.length} notifications
+              </span>
               {connected ? (
                 <Badge className="bg-emerald-600 hover:bg-emerald-600">
                   Connected
