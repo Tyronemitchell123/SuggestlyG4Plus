@@ -1,0 +1,17 @@
+{
+  "name": "suggestly-g4-plus",
+  "version": "1.0.0",
+  "description": "SUGGESTLY ELITE - Premium Web Application",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static site - no build required'",
+    "start": "npx serve ."
+  },
+  "keywords": ["suggestly", "elite", "web", "static"],
+  "author": "Tyron Mitchell",
+  "license": "MIT",
+  "devDependencies": {
+    "serve": "^14.2.1"
+  }
+}
