@@ -75,12 +75,9 @@ import {
   Lightning,
   Cloud,
   Bot,
-  Circuit,
-  Chip,
   Microchip,
   Memory,
   Storage,
-  Api,
 } from 'lucide-react';
 
 const QuantumComputingHub = () => {
@@ -91,7 +88,7 @@ const QuantumComputingHub = () => {
   const [quantumResults, setQuantumResults] = useState(null);
   const [botConfig, setBotConfig] = useState({});
   const [aiModels, setAiModels] = useState([]);
-  const [quantumCircuits, setQuantumCircuits] = useState([]);
+  const [quantumCircuitsState, setQuantumCircuitsState] = useState([]);
 
   // Quantum Computing Providers
   const quantumProviders = [
@@ -218,7 +215,7 @@ const QuantumComputingHub = () => {
   ];
 
   // Quantum Circuits
-  const quantumCircuits = [
+  const quantumCircuitsStatic = [
     {
       id: 'bell-state',
       name: 'Bell State Circuit',
@@ -252,6 +249,10 @@ const QuantumComputingHub = () => {
       applications: ['Image Generation', 'Data Synthesis', 'Creative AI'],
     },
   ];
+
+  useEffect(() => {
+    setQuantumCircuitsState(quantumCircuitsStatic);
+  }, []);
 
   // Initialize quantum connection
   const initializeQuantum = useCallback(async () => {
@@ -357,7 +358,7 @@ const QuantumComputingHub = () => {
 
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <Quantum className="w-4 h-4 text-purple-400" />
+                <Atom className="w-4 h-4 text-purple-400" />
                 <span className="text-sm font-medium">
                   Real Quantum Computing
                 </span>
@@ -597,14 +598,14 @@ const QuantumComputingHub = () => {
               </h3>
 
               <div className="space-y-3">
-                {quantumCircuits.map(circuit => (
+                {quantumCircuitsState.map(circuit => (
                   <div
                     key={circuit.id}
                     className="bg-purple-900/50 rounded-lg p-3 cursor-pointer hover:bg-purple-400/10 transition-colors"
                     onClick={() => executeQuantumCircuit(circuit)}
                   >
                     <div className="flex items-center space-x-3">
-                      <Circuit className="w-5 h-5 text-purple-400" />
+                      <Cpu className="w-5 h-5 text-purple-400" />
                       <div>
                         <h4 className="font-medium text-sm">{circuit.name}</h4>
                         <p className="text-xs text-purple-200">
@@ -682,7 +683,7 @@ const QuantumComputingHub = () => {
 
               <div className="space-y-3">
                 <button className="w-full flex items-center space-x-2 bg-purple-400/20 border border-purple-400/30 rounded-lg px-3 py-2 text-sm hover:bg-purple-400/30 transition-colors">
-                  <Api className="w-4 h-4" />
+                  <Link className="w-4 h-4" />
                   <span>API Documentation</span>
                 </button>
                 <button className="w-full flex items-center space-x-2 bg-purple-400/20 border border-purple-400/30 rounded-lg px-3 py-2 text-sm hover:bg-purple-400/30 transition-colors">

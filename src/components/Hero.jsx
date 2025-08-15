@@ -350,6 +350,6 @@ const Hero = React.memo(() => {
       </div>
     </section>
   );
-};
+});
 
 export default Hero;

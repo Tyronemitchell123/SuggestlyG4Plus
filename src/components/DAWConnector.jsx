@@ -129,7 +129,7 @@ const DAWConnector = () => {
     {
       id: 'flstudio',
       name: 'FL Studio',
-      icon: Piano,
+      icon: Music,
       versions: ['FL Studio 21', 'FL Studio 20', 'FL Studio 12'],
       pluginFormats: ['VST3', 'VST2'],
       status: 'standard',

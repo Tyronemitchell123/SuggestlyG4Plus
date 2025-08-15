@@ -75,16 +75,13 @@ import {
   Lightning,
   Cloud,
   Bot,
-  Circuit,
   Chip,
   Microchip,
   Memory,
   Storage,
-  Api,
   TrendingUp,
   TrendingDown,
   DollarSign,
-  BarChart3,
   PieChart,
   Activity,
   Lock,
@@ -378,7 +375,7 @@ const QuantumBotAutomation = () => {
 
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <Quantum className="w-4 h-4 text-purple-400" />
+                <Atom className="w-4 h-4 text-purple-400" />
                 <span className="text-sm font-medium">
                   Quantum-Powered Bots
                 </span>
@@ -468,7 +465,7 @@ const QuantumBotAutomation = () => {
                                   key={index}
                                   className="flex items-center space-x-2"
                                 >
-                                  <Quantum className="w-3 h-3 text-purple-400" />
+                                  <Atom className="w-3 h-3 text-purple-400" />
                                   <span>{feature}</span>
                                 </li>
                               ))}
@@ -726,7 +723,7 @@ const QuantumBotAutomation = () => {
                   <span>Security Audit</span>
                 </button>
                 <button className="w-full flex items-center space-x-2 bg-purple-400/20 border border-purple-400/30 rounded-lg px-3 py-2 text-sm hover:bg-purple-400/30 transition-colors">
-                  <Api className="w-4 h-4" />
+                  <Link className="w-4 h-4" />
                   <span>API Documentation</span>
                 </button>
               </div>

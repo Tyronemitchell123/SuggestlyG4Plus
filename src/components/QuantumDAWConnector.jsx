@@ -43,37 +43,15 @@ import {
   Rocket,
   Eye,
   EyeOff,
-  CpuIcon,
-  Network,
-  Satellite,
   Globe,
-  WifiIcon,
-  ZapIcon,
   Star,
   Award,
   Trophy,
   Diamond,
   Infinity,
   Lightning,
-  SparklesIcon,
-  BrainCircuit,
-  Quantum,
-  Hologram,
-  Neural,
-  AI,
-  MachineLearning,
-  DeepLearning,
-  Blockchain,
-  Cloud,
-  Edge,
-  Fog,
-  Mesh,
-  Grid,
-  Cluster,
-  Swarm,
-  Hive,
-  Colony,
-  Ecosystem,
+  Sparkles as SparklesIcon,
+  Brain as BrainCircuit,
 } from 'lucide-react';
 
 const QuantumDAWConnector = () => {
@@ -99,7 +77,7 @@ const QuantumDAWConnector = () => {
     {
       id: 'quantum-protools',
       name: 'Quantum Pro Tools Ultimate',
-      icon: Quantum,
+      icon: Atom,
       versions: ['Quantum Pro Tools 2024.1', 'Quantum Pro Tools 2024.0'],
       pluginFormats: ['Quantum-VST4', 'Neural-AAX', 'Holographic-AU'],
       status: 'quantum-premium',
@@ -123,7 +101,7 @@ const QuantumDAWConnector = () => {
     {
       id: 'holographic-logic',
       name: 'Holographic Logic Pro X',
-      icon: Hologram,
+      icon: Sparkles,
       versions: ['Holographic Logic 11', 'Holographic Logic 10'],
       pluginFormats: ['Holographic-AU', 'Quantum-VST4', 'Neural-AAX'],
       status: 'quantum-premium',
@@ -133,7 +111,7 @@ const QuantumDAWConnector = () => {
     {
       id: 'ai-ableton',
       name: 'AI Ableton Live Quantum',
-      icon: AI,
+      icon: BrainCircuit,
       versions: ['AI Live 13', 'AI Live 12'],
       pluginFormats: ['AI-VST4', 'Quantum-AU', 'Neural-AAX'],
       status: 'quantum-premium',
@@ -153,7 +131,7 @@ const QuantumDAWConnector = () => {
     {
       id: 'neural-studioone',
       name: 'Neural Studio One Quantum',
-      icon: Neural,
+      icon: BrainCircuit,
       versions: ['Neural Studio One 7', 'Neural Studio One 6'],
       pluginFormats: ['Neural-VST4', 'Quantum-AU', 'AI-AAX'],
       status: 'quantum-premium',
@@ -163,7 +141,7 @@ const QuantumDAWConnector = () => {
     {
       id: 'quantum-bitwig',
       name: 'Quantum Bitwig Studio',
-      icon: Quantum,
+      icon: Atom,
       versions: ['Quantum Bitwig 6', 'Quantum Bitwig 5'],
       pluginFormats: ['Quantum-VST4', 'Neural-AU', 'AI-AAX'],
       status: 'quantum-premium',
@@ -173,7 +151,7 @@ const QuantumDAWConnector = () => {
     {
       id: 'ai-reaper',
       name: 'AI REAPER Quantum',
-      icon: AI,
+      icon: BrainCircuit,
       versions: ['AI REAPER 8', 'AI REAPER 7'],
       pluginFormats: ['AI-VST4', 'Quantum-AU', 'Neural-AAX'],
       status: 'quantum-professional',
@@ -187,42 +165,42 @@ const QuantumDAWConnector = () => {
     {
       id: 'quantum-vst4',
       name: 'Quantum VST4 Plugin',
-      icon: Quantum,
+      icon: Atom,
       description: 'Quantum-powered VST4 with neural processing',
       features: ['Quantum Entanglement', 'Neural Networks', 'AI Enhancement'],
     },
     {
       id: 'neural-aax',
       name: 'Neural AAX Plugin',
-      icon: BrainCircuit,
+      icon: Brain,
       description: 'Neural network AAX with quantum computing',
       features: ['Deep Learning', 'Quantum Processing', 'Predictive AI'],
     },
     {
       id: 'holographic-au',
       name: 'Holographic Audio Unit',
-      icon: Hologram,
+      icon: Sparkles,
       description: '3D holographic interface with quantum audio',
       features: ['3D Visualization', 'Quantum Audio', 'Neural Interface'],
     },
     {
       id: 'quantum-midi',
       name: 'Quantum MIDI Bridge',
-      icon: Quantum,
+      icon: Atom,
       description: 'Quantum-entangled MIDI with AI prediction',
       features: ['Quantum Entanglement', 'AI Prediction', 'Neural Timing'],
     },
     {
       id: 'neural-osc',
       name: 'Neural OSC Bridge',
-      icon: BrainCircuit,
+      icon: Brain,
       description: 'Neural network Open Sound Control',
       features: ['Neural Networks', 'AI Control', 'Quantum Sync'],
     },
     {
       id: 'quantum-wireless',
       name: 'Quantum Wireless Bridge',
-      icon: WifiIcon,
+      icon: Wifi,
       description: 'Quantum-encrypted wireless audio transmission',
       features: ['Quantum Encryption', 'Zero Latency', 'Neural Compression'],
     },
@@ -235,7 +213,7 @@ const QuantumDAWConnector = () => {
       color: 'text-purple-400',
       bgColor: 'bg-purple-400/20',
       borderColor: 'border-purple-400/50',
-      icon: Quantum,
+      icon: Atom,
       glow: 'shadow-purple-400/50',
     },
     'quantum-professional': {
@@ -251,7 +229,7 @@ const QuantumDAWConnector = () => {
       color: 'text-green-400',
       bgColor: 'bg-green-400/20',
       borderColor: 'border-green-400/50',
-      icon: AI,
+      icon: Brain,
       glow: 'shadow-green-400/50',
     },
   };
@@ -275,28 +253,28 @@ const QuantumDAWConnector = () => {
     {
       id: 'holographic-interface',
       name: 'Holographic Interface',
-      icon: Hologram,
+      icon: Sparkles,
       description: '3D holographic user interface',
       status: 'active',
     },
     {
       id: 'quantum-supremacy',
       name: 'Quantum Supremacy',
-      icon: Quantum,
+      icon: Atom,
       description: 'Quantum computing audio processing',
       status: 'achieved',
     },
     {
       id: 'ai-prediction',
       name: 'AI Predictive Mode',
-      icon: AI,
+      icon: Brain,
       description: 'Predictive AI for audio processing',
       status: 'enabled',
     },
     {
       id: 'neural-sync',
       name: 'Neural Synchronization',
-      icon: Neural,
+      icon: Brain,
       description: 'Neural network-based synchronization',
       status: 'active',
     },
@@ -344,7 +322,7 @@ const QuantumDAWConnector = () => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-500 rounded-xl flex items-center justify-center shadow-lg shadow-purple-400/50">
-                <Quantum className="w-6 h-6 text-black" />
+                <Atom className="w-6 h-6 text-black" />
               </div>
               <div>
                 <h1 className="text-2xl font-display font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
@@ -357,9 +335,9 @@ const QuantumDAWConnector = () => {
             </div>
 
             <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <Quantum className="w-4 h-4 text-purple-400 animate-pulse" />
-                <span className="text-sm font-medium">
+                              <div className="flex items-center space-x-2">
+                  <Atom className="w-4 h-4 text-purple-400 animate-pulse" />
+                  <span className="text-sm font-medium">
                   Quantum Supremacy Achieved
                 </span>
               </div>
@@ -389,7 +367,7 @@ const QuantumDAWConnector = () => {
                   Quantum DAW Detection
                 </h2>
                 <div className="flex items-center space-x-2">
-                  <Quantum className="w-4 h-4 text-purple-400 animate-pulse" />
+                  <Atom className="w-4 h-4 text-purple-400 animate-pulse" />
                   <span className="text-sm text-purple-300">
                     Quantum Scanning
                   </span>
@@ -402,11 +380,11 @@ const QuantumDAWConnector = () => {
                   disabled={isScanning}
                   className="w-full flex items-center justify-center space-x-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium py-3 px-4 rounded-xl hover:scale-105 transition-transform disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-purple-500/50"
                 >
-                  {isScanning ? (
-                    <Quantum className="w-5 h-5 animate-spin" />
-                  ) : (
-                    <Search className="w-5 h-5" />
-                  )}
+                                  {isScanning ? (
+                  <Atom className="w-5 h-5 animate-spin" />
+                ) : (
+                  <Search className="w-5 h-5" />
+                )}
                   <span>
                     {isScanning
                       ? 'Quantum Scanning...'

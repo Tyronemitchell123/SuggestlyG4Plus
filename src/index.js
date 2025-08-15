@@ -49,7 +49,7 @@ const registerServiceWorker = async () => {
           ) {
             // New service worker available
             console.log('🔄 New service worker available');
-            if (confirm('New version available! Reload to update?')) {
+            if (window.confirm('New version available! Reload to update?')) {
               window.location.reload();
             }
           }

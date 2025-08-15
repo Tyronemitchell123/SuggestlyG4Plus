@@ -57,6 +57,7 @@ import {
   Share2,
   Eye,
   EyeOff,
+  Mail,
 } from 'lucide-react';
 
 const AIContentStudio = () => {

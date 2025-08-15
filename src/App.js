@@ -7,6 +7,9 @@ import { Toaster } from 'react-hot-toast';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import LoadingScreen from './components/LoadingScreen';
+import { useAnalytics } from './hooks/useAnalytics';
+import { usePaymentSystem } from './hooks/usePaymentSystem';
+import { useSiteManager } from './hooks/useSiteManager';
 
 // Lazy-loaded Components (cutting-edge code splitting)
 const Hero = lazy(() => import('./components/Hero'));
@@ -17,6 +20,7 @@ const Contact = lazy(() => import('./components/Contact'));
 const Dashboard = lazy(() => import('./components/Dashboard'));
 const SiteManager = lazy(() => import('./components/SiteManager'));
 const SiteViewer = lazy(() => import('./components/SiteViewer'));
+const ProblemsWeSolve = lazy(() => import('./components/ProblemsWeSolve'));
 
 // Audio Production Suite (lazy loaded)
 const AudioEqualizer = lazy(() => import('./components/AudioEqualizer'));
@@ -45,10 +49,6 @@ const QuantumBotAutomation = lazy(
   () => import('./components/QuantumBotAutomation')
 );
 
-// Hooks
-import { useAnalytics } from './hooks/useAnalytics';
-import { usePaymentSystem } from './hooks/usePaymentSystem';
-import { useSiteManager } from './hooks/useSiteManager';
 
 // Modern Loading Component with Suspense
 const SuspenseFallback = () => (
@@ -201,6 +201,7 @@ function App() {
                       <Hero />
                       <Services />
                       <Features />
+                      <ProblemsWeSolve />
                       <Pricing />
                       <Contact />
                     </>
