@@ -1,0 +1,31 @@
+{
+  "name": "suggestly-elite-business-platform",
+  "description": "Professional Business Platform with Enterprise Features",
+  "repository": "https://github.com/Tyronemitchell123/SuggestlyG4Plus.git",
+  "logo": "https://suggestlyg4plus.io/logo.png",
+  "keywords": ["business", "platform", "enterprise", "analytics", "deployment"],
+  "env": {
+    "NODE_ENV": {
+      "description": "Environment setting",
+      "value": "production"
+    },
+    "PORT": {
+      "description": "Port for the web server",
+      "value": "3000"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "addons": [
+    "papertrail:choklad"
+  ]
+}

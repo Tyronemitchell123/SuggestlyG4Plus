@@ -3,7 +3,7 @@ services:
 - name: web
   source_dir: /
   github:
-    repo: your-username/suggestly-elite
+    repo: Tyronemitchell123/SuggestlyG4Plus
     branch: main
   build_command: npm install && npm run build
   run_command: npm start
