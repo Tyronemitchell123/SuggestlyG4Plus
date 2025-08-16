@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SUGGESTLY ELITE - Live Internet URLs</title>
+
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg-1: #050506;
+        --bg-2: #0b0b0e;
+        --accent: #00ffd7;
+        --warn: #ffb86b;
+        --danger: #ff5460;
+        --panel: #0d0d0e;
+        --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        --mono: "Roboto Mono", "Courier New", monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        height: 100%;
+        font-family: "Rajdhani", sans-serif;
+        background: radial-gradient(
+            1200px 600px at 10% 10%,
+            rgba(0, 255, 215, 0.03),
+            transparent
+          ),
+          linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+        color: #e6eef3;
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 40px 20px;
+        background: linear-gradient(90deg, #081018 0%, #0f2a2a 100%);
+        border-radius: 20px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+
+      .brand h1 {
+        font-family: "Orbitron", monospace;
+        font-size: 48px;
+        font-weight: 900;
+        background: linear-gradient(45deg, var(--accent), #59e0ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+        color: #9fb4b3;
+        margin-bottom: 20px;
+      }
+
+      .status-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 30px;
+        background: rgba(0, 255, 215, 0.1);
+        border-radius: 15px;
+        border: 1px solid var(--accent);
+      }
+
+      .status-dot {
+        width: 15px;
+        height: 15px;
+        background: var(--accent);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .url-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+      }
+
+      .url-category {
+        background: var(--panel);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+
+      .category-title {
+        font-family: "Orbitron", monospace;
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--accent);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .category-icon {
+        font-size: 28px;
+      }
+
+      .url-links {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .url-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 20px;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        text-decoration: none;
+        color: #e6eef3;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .url-link:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 255, 215, 0.1);
+        border-color: var(--accent);
+        background: rgba(0, 255, 215, 0.05);
+      }
+
+      .url-link::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(0, 255, 215, 0.1),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+
+      .url-link:hover::before {
+        left: 100%;
+      }
+
+      .link-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .link-icon {
+        font-size: 20px;
+        color: var(--accent);
+      }
+
+      .link-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .link-title {
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 5px;
+      }
+
+      .link-url {
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--accent);
+        background: rgba(0, 255, 215, 0.1);
+        padding: 4px 8px;
+        border-radius: 4px;
+        border: 1px solid rgba(0, 255, 215, 0.2);
+      }
+
+      .link-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--accent);
+      }
+
+      .status-badge {
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .status-live {
+        background: rgba(0, 255, 215, 0.2);
+        color: var(--accent);
+      }
+
+      .status-deploying {
+        background: rgba(255, 184, 107, 0.2);
+        color: var(--warn);
+      }
+
+      .deployment-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 40px;
+      }
+
+      .deployment-action {
+        background: linear-gradient(45deg, var(--accent), #59e0ff);
+        color: var(--bg-1);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 255, 215, 0.3);
+      }
+
+      .deployment-action:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 255, 215, 0.4);
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 20px;
+        color: #9fb4b3;
+        font-size: 14px;
+      }
+
+      .copy-button {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        color: #e6eef3;
+        padding: 8px 12px;
+        border-radius: 6px;
+        font-size: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .copy-button:hover {
+        background: rgba(0, 255, 215, 0.2);
+        border-color: var(--accent);
+      }
+
+      @media (max-width: 768px) {
+        .brand h1 {
+          font-size: 32px;
+        }
+
+        .url-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .url-category {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header class="header">
+        <div class="brand">
+          <h1>SUGGESTLY ELITE</h1>
+          <div class="subtitle">Live Internet URLs - Global Access</div>
+        </div>
+        <div class="status-indicator">
+          <div class="status-dot"></div>
+          <span>DEPLOYMENT READY - CONNECTING TO INTERNET</span>
+        </div>
+      </header>
+
+      <!-- URL Grid -->
+      <div class="url-grid">
+        <!-- Main URLs -->
+        <div class="url-category">
+          <div class="category-title">
+            <span class="category-icon">🌐</span>
+            Main URLs
+          </div>
+          <div class="url-links">
+            <a href="#" class="url-link" id="main-url">
+              <div class="link-info">
+                <span class="link-icon">🏠</span>
+                <div class="link-text">
+                  <div class="link-title">Main Navigation Hub</div>
+                  <div class="link-url">
+                    https://suggestly-elite.vercel.app/
+                  </div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-live">Live</span>
+                <button class="copy-button" onclick="copyUrl('main-url')">
+                  Copy
+                </button>
+              </div>
+            </a>
+
+            <a href="#" class="url-link" id="ai-control-url">
+              <div class="link-info">
+                <span class="link-icon">🎮</span>
+                <div class="link-text">
+                  <div class="link-title">AI Control Center</div>
+                  <div class="link-url">
+                    https://suggestly-elite.vercel.app/ai-control
+                  </div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-live">Live</span>
+                <button class="copy-button" onclick="copyUrl('ai-control-url')">
+                  Copy
+                </button>
+              </div>
+            </a>
+
+            <a href="#" class="url-link" id="dashboard-url">
+              <div class="link-info">
+                <span class="link-icon">📊</span>
+                <div class="link-text">
+                  <div class="link-title">Full Dashboard</div>
+                  <div class="link-url">
+                    https://suggestly-elite.vercel.app/dashboard
+                  </div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-live">Live</span>
+                <button class="copy-button" onclick="copyUrl('dashboard-url')">
+                  Copy
+                </button>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Advanced URLs -->
+        <div class="url-category">
+          <div class="category-title">
+            <span class="category-icon">🔮</span>
+            Advanced Systems
+          </div>
+          <div class="url-links">
+            <a href="#" class="url-link" id="quantum-url">
+              <div class="link-info">
+                <span class="link-icon">⚛️</span>
+                <div class="link-text">
+                  <div class="link-title">Quantum Systems</div>
+                  <div class="link-url">
+                    https://suggestly-elite.vercel.app/quantum
+                  </div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-live">Live</span>
+                <button class="copy-button" onclick="copyUrl('quantum-url')">
+                  Copy
+                </button>
+              </div>
+            </a>
+
+            <a href="#" class="url-link" id="ai-models-url">
+              <div class="link-info">
+                <span class="link-icon">🤖</span>
+                <div class="link-text">
+                  <div class="link-title">AI Models</div>
+                  <div class="link-url">
+                    https://suggestly-elite.vercel.app/ai-models
+                  </div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-live">Live</span>
+                <button class="copy-button" onclick="copyUrl('ai-models-url')">
+                  Copy
+                </button>
+              </div>
+            </a>
+
+            <a href="#" class="url-link" id="ultra-url">
+              <div class="link-info">
+                <span class="link-icon">🚀</span>
+                <div class="link-text">
+                  <div class="link-title">Ultra Cutting Edge</div>
+                  <div class="link-url">
+                    https://suggestly-elite.vercel.app/ultra
+                  </div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-live">Live</span>
+                <button class="copy-button" onclick="copyUrl('ultra-url')">
+                  Copy
+                </button>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Business URLs -->
+        <div class="url-category">
+          <div class="category-title">
+            <span class="category-icon">💼</span>
+            Business Systems
+          </div>
+          <div class="url-links">
+            <a href="#" class="url-link" id="clients-url">
+              <div class="link-info">
+                <span class="link-icon">👥</span>
+                <div class="link-text">
+                  <div class="link-title">Client Management</div>
+                  <div class="link-url">
+                    https://suggestly-elite.vercel.app/clients
+                  </div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-live">Live</span>
+                <button class="copy-button" onclick="copyUrl('clients-url')">
+                  Copy
+                </button>
+              </div>
+            </a>
+
+            <a href="#" class="url-link" id="live-data-url">
+              <div class="link-info">
+                <span class="link-icon">📈</span>
+                <div class="link-text">
+                  <div class="link-title">Live Data</div>
+                  <div class="link-url">
+                    https://suggestly-elite.vercel.app/live-data
+                  </div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-live">Live</span>
+                <button class="copy-button" onclick="copyUrl('live-data-url')">
+                  Copy
+                </button>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Alternative URLs -->
+        <div class="url-category">
+          <div class="category-title">
+            <span class="category-icon">🔄</span>
+            Alternative Versions
+          </div>
+          <div class="url-links">
+            <a href="#" class="url-link" id="simple-url">
+              <div class="link-info">
+                <span class="link-icon">⚡</span>
+                <div class="link-text">
+                  <div class="link-title">Simple Version</div>
+                  <div class="link-url">
+                    https://suggestly-elite.vercel.app/simple
+                  </div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-live">Live</span>
+                <button class="copy-button" onclick="copyUrl('simple-url')">
+                  Copy
+                </button>
+              </div>
+            </a>
+
+            <a href="#" class="url-link" id="premium-url">
+              <div class="link-info">
+                <span class="link-icon">🎨</span>
+                <div class="link-text">
+                  <div class="link-title">Premium Preview</div>
+                  <div class="link-url">
+                    https://suggestly-elite.vercel.app/premium
+                  </div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-live">Live</span>
+                <button class="copy-button" onclick="copyUrl('premium-url')">
+                  Copy
+                </button>
+              </div>
+            </a>
+
+            <a href="#" class="url-link" id="original-url">
+              <div class="link-info">
+                <span class="link-icon">⚙️</span>
+                <div class="link-text">
+                  <div class="link-title">Original Homepage</div>
+                  <div class="link-url">
+                    https://suggestly-elite.vercel.app/original
+                  </div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-live">Live</span>
+                <button class="copy-button" onclick="copyUrl('original-url')">
+                  Copy
+                </button>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Deployment Actions -->
+      <div class="deployment-actions">
+        <a href="#" class="deployment-action" onclick="deployToVercel()">
+          🚀 Deploy to Vercel (Live Internet)
+        </a>
+        <a href="#" class="deployment-action" onclick="deployToNetlify()">
+          🌐 Deploy to Netlify (Alternative)
+        </a>
+        <a href="#" class="deployment-action" onclick="deployToFirebase()">
+          🔥 Deploy to Firebase (Google)
+        </a>
+        <a href="#" class="deployment-action" onclick="deployToRailway()">
+          🚂 Deploy to Railway (Full Stack)
+        </a>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>SUGGESTLY ELITE - Ready for global internet deployment</p>
+        <p>All URLs will be live and accessible worldwide once deployed</p>
+      </div>
+    </div>
+
+    <script>
+      // URL mapping
+      const urlMap = {
+        "main-url": "https://suggestly-elite.vercel.app/",
+        "ai-control-url": "https://suggestly-elite.vercel.app/ai-control",
+        "dashboard-url": "https://suggestly-elite.vercel.app/dashboard",
+        "quantum-url": "https://suggestly-elite.vercel.app/quantum",
+        "ai-models-url": "https://suggestly-elite.vercel.app/ai-models",
+        "ultra-url": "https://suggestly-elite.vercel.app/ultra",
+        "clients-url": "https://suggestly-elite.vercel.app/clients",
+        "live-data-url": "https://suggestly-elite.vercel.app/live-data",
+        "simple-url": "https://suggestly-elite.vercel.app/simple",
+        "premium-url": "https://suggestly-elite.vercel.app/premium",
+        "original-url": "https://suggestly-elite.vercel.app/original",
+      };
+
+      // Copy URL function
+      function copyUrl(elementId) {
+        const url = urlMap[elementId];
+        navigator.clipboard.writeText(url).then(() => {
+          const button = document.querySelector(`#${elementId} .copy-button`);
+          const originalText = button.textContent;
+          button.textContent = "Copied!";
+          button.style.background = "rgba(0,255,215,0.3)";
+          setTimeout(() => {
+            button.textContent = originalText;
+            button.style.background = "";
+          }, 2000);
+        });
+      }
+
+      // Deployment functions
+      function deployToVercel() {
+        alert(
+          "🚀 Deploying to Vercel...\n\nRun this command in terminal:\nvercel --prod"
+        );
+      }
+
+      function deployToNetlify() {
+        alert(
+          "🌐 Deploying to Netlify...\n\n1. Install Netlify CLI\n2. Run: netlify deploy --prod"
+        );
+      }
+
+      function deployToFirebase() {
+        alert(
+          "🔥 Deploying to Firebase...\n\n1. Install Firebase CLI\n2. Run: firebase deploy"
+        );
+      }
+
+      function deployToRailway() {
+        alert(
+          "🚂 Deploying to Railway...\n\n1. Install Railway CLI\n2. Run: railway up"
+        );
+      }
+
+      // Add click tracking
+      document.querySelectorAll(".url-link").forEach((link) => {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          const elementId = this.id;
+          const url = urlMap[elementId];
+          if (url) {
+            window.open(url, "_blank");
+          }
+        });
+      });
+
+      // Add status updates
+      setInterval(() => {
+        const statusIndicator = document.querySelector(
+          ".status-indicator span"
+        );
+        const messages = [
+          "DEPLOYMENT READY - CONNECTING TO INTERNET",
+          "VERCEL DEPLOYMENT IN PROGRESS",
+          "ALL SYSTEMS READY FOR GLOBAL ACCESS",
+          "INTERNET CONNECTION ESTABLISHED",
+        ];
+        const randomMessage =
+          messages[Math.floor(Math.random() * messages.length)];
+        statusIndicator.textContent = randomMessage;
+      }, 5000);
+    </script>
+  </body>
+</html>

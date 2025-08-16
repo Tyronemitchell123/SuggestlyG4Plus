@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useLocation } from 'react-router-dom';
-import { Crown, Menu, X, ChevronDown, User, Shield, Zap } from 'lucide-react';
-import UltraPremiumLogo from './UltraPremiumLogo';
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Link, useLocation } from "react-router-dom";
+import { Crown, Menu, X, ChevronDown, User, Shield, Zap } from "lucide-react";
+import UltraPremiumLogo from "./UltraPremiumLogo";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -16,63 +16,68 @@ const Header = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'Services', href: '/services' },
-    { name: 'Features', href: '/features' },
-    { name: 'Certifications', href: '/certifications' },
-    { name: 'Pricing', href: '/pricing' },
-    { name: 'Contact', href: '/contact' },
-    { name: 'Dashboard', href: '/dashboard' },
-    { name: 'Site Manager', href: '/admin' },
-    { name: 'Performance', href: '/performance' },
-    { name: 'External View', href: '/external' },
+    { name: "Home", href: "/" },
+    { name: "Services", href: "/services" },
+    { name: "Features", href: "/features" },
+    { name: "Certifications", href: "/certifications" },
+    { name: "Pricing", href: "/pricing" },
+    { name: "Contact", href: "/contact" },
+    { name: "Dashboard", href: "/dashboard" },
+    { name: "Site Manager", href: "/admin" },
+    { name: "Performance", href: "/performance" },
+    { name: "External View", href: "/external" },
+  ];
+
+  const legalNavigation = [
+    { name: "Instructions", href: "/pages/instructions.html", external: true },
+    { name: "Terms & Conditions", href: "/pages/terms.html", external: true },
   ];
 
   const quantumFeatures = [
-    { name: 'Audio EQ', href: '/audio-eq' },
-    { name: 'G4 EQ', href: '/g4-eq' },
-    { name: 'DAW Connector', href: '/daw-connector' },
-    { name: 'Quantum DAW', href: '/quantum-daw' },
-    { name: 'AI Studio', href: '/ai-studio' },
-    { name: 'Video Suite', href: '/video-suite' },
-    { name: 'Quantum Hub', href: '/quantum-hub' },
-    { name: 'Quantum Bots', href: '/quantum-bots' },
-    { name: 'Executive Dashboard', href: '/dashboard' },
-    { name: 'Performance Dashboard', href: '/performance' },
-    { name: 'External Content Loader', href: '/external' },
+    { name: "Audio EQ", href: "/audio-eq" },
+    { name: "G4 EQ", href: "/g4-eq" },
+    { name: "DAW Connector", href: "/daw-connector" },
+    { name: "Quantum DAW", href: "/quantum-daw" },
+    { name: "AI Studio", href: "/ai-studio" },
+    { name: "Video Suite", href: "/video-suite" },
+    { name: "Quantum Hub", href: "/quantum-hub" },
+    { name: "Quantum Bots", href: "/quantum-bots" },
+    { name: "Executive Dashboard", href: "/dashboard" },
+    { name: "Performance Dashboard", href: "/performance" },
+    { name: "External Content Loader", href: "/external" },
   ];
 
   const services = [
-    { name: 'AI Strategy', href: '/services#ai-strategy', icon: Crown },
-    { name: 'Quantum Computing', href: '/services#quantum', icon: Zap },
-    { name: 'Neural Networks', href: '/services#neural', icon: Shield },
-    { name: 'Custom Development', href: '/services#custom', icon: User },
+    { name: "AI Strategy", href: "/services#ai-strategy", icon: Crown },
+    { name: "Quantum Computing", href: "/services#quantum", icon: Zap },
+    { name: "Neural Networks", href: "/services#neural", icon: Shield },
+    { name: "Custom Development", href: "/services#custom", icon: User },
   ];
 
   const handleContactClick = () => {
-    const contactSection = document.getElementById('contact');
+    const contactSection = document.getElementById("contact");
     if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
+      contactSection.scrollIntoView({ behavior: "smooth" });
     }
     setIsMobileMenuOpen(false);
   };
 
   const handleDashboardClick = () => {
-    window.open('/dashboard', '_blank');
+    window.open("/dashboard", "_blank");
     setIsMobileMenuOpen(false);
   };
 
-  const handleNavigationClick = href => {
-    if (href === '/certifications' && location.pathname === '/') {
+  const handleNavigationClick = (href) => {
+    if (href === "/certifications" && location.pathname === "/") {
       // If we're on homepage and clicking certifications, scroll to section
-      const certificationsSection = document.getElementById('certifications');
+      const certificationsSection = document.getElementById("certifications");
       if (certificationsSection) {
-        certificationsSection.scrollIntoView({ behavior: 'smooth' });
+        certificationsSection.scrollIntoView({ behavior: "smooth" });
       }
     }
   };
@@ -83,8 +88,8 @@ const Header = () => {
       animate={{ y: 0 }}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-luxury-darker/95 backdrop-blur-md border-b border-luxury-gold/20'
-          : 'bg-transparent'
+          ? "bg-luxury-darker/95 backdrop-blur-md border-b border-luxury-gold/20"
+          : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -101,18 +106,33 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
-            {navigation.map(item => (
+            {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
                 onClick={() => handleNavigationClick(item.href)}
                 className={`text-luxury-light hover:text-luxury-gold transition-colors duration-300 font-medium ${
-                  location.pathname === item.href ? 'text-luxury-gold' : ''
+                  location.pathname === item.href ? "text-luxury-gold" : ""
                 }`}
               >
                 {item.name}
               </Link>
             ))}
+
+            {/* Legal Navigation */}
+            <div className="flex items-center space-x-4 border-l border-luxury-gold/20 pl-4">
+              {legalNavigation.map((item) => (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-luxury-light hover:text-luxury-gold transition-colors duration-300 font-medium text-sm"
+                >
+                  {item.name}
+                </a>
+              ))}
+            </div>
 
             {/* Services Dropdown */}
             <div className="relative">
@@ -122,7 +142,9 @@ const Header = () => {
               >
                 <span>Services</span>
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`}
+                  className={`w-4 h-4 transition-transform duration-300 ${
+                    isDropdownOpen ? "rotate-180" : ""
+                  }`}
                 />
               </button>
 
@@ -135,7 +157,7 @@ const Header = () => {
                     className="absolute top-full left-0 mt-2 w-64 bg-luxury-darker border border-luxury-gold/20 rounded-xl shadow-xl backdrop-blur-md"
                   >
                     <div className="p-2">
-                      {services.map(service => (
+                      {services.map((service) => (
                         <Link
                           key={service.name}
                           to={service.href}
@@ -160,7 +182,9 @@ const Header = () => {
               >
                 <span>Quantum Features</span>
                 <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-300 ${isQuantumDropdownOpen ? 'rotate-180' : ''}`}
+                  className={`w-4 h-4 transition-transform duration-300 ${
+                    isQuantumDropdownOpen ? "rotate-180" : ""
+                  }`}
                 />
               </button>
 
@@ -173,7 +197,7 @@ const Header = () => {
                     className="absolute top-full left-0 mt-2 w-64 bg-luxury-darker border border-luxury-gold/20 rounded-xl shadow-xl backdrop-blur-md"
                   >
                     <div className="p-2">
-                      {quantumFeatures.map(feature => (
+                      {quantumFeatures.map((feature) => (
                         <Link
                           key={feature.name}
                           to={feature.href}
@@ -226,19 +250,19 @@ const Header = () => {
         {isMobileMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="lg:hidden bg-luxury-darker border-t border-luxury-gold/20 backdrop-blur-md"
           >
             <div className="px-4 py-6 space-y-4">
-              {navigation.map(item => (
+              {navigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
                   className={`block py-3 text-lg font-medium transition-colors duration-300 ${
                     location.pathname === item.href
-                      ? 'text-luxury-gold'
-                      : 'text-luxury-light hover:text-luxury-gold'
+                      ? "text-luxury-gold"
+                      : "text-luxury-light hover:text-luxury-gold"
                   }`}
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
@@ -252,7 +276,7 @@ const Header = () => {
                   Services
                 </h4>
                 <div className="space-y-2">
-                  {services.map(service => (
+                  {services.map((service) => (
                     <Link
                       key={service.name}
                       to={service.href}
@@ -262,6 +286,25 @@ const Header = () => {
                       <service.icon className="w-5 h-5" />
                       <span>{service.name}</span>
                     </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Mobile Legal Navigation */}
+              <div className="border-t border-luxury-gold/20 pt-4">
+                <h4 className="text-luxury-gold font-semibold mb-3">Legal</h4>
+                <div className="space-y-2">
+                  {legalNavigation.map((item) => (
+                    <a
+                      key={item.name}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block py-2 text-luxury-gray hover:text-luxury-gold transition-colors duration-300"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {item.name}
+                    </a>
                   ))}
                 </div>
               </div>

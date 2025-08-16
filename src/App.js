@@ -1,97 +1,108 @@
-import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
-import { Toaster } from 'react-hot-toast';
+/**
+ * @fileoverview Main Application Component
+ * @author Tyron Mitchell
+ * @version 2.0.0
+ * @created 2025-01-27
+ * @lastModified 2025-01-27
+ * @description Main React application component with routing and service integration
+ * @copyright © 2025 SuggestlyG4Plus. All rights reserved.
+ * @license MIT
+ */
+
+import React, { Suspense, lazy } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { Toaster } from "react-hot-toast";
 
 // Safe motion wrapper
-import { motion, AnimatePresence } from './utils/motionWrapper';
+import { motion, AnimatePresence } from "./utils/motionWrapper";
 
 // Core Components (eagerly loaded)
-import Header from './components/Header';
-import Footer from './components/Footer';
-import LoadingScreen from './components/LoadingScreen';
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import LoadingScreen from "./components/LoadingScreen";
 
 // Hooks
-import { useAnalytics } from './hooks/useAnalytics';
-import { usePaymentSystem } from './hooks/usePaymentSystem';
-import { useSiteManager } from './hooks/useSiteManager';
+import { useAnalytics } from "./hooks/useAnalytics";
+import { usePaymentSystem } from "./hooks/usePaymentSystem";
+import { useSiteManager } from "./hooks/useSiteManager";
 
 // Lazy-loaded Components (cutting-edge code splitting)
-const Hero = lazy(() => import('./components/Hero'));
-const Services = lazy(() => import('./components/Services'));
-const Features = lazy(() => import('./components/Features'));
-const Pricing = lazy(() => import('./components/Pricing'));
-const Contact = lazy(() => import('./components/Contact'));
-const Dashboard = lazy(() => import('./components/Dashboard'));
-const SiteManager = lazy(() => import('./components/SiteManager'));
-const SiteViewer = lazy(() => import('./components/SiteViewer'));
+const Hero = lazy(() => import("./components/Hero"));
+const Services = lazy(() => import("./components/Services"));
+const Features = lazy(() => import("./components/Features"));
+const Pricing = lazy(() => import("./components/Pricing"));
+const Contact = lazy(() => import("./components/Contact"));
+const Dashboard = lazy(() => import("./components/Dashboard"));
+const SiteManager = lazy(() => import("./components/SiteManager"));
+const SiteViewer = lazy(() => import("./components/SiteViewer"));
 
 // Audio Production Suite (lazy loaded)
-const AudioEqualizer = lazy(() => import('./components/AudioEqualizer'));
-const AudioEQLanding = lazy(() => import('./components/AudioEQLanding'));
-const G4AudioEqualizer = lazy(() => import('./components/G4AudioEqualizer'));
+const AudioEqualizer = lazy(() => import("./components/AudioEqualizer"));
+const AudioEQLanding = lazy(() => import("./components/AudioEQLanding"));
+const G4AudioEqualizer = lazy(() => import("./components/G4AudioEqualizer"));
 
 // DAW Connector (lazy loaded)
-const DAWConnector = lazy(() => import('./components/DAWConnector'));
-const QuantumDAWConnector = lazy(
-  () => import('./components/QuantumDAWConnector')
+const DAWConnector = lazy(() => import("./components/DAWConnector"));
+const QuantumDAWConnector = lazy(() =>
+  import("./components/QuantumDAWConnector")
 );
 
 // AI Content Studio (lazy loaded)
-const AIContentStudio = lazy(() => import('./components/AIContentStudio'));
+const AIContentStudio = lazy(() => import("./components/AIContentStudio"));
 
 // AI Content Generator 2.0 (lazy loaded)
-const AIContentGenerator2 = lazy(
-  () => import('./components/AIContentGenerator2')
+const AIContentGenerator2 = lazy(() =>
+  import("./components/AIContentGenerator2")
 );
 
 // Quantum AI Assistant (lazy loaded)
-const QuantumAIAssistant = lazy(
-  () => import('./components/QuantumAIAssistant')
+const QuantumAIAssistant = lazy(() =>
+  import("./components/QuantumAIAssistant")
 );
 
 // Advanced Payment System (lazy loaded)
-const AdvancedPaymentSystem = lazy(
-  () => import('./components/AdvancedPaymentSystem')
+const AdvancedPaymentSystem = lazy(() =>
+  import("./components/AdvancedPaymentSystem")
 );
 
 // Feature Showcase (lazy loaded)
-const FeatureShowcase = lazy(() => import('./components/FeatureShowcase'));
+const FeatureShowcase = lazy(() => import("./components/FeatureShowcase"));
 
 // Certifications (lazy loaded)
-const Certifications = lazy(() => import('./components/Certifications'));
+const Certifications = lazy(() => import("./components/Certifications"));
 
 // Video Production Suite (lazy loaded)
-const VideoProductionSuite = lazy(
-  () => import('./components/VideoProductionSuite')
+const VideoProductionSuite = lazy(() =>
+  import("./components/VideoProductionSuite")
 );
 
 // Quantum Computing Hub (lazy loaded)
-const QuantumComputingHub = lazy(
-  () => import('./components/QuantumComputingHub')
+const QuantumComputingHub = lazy(() =>
+  import("./components/QuantumComputingHub")
 );
-const QuantumBotAutomation = lazy(
-  () => import('./components/QuantumBotAutomation')
+const QuantumBotAutomation = lazy(() =>
+  import("./components/QuantumBotAutomation")
 );
 
 // Performance Dashboard (lazy loaded)
-const PerformanceDashboard = lazy(
-  () => import('./components/PerformanceDashboard')
+const PerformanceDashboard = lazy(() =>
+  import("./components/PerformanceDashboard")
 );
 
 // AI Analytics Dashboard (lazy loaded)
-const AIAnalyticsDashboard = lazy(
-  () => import('./components/AIAnalyticsDashboard')
+const AIAnalyticsDashboard = lazy(() =>
+  import("./components/AIAnalyticsDashboard")
 );
 
 // Advanced Security Center (lazy loaded)
-const AdvancedSecurityCenter = lazy(
-  () => import('./components/AdvancedSecurityCenter')
+const AdvancedSecurityCenter = lazy(() =>
+  import("./components/AdvancedSecurityCenter")
 );
 
 // External Content Loader (lazy loaded)
-const ExternalContentLoader = lazy(
-  () => import('./components/ExternalContentLoader')
+const ExternalContentLoader = lazy(() =>
+  import("./components/ExternalContentLoader")
 );
 
 // Modern Loading Component with Suspense
@@ -121,17 +132,17 @@ function App() {
     const initializeSystems = async () => {
       try {
         // Add delay to ensure all dependencies are loaded
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 100));
 
-        if (typeof initializeAnalytics === 'function') {
+        if (typeof initializeAnalytics === "function") {
           initializeAnalytics();
         }
 
-        if (typeof initializePaymentSystem === 'function') {
+        if (typeof initializePaymentSystem === "function") {
           initializePaymentSystem();
         }
       } catch (error) {
-        console.error('System initialization error:', error);
+        console.error("System initialization error:", error);
       }
     };
 
@@ -143,7 +154,7 @@ function App() {
   }
 
   // If we have a current site and we're not on admin routes, show the hosted site
-  if (currentSite && !window.location.pathname.startsWith('/admin')) {
+  if (currentSite && !window.location.pathname.startsWith("/admin")) {
     return (
       <Suspense fallback={<SuspenseFallback />}>
         <SiteViewer site={currentSite} />
@@ -387,20 +398,20 @@ function App() {
           toastOptions={{
             duration: 4000,
             style: {
-              background: '#1a1a1a',
-              color: '#ffffff',
-              border: '1px solid #ffd700',
+              background: "#1a1a1a",
+              color: "#ffffff",
+              border: "1px solid #ffd700",
             },
             success: {
               iconTheme: {
-                primary: '#10b981',
-                secondary: '#ffffff',
+                primary: "#10b981",
+                secondary: "#ffffff",
               },
             },
             error: {
               iconTheme: {
-                primary: '#ef4444',
-                secondary: '#ffffff',
+                primary: "#ef4444",
+                secondary: "#ffffff",
               },
             },
           }}

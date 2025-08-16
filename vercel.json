@@ -1,8 +1,13 @@
 {
   "version": 2,
+  "name": "suggestly-elite-business-platform",
   "builds": [
     {
       "src": "*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "pages/*.html",
       "use": "@vercel/static"
     },
     {
@@ -20,11 +25,56 @@
       "dest": "/index.html"
     },
     {
+      "src": "/home",
+      "dest": "/index.html"
+    },
+    {
+      "src": "/dashboard",
+      "dest": "/suggestly-elite-ultimate-platform.html"
+    },
+    {
+      "src": "/analytics",
+      "dest": "/suggestly-elite-ultimate-platform.html"
+    },
+    {
+      "src": "/quantum",
+      "dest": "/pages/quantum-status.html"
+    },
+    {
+      "src": "/live-data",
+      "dest": "/live-data-stream.html"
+    },
+    {
+      "src": "/deploy",
+      "dest": "/live-deployment-setup.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/$1"
     }
   ],
-  "outputDirectory": ".",
-  "installCommand": "npm install",
-  "buildCommand": "npm run build"
+  "headers": [
+    {
+      "source": "**/*.html",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    }
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs18.x"
+    }
+  }
 }

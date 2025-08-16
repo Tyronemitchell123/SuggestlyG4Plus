@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUGGESTLY ELITE - Ultra Premium AI Control Center</title>
+    
+    <!-- Advanced Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-gauges/gauge.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
+    
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root{
+            --bg-1:#050506; --bg-2:#0b0b0e; --accent:#00ffd7; --warn:#ffb86b; --danger:#ff5460;
+            --panel:#0d0d0e; --card-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            --mono: "Roboto Mono", "Courier New", monospace;
+        }
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body {
+            margin:0;
+            font-family: 'Rajdhani', sans-serif;
+            background: radial-gradient(1200px 600px at 10% 10%, rgba(0,255,215,0.03), transparent),
+                        linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+            color:#e6eef3;
+            padding:14px;
+            display:flex;
+            flex-direction:column;
+            gap:14px;
+            align-items:center;
+            min-height:100vh;
+            cursor: none;
+        }
+
+        /* Ultra Premium Custom Cursor */
+        .cursor {
+            position: fixed;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, var(--accent), #59e0ff);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            mix-blend-mode: difference;
+            transition: transform 0.1s ease;
+        }
+
+        .cursor-trail {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: rgba(0, 255, 215, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9998;
+            transition: all 0.3s ease;
+        }
+
+        /* Background video */
+        .bg-video {
+            position:fixed; inset:0; z-index:-2; object-fit:cover; width:100%; height:100%;
+            filter: blur(6px) brightness(.45) saturate(.65);
+        }
+
+        header {
+            width:100%;
+            max-width:1400px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:12px;
+        }
+        .brand {
+            background:linear-gradient(90deg,#081018 0%, #0f2a2a 100%);
+            padding:12px 18px;
+            border-radius:12px;
+            box-shadow: var(--card-shadow);
+            display:flex; align-items:center; gap:12px;
+            border:1px solid rgba(255,255,255,0.03);
+        }
+        .brand h1{margin:0;font-size:18px;letter-spacing:0.6px; font-family: 'Orbitron', monospace;}
+        .subtitle { color:#9fb4b3; font-size:12px; margin-top:4px; }
+
+        .stage {
+            width:100%;
+            max-width:1400px;
+            display:grid;
+            grid-template-columns: 1fr 420px;
+            gap:18px;
+            align-items:start;
+        }
+
+        .dashboard, .side {
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+            border-radius:12px;
+            padding:18px;
+            box-shadow: var(--card-shadow);
+            border:1px solid rgba(255,255,255,0.03);
+        }
+
+        .gauges {
+            display:grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap:18px;
+        }
+
+        .g-card {
+            background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+            padding:10px;
+            border-radius:12px;
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            gap:8px;
+            border:1px solid rgba(255,255,255,0.02);
+        }
+        .digital {
+            font-family: var(--mono);
+            font-size:14px;
+            background: linear-gradient(90deg, rgba(255,255,255,0.02), transparent);
+            padding:6px 10px;
+            border-radius:8px;
+            color:#9fe9dc;
+            box-shadow: inset 0 -6px 20px rgba(0,0,0,0.6);
+            min-width:110px;
+            text-align:center;
+        }
+
+        .switch-bank { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+        .toggle { width:68px; height:40px; background:linear-gradient(180deg,#141414,#0d0d0d); border-radius:20px; padding:4px; border:1px solid rgba(255,255,255,0.04); box-shadow: 0 6px 12px rgba(0,0,0,0.6); position:relative; cursor:pointer; display:flex; align-items:center; }
+        .toggle .knob { width:32px; height:32px; border-radius:50%; background:linear-gradient(145deg,#dedede,#9c9c9c); box-shadow: 0 6px 12px rgba(0,0,0,0.6), inset 0 -4px 8px rgba(0,0,0,0.25); transform:translateX(0); transition: transform .18s ease; margin-left:4px; }
+        .toggle.on { background:linear-gradient(180deg,#052b20,#0a261f); box-shadow: 0 8px 18px rgba(0,0,0,0.7), 0 0 20px rgba(0,255,215,0.06); }
+        .toggle.on .knob { transform:translateX(28px); background:linear-gradient(145deg,#aaffec,#7fd9c9); }
+
+        .rocker { width:56px; height:34px; border-radius:6px; background:linear-gradient(180deg,#111,#0b0b0b); box-shadow: inset 0 2px 0 rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.03); position:relative; cursor:pointer; }
+        .rocker .thumb { position:absolute; left:6px; top:4px; right:6px; bottom:4px; background:linear-gradient(180deg,#0d0d0d,#222); border-radius:4px; transition: transform .12s; display:flex; align-items:center; justify-content:center; color:#cfeee6; font-size:12px; }
+        .rocker.on .thumb { transform: translateY(6px); background:linear-gradient(180deg,#06332a,#05312a); }
+
+        .lights { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+        .led { width:18px; height:18px; border-radius:50%; background:#101010; box-shadow: inset 0 -3px 6px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,0.6); transition: box-shadow .12s, background .12s; position:relative; border:1px solid rgba(255,255,255,0.03); }
+        .led.on.green { background:#04ffb6; box-shadow:0 0 16px rgba(4,255,182,0.28); }
+        .led.on.amber { background: #ffc77a; box-shadow:0 0 14px rgba(255,199,122,0.2); }
+        .led.on.red { background:#ff5d66; box-shadow:0 0 16px rgba(255,93,102,0.28); }
+
+        .btn { width:64px; height:36px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; font-weight:600; cursor:pointer; background:linear-gradient(180deg,#1b1b1c,#0d0d0d); border:1px solid rgba(255,255,255,0.04); box-shadow: 0 8px 18px rgba(0,0,0,0.65); }
+        .btn.gloss { background:linear-gradient(180deg,#2b7f76,#1d5e54); color:#00120f; border:none; box-shadow: none; }
+
+        .knob { width:64px; height:64px; border-radius:50%; background:linear-gradient(145deg,#222,#0a0a0a); display:flex; align-items:center; justify-content:center; box-shadow: 0 10px 24px rgba(0,0,0,0.7), inset 0 -8px 16px rgba(255,255,255,0.02); position:relative; }
+        .knob .indicator { width:4px; height:22px; background:#dfeff8; position:absolute; top:12px; left:50%; transform:translateX(-50%); border-radius:2px; }
+
+        .alarm { background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005)); padding:12px; border-radius:8px; border:1px solid rgba(255,255,255,0.02); font-family: var(--mono); font-size:13px; min-height:80px; overflow:auto; color:#ffd9d9; }
+
+        .controls { width:100%; max-width:1400px; display:flex; justify-content:space-between; gap:12px; align-items:center; }
+
+        .toolbar { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+        .input { padding:8px 10px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid rgba(255,255,255,0.03); color:#dfeff8; min-width:220px; }
+
+        @media (max-width:1100px){
+            .stage{ grid-template-columns: 1fr; }
+            .gauges { grid-template-columns: repeat(2,1fr); }
+            .side { order: 2; }
+            .dashboard { order: 1; }
+        }
+        @media (max-width:700px){
+            .gauges { grid-template-columns: 1fr; }
+            header, .controls { padding:8px; gap:8px; flex-direction:column; align-items:flex-start; }
+            .brand h1 { font-size:16px; }
+            .input { min-width:140px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-trail"></div>
+
+    <!-- Background video -->
+    <video class="bg-video" autoplay muted loop playsinline>
+        <source src="/assets/controlroom.mp4" type="video/mp4">
+    </video>
+
+    <header>
+        <div class="brand">
+            <svg width="36" height="36" viewBox="0 0 24 24" style="filter:drop-shadow(0 4px 8px rgba(0,0,0,.6))">
+                <rect width="24" height="24" rx="4" fill="#001b1a"/>
+                <path d="M4 12h16M12 4v16" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+            <div>
+                <h1>SUGGESTLY ELITE</h1>
+                <div class="subtitle">Ultra Premium AI Control Center</div>
+            </div>
+        </div>
+
+        <div class="toolbar">
+            <input id="wsUrl" class="input" placeholder="wss://example.com/telemetry or leave empty for simulation" />
+            <button id="btnConnect" class="btn">Connect</button>
+            <button id="btnDisconnect" class="btn">Disconnect</button>
+            <button id="btnExport" class="btn gloss">Export CSV</button>
+        </div>
+    </header>
+
+    <main class="stage">
+        <section class="dashboard">
+            <div style="display:flex;gap:18px;align-items:center;justify-content:space-between">
+                <div style="display:flex;gap:12px;align-items:center">
+                    <div style="font-weight:700">AI Systems</div>
+                    <div style="color:#89a3a0;font-size:13px">Quantum telemetry • real-time AI processing</div>
+                </div>
+
+                <div style="display:flex;gap:8px;align-items:center">
+                    <div class="digital" id="simState">SIM</div>
+                    <div class="btn" id="btnPause">PAUSE (S)</div>
+                </div>
+            </div>
+
+            <div class="gauges" style="margin-top:14px">
+                <div class="g-card">
+                    <canvas id="g-ai-power"
+                        data-type="radial-gauge"
+                        data-width="220" data-height="220"
+                        data-units="TFLOPS"
+                        data-min-value="0" data-max-value="1000"
+                        data-major-ticks="0,200,400,600,800,1000"
+                        data-minor-ticks="4"
+                        data-highlights='[{"from":800,"to":1000,"color":"rgba(255,80,80,.6)"}]'
+                        data-color-plate="#0b0b0b"
+                        data-color-needle="#ff3b3b"
+                        data-animation-duration="240"
+                        data-animation-rule="bounce">
+                    </canvas>
+                    <div class="digital" id="d-ai-power">-- TFLOPS</div>
+                </div>
+
+                <div class="g-card">
+                    <canvas id="g-accuracy"
+                        data-type="radial-gauge"
+                        data-width="220" data-height="220"
+                        data-units="%"
+                        data-min-value="0" data-max-value="100"
+                        data-major-ticks="0,20,40,60,80,100"
+                        data-highlights='[{"from":90,"to":100,"color":"rgba(100,255,140,.6)"}]'
+                        data-color-plate="#0b0b0b"
+                        data-color-needle="#9bffb8"
+                        data-animation-duration="300"
+                        data-animation-rule="bounce">
+                    </canvas>
+                    <div class="digital" id="d-accuracy">-- %</div>
+                </div>
+
+                <div class="g-card">
+                    <canvas id="g-quantum"
+                        data-type="radial-gauge"
+                        data-width="220" data-height="220"
+                        data-units="QUBITS"
+                        data-min-value="0" data-max-value="1000"
+                        data-major-ticks="0,200,400,600,800,1000"
+                        data-highlights='[{"from":800,"to":1000,"color":"rgba(100,255,140,.6)"}]'
+                        data-color-plate="#0b0b0b"
+                        data-color-needle="#59e0ff"
+                        data-animation-duration="300">
+                    </canvas>
+                    <div class="digital" id="d-quantum">-- QUBITS</div>
+                </div>
+
+                <div style="grid-column: 1 / -1; display:flex; gap:12px;">
+                    <div class="g-card" style="flex:1; display:flex; flex-direction:row; align-items:center; gap:12px; justify-content:space-between">
+                        <div style="flex:1">
+                            <canvas id="g-power"
+                                data-type="radial-gauge"
+                                data-width="180" data-height="180"
+                                data-units="MW"
+                                data-min-value="0" data-max-value="100"
+                                data-major-ticks="0,25,50,75,100"
+                                data-highlights='[{"from":80,"to":100,"color":"rgba(100,255,140,.25)"}]'
+                                data-color-plate="#0b0b0b"
+                                data-color-needle="#9bffb8">
+                            </canvas>
+                        </div>
+
+                        <div style="flex:1; display:flex; flex-direction:column; gap:8px; align-items:flex-start">
+                            <div style="font-weight:700">Power</div>
+                            <div class="digital" id="d-power">-- MW</div>
+
+                            <div style="display:flex;gap:10px;margin-top:6px;align-items:center">
+                                <div class="btn gloss" id="btnBoost">BOOST</div>
+                                <div class="btn" id="btnDump">DUMP</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <aside class="side">
+            <div style="display:flex; justify-content:space-between; align-items:center">
+                <div style="font-weight:700">Controls</div>
+                <div style="color:#89a3a0;font-size:13px">AI System controls</div>
+            </div>
+
+            <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+                <div>
+                    <div style="font-size:12px;color:#9fb4b3;margin-bottom:6px">Main Systems</div>
+                    <div class="switch-bank">
+                        <div class="toggle on" data-name="ai-core"><div class="knob"></div></div>
+                        <div class="toggle on" data-name="quantum-engine"><div class="knob"></div></div>
+                        <div class="toggle" data-name="neural-net"><div class="knob"></div></div>
+                        <div class="toggle" data-name="safety-protocols"><div class="knob"></div></div>
+                    </div>
+                </div>
+
+                <div>
+                    <div style="font-size:12px;color:#9fb4b3;margin-bottom:6px">Modules</div>
+                    <div style="display:flex;gap:8px">
+                        <div class="rocker on"><div class="thumb">AI</div></div>
+                        <div class="rocker"><div class="thumb">ML</div></div>
+                        <div class="rocker"><div class="thumb">DL</div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top:6px">
+                <div style="font-size:12px;color:#9fb4b3;margin-bottom:6px">Status Panel</div>
+                <div class="lights">
+                    <div class="led on green" data-led="ok" title="System OK"></div>
+                    <div class="led on amber" data-led="warn" title="Warning"></div>
+                    <div class="led" data-led="err" title="Error"></div>
+                    <div style="min-width:8px"></div>
+                    <div style="font-size:12px;color:#9fb4b3">Status</div>
+                </div>
+            </div>
+
+            <div style="margin-top:8px; display:flex;gap:10px;align-items:center;justify-content:space-between">
+                <div class="knob-wrap">
+                    <div class="knob" id="rotary">
+                        <div class="indicator" id="knobIndicator"></div>
+                    </div>
+                    <div style="font-size:13px;color:#9fb4b3">Focus</div>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+                    <div class="btn" id="btnReset">RESET</div>
+                    <div class="btn" id="btnSilence">SILENCE</div>
+                </div>
+            </div>
+
+            <div style="margin-top:8px">
+                <div style="font-size:12px;color:#9fb4b3;margin-bottom:6px">System Log</div>
+                <div class="alarm" id="alarmLog">SUGGESTLY ELITE AI Control Center initialized. All systems operational.</div>
+            </div>
+        </aside>
+    </main>
+
+    <div class="controls">
+        <div class="hint">Tip: press <strong>S</strong> to start/stop simulation • Click toggles, rockers, and buttons</div>
+        <div style="display:flex;gap:12px;align-items:center">
+            <div style="font-size:13px;color:#9fb4b3">Telemetry rate:</div>
+            <select id="rate" class="input">
+                <option value="1000">1s</option>
+                <option value="500">0.5s</option>
+                <option value="250">0.25s</option>
+            </select>
+        </div>
+    </div>
+
+    <script>
+        // Initialize GSAP
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorTrail = document.querySelector('.cursor-trail');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            
+            setTimeout(() => {
+                cursorTrail.style.left = e.clientX + 'px';
+                cursorTrail.style.top = e.clientY + 'px';
+            }, 100);
+        });
+
+        // Initialize Gauges
+        const aiPower = new RadialGauge(document.getElementById('g-ai-power').dataset).draw();
+        const accuracy = new RadialGauge(document.getElementById('g-accuracy').dataset).draw();
+        const quantum = new RadialGauge(document.getElementById('g-quantum').dataset).draw();
+        const power = new RadialGauge(document.getElementById('g-power').dataset).draw();
+
+        // Elements
+        const dAIPower = document.getElementById('d-ai-power');
+        const dAccuracy = document.getElementById('d-accuracy');
+        const dQuantum = document.getElementById('d-quantum');
+        const dPower = document.getElementById('d-power');
+        const simState = document.getElementById('simState');
+        const alarmLog = document.getElementById('alarmLog');
+        const btnConnect = document.getElementById('btnConnect');
+        const btnDisconnect = document.getElementById('btnDisconnect');
+        const btnExport = document.getElementById('btnExport');
+        const wsUrlInput = document.getElementById('wsUrl');
+
+        // System State Management
+        const systemState = {
+            aiCore: true,
+            quantumEngine: true,
+            neuralNet: false,
+            safetyProtocols: false,
+            aiModule: true,
+            mlModule: false,
+            dlModule: false,
+            focusLevel: 0.5,
+            boostActive: false,
+            emergencyMode: false,
+            systemHealth: 100,
+            lastMaintenance: Date.now(),
+            uptime: 0,
+            totalOperations: 0,
+            errors: 0,
+            warnings: 0
+        };
+
+        // Telemetry buffer for CSV export
+        const telemetryBuffer = [];
+        function pushTelemetrySample(sample){
+            telemetryBuffer.push(sample);
+            if(telemetryBuffer.length > 10000) telemetryBuffer.shift();
+        }
+
+        function exportCSV(){
+            if(telemetryBuffer.length === 0){
+                alert('No telemetry recorded yet.');
+                return;
+            }
+            const header = ['timestamp','ai_power','accuracy','quantum','power','source','system_health','uptime','total_operations'];
+            const rows = telemetryBuffer.map(r => [r.ts, r.aiPower, r.accuracy, r.quantum, r.power, r.source, r.systemHealth, r.uptime, r.totalOperations]);
+            const csv = [header, ...rows].map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+            const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `suggestly_elite_telemetry_${new Date().toISOString().replace(/[:.]/g,'-')}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        }
+        btnExport.addEventListener('click', exportCSV);
+
+        function pushLog(msg, level='INFO'){
+            const ts = new Date().toLocaleTimeString();
+            const logEntry = `<div>[${ts}] ${level}: ${msg}</div>`;
+            alarmLog.innerHTML = logEntry + alarmLog.innerHTML;
+            
+            // Keep only last 50 log entries
+            const entries = alarmLog.innerHTML.split('<div>');
+            if (entries.length > 50) {
+                alarmLog.innerHTML = entries.slice(0, 50).join('<div>');
+            }
+        }
+
+        // Advanced Simulation with System State Integration
+        function NoiseWalk(state, min, max, drift=0.06) {
+            let v = state ?? (min + (max-min)/2);
+            return function() {
+                const change = (Math.random()-0.5) * (max-min) * 0.06;
+                v = Math.min(max, Math.max(min, v + change + (Math.random()-0.5)*drift));
+                return v;
+            };
+        }
+
+        // System-aware generators
+        const nextAIPower = NoiseWalk(400, 0, 1000);
+        const nextAccuracy = NoiseWalk(85, 0, 100);
+        const nextQuantum = NoiseWalk(600, 0, 1000);
+        const nextPower = NoiseWalk(45, 0, 100);
+
+        // Calculate system performance based on state
+        function calculateSystemPerformance() {
+            let aiPowerMultiplier = 1;
+            let accuracyMultiplier = 1;
+            let quantumMultiplier = 1;
+            let powerMultiplier = 1;
+
+            // AI Core affects all systems
+            if (!systemState.aiCore) {
+                aiPowerMultiplier = 0.1;
+                accuracyMultiplier = 0.3;
+                quantumMultiplier = 0.2;
+                powerMultiplier = 0.5;
+            }
+
+            // Quantum Engine affects quantum processing
+            if (!systemState.quantumEngine) {
+                quantumMultiplier *= 0.1;
+                aiPowerMultiplier *= 0.8;
+            }
+
+            // Neural Net affects accuracy
+            if (systemState.neuralNet) {
+                accuracyMultiplier *= 1.2;
+                aiPowerMultiplier *= 1.1;
+            }
+
+            // Safety Protocols affect stability
+            if (systemState.safetyProtocols) {
+                accuracyMultiplier *= 1.1;
+                powerMultiplier *= 0.9;
+            }
+
+            // AI Module affects AI power
+            if (systemState.aiModule) {
+                aiPowerMultiplier *= 1.3;
+            }
+
+            // ML Module affects accuracy
+            if (systemState.mlModule) {
+                accuracyMultiplier *= 1.2;
+            }
+
+            // DL Module affects quantum processing
+            if (systemState.dlModule) {
+                quantumMultiplier *= 1.3;
+            }
+
+            // Boost mode
+            if (systemState.boostActive) {
+                aiPowerMultiplier *= 1.5;
+                powerMultiplier *= 1.3;
+            }
+
+            // Emergency mode
+            if (systemState.emergencyMode) {
+                aiPowerMultiplier *= 2.0;
+                powerMultiplier *= 1.8;
+                accuracyMultiplier *= 0.7;
+            }
+
+            // Focus level affects overall performance
+            const focusEffect = 0.5 + (systemState.focusLevel * 0.5);
+            aiPowerMultiplier *= focusEffect;
+            accuracyMultiplier *= focusEffect;
+            quantumMultiplier *= focusEffect;
+
+            return {
+                aiPowerMultiplier,
+                accuracyMultiplier,
+                quantumMultiplier,
+                powerMultiplier
+            };
+        }
+
+        // Update logic with system state integration
+        function applyTelemetry(source, {aiPower: vAIPower = null, accuracy: vAccuracy = null, quantum: vQuantum = null, power: vPower = null}){
+            const now = new Date();
+            const performance = calculateSystemPerformance();
+            
+            // Generate base values
+            const baseAIPower = vAIPower ?? Math.round(nextAIPower() * performance.aiPowerMultiplier);
+            const baseAccuracy = vAccuracy ?? Math.round(nextAccuracy() * performance.accuracyMultiplier * 10) / 10;
+            const baseQuantum = vQuantum ?? Math.round(nextQuantum() * performance.quantumMultiplier);
+            const basePower = vPower ?? Math.round(nextPower() * performance.powerMultiplier * 10) / 10;
+
+            // Update system metrics
+            systemState.uptime += 1;
+            systemState.totalOperations += Math.round(baseAIPower / 100);
+
+            const sample = {
+                ts: now.toISOString(),
+                aiPower: Math.min(1000, Math.max(0, baseAIPower)),
+                accuracy: Math.min(100, Math.max(0, baseAccuracy)),
+                quantum: Math.min(1000, Math.max(0, baseQuantum)),
+                power: Math.min(100, Math.max(0, basePower)),
+                source,
+                systemHealth: systemState.systemHealth,
+                uptime: systemState.uptime,
+                totalOperations: systemState.totalOperations
+            };
+
+            // Apply values to gauges
+            aiPower.value = sample.aiPower;
+            accuracy.value = sample.accuracy;
+            quantum.value = sample.quantum;
+            power.value = sample.power;
+
+            // Update digital readouts
+            dAIPower.textContent = `${sample.aiPower} TFLOPS`;
+            dAccuracy.textContent = `${sample.accuracy}%`;
+            dQuantum.textContent = `${sample.quantum} QUBITS`;
+            dPower.textContent = `${sample.power} MW`;
+
+            // LED logic with system state
+            const ledOk = document.querySelector('[data-led="ok"]');
+            const ledWarn = document.querySelector('[data-led="warn"]');
+            const ledErr = document.querySelector('[data-led="err"]');
+
+            const curPower = sample.power;
+            const curAccuracy = sample.accuracy;
+            const curAIPower = sample.aiPower;
+            const curQuantum = sample.quantum;
+
+            // System health calculation
+            let healthScore = 100;
+            if (curPower < 20) healthScore -= 30;
+            if (curAccuracy < 80) healthScore -= 20;
+            if (curAIPower > 950) healthScore -= 25;
+            if (curQuantum < 100) healthScore -= 15;
+            if (!systemState.aiCore) healthScore -= 50;
+            if (!systemState.quantumEngine) healthScore -= 30;
+
+            systemState.systemHealth = Math.max(0, Math.min(100, healthScore));
+
+            // LED states
+            const isSystemOk = systemState.systemHealth > 70 && systemState.aiCore && curPower > 20;
+            const hasWarnings = systemState.systemHealth < 80 || curAccuracy < 85 || curPower > 80;
+            const hasErrors = systemState.systemHealth < 50 || curPower < 10 || curAIPower > 950 || !systemState.aiCore;
+
+            ledOk.classList.toggle('on', isSystemOk);
+            ledWarn.classList.toggle('on', hasWarnings);
+            ledErr.classList.toggle('on', hasErrors);
+
+            // Dynamic alarm system
+            if (curAccuracy < 80 && !systemState.alarmHistory?.has('Low AI accuracy')) {
+                pushAlarmOnce('Low AI accuracy detected', 'WARN');
+            }
+            if (curPower < 9 && !systemState.alarmHistory?.has('Critical power levels')) {
+                pushAlarmOnce('Critical power levels', 'ERROR');
+            }
+            if (curAIPower > 950 && !systemState.alarmHistory?.has('AI overload warning')) {
+                pushAlarmOnce('AI overload warning', 'ERROR');
+            }
+            if (curQuantum < 100 && !systemState.alarmHistory?.has('Quantum coherence low')) {
+                pushAlarmOnce('Quantum coherence low', 'WARN');
+            }
+            if (!systemState.aiCore && !systemState.alarmHistory?.has('AI Core offline')) {
+                pushAlarmOnce('AI Core offline - Emergency protocols', 'ERROR');
+            }
+
+            pushTelemetrySample(sample);
+        }
+
+        // Enhanced alarm system
+        if (!systemState.alarmHistory) systemState.alarmHistory = new Set();
+        
+        function pushAlarmOnce(msg, lvl){
+            if(systemState.alarmHistory.has(msg)) return;
+            systemState.alarmHistory.add(msg);
+            pushLog(msg, lvl);
+            
+            // Track alarms
+            if (lvl === 'ERROR') systemState.errors++;
+            if (lvl === 'WARN') systemState.warnings++;
+            
+            setTimeout(()=> systemState.alarmHistory.delete(msg), 30_000);
+        }
+
+        function simStep(){
+            const s = {
+                aiPower: Math.round(nextAIPower()),
+                accuracy: Math.round(nextAccuracy()*10)/10,
+                quantum: Math.round(nextQuantum()),
+                power: Math.round(nextPower()*10)/10
+            };
+            applyTelemetry('sim', s);
+        }
+
+        let simTimer = null;
+        let running = true;
+        let intervalMs = Number(document.getElementById('rate').value);
+
+        function startSim(){
+            if(simTimer) clearInterval(simTimer);
+            simTimer = setInterval(simStep, intervalMs);
+            running = true;
+            simState.textContent = 'SIM';
+            document.getElementById('btnPause').textContent = 'PAUSE (S)';
+            pushLog('Simulation started', 'INFO');
+        }
+        
+        function stopSim(){
+            if(simTimer) clearInterval(simTimer);
+            simTimer = null;
+            running = false;
+            simState.textContent = 'PAUSED';
+            document.getElementById('btnPause').textContent = 'RESUME (S)';
+            pushLog('Simulation paused', 'INFO');
+        }
+
+        startSim(); simStep();
+
+        // Enhanced Controls with System Integration
+        document.getElementById('rate').addEventListener('change', (e)=>{
+            intervalMs = Number(e.target.value);
+            if(running) startSim();
+            pushLog(`Telemetry rate changed to ${intervalMs}ms`, 'INFO');
+        });
+
+        document.getElementById('btnPause').addEventListener('click', ()=>{
+            running ? stopSim() : startSim();
+        });
+
+        // Enhanced Toggle Controls
+        document.querySelectorAll('.toggle').forEach(el=>{
+            el.addEventListener('click', ()=>{
+                const wasOn = el.classList.contains('on');
+                el.classList.toggle('on');
+                const isOn = el.classList.contains('on');
+                const name = el.dataset.name || 'toggle';
+                
+                // Update system state
+                switch(name) {
+                    case 'ai-core':
+                        systemState.aiCore = isOn;
+                        if (!isOn) {
+                            pushLog('AI Core shutdown - Emergency protocols activated', 'ERROR');
+                            systemState.emergencyMode = true;
+                        } else {
+                            pushLog('AI Core online - Systems normalizing', 'INFO');
+                            systemState.emergencyMode = false;
+                        }
+                        break;
+                    case 'quantum-engine':
+                        systemState.quantumEngine = isOn;
+                        pushLog(`Quantum Engine ${isOn ? 'activated' : 'deactivated'}`, 'INFO');
+                        break;
+                    case 'neural-net':
+                        systemState.neuralNet = isOn;
+                        pushLog(`Neural Network ${isOn ? 'engaged' : 'disengaged'}`, 'INFO');
+                        break;
+                    case 'safety-protocols':
+                        systemState.safetyProtocols = isOn;
+                        pushLog(`Safety Protocols ${isOn ? 'enabled' : 'disabled'}`, isOn ? 'INFO' : 'WARN');
+                        break;
+                }
+                
+                pushLog(`${name} ${isOn ? 'ON' : 'OFF'}`, 'INFO');
+            });
+        });
+
+        // Enhanced Rocker Controls
+        document.querySelectorAll('.rocker').forEach(r=>{
+            r.addEventListener('click', ()=>{
+                const wasOn = r.classList.contains('on');
+                r.classList.toggle('on');
+                const isOn = r.classList.contains('on');
+                const module = r.innerText.trim();
+                
+                // Update system state
+                switch(module) {
+                    case 'AI':
+                        systemState.aiModule = isOn;
+                        break;
+                    case 'ML':
+                        systemState.mlModule = isOn;
+                        break;
+                    case 'DL':
+                        systemState.dlModule = isOn;
+                        break;
+                }
+                
+                pushLog(`Module ${module} ${isOn ? 'ENGAGED' : 'RELEASED'}`, 'INFO');
+            });
+        });
+
+        // Enhanced Button Controls
+        document.getElementById('btnBoost').addEventListener('click', ()=>{
+            if (!systemState.boostActive) {
+                systemState.boostActive = true;
+                pushLog('AI Power BOOST engaged - Maximum performance mode', 'INFO');
+                
+                // Visual feedback
+                btnBoost.style.background = 'linear-gradient(180deg,#ff6b35,#ff4500)';
+                btnBoost.style.color = '#fff';
+                btnBoost.style.boxShadow = '0 0 20px rgba(255,107,53,0.5)';
+                
+                // Temporary power boost
+                for(let i=0;i<6;i++){ 
+                    setTimeout(()=> {
+                        power.value = Math.min(100, power.value + 3);
+                        aiPower.value = Math.min(1000, aiPower.value + 50);
+                    }, i*100); 
+                }
+                
+                // Auto-disable boost after 10 seconds
+                setTimeout(() => {
+                    systemState.boostActive = false;
+                    btnBoost.style.background = '';
+                    btnBoost.style.color = '';
+                    btnBoost.style.boxShadow = '';
+                    pushLog('BOOST mode deactivated - Returning to normal operation', 'INFO');
+                }, 10000);
+            }
+        });
+
+        document.getElementById('btnDump').addEventListener('click', ()=> {
+            pushLog('Power DUMP executed - Emergency power reduction', 'WARN');
+            
+            // Visual feedback
+            btnDump.style.background = 'linear-gradient(180deg,#ff4757,#ff3838)';
+            btnDump.style.color = '#fff';
+            
+            // Power dump effect
+            for(let i=0;i<5;i++){ 
+                setTimeout(()=> {
+                    power.value = Math.max(0, power.value - 8);
+                }, i*200); 
+            }
+            
+            setTimeout(() => {
+                btnDump.style.background = '';
+                btnDump.style.color = '';
+            }, 2000);
+        });
+
+        document.getElementById('btnReset').addEventListener('click', ()=> { 
+            pushLog('System reset requested - Initializing all systems', 'INFO');
+            alarmLog.scrollTop = 0;
+            
+            // Reset system state
+            systemState.boostActive = false;
+            systemState.emergencyMode = false;
+            systemState.errors = 0;
+            systemState.warnings = 0;
+            systemState.alarmHistory.clear();
+            
+            // Reset button styles
+            btnBoost.style.background = '';
+            btnBoost.style.color = '';
+            btnBoost.style.boxShadow = '';
+            btnDump.style.background = '';
+            btnDump.style.color = '';
+            
+            pushLog('System reset complete - All systems operational', 'INFO');
+        });
+
+        document.getElementById('btnSilence').addEventListener('click', ()=> { 
+            alarmLog.innerHTML='Alarms silenced.';
+            systemState.alarmHistory.clear();
+            pushLog('Alarm system silenced', 'INFO');
+        });
+
+        // Enhanced Knob with System Integration
+        (function initKnob(){
+            const knob = document.getElementById('rotary');
+            const indicator = document.getElementById('knobIndicator');
+            let angle = 0, dragging=false, startY=0, startAngle=0;
+            
+            const setAngle = a => { 
+                angle = Math.max(-140, Math.min(140, a)); 
+                indicator.style.transform = `rotate(${angle}deg)`;
+                systemState.focusLevel = (angle + 140)/280; // 0..1
+                
+                // Update focus indicator
+                const focusLabel = knob.parentElement.querySelector('div');
+                if (focusLabel) {
+                    const focusPercent = Math.round(systemState.focusLevel * 100);
+                    focusLabel.textContent = `Focus ${focusPercent}%`;
+                }
+            };
+            
+            knob.addEventListener('mousedown', (e)=>{
+                dragging=true; 
+                startY=e.clientY; 
+                startAngle=angle; 
+                e.preventDefault();
+            });
+            
+            window.addEventListener('mouseup', ()=>{ dragging=false; });
+            window.addEventListener('mousemove', (e)=>{
+                if(!dragging) return; 
+                const dy = startY - e.clientY; 
+                setAngle(startAngle + dy);
+            });
+            
+            knob.addEventListener('touchstart', e=>{
+                dragging=true; 
+                startY=e.touches[0].clientY; 
+                startAngle=angle; 
+            });
+            
+            window.addEventListener('touchend', ()=>{ dragging=false; });
+            window.addEventListener('touchmove', e=>{
+                if(!dragging) return; 
+                const dy = startY - e.touches[0].clientY; 
+                setAngle(startAngle + dy);
+            });
+
+            window.getKnobValue = ()=> systemState.focusLevel;
+        })();
+
+        // Enhanced LED Testing
+        document.querySelector('[data-led="err"]').addEventListener('click', (ev)=>{
+            ev.currentTarget.classList.toggle('on');
+            pushLog('Manual error toggled for testing', 'INFO');
+        });
+
+        // WebSocket integration
+        let ws = null;
+        let connectedUrl = null;
+        btnConnect.addEventListener('click', connectWS);
+        btnDisconnect.addEventListener('click', disconnectWS);
+
+        function connectWS(){
+            const url = wsUrlInput.value.trim();
+            if(!url){
+                alert('Please enter a WebSocket URL (wss:// or ws://). Leave empty to keep simulation.');
+                return;
+            }
+            try {
+                disconnectWS();
+                ws = new WebSocket(url);
+                ws.onopen = () => {
+                    pushLog(`WebSocket connected to ${url}`, 'INFO');
+                    connectedUrl = url;
+                    simState.textContent = 'WS: CONNECTED';
+                    stopSim();
+                };
+                ws.onmessage = (ev) => {
+                    try {
+                        const data = JSON.parse(ev.data);
+                        applyTelemetry('ws', data);
+                    } catch(e){
+                        pushLog('Received non-JSON websocket message', 'INFO');
+                    }
+                };
+                ws.onerror = (err) => { pushLog('WebSocket error', 'ERROR'); };
+                ws.onclose = () => { 
+                    pushLog('WebSocket disconnected', 'INFO'); 
+                    simState.textContent = 'SIM'; 
+                    connectedUrl = null; 
+                    startSim(); 
+                };
+            } catch(e){
+                pushLog('Failed to connect: ' + String(e), 'ERROR');
+            }
+        }
+
+        function disconnectWS(){
+            if(ws){
+                try { ws.close(); } catch(e) {}
+                ws = null;
+                connectedUrl = null;
+                simState.textContent = 'SIM';
+                startSim();
+            }
+        }
+
+        // Enhanced Keyboard Controls
+        window.addEventListener('keydown', (e)=>{
+            if(e.key.toLowerCase() === 's'){ 
+                if(ws && ws.readyState === WebSocket.OPEN) {
+                    disconnectWS();
+                } else {
+                    running ? stopSim() : startSim();
+                }
+            }
+            
+            // Additional keyboard shortcuts
+            if(e.key.toLowerCase() === 'b' && e.ctrlKey) {
+                e.preventDefault();
+                document.getElementById('btnBoost').click();
+            }
+            
+            if(e.key.toLowerCase() === 'r' && e.ctrlKey) {
+                e.preventDefault();
+                document.getElementById('btnReset').click();
+            }
+        });
+
+        // System Status Updates
+        setInterval(() => {
+            const uptimeHours = Math.floor(systemState.uptime / 3600);
+            const uptimeMinutes = Math.floor((systemState.uptime % 3600) / 60);
+            const uptimeSeconds = systemState.uptime % 60;
+            
+            // Update system health based on performance
+            if (systemState.errors > 10) {
+                systemState.systemHealth = Math.max(0, systemState.systemHealth - 1);
+            }
+            
+            // Log system status every 5 minutes
+            if (systemState.uptime % 300 === 0 && systemState.uptime > 0) {
+                pushLog(`System Status: Health ${systemState.systemHealth}%, Uptime ${uptimeHours}h:${uptimeMinutes}m:${uptimeSeconds}s, Operations ${systemState.totalOperations.toLocaleString()}`, 'INFO');
+            }
+        }, 1000);
+
+        // Expose debug helpers
+        window._g = { 
+            aiPower, accuracy, quantum, power, 
+            applyTelemetry, simStep, systemState,
+            startSim, stopSim, pushLog 
+        };
+
+        // Handle gauge resizing
+        window.addEventListener('resize', ()=>{
+            [aiPower, accuracy, quantum, power].forEach(g=> g.update && g.update());
+        });
+
+        // Initialize system
+        pushLog('SUGGESTLY ELITE AI Control Center initialized. All systems operational.', 'INFO');
+        pushLog('AI Core: ONLINE | Quantum Engine: ACTIVE | Neural Networks: STANDBY', 'INFO');
+        pushLog('Use controls to manage AI systems. Press S to pause/resume simulation.', 'INFO');
+    </script>
+</body>
+</html>

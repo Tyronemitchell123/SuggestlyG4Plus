@@ -97,6 +97,31 @@
         .notification.info { background-color: #3b82f6; }
         .notification.warning { background-color: #f59e0b; }
         .notification.error { background-color: #ef4444; }
+        
+        /* Chart container styles */
+        .chart-container {
+            position: relative;
+            height: 300px;
+            width: 100%;
+        }
+        
+        .chart-container canvas {
+            max-height: 100%;
+            max-width: 100%;
+        }
+        
+        /* Responsive chart adjustments */
+        @media (max-width: 768px) {
+            .chart-container {
+                height: 250px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .chart-container {
+                height: 200px;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -294,7 +319,9 @@
                     <i class="fas fa-chart-line text-green-500 mr-2"></i>
                     Revenue Trend
                 </h3>
-                <canvas id="revenueChart" width="400" height="200"></canvas>
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
             </div>
 
             <!-- AI Model Performance -->
@@ -303,7 +330,9 @@
                     <i class="fas fa-chart-bar text-blue-500 mr-2"></i>
                     AI Model Performance
                 </h3>
-                <canvas id="aiPerformanceChart" width="400" height="200"></canvas>
+                <div class="relative" style="height: 300px;">
+                    <canvas id="aiPerformanceChart"></canvas>
+                </div>
             </div>
         </div>
 
@@ -370,6 +399,12 @@
                                 }
                             }
                         }
+                    },
+                    layout: {
+                        padding: {
+                            top: 10,
+                            bottom: 10
+                        }
                     }
                 }
             });
@@ -409,6 +444,12 @@
                                     return value + '%';
                                 }
                             }
+                        }
+                    },
+                    layout: {
+                        padding: {
+                            top: 10,
+                            bottom: 10
                         }
                     }
                 }

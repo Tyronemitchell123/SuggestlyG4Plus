@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SUGGESTLY ELITE - Main Navigation Hub</title>
+
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --bg-1: #050506;
+        --bg-2: #0b0b0e;
+        --accent: #00ffd7;
+        --warn: #ffb86b;
+        --danger: #ff5460;
+        --panel: #0d0d0e;
+        --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+        --mono: "Roboto Mono", "Courier New", monospace;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        height: 100%;
+        font-family: "Rajdhani", sans-serif;
+        background: radial-gradient(
+            1200px 600px at 10% 10%,
+            rgba(0, 255, 215, 0.03),
+            transparent
+          ),
+          linear-gradient(180deg, var(--bg-1) 0%, var(--bg-2) 100%);
+        color: #e6eef3;
+        overflow-x: hidden;
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+        min-height: 100vh;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 40px 20px;
+        background: linear-gradient(90deg, #081018 0%, #0f2a2a 100%);
+        border-radius: 20px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+
+      .brand h1 {
+        font-family: "Orbitron", monospace;
+        font-size: 48px;
+        font-weight: 900;
+        background: linear-gradient(45deg, var(--accent), #59e0ff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        font-size: 18px;
+        color: #9fb4b3;
+        margin-bottom: 20px;
+      }
+
+      .status-indicator {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 30px;
+        background: rgba(0, 255, 215, 0.1);
+        border-radius: 15px;
+        border: 1px solid var(--accent);
+      }
+
+      .status-dot {
+        width: 15px;
+        height: 15px;
+        background: var(--accent);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .navigation-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 25px;
+        margin-bottom: 40px;
+      }
+
+      .nav-category {
+        background: var(--panel);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: var(--card-shadow);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+
+      .category-title {
+        font-family: "Orbitron", monospace;
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--accent);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .category-icon {
+        font-size: 28px;
+      }
+
+      .nav-links {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 15px 20px;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        text-decoration: none;
+        color: #e6eef3;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .nav-link:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 255, 215, 0.1);
+        border-color: var(--accent);
+        background: rgba(0, 255, 215, 0.05);
+      }
+
+      .nav-link::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(0, 255, 215, 0.1),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+
+      .nav-link:hover::before {
+        left: 100%;
+      }
+
+      .link-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .link-icon {
+        font-size: 20px;
+        color: var(--accent);
+      }
+
+      .link-text {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .link-title {
+        font-weight: 600;
+        font-size: 16px;
+        margin-bottom: 5px;
+      }
+
+      .link-desc {
+        font-size: 12px;
+        color: #9fb4b3;
+      }
+
+      .link-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        color: var(--accent);
+      }
+
+      .status-badge {
+        padding: 4px 8px;
+        border-radius: 6px;
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      .status-working {
+        background: rgba(0, 255, 215, 0.2);
+        color: var(--accent);
+      }
+
+      .status-advanced {
+        background: rgba(255, 184, 107, 0.2);
+        color: var(--warn);
+      }
+
+      .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        margin-top: 40px;
+      }
+
+      .quick-action {
+        background: linear-gradient(45deg, var(--accent), #59e0ff);
+        color: var(--bg-1);
+        padding: 20px;
+        border-radius: 15px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0, 255, 215, 0.3);
+      }
+
+      .quick-action:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 255, 215, 0.4);
+      }
+
+      .footer {
+        text-align: center;
+        margin-top: 40px;
+        padding: 20px;
+        color: #9fb4b3;
+        font-size: 14px;
+      }
+
+      @media (max-width: 768px) {
+        .brand h1 {
+          font-size: 32px;
+        }
+
+        .navigation-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .nav-category {
+          padding: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <header class="header">
+        <div class="brand">
+          <h1>SUGGESTLY ELITE</h1>
+          <div class="subtitle">Ultra Premium AI Platform - Navigation Hub</div>
+        </div>
+        <div class="status-indicator">
+          <div class="status-dot"></div>
+          <span>ALL SYSTEMS ONLINE - READY FOR NAVIGATION</span>
+        </div>
+      </header>
+
+      <!-- Navigation Grid -->
+      <div class="navigation-grid">
+        <!-- Main Homepages -->
+        <div class="nav-category">
+          <div class="category-title">
+            <span class="category-icon">🏠</span>
+            Main Homepages
+          </div>
+          <div class="nav-links">
+            <a href="working-homepage.html" class="nav-link" target="_blank">
+              <div class="link-info">
+                <span class="link-icon">🎮</span>
+                <div class="link-text">
+                  <div class="link-title">AI Control Center</div>
+                  <div class="link-desc">
+                    Fully functional with connected buttons
+                  </div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-working">Working</span>
+              </div>
+            </a>
+
+            <a href="simple-homepage.html" class="nav-link" target="_blank">
+              <div class="link-info">
+                <span class="link-icon">⚡</span>
+                <div class="link-text">
+                  <div class="link-title">Simple Version</div>
+                  <div class="link-desc">Clean and streamlined interface</div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-working">Working</span>
+              </div>
+            </a>
+
+            <a href="ultra-cutting-edge.html" class="nav-link" target="_blank">
+              <div class="link-info">
+                <span class="link-icon">🚀</span>
+                <div class="link-text">
+                  <div class="link-title">Ultra Cutting Edge</div>
+                  <div class="link-desc">Latest features and innovations</div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-working">Working</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Advanced Pages -->
+        <div class="nav-category">
+          <div class="category-title">
+            <span class="category-icon">🔮</span>
+            Advanced Systems
+          </div>
+          <div class="nav-links">
+            <a href="pages/dashboard.html" class="nav-link" target="_blank">
+              <div class="link-info">
+                <span class="link-icon">📊</span>
+                <div class="link-text">
+                  <div class="link-title">Full Dashboard</div>
+                  <div class="link-desc">Comprehensive analytics interface</div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-working">Working</span>
+              </div>
+            </a>
+
+            <a
+              href="pages/quantum-status.html"
+              class="nav-link"
+              target="_blank"
+            >
+              <div class="link-info">
+                <span class="link-icon">⚛️</span>
+                <div class="link-text">
+                  <div class="link-title">Quantum Systems</div>
+                  <div class="link-desc">Quantum computing interface</div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-working">Working</span>
+              </div>
+            </a>
+
+            <a href="pages/ai-models.html" class="nav-link" target="_blank">
+              <div class="link-info">
+                <span class="link-icon">🤖</span>
+                <div class="link-text">
+                  <div class="link-title">AI Models</div>
+                  <div class="link-desc">AI model management system</div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-working">Working</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Business Systems -->
+        <div class="nav-category">
+          <div class="category-title">
+            <span class="category-icon">💼</span>
+            Business Systems
+          </div>
+          <div class="nav-links">
+            <a href="pages/clients.html" class="nav-link" target="_blank">
+              <div class="link-info">
+                <span class="link-icon">👥</span>
+                <div class="link-text">
+                  <div class="link-title">Client Management</div>
+                  <div class="link-desc">Client database and management</div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-working">Working</span>
+              </div>
+            </a>
+
+            <a href="pages/live-data.html" class="nav-link" target="_blank">
+              <div class="link-info">
+                <span class="link-icon">📈</span>
+                <div class="link-text">
+                  <div class="link-title">Live Data</div>
+                  <div class="link-desc">Real-time data monitoring</div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-working">Working</span>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Development Tools -->
+        <div class="nav-category">
+          <div class="category-title">
+            <span class="category-icon">🛠️</span>
+            Development Tools
+          </div>
+          <div class="nav-links">
+            <a href="index.html" class="nav-link" target="_blank">
+              <div class="link-info">
+                <span class="link-icon">⚙️</span>
+                <div class="link-text">
+                  <div class="link-title">Original Homepage</div>
+                  <div class="link-desc">Original ultra premium version</div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-advanced">Advanced</span>
+              </div>
+            </a>
+
+            <a href="homepage-preview.html" class="nav-link" target="_blank">
+              <div class="link-info">
+                <span class="link-icon">🎨</span>
+                <div class="link-text">
+                  <div class="link-title">Premium Preview</div>
+                  <div class="link-desc">Premium luxury interface</div>
+                </div>
+              </div>
+              <div class="link-status">
+                <span class="status-badge status-advanced">Advanced</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="quick-actions">
+        <a href="working-homepage.html" class="quick-action" target="_blank">
+          🎮 Launch AI Control Center
+        </a>
+        <a href="pages/dashboard.html" class="quick-action" target="_blank">
+          📊 Open Full Dashboard
+        </a>
+        <a
+          href="pages/quantum-status.html"
+          class="quick-action"
+          target="_blank"
+        >
+          ⚛️ Access Quantum Systems
+        </a>
+        <a href="ultra-cutting-edge.html" class="quick-action" target="_blank">
+          🚀 View Latest Features
+        </a>
+      </div>
+
+      <!-- Footer -->
+      <div class="footer">
+        <p>
+          SUGGESTLY ELITE - All systems operational and ready for navigation
+        </p>
+        <p>Click any link above to access the corresponding feature</p>
+      </div>
+    </div>
+
+    <script>
+      // Add click tracking
+      document.querySelectorAll(".nav-link").forEach((link) => {
+        link.addEventListener("click", function () {
+          const title = this.querySelector(".link-title").textContent;
+          console.log(`Navigating to: ${title}`);
+
+          // Add visual feedback
+          this.style.transform = "scale(0.95)";
+          setTimeout(() => {
+            this.style.transform = "";
+          }, 150);
+        });
+      });
+
+      // Add keyboard shortcuts
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "1" && e.ctrlKey) {
+          e.preventDefault();
+          window.open("working-homepage.html", "_blank");
+        }
+        if (e.key === "2" && e.ctrlKey) {
+          e.preventDefault();
+          window.open("pages/dashboard.html", "_blank");
+        }
+        if (e.key === "3" && e.ctrlKey) {
+          e.preventDefault();
+          window.open("pages/quantum-status.html", "_blank");
+        }
+      });
+
+      // Add status updates
+      setInterval(() => {
+        const statusIndicator = document.querySelector(
+          ".status-indicator span"
+        );
+        const messages = [
+          "ALL SYSTEMS ONLINE - READY FOR NAVIGATION",
+          "QUANTUM SYSTEMS ACTIVE - AI ENGINES RUNNING",
+          "SECURITY PROTOCOLS ENABLED - ALL FEATURES AVAILABLE",
+          "PERFORMANCE OPTIMAL - READY FOR DEPLOYMENT",
+        ];
+        const randomMessage =
+          messages[Math.floor(Math.random() * messages.length)];
+        statusIndicator.textContent = randomMessage;
+      }, 5000);
+    </script>
+  </body>
+</html>

@@ -1,23 +1,23 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { 
-  Crown, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Globe, 
-  Shield, 
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  Crown,
+  Mail,
+  Phone,
+  MapPin,
+  Globe,
+  Shield,
   Star,
   ArrowUp,
   Linkedin,
   Twitter,
   Instagram,
-  Youtube
-} from 'lucide-react';
+  Youtube,
+} from "lucide-react";
 
 const Footer = () => {
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const footerSections = [
@@ -28,8 +28,8 @@ const Footer = () => {
         { label: "Our Mission", href: "#" },
         { label: "Leadership", href: "#" },
         { label: "Careers", href: "#" },
-        { label: "Press", href: "#" }
-      ]
+        { label: "Press", href: "#" },
+      ],
     },
     {
       title: "Services",
@@ -38,8 +38,8 @@ const Footer = () => {
         { label: "Quantum Computing", href: "#" },
         { label: "Neural Networks", href: "#" },
         { label: "Custom Development", href: "#" },
-        { label: "Executive Advisory", href: "#" }
-      ]
+        { label: "Executive Advisory", href: "#" },
+      ],
     },
     {
       title: "Solutions",
@@ -48,8 +48,8 @@ const Footer = () => {
         { label: "Financial Services", href: "#" },
         { label: "Healthcare", href: "#" },
         { label: "Manufacturing", href: "#" },
-        { label: "Retail", href: "#" }
-      ]
+        { label: "Retail", href: "#" },
+      ],
     },
     {
       title: "Resources",
@@ -58,29 +58,55 @@ const Footer = () => {
         { label: "API Reference", href: "#" },
         { label: "Case Studies", href: "#" },
         { label: "White Papers", href: "#" },
-        { label: "Blog", href: "#" }
-      ]
-    }
+        { label: "Blog", href: "#" },
+      ],
+    },
+    {
+      title: "Legal",
+      items: [
+        {
+          label: "Instructions Manual",
+          href: "/pages/instructions.html",
+          external: true,
+        },
+        {
+          label: "Terms & Conditions",
+          href: "/pages/terms.html",
+          external: true,
+        },
+        { label: "Privacy Policy", href: "#" },
+        { label: "Cookie Policy", href: "#" },
+        { label: "GDPR Compliance", href: "#" },
+      ],
+    },
   ];
 
   const socialLinks = [
     { icon: Linkedin, href: "#", label: "LinkedIn" },
     { icon: Twitter, href: "#", label: "Twitter" },
     { icon: Instagram, href: "#", label: "Instagram" },
-    { icon: Youtube, href: "#", label: "YouTube" }
+    { icon: Youtube, href: "#", label: "YouTube" },
   ];
 
   const contactInfo = [
-    { icon: Mail, text: "tyrone.mitchell76@hotmail.com", href: "mailto:tyrone.mitchell76@hotmail.com" },
+    {
+      icon: Mail,
+      text: "tyrone.mitchell76@hotmail.com",
+      href: "mailto:tyrone.mitchell76@hotmail.com",
+    },
     { icon: Phone, text: "+1 (555) ELITE-AI", href: "tel:+1555ELITEAI" },
-    { icon: Globe, text: "suggestlyelite.io", href: "https://suggestlyelite.io" }
+    {
+      icon: Globe,
+      text: "suggestlyelite.io",
+      href: "https://suggestlyelite.io",
+    },
   ];
 
   return (
     <footer className="bg-luxury-darker border-t border-luxury-gold/20 relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_50%_100%,rgba(255,215,0,0.03),transparent)]" />
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Main Footer Content */}
         <div className="py-16">
@@ -102,8 +128,8 @@ const Footer = () => {
                   </h3>
                 </div>
                 <p className="text-luxury-gray mb-6 leading-relaxed">
-                  The premier AI platform for UHNWI and global executives. 
-                  Delivering quantum-level intelligence and strategic advantage 
+                  The premier AI platform for UHNWI and global executives.
+                  Delivering quantum-level intelligence and strategic advantage
                   through cutting-edge artificial intelligence.
                 </p>
                 <div className="flex items-center space-x-4">
@@ -138,6 +164,8 @@ const Footer = () => {
                     <li key={item.label}>
                       <a
                         href={item.href}
+                        target={item.external ? "_blank" : undefined}
+                        rel={item.external ? "noopener noreferrer" : undefined}
                         className="text-luxury-gray hover:text-luxury-gold transition-colors duration-300 text-sm"
                       >
                         {item.label}
@@ -202,7 +230,9 @@ const Footer = () => {
                 <div className="space-y-3">
                   <div className="flex items-center space-x-3 text-luxury-gray">
                     <MapPin className="w-4 h-4" />
-                    <span className="text-sm">New York • London • Singapore</span>
+                    <span className="text-sm">
+                      New York • London • Singapore
+                    </span>
                   </div>
                   <div className="flex items-center space-x-3 text-luxury-gray">
                     <Globe className="w-4 h-4" />
@@ -229,16 +259,16 @@ const Footer = () => {
             <div className="flex items-center space-x-6 text-sm text-luxury-gray">
               <span>&copy; 2024 SUGGESTLY ELITE. All rights reserved.</span>
               <div className="flex space-x-4">
-                  <button className="text-luxury-gray hover:text-luxury-gold transition-colors duration-300">
-                    Privacy Policy
-                  </button>
-                  <button className="text-luxury-gray hover:text-luxury-gold transition-colors duration-300">
-                    Terms of Service
-                  </button>
-                  <button className="text-luxury-gray hover:text-luxury-gold transition-colors duration-300">
-                    Cookie Policy
-                  </button>
-                </div>
+                <button className="text-luxury-gray hover:text-luxury-gold transition-colors duration-300">
+                  Privacy Policy
+                </button>
+                <button className="text-luxury-gray hover:text-luxury-gold transition-colors duration-300">
+                  Terms of Service
+                </button>
+                <button className="text-luxury-gray hover:text-luxury-gold transition-colors duration-300">
+                  Cookie Policy
+                </button>
+              </div>
             </div>
 
             <motion.button

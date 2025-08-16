@@ -1,235 +1,498 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
-import { Crown, Check, ArrowRight, Shield, Diamond, Globe, Lock } from 'lucide-react';
-import ConsultationModal from "./ConsultationModal";
+import {
+  Check,
+  Star,
+  Crown,
+  Zap,
+  Shield,
+  Globe,
+  Code,
+  Brain,
+  Building,
+  Palette,
+  Rocket,
+  DollarSign,
+  TrendingUp,
+  Award,
+  Target,
+  Users,
+  Server,
+  Cloud,
+  Lock,
+  Activity,
+  BarChart3,
+  PieChart,
+  Eye,
+  Settings,
+  Tool,
+  Briefcase,
+  GraduationCap,
+  Home,
+  Factory,
+  Car,
+  Camera,
+  Headphones,
+  Mic,
+  FileText,
+  Image,
+  Film,
+  Gamepad2,
+  Vr,
+  Bluetooth,
+  WifiOff,
+  HardDrive,
+  Cable,
+  Usb,
+  Search,
+  Edit3,
+  Scissors,
+  RotateCw,
+  Volume2,
+  VolumeX,
+  EyeOff,
+  Sliders,
+  Type,
+  Wand2,
+  BrainCircuit,
+  MachineLearning,
+  DeepLearning,
+  Copy,
+  Share2,
+  Grid,
+  List,
+  Maximize,
+  Minimize,
+  Square,
+  Circle,
+  Triangle,
+  Network,
+  Star as StarIcon,
+  Trophy,
+  Diamond,
+  Infinity,
+  Lightning,
+  Chip,
+  Microchip,
+  Memory,
+  Storage,
+  TrendingDown,
+  PieChart as PieChartIcon,
+  Key,
+  AlertTriangle,
+  XCircle,
+  StopCircle,
+  RotateCcw,
+  Cog,
+  Wrench,
+  MessageSquare,
+  Mail,
+  Phone,
+  Calendar,
+  Timer,
+  CalendarDays,
+  Clock,
+  Code as CodeIcon,
+  ShoppingCart,
+  Music,
+  Video,
+  Atom,
+  Server as ServerIcon,
+  Copy as CopyIcon,
+  FileText as FileTextIcon,
+  Shield as ShieldIcon,
+  Code as CodeIcon2,
+  TrendingUp as TrendingUpIcon,
+  Cloud as CloudIcon,
+  Network as NetworkIcon,
+  Vr as VrIcon,
+  Activity as ActivityIcon,
+  Palette as PaletteIcon,
+  Search as SearchIcon,
+  Edit3 as Edit3Icon,
+  Server as ServerIcon2,
+} from 'lucide-react';
 
 const Pricing = () => {
+  const [billingCycle, setBillingCycle] = useState('monthly');
   const [selectedPlan, setSelectedPlan] = useState(null);
-  const [showModal, setShowModal] = useState(false);
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1
-  });
 
-  const plans = [
+  const pricingTiers = [
     {
-      name: "ELITE FOUNDATION",
-      price: "$2,500",
-      period: "/month",
-      description: "Essential AI intelligence for emerging enterprises",
+      name: 'Starter',
+      icon: Star,
+      price: { monthly: 49, yearly: 39 },
+      description: 'Perfect for small businesses and startups',
+      color: 'from-blue-500 to-cyan-500',
       features: [
-        "Advanced AI Analytics Dashboard",
-        "24/7 Priority Support",
-        "Custom AI Model Training",
-        "Data Security & Compliance",
-        "Monthly Strategy Sessions",
-        "Performance Optimization",
-        "Basic Integration Support",
-        "Quarterly ROI Reports"
+        'Basic website design',
+        'SEO optimization',
+        'Content creation (5 articles/month)',
+        'Email support',
+        'Basic analytics',
+        'Mobile responsive design',
+        'Contact form integration',
+        'Social media setup'
       ],
-      icon: Shield,
-      color: "from-blue-600 to-cyan-500",
+      services: [
+        { name: 'Website Design', icon: Palette, included: true },
+        { name: 'SEO Services', icon: Search, included: true },
+        { name: 'Content Creation', icon: Edit3, included: true },
+        { name: 'Hosting & Maintenance', icon: ServerIcon2, included: false },
+        { name: 'AI Content Studio', icon: FileTextIcon, included: false },
+        { name: 'Multi-Site Platform', icon: CopyIcon, included: false },
+        { name: 'Quantum Computing', icon: Atom, included: false },
+        { name: 'Enterprise Security', icon: ShieldIcon, included: false }
+      ],
+      cta: 'Get Started',
       popular: false
     },
     {
-      name: "EXECUTIVE SUITE",
-      price: "$8,500",
-      period: "/month",
-      description: "Comprehensive AI platform for established corporations",
-      features: [
-        "Everything in Elite Foundation",
-        "Quantum AI Processing",
-        "Dedicated AI Strategist",
-        "Custom Neural Networks",
-        "Real-time Market Intelligence",
-        "Advanced Predictive Analytics",
-        "Multi-platform Integration",
-        "Weekly Performance Reviews",
-        "Priority Feature Development",
-        "Executive Dashboard Access"
-      ],
+      name: 'Professional',
       icon: Crown,
-      color: "from-purple-600 to-pink-500",
+      price: { monthly: 199, yearly: 159 },
+      description: 'Ideal for growing businesses and agencies',
+      color: 'from-purple-500 to-pink-500',
+      features: [
+        'Advanced website design',
+        'Comprehensive SEO strategy',
+        'Content creation (20 articles/month)',
+        'Priority support',
+        'Advanced analytics',
+        'Custom branding',
+        'E-commerce integration',
+        'Social media management',
+        'AI content generation',
+        'Multi-site hosting (up to 5 sites)',
+        'White-label solutions',
+        'API access'
+      ],
+      services: [
+        { name: 'Website Design', icon: Palette, included: true },
+        { name: 'SEO Services', icon: Search, included: true },
+        { name: 'Content Creation', icon: Edit3, included: true },
+        { name: 'Hosting & Maintenance', icon: ServerIcon2, included: true },
+        { name: 'AI Content Studio', icon: FileTextIcon, included: true },
+        { name: 'Multi-Site Platform', icon: CopyIcon, included: true },
+        { name: 'Quantum Computing', icon: Atom, included: false },
+        { name: 'Enterprise Security', icon: ShieldIcon, included: false }
+      ],
+      cta: 'Start Professional',
       popular: true
     },
     {
-      name: "QUANTUM ELITE",
-      price: "$25,000",
-      period: "/month",
-      description: "Ultimate AI supremacy for global enterprises",
+      name: 'Enterprise',
+      icon: Zap,
+      price: { monthly: 499, yearly: 399 },
+      description: 'For large corporations and enterprises',
+      color: 'from-orange-500 to-red-500',
       features: [
-        "Everything in Executive Suite",
-        "Quantum Computing Access",
-        "Custom AI Architecture",
-        "Global Market Domination",
-        "Exclusive AI Algorithms",
-        "24/7 Dedicated Team",
-        "White-label Solutions",
-        "Advanced Security Protocols",
-        "Real-time Global Intelligence",
-        "Unlimited Custom Development",
-        "Priority Support Hotline",
-        "Quarterly Innovation Labs"
+        'Custom enterprise solutions',
+        'Advanced AI integration',
+        'Unlimited content creation',
+        '24/7 dedicated support',
+        'Custom analytics dashboard',
+        'Enterprise security',
+        'Custom integrations',
+        'Dedicated account manager',
+        'Quantum computing access',
+        'Unlimited multi-site hosting',
+        'Custom software development',
+        'Digital transformation consulting',
+        'Compliance & security audits',
+        'Performance optimization',
+        'Disaster recovery',
+        'Custom training programs'
       ],
-      icon: Diamond,
-      color: "from-yellow-500 to-orange-500",
-      popular: false
-    },
-    {
-      name: "SUPREME SOVEREIGN",
-      price: "$75,000",
-      period: "/month",
-      description: "Absolute AI dominance for UHNWI and sovereign entities",
-      features: [
-        "Everything in Quantum Elite",
-        "Sovereign AI Infrastructure",
-        "Custom Quantum Networks",
-        "Global Intelligence Network",
-        "Exclusive Market Access",
-        "Sovereign Security Protocols",
-        "Unlimited AI Development",
-        "Global Strategic Advisory",
-        "Exclusive Innovation Labs",
-        "Sovereign Data Centers",
-        "24/7 Sovereign Support",
-        "Annual Strategic Summit"
+      services: [
+        { name: 'Website Design', icon: Palette, included: true },
+        { name: 'SEO Services', icon: Search, included: true },
+        { name: 'Content Creation', icon: Edit3, included: true },
+        { name: 'Hosting & Maintenance', icon: ServerIcon2, included: true },
+        { name: 'AI Content Studio', icon: FileTextIcon, included: true },
+        { name: 'Multi-Site Platform', icon: CopyIcon, included: true },
+        { name: 'Quantum Computing', icon: Atom, included: true },
+        { name: 'Enterprise Security', icon: ShieldIcon, included: true }
       ],
-      icon: Globe,
-      color: "from-red-600 to-pink-600",
+      cta: 'Contact Sales',
       popular: false
     }
   ];
 
-  const handlePlanSelect = (plan) => {
-    setSelectedPlan(plan);
-    setShowModal(true);
-  };
+  const serviceCategories = [
+    {
+      name: 'Web Services',
+      services: [
+        { name: 'Website Design & Development', price: '$2,000-5,000/site', icon: Palette },
+        { name: 'SEO Services', price: '$500-2,000/month', icon: Search },
+        { name: 'Multi-Site Hosting Platform', price: '$299-999/month', icon: ServerIcon },
+        { name: 'E-commerce Platform', price: '$399-1,999/month', icon: ShoppingCart },
+        { name: 'Website Hosting & Maintenance', price: '$199-499/month', icon: ServerIcon2 }
+      ]
+    },
+    {
+      name: 'AI & Technology',
+      services: [
+        { name: 'AI-Powered Website Builder', price: '$199-499/month', icon: Wand2 },
+        { name: 'Quantum Computing Integration', price: '$1,000-5,000/month', icon: Atom },
+        { name: 'AI Content Studio', price: '$199-599/month', icon: FileTextIcon },
+        { name: 'Custom Software Development', price: '$5,000-50,000/project', icon: CodeIcon2 }
+      ]
+    },
+    {
+      name: 'Business Solutions',
+      services: [
+        { name: 'Digital Agency Services', price: '$2,000-10,000/month', icon: Briefcase },
+        { name: 'White-Label Solutions', price: '$500-2,000/month', icon: CopyIcon },
+        { name: 'Digital Transformation Consulting', price: '$2,000-10,000/day', icon: TrendingUpIcon },
+        { name: 'SaaS Platform Development', price: '$10,000-100,000/project', icon: CloudIcon }
+      ]
+    },
+    {
+      name: 'Creative Services',
+      services: [
+        { name: 'Audio/Video Production Suite', price: '$299-799/month', icon: Music },
+        { name: 'Content Creation', price: '$1,000-3,000/month', icon: Edit3 },
+        { name: 'AR/VR Experiences', price: '$5,000-25,000/project', icon: VrIcon }
+      ]
+    },
+    {
+      name: 'Enterprise & Emerging Tech',
+      services: [
+        { name: 'Enterprise Security Solutions', price: '$1,500-5,000/month', icon: ShieldIcon },
+        { name: 'Web3/Blockchain Integration', price: '$3,000-15,000/project', icon: NetworkIcon },
+        { name: 'IoT Dashboard Development', price: '$2,000-10,000/project', icon: ActivityIcon }
+      ]
+    }
+  ];
 
   return (
-    <section id="pricing" className="py-20 bg-luxury-gradient relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 bg-[radial-gradient(1200px_600px_at_50%_50%,rgba(255,215,0,0.05),transparent)]" />
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="pricing" className="py-20 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header */}
         <motion.div
-          ref={ref}
-          initial={{ opacity: 0, y: 50 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-5xl md:text-6xl font-display font-bold text-luxury-light mb-6">
-            Elite <span className="text-luxury-gold">Investment</span> Tiers
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Complete Pricing Solutions
           </h2>
-          <p className="text-xl text-luxury-gray max-w-3xl mx-auto">
-            Choose your path to AI supremacy. Each tier represents a quantum leap in capability, 
-            designed for those who demand nothing less than absolute excellence.
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-8">
+            Choose the perfect plan for your business needs, from startup to enterprise
           </p>
+
+          {/* Billing Toggle */}
+          <div className="flex items-center justify-center gap-4">
+            <span className={`text-lg ${billingCycle === 'monthly' ? 'text-white' : 'text-gray-400'}`}>
+              Monthly
+            </span>
+            <button
+              onClick={() => setBillingCycle(billingCycle === 'monthly' ? 'yearly' : 'monthly')}
+              className="relative inline-flex h-8 w-16 items-center rounded-full bg-gradient-to-r from-purple-600 to-blue-600 transition-colors"
+            >
+              <span
+                className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform ${
+                  billingCycle === 'yearly' ? 'translate-x-9' : 'translate-x-1'
+                }`}
+              />
+            </button>
+            <span className={`text-lg ${billingCycle === 'yearly' ? 'text-white' : 'text-gray-400'}`}>
+              Yearly
+              <span className="ml-2 text-sm text-green-400">(Save 20%)</span>
+            </span>
+          </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {plans.map((plan, index) => (
+        {/* Pricing Tiers */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16"
+        >
+          {pricingTiers.map((tier, index) => (
             <motion.div
-              key={plan.name}
-              initial={{ opacity: 0, y: 50 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
+              key={tier.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className={`relative group ${
-                plan.popular ? 'lg:scale-105' : ''
+              className={`relative bg-white/5 backdrop-blur-lg rounded-2xl p-8 border transition-all duration-300 hover:transform hover:scale-105 ${
+                tier.popular
+                  ? 'border-purple-500/50 shadow-2xl shadow-purple-500/25'
+                  : 'border-white/10 hover:border-purple-500/30'
               }`}
             >
-              {plan.popular && (
+              {tier.popular && (
                 <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <div className="bg-gradient-to-r from-luxury-gold to-yellow-500 text-black px-4 py-2 rounded-full text-sm font-bold">
-                    MOST POPULAR
-                  </div>
+                  <span className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
+                    Most Popular
+                  </span>
                 </div>
               )}
-              
-              <div className="relative h-full bg-glass backdrop-blur-md border border-luxury-gold/20 rounded-2xl p-8 hover:border-luxury-gold/40 transition-all duration-300 group-hover:shadow-luxury">
-                {/* Plan Header */}
-                <div className="text-center mb-8">
-                  <div className={`w-16 h-16 bg-gradient-to-r ${plan.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                    <plan.icon className="w-8 h-8 text-white" />
-                  </div>
-                  <h3 className="text-2xl font-display font-bold text-luxury-light mb-2">
-                    {plan.name}
-                  </h3>
-                  <p className="text-luxury-gray text-sm mb-4">
-                    {plan.description}
-                  </p>
-                  <div className="mb-6">
-                    <span className="text-4xl font-display font-bold text-luxury-gold">
-                      {plan.price}
-                    </span>
-                    <span className="text-luxury-gray">{plan.period}</span>
-                  </div>
+
+              {/* Tier Header */}
+              <div className="text-center mb-8">
+                <div className={`inline-flex p-4 rounded-2xl bg-gradient-to-r ${tier.color} mb-4`}>
+                  <tier.icon className="w-8 h-8 text-white" />
                 </div>
+                <h3 className="text-2xl font-bold text-white mb-2">{tier.name}</h3>
+                <p className="text-gray-300">{tier.description}</p>
+              </div>
 
-                {/* Features */}
-                <ul className="space-y-4 mb-8">
-                  {plan.features.map((feature, featureIndex) => (
-                    <li key={featureIndex} className="flex items-start space-x-3">
-                      <Check className="w-5 h-5 text-luxury-gold mt-0.5 flex-shrink-0" />
-                      <span className="text-luxury-gray text-sm">{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* CTA Button */}
-                <button
-                  onClick={() => handlePlanSelect(plan)}
-                  className={`w-full py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 ${
-                    plan.popular
-                      ? 'bg-gradient-to-r from-luxury-gold to-yellow-500 text-black hover:scale-105'
-                      : 'border border-luxury-gold/30 text-luxury-gold hover:bg-luxury-gold/10'
-                  }`}
-                >
-                  <span className="flex items-center justify-center">
-                    Select {plan.name}
-                    <ArrowRight className="w-5 h-5 ml-2" />
+              {/* Price */}
+              <div className="text-center mb-8">
+                <div className="flex items-baseline justify-center gap-2">
+                  <DollarSign className="w-8 h-8 text-green-400" />
+                  <span className="text-5xl font-bold text-white">
+                    {billingCycle === 'yearly' ? tier.price.yearly : tier.price.monthly}
                   </span>
-                </button>
+                  <span className="text-gray-400">/{billingCycle === 'yearly' ? 'mo' : 'mo'}</span>
+                </div>
+                {billingCycle === 'yearly' && (
+                  <p className="text-green-400 text-sm mt-2">Billed annually</p>
+                )}
+              </div>
+
+              {/* Features */}
+              <div className="space-y-4 mb-8">
+                {tier.features.map((feature, idx) => (
+                  <div key={idx} className="flex items-center gap-3">
+                    <Check className="w-5 h-5 text-green-400 flex-shrink-0" />
+                    <span className="text-gray-300">{feature}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Service Coverage */}
+              <div className="mb-8">
+                <h4 className="text-lg font-semibold text-white mb-4">Service Coverage</h4>
+                <div className="space-y-3">
+                  {tier.services.map((service, idx) => (
+                    <div key={idx} className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <service.icon className="w-4 h-4 text-gray-400" />
+                        <span className="text-sm text-gray-300">{service.name}</span>
+                      </div>
+                      {service.included ? (
+                        <Check className="w-4 h-4 text-green-400" />
+                      ) : (
+                        <XCircle className="w-4 h-4 text-red-400" />
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* CTA Button */}
+              <button
+                className={`w-full py-4 rounded-xl font-semibold transition-all duration-300 ${
+                  tier.popular
+                    ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:from-purple-700 hover:to-blue-700'
+                    : 'bg-white/10 text-white hover:bg-white/20'
+                }`}
+              >
+                {tier.cta}
+              </button>
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* Service Categories */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="space-y-12"
+        >
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-white mb-4">
+              Individual Service Pricing
+            </h3>
+            <p className="text-gray-300">
+              Choose specific services that fit your exact needs
+            </p>
+          </div>
+
+          {serviceCategories.map((category, categoryIndex) => (
+            <motion.div
+              key={category.name}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: categoryIndex * 0.1 }}
+              className="bg-white/5 backdrop-blur-lg rounded-2xl p-8 border border-white/10"
+            >
+              <h4 className="text-2xl font-bold text-white mb-6">{category.name}</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {category.services.map((service, serviceIndex) => (
+                  <motion.div
+                    key={service.name}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: (categoryIndex * 0.1) + (serviceIndex * 0.05) }}
+                    className="bg-white/5 rounded-xl p-6 border border-white/10 hover:border-purple-500/30 transition-all duration-300"
+                  >
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg">
+                        <service.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <h5 className="text-lg font-semibold text-white">{service.name}</h5>
+                    </div>
+                    <div className="flex items-center gap-2 mb-4">
+                      <DollarSign className="w-5 h-5 text-green-400" />
+                      <span className="text-xl font-bold text-green-400">{service.price}</span>
+                    </div>
+                    <button className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-2 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300">
+                      Get Started
+                    </button>
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
-        {/* Additional Info */}
+        {/* Revenue Calculator */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-center mt-16"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mt-16 bg-gradient-to-r from-purple-600/20 to-blue-600/20 rounded-2xl p-8 border border-purple-500/30"
         >
-          <div className="bg-glass backdrop-blur-md border border-luxury-gold/20 rounded-2xl p-8">
-            <h3 className="text-2xl font-display font-bold text-luxury-light mb-4">
-              Enterprise Custom Solutions
+          <div className="text-center mb-8">
+            <h3 className="text-3xl font-bold text-white mb-4">
+              Revenue Potential Calculator
             </h3>
-            <p className="text-luxury-gray mb-6 max-w-2xl mx-auto">
-              For organizations requiring bespoke AI infrastructure and sovereign-level capabilities, 
-              we offer custom solutions tailored to your specific requirements.
+            <p className="text-gray-300">
+              See how much you can earn with our complete service ecosystem
             </p>
-            <button
-              onClick={() => handlePlanSelect({ name: "CUSTOM ENTERPRISE", price: "Custom", period: "" })}
-              className="bg-gradient-to-r from-luxury-gold to-yellow-500 text-black px-8 py-4 rounded-xl font-bold text-lg hover:scale-105 transition-transform duration-300 flex items-center mx-auto"
-            >
-              <Lock className="w-5 h-5 mr-2" />
-              Request Custom Quote
-            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="text-4xl font-bold text-white mb-2">10</div>
+              <div className="text-gray-300">Clients</div>
+              <div className="text-green-400 text-sm">$5,000-10,000/month</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-white mb-2">25</div>
+              <div className="text-gray-300">Clients</div>
+              <div className="text-green-400 text-sm">$12,500-25,000/month</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-white mb-2">50</div>
+              <div className="text-gray-300">Clients</div>
+              <div className="text-green-400 text-sm">$25,000-50,000/month</div>
+            </div>
+            <div className="text-center">
+              <div className="text-4xl font-bold text-white mb-2">100+</div>
+              <div className="text-gray-300">Clients</div>
+              <div className="text-green-400 text-sm">$50,000-100,000/month</div>
+            </div>
           </div>
         </motion.div>
       </div>
-
-      {/* Consultation Modal */}
-      {showModal && (
-        <ConsultationModal
-          isOpen={showModal}
-          onClose={() => setShowModal(false)}
-          selectedPlan={selectedPlan}
-        />
-      )}
     </section>
   );
 };
