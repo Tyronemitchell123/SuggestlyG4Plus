@@ -23,7 +23,8 @@
     "deploy:google": "node deploy-google-cloud.js",
     "deploy:azure": "az staticwebapp create",
     "deploy:netlify": "node deploy-netlify.js",
-    "deploy:all": "echo 'Choose your deployment platform: npm run deploy:digitalocean, deploy:aws, deploy:netlify, or deploy:google'",
+    "deploy:all": "node deploy-all-platforms.js",
+    "deploy:multi": "node deploy-all-platforms.js",
     "clean": "node cleanup-unused-imports.js"
   },
   "keywords": [
