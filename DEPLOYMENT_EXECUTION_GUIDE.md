@@ -1,6 +1,7 @@
 # 🚀 SUGGESTLY ELITE - Deployment Execution Guide
 
 ## 📍 Current Status
+
 - ✅ **Repository**: `https://github.com/Tyronemitchell123/SuggestlyG4Plus.git`
 - ✅ **Branch**: `main`
 - ✅ **All Changes**: Committed and pushed
@@ -10,8 +11,9 @@
 ## 🎯 **Recommended Platform: DigitalOcean App Platform**
 
 ### Why DigitalOcean?
+
 - ❌ **Vercel**: Restricts deployment services
-- ❌ **Render**: Restricts deployment services  
+- ❌ **Render**: Restricts deployment services
 - ✅ **DigitalOcean**: No restrictions, enterprise-grade reliability
 - ✅ **Cost**: $5/month starting (predictable pricing)
 - ✅ **Support**: 24/7 expert support
@@ -19,6 +21,7 @@
 ## 🚀 **Step-by-Step Deployment Process**
 
 ### **Step 1: Create DigitalOcean Account**
+
 1. Go to: https://cloud.digitalocean.com
 2. Click "Sign Up"
 3. Enter your details
@@ -26,6 +29,7 @@
 5. Get $200 free credit for new users
 
 ### **Step 2: Install DigitalOcean CLI (Optional)**
+
 ```bash
 # Windows (Download from):
 https://docs.digitalocean.com/reference/doctl/how-to/install/
@@ -40,10 +44,11 @@ snap install doctl
 ### **Step 3: Deploy via Dashboard (Recommended)**
 
 #### **Option A: Dashboard Deployment (Easiest)**
+
 1. **Login to DigitalOcean**: https://cloud.digitalocean.com
 2. **Navigate to Apps**: Click "Apps" in the left sidebar
 3. **Create New App**: Click "Create App"
-4. **Connect GitHub**: 
+4. **Connect GitHub**:
    - Click "GitHub" tab
    - Authorize DigitalOcean
    - Select repository: `Tyronemitchell123/SuggestlyG4Plus`
@@ -68,6 +73,7 @@ snap install doctl
 7. **Deploy**: Click "Create Resources"
 
 #### **Option B: CLI Deployment**
+
 ```bash
 # 1. Authenticate
 doctl auth init
@@ -77,6 +83,7 @@ doctl apps create --spec app.yaml
 ```
 
 ### **Step 4: Configure Custom Domain (Optional)**
+
 1. **In App Settings**: Go to "Settings" tab
 2. **Add Domain**: Click "Edit" next to "Domains"
 3. **Enter Domain**: Add your custom domain
@@ -84,6 +91,7 @@ doctl apps create --spec app.yaml
 5. **SSL Certificate**: Automatic
 
 ### **Step 5: Monitor Your App**
+
 - **Overview**: Check app status and health
 - **Logs**: View real-time application logs
 - **Metrics**: Monitor performance and usage
@@ -91,15 +99,16 @@ doctl apps create --spec app.yaml
 
 ## 💰 **Pricing Breakdown**
 
-| Plan | RAM | vCPU | Price | Best For |
-|------|-----|------|-------|----------|
-| Basic XS | 512MB | 1 | $5/month | Development/Testing |
-| Basic S | 1GB | 1 | $12/month | Small Production |
-| Basic M | 2GB | 1 | $24/month | Medium Production |
+| Plan     | RAM   | vCPU | Price     | Best For            |
+| -------- | ----- | ---- | --------- | ------------------- |
+| Basic XS | 512MB | 1    | $5/month  | Development/Testing |
+| Basic S  | 1GB   | 1    | $12/month | Small Production    |
+| Basic M  | 2GB   | 1    | $24/month | Medium Production   |
 
 ## 🔧 **Current App Configuration**
 
 Your `app.yaml` is configured with:
+
 - **Repository**: `Tyronemitchell123/SuggestlyG4Plus`
 - **Branch**: `main`
 - **Build Command**: `npm install && npm run build`
@@ -120,13 +129,13 @@ node deploy-digitalocean.js
 
 ## 📊 **Expected Timeline**
 
-| Step | Time | Status |
-|------|------|--------|
-| Account Setup | 5 minutes | ⏳ Pending |
-| App Creation | 10 minutes | ⏳ Pending |
-| Initial Deploy | 5-10 minutes | ⏳ Pending |
-| Domain Setup | 5 minutes | ⏳ Pending |
-| **Total** | **25-30 minutes** | **Ready to Start** |
+| Step           | Time              | Status             |
+| -------------- | ----------------- | ------------------ |
+| Account Setup  | 5 minutes         | ⏳ Pending         |
+| App Creation   | 10 minutes        | ⏳ Pending         |
+| Initial Deploy | 5-10 minutes      | ⏳ Pending         |
+| Domain Setup   | 5 minutes         | ⏳ Pending         |
+| **Total**      | **25-30 minutes** | **Ready to Start** |
 
 ## 🎉 **Benefits You'll Get**
 
@@ -141,7 +150,7 @@ node deploy-digitalocean.js
 
 ## 🚀 **Ready to Deploy?**
 
-Your code is committed to GitHub and ready for deployment. 
+Your code is committed to GitHub and ready for deployment.
 
 **Next Step**: Create your DigitalOcean account and follow the dashboard deployment steps above.
 

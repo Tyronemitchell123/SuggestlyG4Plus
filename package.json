@@ -20,8 +20,10 @@
     "deploy:firebase": "firebase deploy",
     "deploy:digitalocean": "node deploy-digitalocean.js",
     "deploy:aws": "node deploy-aws-amplify.js",
-    "deploy:google": "gcloud run deploy",
+    "deploy:google": "node deploy-google-cloud.js",
     "deploy:azure": "az staticwebapp create",
+    "deploy:netlify": "node deploy-netlify.js",
+    "deploy:all": "echo 'Choose your deployment platform: npm run deploy:digitalocean, deploy:aws, deploy:netlify, or deploy:google'",
     "clean": "node cleanup-unused-imports.js"
   },
   "keywords": [
