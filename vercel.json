@@ -1,56 +1,34 @@
 {
   "version": 2,
   "name": "suggestly-elite-business-platform",
-  "builds": [
+  "rewrites": [
     {
-      "src": "*.html",
-      "use": "@vercel/static"
+      "source": "/",
+      "destination": "/index.html"
     },
     {
-      "src": "pages/*.html",
-      "use": "@vercel/static"
+      "source": "/home",
+      "destination": "/index.html"
     },
     {
-      "src": "src/**/*",
-      "use": "@vercel/static"
+      "source": "/dashboard",
+      "destination": "/suggestly-elite-ultimate-platform.html"
     },
     {
-      "src": "public/**/*",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/",
-      "dest": "/index.html"
+      "source": "/analytics",
+      "destination": "/suggestly-elite-ultimate-platform.html"
     },
     {
-      "src": "/home",
-      "dest": "/index.html"
+      "source": "/quantum",
+      "destination": "/pages/quantum-status.html"
     },
     {
-      "src": "/dashboard",
-      "dest": "/suggestly-elite-ultimate-platform.html"
+      "source": "/live-data",
+      "destination": "/live-data-stream.html"
     },
     {
-      "src": "/analytics",
-      "dest": "/suggestly-elite-ultimate-platform.html"
-    },
-    {
-      "src": "/quantum",
-      "dest": "/pages/quantum-status.html"
-    },
-    {
-      "src": "/live-data",
-      "dest": "/live-data-stream.html"
-    },
-    {
-      "src": "/deploy",
-      "dest": "/live-deployment-setup.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/deploy",
+      "destination": "/live-deployment-setup.html"
     }
   ],
   "headers": [
@@ -75,5 +53,7 @@
         }
       ]
     }
-  ]
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
 }
