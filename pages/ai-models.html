@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -32,7 +32,7 @@
       }
 
       body {
-        font-family: 'Inter', sans-serif;
+        font-family: "Inter", sans-serif;
         background: linear-gradient(
           135deg,
           #0a0a0a 0%,
@@ -287,6 +287,24 @@
         position: relative;
       }
 
+      .chart-container canvas {
+        max-height: 100%;
+        max-width: 100%;
+      }
+
+      /* Responsive chart adjustments */
+      @media (max-width: 768px) {
+        .chart-container {
+          height: 250px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .chart-container {
+          height: 200px;
+        }
+      }
+
       .chart-container h3 {
         margin-bottom: 1rem;
         color: #ffd700;
@@ -312,7 +330,7 @@
       }
 
       .gauge-card::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -714,7 +732,9 @@
 
         <div class="chart-container">
           <h3>Model Performance Trends</h3>
-          <canvas id="performanceChart" width="400" height="200"></canvas>
+          <div class="chart-container" style="height: 300px">
+            <canvas id="performanceChart"></canvas>
+          </div>
         </div>
       </main>
     </div>
@@ -726,10 +746,10 @@
           totalModels: Math.floor(Math.random() * 10) + 245,
           activeModels: Math.floor(Math.random() * 8) + 230,
           trainingModels: Math.floor(Math.random() * 5) + 5,
-          avgAccuracy: (97.5 + Math.random() * 2).toFixed(1) + '%',
+          avgAccuracy: (97.5 + Math.random() * 2).toFixed(1) + "%",
         };
 
-        Object.keys(stats).forEach(key => {
+        Object.keys(stats).forEach((key) => {
           const element = document.getElementById(key);
           if (element) {
             element.textContent = stats[key];
@@ -741,92 +761,92 @@
         const trainingSuccess = 95 + Math.random() * 5;
         const responseTime = 100 + Math.random() * 50;
 
-        document.getElementById('avgAccuracyGauge').textContent =
+        document.getElementById("avgAccuracyGauge").textContent =
           stats.avgAccuracy;
         document
-          .querySelector('#avgAccuracyGauge')
+          .querySelector("#avgAccuracyGauge")
           .nextElementSibling.nextElementSibling.querySelector(
-            '.gauge-fill'
-          ).style.width = avgAccuracy + '%';
+            ".gauge-fill"
+          ).style.width = avgAccuracy + "%";
 
-        document.getElementById('trainingSuccessGauge').textContent =
-          trainingSuccess.toFixed(1) + '%';
+        document.getElementById("trainingSuccessGauge").textContent =
+          trainingSuccess.toFixed(1) + "%";
         document
-          .querySelector('#trainingSuccessGauge')
+          .querySelector("#trainingSuccessGauge")
           .nextElementSibling.nextElementSibling.querySelector(
-            '.gauge-fill'
-          ).style.width = trainingSuccess + '%';
+            ".gauge-fill"
+          ).style.width = trainingSuccess + "%";
 
-        document.getElementById('responseTimeGauge').textContent =
-          Math.round(responseTime) + 'ms';
+        document.getElementById("responseTimeGauge").textContent =
+          Math.round(responseTime) + "ms";
         const responsePercentage = Math.max(50, 100 - (responseTime - 100) / 2);
         document
-          .querySelector('#responseTimeGauge')
+          .querySelector("#responseTimeGauge")
           .nextElementSibling.nextElementSibling.querySelector(
-            '.gauge-fill'
-          ).style.width = responsePercentage + '%';
+            ".gauge-fill"
+          ).style.width = responsePercentage + "%";
       }
 
       // Model management functions
       function deployNewModel() {
-        showNotification('🚀 Deploying new AI model...', 'info');
+        showNotification("🚀 Deploying new AI model...", "info");
         setTimeout(() => {
-          showNotification('✅ New model deployed successfully!', 'success');
+          showNotification("✅ New model deployed successfully!", "success");
           updateModelStats();
         }, 2000);
       }
 
       function viewModelDetails(modelId) {
-        showNotification(`🔍 Loading details for ${modelId}...`, 'info');
+        showNotification(`🔍 Loading details for ${modelId}...`, "info");
         setTimeout(() => {
-          showNotification(`📊 Model details loaded for ${modelId}`, 'success');
+          showNotification(`📊 Model details loaded for ${modelId}`, "success");
         }, 1000);
       }
 
       function optimizeModel(modelId) {
-        showNotification(`⚡ Optimizing ${modelId}...`, 'info');
+        showNotification(`⚡ Optimizing ${modelId}...`, "info");
         setTimeout(() => {
-          showNotification(`✅ ${modelId} optimization completed!`, 'success');
+          showNotification(`✅ ${modelId} optimization completed!`, "success");
         }, 3000);
       }
 
       function pauseTraining(modelId) {
-        showNotification(`⏸️ Pausing training for ${modelId}...`, 'info');
+        showNotification(`⏸️ Pausing training for ${modelId}...`, "info");
         setTimeout(() => {
-          showNotification(`✅ Training paused for ${modelId}`, 'success');
+          showNotification(`✅ Training paused for ${modelId}`, "success");
         }, 1000);
       }
 
       function activateModel(modelId) {
-        showNotification(`🔄 Activating ${modelId}...`, 'info');
+        showNotification(`🔄 Activating ${modelId}...`, "info");
         setTimeout(() => {
-          showNotification(`✅ ${modelId} activated successfully!`, 'success');
+          showNotification(`✅ ${modelId} activated successfully!`, "success");
         }, 2000);
       }
 
       // Initialize performance chart
       function initPerformanceChart() {
         const ctx = document
-          .getElementById('performanceChart')
-          .getContext('2d');
+          .getElementById("performanceChart")
+          .getContext("2d");
         new Chart(ctx, {
-          type: 'line',
+          type: "line",
           data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
             datasets: [
               {
-                label: 'Average Accuracy (%)',
+                label: "Average Accuracy (%)",
                 data: [97.2, 97.8, 98.1, 98.3, 98.5, 98.7],
-                borderColor: '#ffd700',
-                backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                borderColor: "#ffd700",
+                backgroundColor: "rgba(255, 215, 0, 0.1)",
                 tension: 0.4,
                 fill: true,
               },
               {
-                label: 'Response Time (ms)',
+                label: "Response Time (ms)",
                 data: [8.5, 7.2, 6.8, 6.1, 5.5, 4.8],
-                borderColor: '#3b82f6',
-                backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                borderColor: "#3b82f6",
+                backgroundColor: "rgba(59, 130, 246, 0.1)",
                 tension: 0.4,
                 fill: true,
               },
@@ -838,25 +858,25 @@
             plugins: {
               legend: {
                 labels: {
-                  color: '#ffffff',
+                  color: "#ffffff",
                 },
               },
             },
             scales: {
               y: {
                 ticks: {
-                  color: '#a0a0a0',
+                  color: "#a0a0a0",
                 },
                 grid: {
-                  color: 'rgba(255, 255, 255, 0.1)',
+                  color: "rgba(255, 255, 255, 0.1)",
                 },
               },
               x: {
                 ticks: {
-                  color: '#a0a0a0',
+                  color: "#a0a0a0",
                 },
                 grid: {
-                  color: 'rgba(255, 255, 255, 0.1)',
+                  color: "rgba(255, 255, 255, 0.1)",
                 },
               },
             },
@@ -865,8 +885,8 @@
       }
 
       // Notification system
-      function showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
+      function showNotification(message, type = "info") {
+        const notification = document.createElement("div");
         notification.className = `notification notification-${type}`;
         notification.innerHTML = `
                 <div class="notification-content">
@@ -876,15 +896,21 @@
             `;
 
         // Add notification styles if not already present
-        if (!document.getElementById('notification-styles')) {
-          const style = document.createElement('style');
-          style.id = 'notification-styles';
+        if (!document.getElementById("notification-styles")) {
+          const style = document.createElement("style");
+          style.id = "notification-styles";
           style.textContent = `
                     .notification {
                         position: fixed;
                         top: 20px;
                         right: 20px;
-                        background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+                        background: ${
+                          type === "success"
+                            ? "#10b981"
+                            : type === "error"
+                            ? "#ef4444"
+                            : "#3b82f6"
+                        };
                         color: white;
                         padding: 1rem 1.5rem;
                         border-radius: 8px;
@@ -930,7 +956,7 @@
       setInterval(updateModelStats, 10000); // Update every 10 seconds
 
       // Initialize page
-      document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener("DOMContentLoaded", function () {
         initPerformanceChart();
         updateModelStats();
       });

@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -33,7 +33,7 @@
       }
 
       body {
-        font-family: 'Inter', sans-serif;
+        font-family: "Inter", sans-serif;
         background: linear-gradient(
           135deg,
           #0a0a0a 0%,
@@ -188,6 +188,31 @@
         border: 1px solid rgba(255, 215, 0, 0.2);
         border-radius: 12px;
         padding: 1.5rem;
+      }
+
+      /* Chart container styles */
+      .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+      }
+
+      .chart-container canvas {
+        max-height: 100%;
+        max-width: 100%;
+      }
+
+      /* Responsive chart adjustments */
+      @media (max-width: 768px) {
+        .chart-container {
+          height: 250px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .chart-container {
+          height: 200px;
+        }
       }
 
       .chart-title {
@@ -481,7 +506,7 @@
       }
 
       .gauge-card::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: 0;
@@ -610,7 +635,9 @@
         <div class="quantum-grid">
           <div class="quantum-chart">
             <h3 class="chart-title">Quantum Performance Metrics</h3>
-            <canvas id="quantumChart" width="400" height="200"></canvas>
+            <div class="chart-container" style="height: 300px">
+              <canvas id="quantumChart"></canvas>
+            </div>
           </div>
           <div class="quantum-processors">
             <h3 class="chart-title">Quantum Processors</h3>
@@ -848,13 +875,13 @@
         const metrics = {
           quantumBits: Math.floor(Math.random() * 50) + 1000,
           quantumCircuits: Math.floor(Math.random() * 100) + 1800,
-          quantumSpeed: (Math.random() * 0.3 + 1.1).toFixed(1) + 'M',
-          quantumAccuracy: (99.95 + Math.random() * 0.05).toFixed(2) + '%',
-          quantumTemperature: (0.01 + Math.random() * 0.01).toFixed(3) + 'K',
-          quantumCoherence: (2.5 + Math.random() * 0.6).toFixed(1) + 'ms',
+          quantumSpeed: (Math.random() * 0.3 + 1.1).toFixed(1) + "M",
+          quantumAccuracy: (99.95 + Math.random() * 0.05).toFixed(2) + "%",
+          quantumTemperature: (0.01 + Math.random() * 0.01).toFixed(3) + "K",
+          quantumCoherence: (2.5 + Math.random() * 0.6).toFixed(1) + "ms",
         };
 
-        Object.keys(metrics).forEach(key => {
+        Object.keys(metrics).forEach((key) => {
           const element = document.getElementById(key);
           if (element) {
             element.textContent = metrics[key];
@@ -866,43 +893,43 @@
         const accuracy = parseFloat(metrics.quantumAccuracy);
         const temperature = parseFloat(metrics.quantumTemperature);
 
-        document.getElementById('coherenceGauge').textContent =
+        document.getElementById("coherenceGauge").textContent =
           metrics.quantumCoherence;
         const coherencePercentage = Math.min(100, (coherence / 3.0) * 100);
         document
-          .querySelector('#coherenceGauge')
+          .querySelector("#coherenceGauge")
           .nextElementSibling.nextElementSibling.querySelector(
-            '.gauge-fill'
-          ).style.width = coherencePercentage + '%';
+            ".gauge-fill"
+          ).style.width = coherencePercentage + "%";
 
-        document.getElementById('accuracyGauge').textContent =
+        document.getElementById("accuracyGauge").textContent =
           metrics.quantumAccuracy;
         document
-          .querySelector('#accuracyGauge')
+          .querySelector("#accuracyGauge")
           .nextElementSibling.nextElementSibling.querySelector(
-            '.gauge-fill'
-          ).style.width = accuracy + '%';
+            ".gauge-fill"
+          ).style.width = accuracy + "%";
 
-        document.getElementById('temperatureGauge').textContent =
+        document.getElementById("temperatureGauge").textContent =
           metrics.quantumTemperature;
         const tempPercentage = Math.max(50, 100 - temperature * 1000);
         document
-          .querySelector('#temperatureGauge')
+          .querySelector("#temperatureGauge")
           .nextElementSibling.nextElementSibling.querySelector(
-            '.gauge-fill'
-          ).style.width = tempPercentage + '%';
+            ".gauge-fill"
+          ).style.width = tempPercentage + "%";
       }
 
       // Quantum circuit management functions
       function viewCircuitDetails(circuitId) {
         showNotification(
           `🔍 Loading quantum circuit details for ${circuitId}...`,
-          'info'
+          "info"
         );
         setTimeout(() => {
           showNotification(
             `📊 Circuit details loaded for ${circuitId}`,
-            'success'
+            "success"
           );
         }, 1000);
       }
@@ -910,12 +937,12 @@
       function optimizeCircuit(circuitId) {
         showNotification(
           `⚡ Optimizing quantum circuit ${circuitId}...`,
-          'info'
+          "info"
         );
         setTimeout(() => {
           showNotification(
             `✅ Quantum circuit ${circuitId} optimization completed!`,
-            'success'
+            "success"
           );
         }, 3000);
       }
@@ -923,37 +950,37 @@
       function pauseTraining(circuitId) {
         showNotification(
           `⏸️ Pausing quantum training for ${circuitId}...`,
-          'info'
+          "info"
         );
         setTimeout(() => {
           showNotification(
             `✅ Quantum training paused for ${circuitId}`,
-            'success'
+            "success"
           );
         }, 1000);
       }
 
       // Initialize quantum performance chart
       function initQuantumChart() {
-        const ctx = document.getElementById('quantumChart').getContext('2d');
+        const ctx = document.getElementById("quantumChart").getContext("2d");
         new Chart(ctx, {
-          type: 'line',
+          type: "line",
           data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
             datasets: [
               {
-                label: 'Quantum Accuracy (%)',
+                label: "Quantum Accuracy (%)",
                 data: [99.5, 99.6, 99.7, 99.8, 99.9, 99.97],
-                borderColor: '#00d4ff',
-                backgroundColor: 'rgba(0, 212, 255, 0.1)',
+                borderColor: "#00d4ff",
+                backgroundColor: "rgba(0, 212, 255, 0.1)",
                 tension: 0.4,
                 fill: true,
               },
               {
-                label: 'Operations/sec (M)',
+                label: "Operations/sec (M)",
                 data: [0.8, 0.9, 1.0, 1.1, 1.15, 1.2],
-                borderColor: '#ffd700',
-                backgroundColor: 'rgba(255, 215, 0, 0.1)',
+                borderColor: "#ffd700",
+                backgroundColor: "rgba(255, 215, 0, 0.1)",
                 tension: 0.4,
                 fill: true,
               },
@@ -965,25 +992,25 @@
             plugins: {
               legend: {
                 labels: {
-                  color: '#ffffff',
+                  color: "#ffffff",
                 },
               },
             },
             scales: {
               y: {
                 ticks: {
-                  color: '#a0a0a0',
+                  color: "#a0a0a0",
                 },
                 grid: {
-                  color: 'rgba(255, 255, 255, 0.1)',
+                  color: "rgba(255, 255, 255, 0.1)",
                 },
               },
               x: {
                 ticks: {
-                  color: '#a0a0a0',
+                  color: "#a0a0a0",
                 },
                 grid: {
-                  color: 'rgba(255, 255, 255, 0.1)',
+                  color: "rgba(255, 255, 255, 0.1)",
                 },
               },
             },
@@ -992,8 +1019,8 @@
       }
 
       // Notification system
-      function showNotification(message, type = 'info') {
-        const notification = document.createElement('div');
+      function showNotification(message, type = "info") {
+        const notification = document.createElement("div");
         notification.className = `notification notification-${type}`;
         notification.innerHTML = `
                 <div class="notification-content">
@@ -1003,15 +1030,21 @@
             `;
 
         // Add notification styles if not already present
-        if (!document.getElementById('notification-styles')) {
-          const style = document.createElement('style');
-          style.id = 'notification-styles';
+        if (!document.getElementById("notification-styles")) {
+          const style = document.createElement("style");
+          style.id = "notification-styles";
           style.textContent = `
                     .notification {
                         position: fixed;
                         top: 20px;
                         right: 20px;
-                        background: ${type === 'success' ? '#10b981' : type === 'error' ? '#ef4444' : '#3b82f6'};
+                        background: ${
+                          type === "success"
+                            ? "#10b981"
+                            : type === "error"
+                            ? "#ef4444"
+                            : "#3b82f6"
+                        };
                         color: white;
                         padding: 1rem 1.5rem;
                         border-radius: 8px;
@@ -1057,7 +1090,7 @@
       setInterval(updateQuantumMetrics, 8000); // Update every 8 seconds
 
       // Initialize page
-      document.addEventListener('DOMContentLoaded', function () {
+      document.addEventListener("DOMContentLoaded", function () {
         initQuantumChart();
         updateQuantumMetrics();
       });

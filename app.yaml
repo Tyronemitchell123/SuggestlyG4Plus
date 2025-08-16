@@ -1,0 +1,31 @@
+name: suggestly-elite
+services:
+- name: web
+  source_dir: /
+  github:
+    repo: your-username/suggestly-elite
+    branch: main
+  build_command: npm install && npm run build
+  run_command: npm start
+  environment_slug: node-js
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  routes:
+  - path: /
+  envs:
+  - key: NODE_ENV
+    value: production
+  - key: FIREBASE_API_KEY
+    value: your_firebase_api_key
+  - key: FIREBASE_AUTH_DOMAIN
+    value: your_firebase_auth_domain
+  - key: FIREBASE_PROJECT_ID
+    value: your_firebase_project_id
+  - key: STRIPE_PUBLISHABLE_KEY
+    value: your_stripe_publishable_key
+  - key: STRIPE_SECRET_KEY
+    value: your_stripe_secret_key
+  - key: OPENAI_API_KEY
+    value: your_openai_api_key
+  - key: EMAIL_SERVICE_API_KEY
+    value: your_email_service_key
