@@ -9,6 +9,7 @@ Your SUGGESTLY ELITE application is ready for deployment on all major platforms.
 ## **Option 1: DigitalOcean App Platform** ⭐ (Recommended)
 
 ### **Why DigitalOcean?**
+
 - ✅ No restrictions on deployment services
 - ✅ $5/month starting (predictable pricing)
 - ✅ 99.99% uptime guarantee
@@ -16,6 +17,7 @@ Your SUGGESTLY ELITE application is ready for deployment on all major platforms.
 - ✅ $200 free credit for new users
 
 ### **Quick Deploy Steps:**
+
 1. **Create Account**: https://cloud.digitalocean.com
 2. **Go to Apps**: Click "Apps" in sidebar
 3. **Create App**: Click "Create App"
@@ -35,6 +37,7 @@ Your SUGGESTLY ELITE application is ready for deployment on all major platforms.
 ## **Option 2: AWS Amplify** 🏢 (Enterprise)
 
 ### **Why AWS Amplify?**
+
 - ✅ No restrictions whatsoever
 - ✅ Global CDN included
 - ✅ Free tier available
@@ -42,6 +45,7 @@ Your SUGGESTLY ELITE application is ready for deployment on all major platforms.
 - ✅ Auto-scaling
 
 ### **Quick Deploy Steps:**
+
 1. **Create Account**: https://aws.amazon.com
 2. **Go to Amplify**: Search "Amplify" in AWS Console
 3. **Connect GitHub**: Select `Tyronemitchell123/SuggestlyG4Plus`
@@ -58,12 +62,14 @@ Your SUGGESTLY ELITE application is ready for deployment on all major platforms.
 ## **Option 3: Netlify** 🆓 (Free Tier)
 
 ### **Why Netlify?**
+
 - ✅ Generous free tier
 - ✅ Easy deployment
 - ✅ Good for static sites
 - ✅ Built-in forms and functions
 
 ### **Quick Deploy Steps:**
+
 1. **Create Account**: https://netlify.com
 2. **New Site**: Click "New site from Git"
 3. **Connect GitHub**: Select `Tyronemitchell123/SuggestlyG4Plus`
@@ -80,12 +86,14 @@ Your SUGGESTLY ELITE application is ready for deployment on all major platforms.
 ## **Option 4: Google Cloud Run** ☁️ (Scalable)
 
 ### **Why Google Cloud Run?**
+
 - ✅ No restrictions
 - ✅ Auto-scaling to zero
 - ✅ Pay only for usage
 - ✅ Global deployment
 
 ### **Quick Deploy Steps:**
+
 1. **Create Account**: https://cloud.google.com
 2. **Enable Cloud Run**: In Google Cloud Console
 3. **Deploy via CLI**:
@@ -105,6 +113,7 @@ Your SUGGESTLY ELITE application is ready for deployment on all major platforms.
 ## 🚀 **Ready to Deploy?**
 
 ### **For DigitalOcean (Recommended):**
+
 ```bash
 # 1. Check your setup
 node deploy-digitalocean.js
@@ -114,6 +123,7 @@ node deploy-digitalocean.js
 ```
 
 ### **For AWS Amplify:**
+
 ```bash
 # 1. Check your setup
 node deploy-aws-amplify.js
@@ -123,6 +133,7 @@ node deploy-aws-amplify.js
 ```
 
 ### **For Netlify:**
+
 ```bash
 # 1. Go to: https://netlify.com
 # 2. Connect your GitHub repository
@@ -130,6 +141,7 @@ node deploy-aws-amplify.js
 ```
 
 ### **For Google Cloud:**
+
 ```bash
 # 1. Install Google Cloud CLI
 # 2. Authenticate: gcloud auth login
@@ -140,12 +152,12 @@ node deploy-aws-amplify.js
 
 ## 📊 **Deployment Comparison**
 
-| Platform | Setup Time | Cost | Restrictions | Best For |
-|----------|------------|------|--------------|----------|
-| **DigitalOcean** | 10-15 min | $5/month | ❌ None | Production |
-| **AWS Amplify** | 15-20 min | Pay-per-use | ❌ None | Enterprise |
-| **Netlify** | 5-10 min | Free tier | ⚠️ Limited | Development |
-| **Google Cloud** | 20-25 min | Pay-per-use | ❌ None | Scalable |
+| Platform         | Setup Time | Cost        | Restrictions | Best For    |
+| ---------------- | ---------- | ----------- | ------------ | ----------- |
+| **DigitalOcean** | 10-15 min  | $5/month    | ❌ None      | Production  |
+| **AWS Amplify**  | 15-20 min  | Pay-per-use | ❌ None      | Enterprise  |
+| **Netlify**      | 5-10 min   | Free tier   | ⚠️ Limited   | Development |
+| **Google Cloud** | 20-25 min  | Pay-per-use | ❌ None      | Scalable    |
 
 ---
 
